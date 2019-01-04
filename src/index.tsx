@@ -5,7 +5,7 @@ import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 
-import Layout from 'src/components/Layout'
+import Page from 'src/components/Page'
 
 import routes from 'src/routes'
 import './index.css'
@@ -20,9 +20,9 @@ class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <Router>
-          <Layout>
+          <Page>
             <Switch>{renderRoutes(routes)}</Switch>
-          </Layout>
+          </Page>
         </Router>
       </ApolloProvider>
     )
