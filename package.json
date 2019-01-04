@@ -14,15 +14,15 @@
     "react-router": "^4.3.1",
     "react-router-config": "^4.4.0-beta.6",
     "react-router-dom": "^4.3.1",
-    "react-scripts-ts": "3.1.0"
+    "react-scripts": "^2.1.2"
   },
   "scripts": {
-    "start": "REACT_APP_ENV=local react-scripts-ts start",
-    "build:local": "REACT_APP_ENV=local react-scripts-ts build",
-    "build:stage": "REACT_APP_ENV=stage react-scripts-ts build",
-    "build:production": "REACT_APP_ENV=production react-scripts-ts build",
-    "test": "REACT_APP_ENV=test react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "start": "REACT_APP_ENV=local react-scripts start",
+    "build:local": "REACT_APP_ENV=local react-scripts build",
+    "build:stage": "REACT_APP_ENV=stage react-scripts build",
+    "build:production": "REACT_APP_ENV=production react-scripts build",
+    "test": "REACT_APP_ENV=test react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "@types/graphql": "^14.0.4",
@@ -39,5 +39,14 @@
   "prettier": {
     "singleQuote": true,
     "semi": false
-  }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

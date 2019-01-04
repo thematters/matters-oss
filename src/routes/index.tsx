@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { PATH } from 'src/constants'
+import { PATH } from '../../src/constants'
 
 const routes = [
   {

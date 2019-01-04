@@ -2,9 +2,9 @@ import * as React from 'react'
 import { NavLink, withRouter, RouteComponentProps } from 'react-router-dom'
 import { Layout, Menu, Divider } from 'antd'
 
-import { PATH } from 'src/constants'
+import { PATH } from '../../../src/constants'
 
-import LOGO_URL from 'src/assets/logo.svg'
+import LOGO_URL from '../../../src/assets/logo.svg'
 import './page.css'
 
 const { Content, Footer, Sider } = Layout
