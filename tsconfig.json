@@ -15,6 +15,7 @@
     "noEmit": true,
     "jsx": "preserve"
   },
+  // https://github.com/facebook/create-react-app/issues/5645
   "baseUrl": ".",
   "include": ["src"]
 }

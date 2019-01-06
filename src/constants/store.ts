@@ -1,0 +1,1 @@
+export const STORE_JWT_TOKEN = 'STORE_JWT_TOKEN'

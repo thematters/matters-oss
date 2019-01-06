@@ -1,0 +1,5 @@
+.c-login-form {
+  button[type='submit'] {
+    width: 100%;
+  }
+}

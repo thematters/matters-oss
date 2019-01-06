@@ -5,14 +5,15 @@ import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 
-import Page from '../src/components/Page'
+import Layout from './components/Layout'
 
-import routes from '../src/routes'
+import routes from './routes'
+import { API_ENDPOINT } from './constants'
 import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 
 const client = new ApolloClient({
-  uri: process.env.API_ENDPOINT
+  uri: API_ENDPOINT
 })
 
 class App extends React.Component {
@@ -20,9 +21,9 @@ class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <Router>
-          <Page>
+          <Layout>
             <Switch>{renderRoutes(routes)}</Switch>
-          </Page>
+          </Layout>
         </Router>
       </ApolloProvider>
     )
