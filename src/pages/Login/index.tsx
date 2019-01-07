@@ -1,17 +1,17 @@
 import * as React from 'react'
 import { Form, Icon, Input, Button, Row, Col } from 'antd'
 import { FormComponentProps } from 'antd/lib/form'
-import { ChildProps } from 'react-apollo'
+import { compose } from 'react-apollo'
 import queryString from 'query-string'
 import _get from 'lodash/get'
 
-import withUserLogin, { Response } from './withUserLogin'
+import withUserLogin, { ChildProps } from './withUserLogin'
 
 import { STORE_JWT_TOKEN } from '../../constants'
 import LOGO_URL from '../../assets/logo.svg'
-import './Login.css'
+import './style.css'
 
-interface LoginProps extends FormComponentProps, ChildProps<any, Response> {}
+interface LoginProps extends FormComponentProps, ChildProps {}
 
 class Login extends React.Component<LoginProps, any> {
   private _renderFormItems() {
@@ -127,7 +127,7 @@ class Login extends React.Component<LoginProps, any> {
   }
 }
 
-// @ts-ignore
-const WrappedLogin = withUserLogin(Form.create()(Login))
-
-export default WrappedLogin
+export default compose(
+  withUserLogin,
+  Form.create()
+)(Login)

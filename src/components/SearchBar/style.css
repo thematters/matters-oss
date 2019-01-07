@@ -1,0 +1,7 @@
+.c-search-bar {
+  display: flex;
+
+  & .input {
+    margin-right: 12px;
+  }
+}

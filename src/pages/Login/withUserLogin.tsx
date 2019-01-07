@@ -1,5 +1,4 @@
-import * as React from 'react'
-import { graphql, ChildDataProps } from 'react-apollo'
+import { graphql, ChildMutateProps } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const USER_LOGIN = gql`
@@ -11,22 +10,31 @@ const USER_LOGIN = gql`
   }
 `
 
-export type AuthResult = {
+type AuthResult = {
   auth: boolean
   token: string
 }
 
-export type Response = {
+type Response = {
   userLogin: AuthResult
 }
 
-export type Variables = {
+type InputProps = any
+
+type Variables = {
   input: {
     email: string
     password: string
   }
 }
 
-const withUserLogin = graphql<{}, Response, Variables>(USER_LOGIN)
+export type ChildProps = ChildMutateProps<InputProps, Response, Variables>
+
+const withUserLogin = graphql<
+  InputProps,
+  Response,
+  Variables,
+  ChildMutateProps
+>(USER_LOGIN)
 
 export default withUserLogin

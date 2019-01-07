@@ -9,8 +9,8 @@ import Layout from './components/Layout'
 
 import routes from './routes'
 import { API_ENDPOINT } from './constants'
-import './index.css'
 import registerServiceWorker from './registerServiceWorker'
+import './index.css'
 
 const client = new ApolloClient({
   uri: API_ENDPOINT

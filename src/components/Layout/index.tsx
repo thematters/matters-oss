@@ -9,7 +9,7 @@ import { Layout as AntLayout, Menu, Divider } from 'antd'
 
 import { PATH, STORE_JWT_TOKEN } from '../../constants'
 import LOGO_URL from '../../assets/logo.svg'
-import './Layout.css'
+import './style.css'
 
 const { Content, Footer, Sider } = AntLayout
 const { SubMenu } = Menu
@@ -39,7 +39,7 @@ class Layout extends React.Component<RouteComponentProps> {
           mode="inline"
           inlineCollapsed={false}
           selectedKeys={[location.pathname]}
-          defaultOpenKeys={['homepage', 'report']}
+          defaultOpenKeys={['homepage', 'user', 'report']}
         >
           <SubMenu mode="inline" key="homepage" title={<span>首頁</span>}>
             <Menu.Item key={PATH.HOMEPAGE_MATTERS_TODAY}>
@@ -67,9 +67,11 @@ class Layout extends React.Component<RouteComponentProps> {
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item key={PATH.USER_LIST}>
-            <NavLink to={PATH.USER_LIST}>用戶</NavLink>
-          </Menu.Item>
+          <SubMenu mode="inline" key="user" title={<span>用戶</span>}>
+            <Menu.Item key={PATH.USER_LIST}>
+              <NavLink to={PATH.USER_LIST}>用戶列表</NavLink>
+            </Menu.Item>
+          </SubMenu>
 
           <Menu.Item key={PATH.ARTICLE_LIST}>
             <NavLink to={PATH.ARTICLE_LIST}>文章</NavLink>
