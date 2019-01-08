@@ -8,12 +8,15 @@ import { renderRoutes } from 'react-router-config'
 import Layout from './components/Layout'
 
 import routes from './routes'
-import { API_ENDPOINT } from './constants'
+import { API_ENDPOINT, STORE_JWT_TOKEN } from './constants'
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
 
 const client = new ApolloClient({
-  uri: API_ENDPOINT
+  uri: API_ENDPOINT,
+  headers: {
+    'x-access-token': localStorage.getItem(STORE_JWT_TOKEN)
+  }
 })
 
 class App extends React.Component {

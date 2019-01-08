@@ -1,18 +1,26 @@
-import { graphql, ChildDataProps, compose } from 'react-apollo'
-import { RouteComponentProps } from 'react-router-dom'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import queryString from 'query-string'
 
-/**
- * GraphQL
- */
-const ARTICLE_LIST_FRAGMENT = gql`
-  fragment ArticleList on Article {
+import { getSearchKey } from '../../utils'
+import {
+  AllArticlesInputProps,
+  AllArticlesResponse,
+  AllArticlesVariables,
+  AllArticlesChildProps,
+  SearchArticlesInputProps,
+  SearchArticlesResponse,
+  SearchArticlesVariables,
+  SearchArticlesChildProps
+} from './type'
+
+const ARTICLE_LIST_ITEM_FRAGMENT = gql`
+  fragment ArticleListItem on Article {
     id
     # slug
     createdAt
     publishState
     public
+    live
     author {
       id
       uuid
@@ -31,103 +39,32 @@ const ARTICLE_LIST_FRAGMENT = gql`
 const GET_ALL_ARTICLES = gql`
   query AllArticles($input: ArticlesInput!) {
     articles(input: $input) {
-      ...ArticleList
+      ...ArticleListItem
     }
   }
-  ${ARTICLE_LIST_FRAGMENT}
+  ${ARTICLE_LIST_ITEM_FRAGMENT}
 `
 const SEARCH_ARTICLES = gql`
   query SearchArticles($input: SearchInput!) {
     search(input: $input) {
       node {
         ... on Article {
-          ...ArticleList
+          ...ArticleListItem
         }
       }
     }
   }
-  ${ARTICLE_LIST_FRAGMENT}
+  ${ARTICLE_LIST_ITEM_FRAGMENT}
 `
 
-/**
- * Types
- */
-export type Article = {
-  id: string
-  slug: string
-  createdAt: Date
-  publishState: string
-  public: boolean
-  author: {
-    id: string
-    uuid: string
-    info: {
-      userName: string
-      displayName: string
-    }
-  }
-  title: string
-  tags: string[]
-}
-
-type SearchResult = {
-  node: Article
-  match: String
-}
-
-type AllResponse = {
-  articles: Article[]
-}
-
-type AllInputProps = RouteComponentProps
-
-type AllVariables = {
-  input: {
-    offset: number
-    limit: number
-  }
-}
-
-type SearchResponse = {
-  search: SearchResult[]
-}
-
-type SearchInputProps = RouteComponentProps
-
-type SearchVariables = {
-  input: {
-    key: string
-    type: 'Article'
-    offset: number
-    limit: number
-  }
-}
-
-export type AllChildProps = ChildDataProps<
-  AllInputProps,
-  AllResponse,
-  AllVariables
->
-
-export type SearchChildProps = ChildDataProps<
-  SearchInputProps,
-  SearchResponse,
-  SearchVariables
->
-
-/**
- *
- */
-const getSearchKey = (locationSearch: string): string => {
-  return (queryString.parse(locationSearch).q as string) || ''
-}
 const allArticles = graphql<
-  AllInputProps,
-  AllResponse,
-  AllVariables,
-  AllChildProps
+  AllArticlesInputProps,
+  AllArticlesResponse,
+  AllArticlesVariables,
+  AllArticlesChildProps
 >(GET_ALL_ARTICLES, {
   options: props => ({
+    // name: 'allArticles',
     variables: {
       input: {
         offset: 0,
@@ -135,32 +72,27 @@ const allArticles = graphql<
       }
     }
   }),
-  skip: props => {
-    const searchKey = getSearchKey(props.location.search)
-    return !!searchKey
-  }
+  skip: () => !!getSearchKey()
 })
 
 const searchArticles = graphql<
-  SearchInputProps,
-  SearchResponse,
-  SearchVariables,
-  ChildDataProps
+  SearchArticlesInputProps,
+  SearchArticlesResponse,
+  SearchArticlesVariables,
+  SearchArticlesChildProps
 >(SEARCH_ARTICLES, {
   options: props => ({
+    // name: 'searchArticles',
     variables: {
       input: {
-        key: getSearchKey(props.location.search),
+        key: getSearchKey(),
         type: 'Article',
         offset: 0,
         limit: 20
       }
     }
   }),
-  skip: props => {
-    const searchKey = getSearchKey(props.location.search)
-    return !searchKey
-  }
+  skip: () => !getSearchKey()
 })
 
 export default compose(

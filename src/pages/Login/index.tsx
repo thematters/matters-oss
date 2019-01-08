@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Form, Icon, Input, Button, Row, Col } from 'antd'
-import { FormComponentProps } from 'antd/lib/form'
 import { compose } from 'react-apollo'
 import queryString from 'query-string'
 import _get from 'lodash/get'
@@ -11,9 +10,7 @@ import { STORE_JWT_TOKEN } from '../../constants'
 import LOGO_URL from '../../assets/logo.svg'
 import './style.css'
 
-interface LoginProps extends FormComponentProps, ChildProps {}
-
-class Login extends React.Component<LoginProps, any> {
+class Login extends React.Component<ChildProps> {
   private _renderFormItems() {
     const { getFieldDecorator } = this.props.form
     return (
@@ -72,7 +69,7 @@ class Login extends React.Component<LoginProps, any> {
       try {
         const email = getFieldValue('email')
         const password = getFieldValue('password')
-        const { data } = await mutate({
+        const result = await mutate({
           variables: {
             input: {
               email,
@@ -80,7 +77,7 @@ class Login extends React.Component<LoginProps, any> {
             }
           }
         })
-        const token = _get(data, 'userLogin.token')
+        const token = _get(result, 'data.userLogin.token')
         if (token) {
           localStorage.setItem(STORE_JWT_TOKEN, token)
           window.location.replace((next as string) || '/')

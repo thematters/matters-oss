@@ -3,19 +3,22 @@ import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { Row, Col, Input, Button, Divider } from 'antd'
 import queryString from 'query-string'
 
+import { getSearchKey, getParsedQS } from '../../utils'
 import './style.css'
 
 type SearchBarProps = {
   placeholder: string
 }
 
-class SearchBar extends React.Component<RouteComponentProps & SearchBarProps> {
-  state = { value: this.qs.q }
+type SearchBarState = {
+  value: string
+}
 
-  get qs() {
-    const { location } = this.props
-    return queryString.parse(location.search)
-  }
+class SearchBar extends React.Component<
+  RouteComponentProps & SearchBarProps,
+  SearchBarState
+> {
+  state: Readonly<SearchBarState> = { value: getSearchKey() }
 
   private _onChange = (e: any) => {
     this.setState({ value: e.target.value })
@@ -23,13 +26,8 @@ class SearchBar extends React.Component<RouteComponentProps & SearchBarProps> {
 
   private _onSearch = (value: string) => {
     const { history } = this.props
-
-    if (!value) {
-      return
-    }
-
     const search = queryString.stringify(
-      Object.assign(this.qs, {
+      Object.assign(getParsedQS(), {
         q: value
       })
     )

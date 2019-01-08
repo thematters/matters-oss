@@ -3,16 +3,19 @@ import { Table } from 'antd'
 import { Link } from 'react-router-dom'
 import _get from 'lodash/get'
 
+import ToggleLive from '../../components/Article/ToggleLive'
+import TogglePublic from '../../components/Article/TogglePublic'
+
 import { PATH } from '../../constants'
-import { Article } from './withArticleList'
+import { ArticleListItem } from './type'
 
 type ArticleTableProps = {
-  data: Article[]
-  loading: boolean
+  data: ArticleListItem[]
+  loading?: boolean
 }
 
 class ArticleTable extends React.Component<ArticleTableProps> {
-  private _renderTitleCell(_: any, record: Article): React.ReactNode {
+  private _renderTitleCell(_: any, record: ArticleListItem): React.ReactNode {
     return (
       <Link to={PATH.ARTICLE_DETAIL.replace(':id', record.id)}>
         {record.title}
@@ -20,7 +23,7 @@ class ArticleTable extends React.Component<ArticleTableProps> {
     )
   }
 
-  private _renderAuthorCell(_: any, record: Article): React.ReactNode {
+  private _renderAuthorCell(_: any, record: ArticleListItem): React.ReactNode {
     return (
       <Link to={PATH.USER_DETAIL.replace(':id', record.author.id)}>
         {record.author.info.userName}
@@ -28,32 +31,49 @@ class ArticleTable extends React.Component<ArticleTableProps> {
     )
   }
 
-  private _renderCreatedAtCell(_: any, record: Article): React.ReactNode {
+  private _renderCreatedAtCell(
+    _: any,
+    record: ArticleListItem
+  ): React.ReactNode {
     return new Date(record.createdAt).toLocaleString()
   }
 
   public render() {
-    const { data, loading } = this.props
+    const { data, loading = false } = this.props
 
     return (
-      <Table<Article>
+      <Table<ArticleListItem>
         bordered
         loading={loading}
         dataSource={data}
         rowKey={record => record.id}
       >
-        <Table.Column<Article>
+        <Table.Column<ArticleListItem>
           dataIndex="title"
           title="標題"
           render={this._renderTitleCell}
         />
-        <Table.Column<Article> dataIndex="publishState" title="狀態" />
-        <Table.Column<Article>
+        <Table.Column<ArticleListItem>
           dataIndex="author"
           title="作者"
           render={this._renderAuthorCell}
         />
-        <Table.Column<Article>
+        <Table.Column<ArticleListItem> dataIndex="publishState" title="狀態" />
+        <Table.Column<ArticleListItem>
+          dataIndex="public"
+          title="白名單（公開）"
+          render={(isPublic, record) => (
+            <TogglePublic checked={isPublic} articleId={record.id} />
+          )}
+        />
+        <Table.Column<ArticleListItem>
+          dataIndex="live"
+          title="LIVE"
+          render={(live, record) => (
+            <ToggleLive checked={live} articleId={record.id} />
+          )}
+        />
+        <Table.Column<ArticleListItem>
           dataIndex="createdAt"
           title="時間"
           render={this._renderCreatedAtCell}

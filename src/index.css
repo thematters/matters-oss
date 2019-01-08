@@ -11,20 +11,6 @@ body {
     'Segoe UI Symbol';
 }
 
-a {
-  &:link,
-  &:visited {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  &:hover,
-  &:active,
-  &:focus {
-    text-decoration: none;
-  }
-}
-
 button {
   border: none;
   border-radius: 0;
