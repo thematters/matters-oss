@@ -3,13 +3,11 @@ import _get from 'lodash/get'
 
 import SearchBar from '../../components/SearchBar'
 import ErrorMessage from '../../components/ErrorMessage'
-import ArticleTable from './ArticleTable'
+import ArticleDigestList from '../../components/Article/DigestList'
 import withArticleList from './withArticleList'
-import {
-  ArticleListItem,
-  AllArticlesChildProps,
-  SearchArticlesChildProps
-} from './type'
+
+import { ArticleDigest } from '../../definitions'
+import { AllArticlesChildProps, SearchArticlesChildProps } from './type'
 
 class ArticleList extends React.Component<
   AllArticlesChildProps & SearchArticlesChildProps
@@ -28,17 +26,17 @@ class ArticleList extends React.Component<
     }
 
     if (loading) {
-      return <ArticleTable data={[]} loading />
+      return <ArticleDigestList data={[]} loading />
     }
 
-    let articleTableData: ArticleListItem[] = []
+    let articleTableData: ArticleDigest[] = []
     if (search) {
       articleTableData = search.map(({ node }) => node)
     }
     if (articles) {
       articleTableData = articles
     }
-    return <ArticleTable data={articleTableData} />
+    return <ArticleDigestList data={articleTableData} />
   }
 
   public render() {

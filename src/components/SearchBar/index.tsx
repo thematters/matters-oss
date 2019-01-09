@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { Row, Col, Input, Button, Divider } from 'antd'
+import { Row, Col, Input, Button } from 'antd'
 import queryString from 'query-string'
 
+import Divider from '../../components/Divider'
+
 import { getSearchKey, getParsedQS } from '../../utils'
-import './style.css'
+import './style.less'
 
 type SearchBarProps = {
   placeholder: string
@@ -65,7 +67,7 @@ class SearchBar extends React.Component<
             </section>
           </Col>
         </Row>
-        <Divider />
+        <Divider size="large" />
       </>
     )
   }

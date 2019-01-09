@@ -10,7 +10,7 @@ import Layout from './components/Layout'
 import routes from './routes'
 import { API_ENDPOINT, STORE_JWT_TOKEN } from './constants'
 import registerServiceWorker from './registerServiceWorker'
-import './index.css'
+import './index.less'
 
 const client = new ApolloClient({
   uri: API_ENDPOINT,

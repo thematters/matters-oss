@@ -1,32 +1,10 @@
 import { ChildDataProps } from 'react-apollo'
 import { RouteComponentProps } from 'react-router-dom'
 
-export type ArticleListItem = {
-  id: string
-  slug: string
-  createdAt: Date
-  publishState: string
-  live: boolean
-  public: boolean
-  author: {
-    id: string
-    uuid: string
-    info: {
-      userName: string
-      displayName: string
-    }
-  }
-  title: string
-  tags: string[]
-}
-
-export type SearchArticlesResult = {
-  node: ArticleListItem
-  match: String
-}
+import { ArticleDigest } from '../../definitions'
 
 export type AllArticlesResponse = {
-  articles: ArticleListItem[]
+  articles: ArticleDigest[]
 }
 export type AllArticlesInputProps = RouteComponentProps
 export type AllArticlesVariables = {
@@ -41,6 +19,10 @@ export type AllArticlesChildProps = ChildDataProps<
   AllArticlesVariables
 >
 
+export type SearchArticlesResult = {
+  node: ArticleDigest
+  match: String
+}
 export type SearchArticlesResponse = {
   search: SearchArticlesResult[]
 }

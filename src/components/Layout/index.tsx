@@ -5,11 +5,13 @@ import {
   withRouter,
   RouteComponentProps
 } from 'react-router-dom'
-import { Layout as AntLayout, Menu, Divider } from 'antd'
+import { Layout as AntLayout, Menu } from 'antd'
+
+import Divider from '../../components/Divider'
 
 import { PATH, STORE_JWT_TOKEN } from '../../constants'
 import LOGO_URL from '../../assets/logo.svg'
-import './style.css'
+import './style.less'
 
 const { Content, Footer, Sider } = AntLayout
 const { SubMenu } = Menu
@@ -25,7 +27,7 @@ class Layout extends React.Component<RouteComponentProps> {
     }
 
     return (
-      <Sider theme="light" breakpoint="lg" collapsedWidth="0">
+      <Sider theme="light" width="250" breakpoint="lg" collapsedWidth="0">
         <Link to={PATH.HOMEPAGE}>
           <div className="logo" style={{ padding: '24px 24px 0' }}>
             <img src={LOGO_URL} />
@@ -39,43 +41,48 @@ class Layout extends React.Component<RouteComponentProps> {
           mode="inline"
           inlineCollapsed={false}
           selectedKeys={[location.pathname]}
-          defaultOpenKeys={['homepage', 'user', 'report']}
+          defaultOpenKeys={['homepage', 'user', 'article', 'report']}
         >
           <SubMenu mode="inline" key="homepage" title={<span>首頁</span>}>
             <Menu.Item key={PATH.HOMEPAGE_MATTERS_TODAY}>
               <NavLink to={PATH.HOMEPAGE_MATTERS_TODAY}>Matters Today</NavLink>
             </Menu.Item>
             <Menu.Item key={PATH.HOMEPAGE_HOT}>
-              <NavLink to={PATH.HOMEPAGE_HOT}>熱門</NavLink>
+              <NavLink to={PATH.HOMEPAGE_HOT}>熱門文章</NavLink>
             </Menu.Item>
             <Menu.Item key={PATH.HOMEPAGE_NEWEST}>
-              <NavLink to={PATH.HOMEPAGE_NEWEST}>最新</NavLink>
+              <NavLink to={PATH.HOMEPAGE_NEWEST}>最新發布</NavLink>
             </Menu.Item>
             <Menu.Item key={PATH.HOMEPAGE_HOT_DISCUSSIONS}>
-              <NavLink to={PATH.HOMEPAGE_HOT_DISCUSSIONS}>熱議</NavLink>
+              <NavLink to={PATH.HOMEPAGE_HOT_DISCUSSIONS}>熱議話題</NavLink>
             </Menu.Item>
             <Menu.Item key={PATH.HOMEPAGE_MATTERS_CHOICE}>
               <NavLink to={PATH.HOMEPAGE_MATTERS_CHOICE}>
-                Matters Choice
+                不要錯過 (Matters Choice)
               </NavLink>
             </Menu.Item>
             <Menu.Item key={PATH.HOMEPAGE_AUTHORS}>
-              <NavLink to={PATH.HOMEPAGE_AUTHORS}>作者</NavLink>
+              <NavLink to={PATH.HOMEPAGE_AUTHORS}>活躍作者</NavLink>
             </Menu.Item>
-            <Menu.Item key={PATH.TAG_LIST}>
-              <NavLink to={PATH.TAG_LIST}>標籤</NavLink>
+            <Menu.Item key={PATH.HOMEPAGE_TAGS}>
+              <NavLink to={PATH.HOMEPAGE_TAGS}>標籤</NavLink>
             </Menu.Item>
           </SubMenu>
 
           <SubMenu mode="inline" key="user" title={<span>用戶</span>}>
             <Menu.Item key={PATH.USER_LIST}>
-              <NavLink to={PATH.USER_LIST}>用戶列表</NavLink>
+              <NavLink to={PATH.USER_LIST}>用戶清單</NavLink>
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item key={PATH.ARTICLE_LIST}>
-            <NavLink to={PATH.ARTICLE_LIST}>文章</NavLink>
-          </Menu.Item>
+          <SubMenu mode="inline" key="article" title={<span>文章</span>}>
+            <Menu.Item key={PATH.ARTICLE_LIST}>
+              <NavLink to={PATH.ARTICLE_LIST}>文章清單</NavLink>
+            </Menu.Item>
+            <Menu.Item key={PATH.TAG_LIST}>
+              <NavLink to={PATH.TAG_LIST}>標籤清單</NavLink>
+            </Menu.Item>
+          </SubMenu>
 
           <Menu.Item key={PATH.COMMENT_LIST}>
             <NavLink to={PATH.COMMENT_LIST}>評論</NavLink>

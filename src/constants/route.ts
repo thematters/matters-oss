@@ -6,6 +6,7 @@ export const PATH = {
   HOMEPAGE_HOT_DISCUSSIONS: '/homepage/hot-discussions',
   HOMEPAGE_MATTERS_CHOICE: '/homepage/matters-choice',
   HOMEPAGE_AUTHORS: '/homepage/authors',
+  HOMEPAGE_TAGS: '/homepage/tags',
 
   TAG_LIST: '/tags',
   TAG_DETAIL: '/tags/:id',

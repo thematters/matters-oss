@@ -8,7 +8,7 @@ import withUserLogin, { ChildProps } from './withUserLogin'
 
 import { STORE_JWT_TOKEN } from '../../constants'
 import LOGO_URL from '../../assets/logo.svg'
-import './style.css'
+import './style.less'
 
 class Login extends React.Component<ChildProps> {
   private _renderFormItems() {

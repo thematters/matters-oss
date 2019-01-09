@@ -32,9 +32,6 @@ const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false'
 // Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig)
 
-// style files regexes
-const cssRegex = /\.css$/
-
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function(webpackEnv) {
@@ -72,8 +69,18 @@ module.exports = function(webpackEnv) {
         )
       },
       {
-        loader: require.resolve('css-loader'),
+        loader: require.resolve('css-loader'), // translates CSS into CommonJS
         options: cssOptions
+      },
+      {
+        loader: require.resolve('less-loader'), // compiles Less to CSS
+        options: {
+          modifyVars: {
+            'primary-color': '#4e8764',
+            'link-color': '#9f8144'
+          },
+          javascriptEnabled: true
+        }
       },
       {
         // Options for PostCSS as we reference these options twice
@@ -85,10 +92,10 @@ module.exports = function(webpackEnv) {
           // https://github.com/facebook/create-react-app/issues/2677
           ident: 'postcss',
           plugins: () => [
-            require('postcss-import')({
-              path: [paths.appSrc]
-            }),
-            require('postcss-nested'),
+            // require('postcss-import')({
+            //   path: [paths.appSrc]
+            // }),
+            // require('postcss-nested'),
             // require('postcss-cssnext')({
             //   browsers: [
             //     '>1%',
@@ -394,7 +401,7 @@ module.exports = function(webpackEnv) {
             // of CSS.
             // By default we support CSS Modules with the extension .module.css
             {
-              test: cssRegex,
+              test: /\.less$/,
               use: getStyleLoaders({
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap

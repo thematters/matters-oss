@@ -3,10 +3,10 @@ import { RouteConfigComponentProps } from 'react-router-config'
 
 import Private from '../components/Private'
 import Login from '../pages/Login'
-import ArticleList from '../pages/ArticleList'
 
 import { PATH } from '../constants'
 import homepageRoutes from './homepage'
+import articleRoutes from './article'
 
 const routes = [
   {
@@ -21,16 +21,7 @@ const routes = [
   },
 
   ...homepageRoutes,
-
-  {
-    path: PATH.ARTICLE_LIST,
-    exact: true,
-    component: (props: RouteConfigComponentProps) => (
-      <Private>
-        <ArticleList {...props} />
-      </Private>
-    )
-  }
+  ...articleRoutes
 ]
 
 export default routes

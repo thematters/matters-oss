@@ -12,49 +12,27 @@ import {
   SearchArticlesVariables,
   SearchArticlesChildProps
 } from './type'
+import { GQL_FRAGMENT_ARTICLE_DIGEST } from '../../gql'
 
-const ARTICLE_LIST_ITEM_FRAGMENT = gql`
-  fragment ArticleListItem on Article {
-    id
-    # slug
-    createdAt
-    publishState
-    public
-    live
-    author {
-      id
-      uuid
-      info {
-        userName
-        displayName
-      }
-    }
-    title
-    tags {
-      id
-      content
-    }
-  }
-`
 const GET_ALL_ARTICLES = gql`
   query AllArticles($input: ArticlesInput!) {
     articles(input: $input) {
-      ...ArticleListItem
+      ...ArticleDigest
     }
   }
-  ${ARTICLE_LIST_ITEM_FRAGMENT}
+  ${GQL_FRAGMENT_ARTICLE_DIGEST}
 `
 const SEARCH_ARTICLES = gql`
   query SearchArticles($input: SearchInput!) {
     search(input: $input) {
       node {
         ... on Article {
-          ...ArticleListItem
+          ...ArticleDigest
         }
       }
     }
   }
-  ${ARTICLE_LIST_ITEM_FRAGMENT}
+  ${GQL_FRAGMENT_ARTICLE_DIGEST}
 `
 
 const allArticles = graphql<
