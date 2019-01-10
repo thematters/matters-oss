@@ -17,7 +17,11 @@ import { GQL_FRAGMENT_ARTICLE_DIGEST } from '../../gql'
 const GET_ALL_ARTICLES = gql`
   query AllArticles($input: ArticlesInput!) {
     articles(input: $input) {
-      ...ArticleDigest
+      edges {
+        node {
+          ...ArticleDigest
+        }
+      }
     }
   }
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
@@ -25,9 +29,13 @@ const GET_ALL_ARTICLES = gql`
 const SEARCH_ARTICLES = gql`
   query SearchArticles($input: SearchInput!) {
     search(input: $input) {
-      node {
-        ... on Article {
-          ...ArticleDigest
+      edges {
+        node {
+          node {
+            ... on Article {
+              ...ArticleDigest
+            }
+          }
         }
       }
     }
@@ -45,8 +53,7 @@ const allArticles = graphql<
     // name: 'allArticles',
     variables: {
       input: {
-        offset: 0,
-        limit: 20
+        first: 10
       }
     }
   }),
@@ -65,8 +72,7 @@ const searchArticles = graphql<
       input: {
         key: getSearchKey(),
         type: 'Article',
-        offset: 0,
-        limit: 20
+        first: 10
       }
     }
   }),

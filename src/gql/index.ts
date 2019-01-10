@@ -59,19 +59,35 @@ export const GQL_FRAGMENT_ARTICLE_DETAIL = gql`
     upstream {
       ...ArticleDigest
     }
-    downstreams(input: { limit: 50 }) {
-      ...ArticleDigest
+    downstreams(input: { first: 10 }) {
+      edges {
+        node {
+          ...ArticleDigest
+        }
+      }
     }
-    relatedArticles(input: { limit: 50 }) {
-      ...ArticleDigest
+    relatedArticles(input: { first: 10 }) {
+      edges {
+        node {
+          ...ArticleDigest
+        }
+      }
     }
     MAT
     participantCount
-    subscribers(input: { limit: 50 }) {
-      ...UserDigest
+    subscribers(input: { first: 10 }) {
+      edges {
+        node {
+          ...UserDigest
+        }
+      }
     }
-    # appreciators(input: { limit: 50 }) {
-    #   ...UserDigest
+    # appreciators(input: { first: 10 }) {
+    #   edges {
+    #     node {
+    #       ...UserDigest
+    #     }
+    #   }
     # }
     # appreciatorCount
     subscribed

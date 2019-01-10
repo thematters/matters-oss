@@ -42,11 +42,37 @@ export type ArticleDetail = ArticleDigest & {
   content: string
   gatewayUrls: string[]
   upstream: ArticleDigest
-  downstreams: ArticleDigest[]
-  relatedArticles: ArticleDigest[]
+  downstreams: Connection<ArticleDigest>
+  relatedArticles: Connection<ArticleDigest>
   MAT: number
   participantCount: number
   subscribers: UserDigest[]
   subscribed: boolean
   hasAppreciate: boolean
+}
+
+/**
+ * Pagination
+ */
+export type ConnectionArgs = {
+  before?: string
+  after?: string
+  first?: number
+  last?: number
+}
+
+export type PageInfo = {
+  startCursor: string
+  endCursor: string
+  hasNextPage: boolean
+}
+
+export type Connection<Node> = {
+  pageInfo: PageInfo
+  edges: Edge<Node>[]
+}
+
+export type Edge<Node> = {
+  cursor: string
+  node: Node
 }

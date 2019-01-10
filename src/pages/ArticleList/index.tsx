@@ -31,10 +31,10 @@ class ArticleList extends React.Component<
 
     let articleTableData: ArticleDigest[] = []
     if (search) {
-      articleTableData = search.map(({ node }) => node)
+      articleTableData = search.edges.map(({ node }) => node.node)
     }
     if (articles) {
-      articleTableData = articles
+      articleTableData = articles.edges.map(({ node }) => node)
     }
     return <ArticleDigestList data={articleTableData} />
   }

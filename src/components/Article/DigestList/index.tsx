@@ -33,6 +33,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
         bordered
         loading={loading}
         dataSource={data}
+        pagination={false}
         rowKey={record => record.id}
       >
         <Table.Column<ArticleDigest>
