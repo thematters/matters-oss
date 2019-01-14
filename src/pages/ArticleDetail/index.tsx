@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, List } from 'antd'
+import { Col, Tag } from 'antd'
 import _get from 'lodash/get'
 
 import ErrorMessage from '../../components/ErrorMessage'
@@ -10,6 +10,7 @@ import DescriptionList from '../../components/DescriptionList'
 import ToggleLive from '../../components/Article/ToggleLive'
 import TogglePublic from '../../components/Article/TogglePublic'
 import ArticleDigestList from '../../components/Article/DigestList'
+import ArticleStateTag from '../../components/Article/StateTag'
 
 import withArticleDetail, { ArticleDetailChildProps } from './withArticleDetail'
 
@@ -45,11 +46,18 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           </Description>
           <Description term="標題">{article.title}</Description>
           <Description term="slug">{article.slug}</Description>
-          <Description term="狀態">{article.publishState}</Description>
+          <Description term="狀態">
+            <ArticleStateTag state={article.state} />
+          </Description>
           <Description term="日期">
             <DateTime date={article.createdAt} />
           </Description>
           <Description term="字數">{article.wordCount}</Description>
+          <Description term="標籤">
+            {article.tags.map(tag => (
+              <Tag>{tag.content}</Tag>
+            ))}
+          </Description>
           <Description term="MAT">{article.MAT}</Description>
           <Description term="IPFS Hash">{article.dataHash}</Description>
         </DescriptionList>

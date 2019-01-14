@@ -16,10 +16,12 @@ import { GQL_FRAGMENT_ARTICLE_DIGEST } from '../../gql'
 
 const GET_ALL_ARTICLES = gql`
   query AllArticles($input: ArticlesInput!) {
-    articles(input: $input) {
-      edges {
-        node {
-          ...ArticleDigest
+    oss {
+      articles(input: $input) {
+        edges {
+          node {
+            ...ArticleDigest
+          }
         }
       }
     }
@@ -31,10 +33,8 @@ const SEARCH_ARTICLES = gql`
     search(input: $input) {
       edges {
         node {
-          node {
-            ... on Article {
-              ...ArticleDigest
-            }
+          ... on Article {
+            ...ArticleDigest
           }
         }
       }

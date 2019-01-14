@@ -1,14 +1,16 @@
 import { ChildDataProps } from 'react-apollo'
 import { RouteComponentProps } from 'react-router-dom'
 
-import { ArticleDigest, ConnectionArgs, Connection } from '../../definitions'
+import { ArticleDigest, GQLConnectionArgs, Connection } from '../../definitions'
 
 export type AllArticlesResponse = {
-  articles: Connection<ArticleDigest>
+  oss: {
+    articles: Connection<ArticleDigest>
+  }
 }
 export type AllArticlesInputProps = RouteComponentProps
 export type AllArticlesVariables = {
-  input: ConnectionArgs
+  input: GQLConnectionArgs
 }
 export type AllArticlesChildProps = ChildDataProps<
   AllArticlesInputProps,
@@ -16,16 +18,12 @@ export type AllArticlesChildProps = ChildDataProps<
   AllArticlesVariables
 >
 
-export type SearchArticlesResult = {
-  node: ArticleDigest
-  match: string
-}
 export type SearchArticlesResponse = {
-  search: Connection<SearchArticlesResult>
+  search: Connection<ArticleDigest>
 }
 export type SearchArticlesInputProps = RouteComponentProps
 export type SearchArticlesVariables = {
-  input: ConnectionArgs & {
+  input: GQLConnectionArgs & {
     key: string
     type: 'Article'
   }

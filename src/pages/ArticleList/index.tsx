@@ -18,7 +18,7 @@ class ArticleList extends React.Component<
 
   private _renderContent() {
     const {
-      data: { articles, search, loading, error }
+      data: { oss, search, loading, error }
     } = this.props
 
     if (error) {
@@ -31,10 +31,10 @@ class ArticleList extends React.Component<
 
     let articleTableData: ArticleDigest[] = []
     if (search) {
-      articleTableData = search.edges.map(({ node }) => node.node)
+      articleTableData = search.edges.map(({ node }) => node)
     }
-    if (articles) {
-      articleTableData = articles.edges.map(({ node }) => node)
+    if (oss && oss.articles) {
+      articleTableData = oss.articles.edges.map(({ node }) => node)
     }
     return <ArticleDigestList data={articleTableData} />
   }

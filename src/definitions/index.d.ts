@@ -1,13 +1,45 @@
+import {
+  GQLArticleState,
+  GQLUserState,
+  GQLPageInfo,
+  GQLEmail,
+  GQLUUID,
+  GQLUserInfo,
+  GQLUserSettings,
+  GQLUserStatus
+} from './schema'
+
+export * from './schema'
+
 /**
  * User
  */
 export type UserDigest = {
   id: string
-  uuid: string
+  uuid: GQLUUID
   info: {
     userName: string
     displayName: string
+    email: GQLEmail
+    description: string
   }
+  status: {
+    state: GQLUserState
+    articleCount: number
+    commentCount: number
+    MAT: {
+      total: number
+    }
+  }
+}
+
+export type UserDetail = UserDigest & {
+  info: GQLUserInfo
+  settings: GQLUserSettings
+  articles: Connection<ArticleDigest>
+  commentedArticles: Connection<ArticleDigest>
+  subscriptions: Connection<ArticleDigest>
+  status: GQLUserStatus
 }
 
 /**
@@ -25,7 +57,7 @@ export type ArticleDigest = {
   id: string
   slug: string
   createdAt: Date
-  publishState: string
+  state: GQLArticleState
   live: boolean
   public: boolean
   author: UserDigest
@@ -40,7 +72,6 @@ export type ArticleDetail = ArticleDigest & {
   dataHash: string
   mediaHash: string
   content: string
-  gatewayUrls: string[]
   upstream: ArticleDigest
   downstreams: Connection<ArticleDigest>
   relatedArticles: Connection<ArticleDigest>
@@ -54,21 +85,8 @@ export type ArticleDetail = ArticleDigest & {
 /**
  * Pagination
  */
-export type ConnectionArgs = {
-  before?: string
-  after?: string
-  first?: number
-  last?: number
-}
-
-export type PageInfo = {
-  startCursor: string
-  endCursor: string
-  hasNextPage: boolean
-}
-
 export type Connection<Node> = {
-  pageInfo: PageInfo
+  pageInfo: GQLPageInfo
   edges: Edge<Node>[]
 }
 

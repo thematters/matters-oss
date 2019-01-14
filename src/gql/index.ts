@@ -1,8 +1,6 @@
 import gql from 'graphql-tag'
 
-/**
- * User
- */
+// User Digest
 export const GQL_FRAGMENT_USER_DIGEST = gql`
   fragment UserDigest on User {
     id
@@ -10,6 +8,16 @@ export const GQL_FRAGMENT_USER_DIGEST = gql`
     info {
       userName
       displayName
+      description
+      email
+    }
+    status {
+      state
+      articleCount
+      commentCount
+      MAT {
+        total
+      }
     }
   }
 `
@@ -33,7 +41,7 @@ export const GQL_FRAGMENT_ARTICLE_DIGEST = gql`
     slug
     title
     createdAt
-    publishState
+    state
     public
     live
     author {
@@ -55,7 +63,6 @@ export const GQL_FRAGMENT_ARTICLE_DETAIL = gql`
     dataHash
     mediaHash
     content
-    gatewayUrls
     upstream {
       ...ArticleDigest
     }
@@ -92,6 +99,80 @@ export const GQL_FRAGMENT_ARTICLE_DETAIL = gql`
     # appreciatorCount
     subscribed
     hasAppreciate
+  }
+  ${GQL_FRAGMENT_ARTICLE_DIGEST}
+  ${GQL_FRAGMENT_USER_DIGEST}
+`
+
+// User Detail
+export const GQL_FRAGMENT_USER_DETAIL = gql`
+  fragment UserDetail on User {
+    ...UserDigest
+    info {
+      createdAt
+      userName
+      userNameEditable
+      displayName
+      description
+      avatar
+      email
+      emailVerified
+      mobile
+    }
+    settings {
+      language
+    }
+    articles(input: { first: 10 }) {
+      edges {
+        node {
+          ...ArticleDigest
+        }
+      }
+    }
+    commentedArticles(input: { first: 10 }) {
+      edges {
+        node {
+          ...ArticleDigest
+        }
+      }
+    }
+    subscriptions(input: { first: 10 }) {
+      edges {
+        node {
+          ...ArticleDigest
+        }
+      }
+    }
+    status {
+      state
+      MAT {
+        total
+      }
+      invitation {
+        left
+        sent(input: { first: 100 }) {
+          edges {
+            node {
+              id
+              user {
+                ...UserDigest
+              }
+              email
+              accepted
+              createdAt
+            }
+          }
+        }
+      }
+      articleCount
+      # viewCount
+      # draftCount
+      commentCount
+      # quotationCount
+      subscriptionCount
+      followeeCount
+      followerCount
+    }
   }
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
   ${GQL_FRAGMENT_USER_DIGEST}

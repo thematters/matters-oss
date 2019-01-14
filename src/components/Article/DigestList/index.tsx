@@ -2,11 +2,13 @@ import * as React from 'react'
 import { Table } from 'antd'
 import { Link } from 'react-router-dom'
 import _get from 'lodash/get'
+import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
 import UserLink from '../../UserLink'
 import ToggleLive from '../ToggleLive'
 import TogglePublic from '../TogglePublic'
+import ArticleStateTag from '../StateTag'
 
 import { PATH } from '../../../constants'
 import { ArticleDigest } from '../../../definitions'
@@ -32,7 +34,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
       <Table<ArticleDigest>
         bordered
         loading={loading}
-        dataSource={data}
+        dataSource={_compact(data)}
         pagination={false}
         rowKey={record => record.id}
       >
@@ -52,7 +54,11 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             />
           )}
         />
-        <Table.Column<ArticleDigest> dataIndex="publishState" title="狀態" />
+        <Table.Column<ArticleDigest>
+          dataIndex="state"
+          title="狀態"
+          render={state => <ArticleStateTag state={state} />}
+        />
         <Table.Column<ArticleDigest>
           dataIndex="public"
           title="白名單"

@@ -6,6 +6,7 @@ import Login from '../pages/Login'
 
 import { PATH } from '../constants'
 import homepageRoutes from './homepage'
+import userRoutes from './user'
 import articleRoutes from './article'
 
 const routes = [
@@ -21,6 +22,7 @@ const routes = [
   },
 
   ...homepageRoutes,
+  ...userRoutes,
   ...articleRoutes
 ]
 
