@@ -1,5 +1,10 @@
 import gql from 'graphql-tag'
 
+/*********************************
+ *                               *
+ *            Digest             *
+ *                               *
+ *********************************/
 // User Digest
 export const GQL_FRAGMENT_USER_DIGEST = gql`
   fragment UserDigest on User {
@@ -22,9 +27,7 @@ export const GQL_FRAGMENT_USER_DIGEST = gql`
   }
 `
 
-/**
- * Tag
- */
+// Tag Digest
 export const GQL_FRAGMENT_TAG_DIGEST = gql`
   fragment TagDigest on Tag {
     id
@@ -34,9 +37,7 @@ export const GQL_FRAGMENT_TAG_DIGEST = gql`
   }
 `
 
-/**
- * Article
- */
+// Article Digest
 export const GQL_FRAGMENT_ARTICLE_DIGEST = gql`
   fragment ArticleDigest on Article {
     id
@@ -56,56 +57,34 @@ export const GQL_FRAGMENT_ARTICLE_DIGEST = gql`
   ${GQL_FRAGMENT_TAG_DIGEST}
   ${GQL_FRAGMENT_USER_DIGEST}
 `
-export const GQL_FRAGMENT_ARTICLE_DETAIL = gql`
-  fragment ArticleDetail on Article {
-    ...ArticleDigest
-    cover
-    summary
-    wordCount
-    dataHash
-    mediaHash
-    content
-    upstream {
+
+// Comment Digest
+export const GQL_FRAGMENT_COMMENT_DIGEST = gql`
+  fragment CommentDigest on Comment {
+    id
+    state
+    createdAt
+    article {
       ...ArticleDigest
     }
-    downstreams(input: { first: 10 }) {
-      edges {
-        node {
-          ...ArticleDigest
-        }
-      }
+    content
+    author {
+      ...UserDigest
     }
-    relatedArticles(input: { first: 10 }) {
-      edges {
-        node {
-          ...ArticleDigest
-        }
-      }
-    }
-    MAT
-    participantCount
-    subscribers(input: { first: 10 }) {
-      edges {
-        node {
-          ...UserDigest
-        }
-      }
-    }
-    # appreciators(input: { first: 10 }) {
-    #   edges {
-    #     node {
-    #       ...UserDigest
-    #     }
-    #   }
-    # }
-    # appreciatorCount
-    subscribed
-    hasAppreciate
+    pinned
+    upvotes
+    downvotes
+    quote
   }
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
   ${GQL_FRAGMENT_USER_DIGEST}
 `
 
+/*********************************
+ *                               *
+ *            Detail             *
+ *                               *
+ *********************************/
 // User Detail
 export const GQL_FRAGMENT_USER_DETAIL = gql`
   fragment UserDetail on User {
@@ -196,4 +175,84 @@ export const GQL_FRAGMENT_TAG_DETAIL = gql`
     }
   }
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
+`
+
+// Article Detail
+export const GQL_FRAGMENT_ARTICLE_DETAIL = gql`
+  fragment ArticleDetail on Article {
+    ...ArticleDigest
+    cover
+    summary
+    wordCount
+    dataHash
+    mediaHash
+    content
+    upstream {
+      ...ArticleDigest
+    }
+    downstreams(input: { first: 10 }) {
+      edges {
+        node {
+          ...ArticleDigest
+        }
+      }
+    }
+    relatedArticles(input: { first: 10 }) {
+      edges {
+        node {
+          ...ArticleDigest
+        }
+      }
+    }
+    MAT
+    participantCount
+    subscribers(input: { first: 10 }) {
+      edges {
+        node {
+          ...UserDigest
+        }
+      }
+    }
+    # appreciators(input: { first: 10 }) {
+    #   edges {
+    #     node {
+    #       ...UserDigest
+    #     }
+    #   }
+    # }
+    # appreciatorCount
+    subscribed
+    hasAppreciate
+  }
+  ${GQL_FRAGMENT_ARTICLE_DIGEST}
+  ${GQL_FRAGMENT_USER_DIGEST}
+`
+
+/*********************************
+ *                               *
+ *             Misc              *
+ *                               *
+ *********************************/
+// Report
+export const GQL_FRAGMENT_REPORT = gql`
+  fragment Report on Report {
+    id
+    user {
+      ...UserDigest
+    }
+    article {
+      ...ArticleDigest
+    }
+    comment {
+      ...CommentDigest
+    }
+    assets
+    category
+    description
+    contact
+    createdAt
+  }
+  ${GQL_FRAGMENT_ARTICLE_DIGEST}
+  ${GQL_FRAGMENT_COMMENT_DIGEST}
+  ${GQL_FRAGMENT_USER_DIGEST}
 `

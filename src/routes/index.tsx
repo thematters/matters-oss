@@ -8,6 +8,7 @@ import { PATH } from '../constants'
 import homepageRoutes from './homepage'
 import userRoutes from './user'
 import articleRoutes from './article'
+import reportRoutes from './report'
 
 const routes = [
   {
@@ -23,7 +24,8 @@ const routes = [
 
   ...homepageRoutes,
   ...userRoutes,
-  ...articleRoutes
+  ...articleRoutes,
+  ...reportRoutes
 ]
 
 export default routes

@@ -73,21 +73,21 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="正文" col={1}>
+        <DescriptionList size="large" title="正文">
           <Col span={24} style={{ marginBottom: 16 }}>
             <section dangerouslySetInnerHTML={{ __html: article.content }} />
           </Col>
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="上游文章" col={1}>
+        <DescriptionList size="large" title="上游文章">
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList data={[article.upstream]} />
           </Col>
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="下游文章" col={1}>
+        <DescriptionList size="large" title="下游文章">
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList
               data={article.downstreams.edges.map(({ node }) => node)}

@@ -43,7 +43,7 @@ class TagDetail extends React.Component<TagDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="文章" col={1}>
+        <DescriptionList size="large" title="文章">
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList
               data={tag.articles.edges.map(({ node }) => node)}

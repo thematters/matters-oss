@@ -20,8 +20,10 @@ export const PATH = {
   COMMENT_LIST: '/comments',
   COMMENT_DETAIL: '/comments/:id',
 
-  REPORT_ARTICLES: '/report/articles',
-  REPORT_COMMENTS: '/report/comments',
+  REPORT_LIST_ARTICLE: '/reports/article',
+  REPORT_LIST_COMMENT: '/reports/comment',
+  REPORT_DETAIL: '/reports/:id',
+
   FEEDBACK: '/feedback',
 
   LOGIN: '/auth/login/'

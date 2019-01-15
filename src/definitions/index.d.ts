@@ -1,6 +1,7 @@
 import {
   GQLArticleState,
   GQLUserState,
+  GQLCommentState,
   GQLPageInfo,
   GQLEmail,
   GQLUUID,
@@ -86,6 +87,37 @@ export type ArticleDetail = ArticleDigest & {
   subscribers: UserDigest[]
   subscribed: boolean
   hasAppreciate: boolean
+}
+
+/**
+ * Comment
+ */
+export type CommentDigest = {
+  id: string
+  state: GQLCommentState
+  createdAt: Date
+  article: ArticleDigest
+  content: string
+  author: UserDigest
+  pinned: boolean
+  upvotes: number
+  downvotes: number
+  quote: boolean
+}
+
+/**
+ * Report
+ */
+export type Report = {
+  id: string
+  user: UserDigest
+  article: ArticleDigest
+  comment: CommentDigest
+  assets: string[]
+  category: string
+  description: string
+  contact: string
+  createdAt: Date
 }
 
 /**

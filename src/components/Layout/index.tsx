@@ -41,9 +41,9 @@ class Layout extends React.Component<RouteComponentProps> {
           mode="inline"
           inlineCollapsed={false}
           selectedKeys={[location.pathname]}
-          defaultOpenKeys={['homepage', 'user', 'article', 'report']}
+          defaultOpenKeys={['homepage', 'user', 'article', 'comment', 'report']}
         >
-          <SubMenu mode="inline" key="homepage" title={<span>首頁</span>}>
+          <SubMenu mode="inline" key="homepage" title={<strong>首頁</strong>}>
             <Menu.Item key={PATH.HOMEPAGE_MATTERS_TODAY}>
               <NavLink to={PATH.HOMEPAGE_MATTERS_TODAY}>Matters Today</NavLink>
             </Menu.Item>
@@ -69,31 +69,30 @@ class Layout extends React.Component<RouteComponentProps> {
             </Menu.Item>
           </SubMenu>
 
-          <SubMenu mode="inline" key="user" title={<span>用戶</span>}>
+          <SubMenu mode="inline" key="user" title={<strong>用戶</strong>}>
             <Menu.Item key={PATH.USER_LIST}>
               <NavLink to={PATH.USER_LIST}>用戶清單</NavLink>
             </Menu.Item>
           </SubMenu>
 
-          <SubMenu mode="inline" key="article" title={<span>文章</span>}>
+          <SubMenu mode="inline" key="article" title={<strong>文章</strong>}>
             <Menu.Item key={PATH.ARTICLE_LIST}>
               <NavLink to={PATH.ARTICLE_LIST}>文章清單</NavLink>
             </Menu.Item>
             <Menu.Item key={PATH.TAG_LIST}>
               <NavLink to={PATH.TAG_LIST}>標籤清單</NavLink>
             </Menu.Item>
+            <Menu.Item key={PATH.REPORT_LIST_ARTICLE}>
+              <NavLink to={PATH.REPORT_LIST_ARTICLE}>舉報文章清單</NavLink>
+            </Menu.Item>
           </SubMenu>
 
-          <Menu.Item key={PATH.COMMENT_LIST}>
-            <NavLink to={PATH.COMMENT_LIST}>評論</NavLink>
-          </Menu.Item>
-
-          <SubMenu mode="inline" key="report" title={<span>舉報</span>}>
-            <Menu.Item key={PATH.REPORT_ARTICLES}>
-              <NavLink to={PATH.REPORT_ARTICLES}>文章</NavLink>
+          <SubMenu mode="inline" key="comment" title={<strong>評論</strong>}>
+            <Menu.Item key={PATH.COMMENT_LIST}>
+              <NavLink to={PATH.COMMENT_LIST}>評論清單</NavLink>
             </Menu.Item>
-            <Menu.Item key={PATH.REPORT_COMMENTS}>
-              <NavLink to={PATH.REPORT_COMMENTS}>評論</NavLink>
+            <Menu.Item key={PATH.REPORT_LIST_COMMENT}>
+              <NavLink to={PATH.REPORT_LIST_COMMENT}>舉報評論清單</NavLink>
             </Menu.Item>
           </SubMenu>
 

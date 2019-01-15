@@ -77,14 +77,14 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         <DescriptionList size="large" title="設定" />
         <Divider size="large" />
 
-        <DescriptionList size="large" title="自我描述" col={1}>
+        <DescriptionList size="large" title="自我描述">
           <Col span={24} style={{ marginBottom: 16 }}>
             {user.info.description}
           </Col>
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="發表文章" col={1}>
+        <DescriptionList size="large" title="發表文章">
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList
               data={user.articles.edges.map(({ node }) => node)}
@@ -93,7 +93,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="評論文章" col={1}>
+        <DescriptionList size="large" title="評論文章">
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList
               data={user.commentedArticles.edges.map(({ node }) => node)}
@@ -102,7 +102,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="收藏文章" col={1}>
+        <DescriptionList size="large" title="收藏文章">
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList
               data={user.subscriptions.edges.map(({ node }) => node)}
@@ -111,7 +111,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="邀請紀錄" col={1}>
+        <DescriptionList size="large" title="邀請紀錄">
           <Col span={24} style={{ marginBottom: 16 }}>
             <InvitationList
               //@ts-ignore
