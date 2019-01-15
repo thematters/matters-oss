@@ -7,6 +7,7 @@ import Divider from '../../components/Divider'
 import DateTime from '../../components/DateTime'
 import DescriptionList from '../../components/DescriptionList'
 import ArticleDigestList from '../../components/Article/DigestList'
+import CommentDigestList from '../../components/Comment/DigestList'
 
 import withReportDetail, { ReportDetailChildProps } from './withReportDetail'
 import UserLink from '../../components/UserLink'
@@ -76,13 +77,13 @@ class TagDetail extends React.Component<ReportDetailChildProps> {
             </Col>
           </DescriptionList>
         )}
-        {/* {comment && (
+        {comment && (
           <DescriptionList size="large" title="被舉報評論">
             <Col span={24} style={{ marginBottom: 16 }}>
               <CommentDigestList data={[comment]} />
             </Col>
           </DescriptionList>
-        )} */}
+        )}
         <Divider size="large" />
       </>
     )

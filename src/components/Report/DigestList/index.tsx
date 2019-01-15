@@ -29,7 +29,7 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
   ): React.ReactNode {
     return (
       <Link to={PATH.REPORT_DETAIL.replace(':id', record.id)}>
-        {content.slice(0, 7)}...
+        {content.slice(0, 17)}...
       </Link>
     )
   }
