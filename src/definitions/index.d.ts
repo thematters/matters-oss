@@ -48,6 +48,8 @@ export type UserDetail = UserDigest & {
 export type TagDigest = {
   id: string
   content: string
+  count: number
+  createdAt: Date
 }
 
 /**

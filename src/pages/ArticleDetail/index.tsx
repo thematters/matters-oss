@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Tag } from 'antd'
+import { Col, Tag, Skeleton } from 'antd'
 import _get from 'lodash/get'
 
 import ErrorMessage from '../../components/ErrorMessage'
@@ -27,7 +27,7 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
     }
 
     if (loading) {
-      return <span>loading</span>
+      return <Skeleton active />
     }
 
     if (!article) {

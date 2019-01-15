@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col } from 'antd'
+import { Col, Skeleton } from 'antd'
 import _get from 'lodash/get'
 
 import ErrorMessage from '../../components/ErrorMessage'
@@ -30,7 +30,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
     }
 
     if (loading) {
-      return <span>loading</span>
+      return <Skeleton active />
     }
 
     if (!user) {
@@ -59,11 +59,14 @@ class UserDetail extends React.Component<UserDetailChildProps> {
           </Description>
           <Description term="被追蹤數">{user.status.followerCount}</Description>
           <Description term="追蹤數">{user.status.followeeCount}</Description>
-          <Description term="MAT 數">{user.status.MAT.total}</Description>
+          <Description term="MAT">{user.status.MAT.total}</Description>
           <Description term="文章數">{user.status.articleCount}</Description>
           <Description term="評論數">{user.status.commentCount}</Description>
           <Description term="收藏數">
             {user.status.subscriptionCount}
+          </Description>
+          <Description term="邀請資格">
+            {user.status.invitation.left}
           </Description>
           <Description term="語言">
             {LanguageMap[user.settings.language]}

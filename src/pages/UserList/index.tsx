@@ -13,7 +13,7 @@ class UserList extends React.Component<
   AllUsersChildProps & SearchUsersChildProps
 > {
   private _renderHeader() {
-    return <SearchBar placeholder="請輸入文章標題" />
+    return <SearchBar placeholder="請輸入 Matters ID 或用戶姓名" />
   }
 
   private _renderContent() {

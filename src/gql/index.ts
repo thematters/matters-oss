@@ -29,6 +29,8 @@ export const GQL_FRAGMENT_TAG_DIGEST = gql`
   fragment TagDigest on Tag {
     id
     content
+    count
+    createdAt
   }
 `
 
