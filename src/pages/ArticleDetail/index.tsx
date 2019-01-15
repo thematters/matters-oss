@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Tag, Skeleton } from 'antd'
+import { Col, Tag, Skeleton, Empty } from 'antd'
 import _get from 'lodash/get'
 
 import ErrorMessage from '../../components/ErrorMessage'
@@ -31,7 +31,7 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
     }
 
     if (!article) {
-      return <span>empty</span>
+      return <Empty />
     }
 
     return (
@@ -94,7 +94,6 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
             />
           </Col>
         </DescriptionList>
-        <Divider size="large" />
       </>
     )
   }

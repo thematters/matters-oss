@@ -5,6 +5,7 @@ import Private from '../components/Private'
 import ArticleList from '../pages/ArticleList'
 import ArticleDetail from '../pages/ArticleDetail'
 import TagList from '../pages/TagList'
+import TagDetail from '../pages/TagDetail'
 
 import { PATH } from '../constants'
 
@@ -33,6 +34,15 @@ const articleRoutes = [
     component: (props: RouteConfigComponentProps) => (
       <Private>
         <TagList {...props} />
+      </Private>
+    )
+  },
+  {
+    path: PATH.TAG_DETAIL,
+    exact: true,
+    component: (props: RouteConfigComponentProps) => (
+      <Private>
+        <TagDetail {...props} />
       </Private>
     )
   }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Skeleton } from 'antd'
+import { Col, Skeleton, Empty } from 'antd'
 import _get from 'lodash/get'
 
 import ErrorMessage from '../../components/ErrorMessage'
@@ -34,7 +34,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
     }
 
     if (!user) {
-      return <span>empty</span>
+      return <Empty />
     }
 
     return (
@@ -122,7 +122,6 @@ class UserDetail extends React.Component<UserDetailChildProps> {
             />
           </Col>
         </DescriptionList>
-        <Divider size="large" />
       </>
     )
   }

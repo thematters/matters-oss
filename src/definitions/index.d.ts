@@ -52,6 +52,10 @@ export type TagDigest = {
   createdAt: Date
 }
 
+export type TagDetail = TagDigest & {
+  articles: Connection<ArticleDigest>
+}
+
 /**
  * Article
  */

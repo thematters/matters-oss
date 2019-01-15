@@ -179,3 +179,21 @@ export const GQL_FRAGMENT_USER_DETAIL = gql`
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
   ${GQL_FRAGMENT_USER_DIGEST}
 `
+
+// Tag Detail
+export const GQL_FRAGMENT_TAG_DETAIL = gql`
+  fragment TagDetail on Tag {
+    id
+    content
+    count
+    createdAt
+    articles(input: { first: 10 }) {
+      edges {
+        node {
+          ...ArticleDigest
+        }
+      }
+    }
+  }
+  ${GQL_FRAGMENT_ARTICLE_DIGEST}
+`
