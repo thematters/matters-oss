@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Tag, Skeleton, Empty } from 'antd'
+import { Col, Skeleton, Empty } from 'antd'
 import _get from 'lodash/get'
 
 import ErrorMessage from '../../components/ErrorMessage'
@@ -14,7 +14,7 @@ import UserLink from '../../components/UserLink'
 
 const { Description } = DescriptionList
 
-class TagDetail extends React.Component<ReportDetailChildProps> {
+class ReportDetail extends React.Component<ReportDetailChildProps> {
   public render() {
     const {
       data: { report, loading, error }
@@ -70,6 +70,17 @@ class TagDetail extends React.Component<ReportDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
+        <DescriptionList size="large" title="附件">
+          {assets.map(asset => (
+            <Col span={4} style={{ marginBottom: 16 }}>
+              <a href={asset} target="_blank">
+                <img src={asset} style={{ maxWidth: '100%' }} />
+              </a>
+            </Col>
+          ))}
+        </DescriptionList>
+        <Divider size="large" />
+
         {article && (
           <DescriptionList size="large" title="被舉報文章">
             <Col span={24} style={{ marginBottom: 16 }}>
@@ -90,4 +101,4 @@ class TagDetail extends React.Component<ReportDetailChildProps> {
   }
 }
 
-export default withReportDetail(TagDetail)
+export default withReportDetail(ReportDetail)

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { RouteConfigComponentProps } from 'react-router-config'
 
+import Layout from '../components/Layout'
 import Private from '../components/Private'
 import ReportList from '../pages/ReportList'
 import ReportDetail from '../pages/ReportDetail'
@@ -13,7 +14,10 @@ const articleRoutes = [
     exact: true,
     component: (props: RouteConfigComponentProps) => (
       <Private>
-        <ReportList {...props} type="article" />
+        <Layout.Header />
+        <Layout.Content>
+          <ReportList {...props} type="article" />
+        </Layout.Content>
       </Private>
     )
   },
@@ -22,7 +26,10 @@ const articleRoutes = [
     exact: true,
     component: (props: RouteConfigComponentProps) => (
       <Private>
-        <ReportList {...props} type="comment" />
+        <Layout.Header />
+        <Layout.Content>
+          <ReportList {...props} type="comment" />
+        </Layout.Content>
       </Private>
     )
   },
@@ -31,7 +38,10 @@ const articleRoutes = [
     exact: true,
     component: (props: RouteConfigComponentProps) => (
       <Private>
-        <ReportDetail {...props} />
+        <Layout.Header />
+        <Layout.Content>
+          <ReportDetail {...props} />
+        </Layout.Content>
       </Private>
     )
   }

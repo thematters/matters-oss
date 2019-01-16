@@ -9,12 +9,19 @@ import homepageRoutes from './homepage'
 import userRoutes from './user'
 import articleRoutes from './article'
 import reportRoutes from './report'
+import { Redirect } from 'react-router'
 
 const routes = [
   {
     path: PATH.HOMEPAGE,
     exact: true,
-    component: (props: RouteConfigComponentProps) => <Private>Homepage</Private>
+    component: (props: RouteConfigComponentProps) => (
+      <Redirect
+        to={{
+          pathname: PATH.HOMEPAGE_MATTERS_TODAY
+        }}
+      />
+    )
   },
 
   {

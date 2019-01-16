@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { RouteConfigComponentProps } from 'react-router-config'
 
+import Layout from '../components/Layout'
 import Private from '../components/Private'
 import UserList from '../pages/UserList'
 import UserDetail from '../pages/UserDetail'
@@ -13,7 +14,10 @@ const userRoutes = [
     exact: true,
     component: (props: RouteConfigComponentProps) => (
       <Private>
-        <UserList {...props} />
+        <Layout.Header />
+        <Layout.Content>
+          <UserList {...props} />
+        </Layout.Content>
       </Private>
     )
   },
@@ -22,7 +26,10 @@ const userRoutes = [
     exact: true,
     component: (props: RouteConfigComponentProps) => (
       <Private>
-        <UserDetail {...props} />
+        <Layout.Header />
+        <Layout.Content>
+          <UserDetail {...props} />
+        </Layout.Content>
       </Private>
     )
   }

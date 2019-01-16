@@ -51,6 +51,7 @@
     "react-app-polyfill": "^0.2.0",
     "react-dev-utils": "^7.0.0",
     "react-dom": "^16.7.0",
+    "react-helmet": "^5.2.0",
     "react-router": "^4.3.1",
     "react-router-config": "^4.4.0-beta.6",
     "react-router-dom": "^4.3.1",
@@ -75,7 +76,6 @@
     "test": "REACT_APP_ENV=test node scripts/test.js --env=jsdom"
   },
   "devDependencies": {
-    "@types/react-timeago": "^4.1.0",
     "@types/graphql": "^14.0.4",
     "@types/jest": "^23.3.11",
     "@types/lodash": "^4.14.119",
@@ -83,9 +83,11 @@
     "@types/query-string": "^6.2.0",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
+    "@types/react-helmet": "^5.0.8",
     "@types/react-router": "^4.4.3",
     "@types/react-router-config": "^1.1.0",
     "@types/react-router-dom": "^4.3.1",
+    "@types/react-timeago": "^4.1.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "postcss-cssnext": "^3.1.0",
