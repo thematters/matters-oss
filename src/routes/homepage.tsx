@@ -7,6 +7,7 @@ import MattersToday from '../pages/Homepage/MattersToday'
 import { PATH } from '../constants'
 import MattersChoice from '../pages/Homepage/MattersChoice'
 import Hottest from '../pages/Homepage/Hottest'
+import Newest from '../pages/Homepage/Newest'
 
 const homepageRoutes = [
   {
@@ -38,6 +39,17 @@ const homepageRoutes = [
         <Layout.Header />
         <Layout.Content>
           <Hottest {...props} />
+        </Layout.Content>
+      </Private>
+    )
+  },
+  {
+    path: PATH.HOMEPAGE_NEWEST,
+    component: (props: RouteConfigComponentProps) => (
+      <Private>
+        <Layout.Header />
+        <Layout.Content>
+          <Newest {...props} />
         </Layout.Content>
       </Private>
     )
