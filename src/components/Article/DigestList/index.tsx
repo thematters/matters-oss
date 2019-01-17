@@ -22,12 +22,11 @@ type ArticleDigestListProps = {
   data: ArticleDigest[]
   loading?: boolean
   recommend?: {
-    toggleToday?: boolean
-    toggleIcymi?: boolean
-    toggleHottest?: boolean
-    toggleNewest?: boolean
-    toggleTopic?: boolean
-    setBoost?: boolean
+    today?: boolean
+    icymi?: boolean
+    hottest?: boolean
+    newest?: boolean
+    topic?: boolean
   }
 }
 
@@ -95,7 +94,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           title="時間"
           render={createdAt => <DateTime date={createdAt} />}
         />
-        {recommend && recommend.toggleToday && (
+        {recommend && recommend.today && (
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendToday"
             title="在 Matters Today 顯示"
@@ -107,7 +106,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             )}
           />
         )}
-        {recommend && recommend.toggleIcymi && (
+        {recommend && recommend.icymi && (
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendIcymi"
             title="在「不要錯過」顯示"
@@ -119,7 +118,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             )}
           />
         )}
-        {recommend && recommend.toggleHottest && (
+        {recommend && recommend.hottest && (
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendHottest"
             title="在「熱門文章」顯示"
@@ -131,7 +130,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             )}
           />
         )}
-        {recommend && recommend.toggleNewest && (
+        {recommend && recommend.newest && (
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendNewest"
             title="在「最新發布」顯示"
@@ -143,7 +142,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             )}
           />
         )}
-        {recommend && recommend.toggleTopic && (
+        {recommend && recommend.topic && (
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendTopic"
             title="在「熱議話題」顯示"

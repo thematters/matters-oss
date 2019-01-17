@@ -27,11 +27,7 @@ class ArticleList extends React.Component<
 
     if (loading) {
       return (
-        <ArticleDigestList
-          data={[]}
-          loading
-          recommend={{ toggleHottest: true }}
-        />
+        <ArticleDigestList data={[]} loading recommend={{ hottest: true }} />
       )
     }
 
@@ -48,7 +44,7 @@ class ArticleList extends React.Component<
     return (
       <ArticleDigestList
         data={articleTableData}
-        recommend={{ toggleHottest: true }}
+        recommend={{ hottest: true }}
       />
     )
   }

@@ -26,13 +26,7 @@ class ArticleList extends React.Component<
     }
 
     if (loading) {
-      return (
-        <ArticleDigestList
-          data={[]}
-          loading
-          recommend={{ toggleToday: true }}
-        />
-      )
+      return <ArticleDigestList data={[]} loading recommend={{ today: true }} />
     }
 
     let articleTableData: ArticleDigest[] = []
@@ -43,10 +37,7 @@ class ArticleList extends React.Component<
       articleTableData = oss.today.edges.map(({ node }) => node)
     }
     return (
-      <ArticleDigestList
-        data={articleTableData}
-        recommend={{ toggleToday: true }}
-      />
+      <ArticleDigestList data={articleTableData} recommend={{ today: true }} />
     )
   }
 

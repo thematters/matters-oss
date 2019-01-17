@@ -4,13 +4,13 @@ import _get from 'lodash/get'
 import SearchBar from '../../../components/SearchBar'
 import ErrorMessage from '../../../components/ErrorMessage'
 import ArticleDigestList from '../../../components/Article/DigestList'
-import withNewestList from './withNewestList'
+import withTopicList from './withTopicList'
 
 import { ArticleDigest } from '../../../definitions'
-import { NewestChildProps, SearchArticlesChildProps } from './type'
+import { TopicsChildProps, SearchArticlesChildProps } from './type'
 
 class ArticleList extends React.Component<
-  NewestChildProps & SearchArticlesChildProps
+  TopicsChildProps & SearchArticlesChildProps
 > {
   private _renderHeader() {
     return <SearchBar placeholder="請輸入文章標題" />
@@ -26,9 +26,7 @@ class ArticleList extends React.Component<
     }
 
     if (loading) {
-      return (
-        <ArticleDigestList data={[]} loading recommend={{ newest: true }} />
-      )
+      return <ArticleDigestList data={[]} loading recommend={{ topic: true }} />
     }
 
     let articleTableData: ArticleDigest[] = []
@@ -36,13 +34,13 @@ class ArticleList extends React.Component<
       articleTableData = search.edges.map(({ node }) => node)
     }
 
-    if (viewer && viewer.recommendation && viewer.recommendation.newest) {
-      articleTableData = viewer.recommendation.newest.edges.map(
+    if (viewer && viewer.recommendation && viewer.recommendation.topics) {
+      articleTableData = viewer.recommendation.topics.edges.map(
         ({ node }) => node
       )
     }
     return (
-      <ArticleDigestList data={articleTableData} recommend={{ newest: true }} />
+      <ArticleDigestList data={articleTableData} recommend={{ topic: true }} />
     )
   }
 
@@ -56,4 +54,4 @@ class ArticleList extends React.Component<
   }
 }
 
-export default withNewestList(ArticleList)
+export default withTopicList(ArticleList)

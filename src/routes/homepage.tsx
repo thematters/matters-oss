@@ -8,6 +8,7 @@ import { PATH } from '../constants'
 import MattersChoice from '../pages/Homepage/MattersChoice'
 import Hottest from '../pages/Homepage/Hottest'
 import Newest from '../pages/Homepage/Newest'
+import Topics from '../pages/Homepage/Topics'
 
 const homepageRoutes = [
   {
@@ -50,6 +51,17 @@ const homepageRoutes = [
         <Layout.Header />
         <Layout.Content>
           <Newest {...props} />
+        </Layout.Content>
+      </Private>
+    )
+  },
+  {
+    path: PATH.HOMEPAGE_TOPICS,
+    component: (props: RouteConfigComponentProps) => (
+      <Private>
+        <Layout.Header />
+        <Layout.Content>
+          <Topics {...props} />
         </Layout.Content>
       </Private>
     )

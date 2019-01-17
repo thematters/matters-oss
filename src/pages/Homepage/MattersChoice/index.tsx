@@ -26,13 +26,7 @@ class ArticleList extends React.Component<
     }
 
     if (loading) {
-      return (
-        <ArticleDigestList
-          data={[]}
-          loading
-          recommend={{ toggleIcymi: true }}
-        />
-      )
+      return <ArticleDigestList data={[]} loading recommend={{ icymi: true }} />
     }
 
     let articleTableData: ArticleDigest[] = []
@@ -46,10 +40,7 @@ class ArticleList extends React.Component<
       )
     }
     return (
-      <ArticleDigestList
-        data={articleTableData}
-        recommend={{ toggleIcymi: true }}
-      />
+      <ArticleDigestList data={articleTableData} recommend={{ icymi: true }} />
     )
   }
 
