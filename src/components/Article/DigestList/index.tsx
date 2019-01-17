@@ -16,7 +16,7 @@ import ToggleRecommendToday from '../ToggleRecommendToday'
 import ToggleRecommendIcymi from '../ToggleRecommendIcymi'
 import ToggleRecommendHottest from '../ToggleRecommendHottest'
 import ToggleRecommendNewest from '../ToggleRecommendNewest'
-import ToggleRecommendTopic from '../ToggleRecommendTopic'
+import SetBoost from '../SetBoost'
 
 type ArticleDigestListProps = {
   data: ArticleDigest[]
@@ -144,15 +144,15 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
         )}
         {recommend && recommend.topic && (
           <Table.Column<ArticleDigest>
-            dataIndex="oss.inRecommendTopic"
-            title="在「熱議話題」顯示"
-            render={(inRecommendTopic, record) => (
-              <ToggleRecommendTopic
-                checked={inRecommendTopic}
-                articleId={record.id}
-              />
+            dataIndex="oss.boost"
+            title="Boost"
+            render={(boost, record) => (
+              <SetBoost boost={boost} articleId={record.id} />
             )}
           />
+        )}
+        {recommend && recommend.topic && (
+          <Table.Column<ArticleDigest> dataIndex="oss.score" title="Score" />
         )}
       </Table>
     )
