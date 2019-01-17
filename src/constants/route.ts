@@ -35,7 +35,7 @@ export const PAGE_TITLE = {
   [PATH.HOMEPAGE_HOT]: '熱門文章',
   [PATH.HOMEPAGE_NEWEST]: '最新發布',
   [PATH.HOMEPAGE_HOT_DISCUSSIONS]: '熱議話題',
-  [PATH.HOMEPAGE_MATTERS_CHOICE]: '不要錯過 (Matters Choice)',
+  [PATH.HOMEPAGE_MATTERS_CHOICE]: '不要錯過',
   [PATH.HOMEPAGE_AUTHORS]: '活躍作者',
   [PATH.HOMEPAGE_TAGS]: '標籤',
 
