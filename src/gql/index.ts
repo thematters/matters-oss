@@ -24,6 +24,10 @@ export const GQL_FRAGMENT_USER_DIGEST = gql`
         total
       }
     }
+    oss {
+      boost
+      score
+    }
   }
 `
 
@@ -34,6 +38,10 @@ export const GQL_FRAGMENT_TAG_DIGEST = gql`
     content
     count
     createdAt
+    oss {
+      boost
+      score
+    }
   }
 `
 

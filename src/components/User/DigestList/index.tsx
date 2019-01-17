@@ -7,10 +7,14 @@ import UserStateTag from '../../../components/User/StateTag'
 import UserLink from '../../UserLink'
 
 import { UserDigest } from '../../../definitions'
+import SetUserBoost from '../SetUserBoost'
 
 type UserDigestListProps = {
   data: UserDigest[]
   loading?: boolean
+  recommend?: {
+    author?: boolean
+  }
 }
 
 class UserDigestList extends React.Component<UserDigestListProps> {
@@ -25,7 +29,7 @@ class UserDigestList extends React.Component<UserDigestListProps> {
   }
 
   public render() {
-    const { data, loading = false } = this.props
+    const { data, loading = false, recommend } = this.props
 
     return (
       <Table<UserDigest>
@@ -36,37 +40,37 @@ class UserDigestList extends React.Component<UserDigestListProps> {
         rowKey={record => record.id}
       >
         <Table.Column<UserDigest> title="用戶" render={this._renderEmailCell} />
+        <Table.Column<UserDigest> dataIndex="info.email" title="電子信箱" />
         <Table.Column<UserDigest>
-          // @ts-ignore
-          dataIndex="info.email"
-          title="電子信箱"
-        />
-        <Table.Column<UserDigest>
-          // @ts-ignore
           dataIndex="status.state"
           title="狀態"
           render={state => <UserStateTag state={state} />}
         />
         <Table.Column<UserDigest>
-          // @ts-ignore
           dataIndex="status.articleCount"
           title="文章數"
         />
         <Table.Column<UserDigest>
-          // @ts-ignore
           dataIndex="status.commentCount"
           title="評論數"
         />
-        <Table.Column<UserDigest>
-          // @ts-ignore
-          dataIndex="status.MAT.total"
-          title="MAT 數"
-        />
-        <Table.Column<UserDigest>
-          // @ts-ignore
+        <Table.Column<UserDigest> dataIndex="status.MAT.total" title="MAT 數" />
+        {/* <Table.Column<UserDigest>
           dataIndex="info.description"
           title="自我描述"
-        />
+        /> */}
+        {recommend && recommend.author && (
+          <Table.Column<UserDigest>
+            dataIndex="oss.boost"
+            title="Boost"
+            render={(boost, record) => (
+              <SetUserBoost boost={boost} userId={record.id} />
+            )}
+          />
+        )}
+        {recommend && recommend.author && (
+          <Table.Column<UserDigest> dataIndex="oss.score" title="Score" />
+        )}
       </Table>
     )
   }

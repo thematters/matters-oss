@@ -16,7 +16,7 @@ import ToggleRecommendToday from '../ToggleRecommendToday'
 import ToggleRecommendIcymi from '../ToggleRecommendIcymi'
 import ToggleRecommendHottest from '../ToggleRecommendHottest'
 import ToggleRecommendNewest from '../ToggleRecommendNewest'
-import SetBoost from '../SetBoost'
+import SetArticleBoost from '../SetArticleBoost'
 
 type ArticleDigestListProps = {
   data: ArticleDigest[]
@@ -147,7 +147,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             dataIndex="oss.boost"
             title="Boost"
             render={(boost, record) => (
-              <SetBoost boost={boost} articleId={record.id} />
+              <SetArticleBoost boost={boost} articleId={record.id} />
             )}
           />
         )}

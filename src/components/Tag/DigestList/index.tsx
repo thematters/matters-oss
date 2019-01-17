@@ -8,10 +8,14 @@ import DateTime from '../../DateTime'
 
 import { PATH } from '../../../constants'
 import { TagDigest } from '../../../definitions'
+import SetTagBoost from '../SetTagBoost'
 
 type TagDigestListProps = {
   data: TagDigest[]
   loading?: boolean
+  recommend?: {
+    tag?: boolean
+  }
 }
 
 type TagDigestListState = {
@@ -217,7 +221,7 @@ class TagDigestList extends React.Component<
   }
 
   public render() {
-    const { data, loading = false } = this.props
+    const { data, loading = false, recommend } = this.props
     const { selectedRowKeys } = this.state
     const rowSelection = {
       selectedRowKeys,
@@ -226,11 +230,11 @@ class TagDigestList extends React.Component<
 
     return (
       <>
-        {this._renderTableOperators()}
+        {!recommend && this._renderTableOperators()}
         <Table<TagDigest>
           bordered
           loading={loading}
-          rowSelection={rowSelection}
+          rowSelection={recommend ? undefined : rowSelection}
           dataSource={_compact(data)}
           pagination={false}
           rowKey={record => record.id}
@@ -246,6 +250,18 @@ class TagDigestList extends React.Component<
             title="時間"
             render={createdAt => <DateTime date={createdAt} />}
           />
+          {recommend && recommend.tag && (
+            <Table.Column<TagDigest>
+              dataIndex="oss.boost"
+              title="Boost"
+              render={(boost, record) => (
+                <SetTagBoost boost={boost} tagId={record.id} />
+              )}
+            />
+          )}
+          {recommend && recommend.tag && (
+            <Table.Column<TagDigest> dataIndex="oss.score" title="Score" />
+          )}
         </Table>
       </>
     )

@@ -32,6 +32,10 @@ export type UserDigest = {
       total: number
     }
   }
+  oss: {
+    boost: number
+    score: number
+  }
 }
 
 export type UserDetail = UserDigest & {
@@ -51,6 +55,10 @@ export type TagDigest = {
   content: string
   count: number
   createdAt: Date
+  oss: {
+    boost: number
+    score: number
+  }
 }
 
 export type TagDetail = TagDigest & {

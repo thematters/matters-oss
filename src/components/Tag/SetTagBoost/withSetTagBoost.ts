@@ -1,9 +1,9 @@
 import { graphql, ChildMutateProps } from 'react-apollo'
 import gql from 'graphql-tag'
 
-const SET_ARTICLE_BOOST = gql`
-  mutation setArticleBoost($input: SetArticleBoostInput!) {
-    setArticleBoost(input: $input) {
+const SET_TAG_BOOST = gql`
+  mutation setTagBoost($input: SetTagBoostInput!) {
+    setTagBoost(input: $input) {
       id # for update cache
       oss {
         boost
@@ -14,7 +14,7 @@ const SET_ARTICLE_BOOST = gql`
 `
 
 type Response = {
-  setArticleBoost: {
+  setTagBoost: {
     oss: {
       boost: number
       score: number
@@ -24,7 +24,7 @@ type Response = {
 
 type InputProps = {
   boost: number
-  articleId: string
+  tagId: string
 }
 
 type Variables = {
@@ -36,8 +36,8 @@ type Variables = {
 
 export type ChildProps = ChildMutateProps<InputProps, Response, Variables>
 
-const withSetBoost = graphql<InputProps, Response, Variables, ChildProps>(
-  SET_ARTICLE_BOOST
+const withSetTagBoost = graphql<InputProps, Response, Variables, ChildProps>(
+  SET_TAG_BOOST
 )
 
-export default withSetBoost
+export default withSetTagBoost

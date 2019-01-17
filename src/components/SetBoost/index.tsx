@@ -2,20 +2,22 @@ import * as React from 'react'
 import { InputNumber, Button } from 'antd'
 import _get from 'lodash/get'
 
-import ErrorMessage from '../../ErrorMessage'
-import withSetBoost, { ChildProps } from './withSetBoost'
+import ErrorMessage from '../ErrorMessage'
+
+type SetBoostProps = {
+  boost: number
+  onSubmit: any
+  error: any
+  loading: boolean
+}
 
 type SetBoostState = {
   boost: number
-  loading: boolean
-  error: any
 }
 
-class SetBoost extends React.Component<ChildProps, SetBoostState> {
+class SetBoost extends React.Component<SetBoostProps, SetBoostState> {
   state: Readonly<SetBoostState> = {
-    boost: this.props.boost,
-    loading: false,
-    error: null
+    boost: this.props.boost
   }
 
   private _onChange = (value: number | undefined) => {
@@ -26,29 +28,9 @@ class SetBoost extends React.Component<ChildProps, SetBoostState> {
     this.setState({ boost: value })
   }
 
-  private _onClick = async () => {
-    this.setState({ loading: true, error: null })
-
-    const { mutate, articleId } = this.props
-
-    try {
-      const result = await mutate({
-        variables: {
-          input: {
-            id: articleId,
-            boost: this.state.boost
-          }
-        }
-      })
-      const newBoost = _get(result, 'data.setArticleBoost.oss.boost')
-      this.setState({ boost: newBoost, loading: false, error: null })
-    } catch (error) {
-      this.setState({ loading: false, error })
-    }
-  }
-
   public render() {
-    const { boost, loading, error } = this.state
+    const { loading, error, onSubmit } = this.props
+    const { boost } = this.state
     const boostChanged = this.props.boost !== boost
 
     if (error) {
@@ -67,9 +49,10 @@ class SetBoost extends React.Component<ChildProps, SetBoostState> {
           style={{ margin: '4px', verticalAlign: 'middle' }}
         />
         <Button
-          onClick={this._onClick}
+          onClick={() => onSubmit(boost)}
           type="primary"
           size="small"
+          loading={loading}
           disabled={!boostChanged}
           style={{
             margin: '4px',
@@ -85,4 +68,4 @@ class SetBoost extends React.Component<ChildProps, SetBoostState> {
   }
 }
 
-export default withSetBoost(SetBoost)
+export default SetBoost

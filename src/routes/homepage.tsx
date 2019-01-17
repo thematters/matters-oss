@@ -9,6 +9,8 @@ import MattersChoice from '../pages/Homepage/MattersChoice'
 import Hottest from '../pages/Homepage/Hottest'
 import Newest from '../pages/Homepage/Newest'
 import Topics from '../pages/Homepage/Topics'
+import Authors from '../pages/Homepage/Authors'
+import Tags from '../pages/Homepage/Tags'
 
 const homepageRoutes = [
   {
@@ -62,6 +64,28 @@ const homepageRoutes = [
         <Layout.Header />
         <Layout.Content>
           <Topics {...props} />
+        </Layout.Content>
+      </Private>
+    )
+  },
+  {
+    path: PATH.HOMEPAGE_AUTHORS,
+    component: (props: RouteConfigComponentProps) => (
+      <Private>
+        <Layout.Header />
+        <Layout.Content>
+          <Authors {...props} />
+        </Layout.Content>
+      </Private>
+    )
+  },
+  {
+    path: PATH.HOMEPAGE_TAGS,
+    component: (props: RouteConfigComponentProps) => (
+      <Private>
+        <Layout.Header />
+        <Layout.Content>
+          <Tags {...props} />
         </Layout.Content>
       </Private>
     )
