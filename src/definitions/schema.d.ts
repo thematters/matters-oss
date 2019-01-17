@@ -79,6 +79,11 @@ export interface GQLArticle extends GQLNode {
    * Viewer has subscribed
    */
   subscribed: boolean
+
+  /**
+   * OSS
+   */
+  oss: GQLArticleOSS
   commentCount: number
   pinCommentLimit: number
   pinCommentLeft: number
@@ -158,6 +163,11 @@ export interface GQLUser extends GQLNode {
    */
   isFollowee: boolean
   status: GQLUserStatus
+
+  /**
+   * OSS
+   */
+  oss: GQLUserOSS
   notices: GQLNoticeConnection
 }
 
@@ -258,6 +268,11 @@ export interface GQLRecommendation {
   hottest: GQLArticleConnection
 
   /**
+   * Matters Today
+   */
+  today: GQLArticle
+
+  /**
    * In case you missed it
    */
   icymi: GQLArticleConnection
@@ -272,6 +287,7 @@ export interface GQLConnectionArgs {
 }
 
 export interface GQLArticleConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLArticleEdge>
 }
@@ -288,6 +304,7 @@ export interface GQLArticleEdge {
 }
 
 export interface GQLTagConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLTagEdge>
 }
@@ -303,11 +320,22 @@ export interface GQLTag extends GQLNode {
   count: number
   articles: GQLArticleConnection
   createdAt: GQLDateTime
+
+  /**
+   * OSS
+   */
+  oss: GQLTagOSS
+}
+
+export interface GQLTagOSS {
+  boost: number
+  score: number
 }
 
 export interface GQLUserConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
-  edges?: Array<GQLUserEdge | null>
+  edges?: Array<GQLUserEdge>
 }
 
 export interface GQLUserEdge {
@@ -316,6 +344,7 @@ export interface GQLUserEdge {
 }
 
 export interface GQLDraftConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLDraftEdge>
 }
@@ -347,6 +376,7 @@ export enum GQLPublishState {
 }
 
 export interface GQLAudiodraftConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLAudiodraftEdge>
 }
@@ -372,6 +402,7 @@ export interface GQLUserActivity {
 }
 
 export interface GQLReadHistoryConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLReadHistoryEdge>
 }
@@ -388,6 +419,7 @@ export interface GQLReadHistory {
 }
 
 export interface GQLRecentSearchConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLRecentSearchEdge>
 }
@@ -454,6 +486,7 @@ export interface GQLMAT {
 }
 
 export interface GQLTransactionConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLTransactionEdge>
 }
@@ -466,7 +499,7 @@ export interface GQLTransactionEdge {
 export interface GQLTransaction {
   delta: number
   purpose: GQLTransactionPurpose
-  reference?: GQLNode
+  content: string
   createdAt: GQLDateTime
 }
 
@@ -492,6 +525,7 @@ export interface GQLInvitationStatus {
 }
 
 export interface GQLInvitationConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLInvitationEdge>
 }
@@ -509,7 +543,13 @@ export interface GQLInvitation extends GQLNode {
   createdAt: GQLDateTime
 }
 
+export interface GQLUserOSS {
+  boost: number
+  score: number
+}
+
 export interface GQLNoticeConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLNoticeEdge>
 }
@@ -560,6 +600,15 @@ export interface GQLNoticeNameMap {
   UserNewFollowerNotice: GQLUserNewFollowerNotice
 }
 
+export interface GQLArticleOSS {
+  boost: number
+  score: number
+  inRecommendToday: boolean
+  inRecommendIcymi: boolean
+  inRecommendHottest: boolean
+  inRecommendNewset: boolean
+}
+
 export interface GQLComment extends GQLNode {
   id: string
   state: GQLCommentState
@@ -574,11 +623,14 @@ export interface GQLComment extends GQLNode {
   pinned: boolean
   upvotes: number
   downvotes: number
-  quote: boolean
   myVote?: GQLVote
   mentions?: Array<GQLUser>
   comments: GQLCommentConnection
   parentComment?: GQLComment
+  quotationStart?: number
+  quotationEnd?: number
+  quotationContent?: string
+  replyTo?: GQLUser
 }
 
 export enum GQLCommentState {
@@ -593,6 +645,7 @@ export enum GQLVote {
 }
 
 export interface GQLCommentConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLCommentEdge>
 }
@@ -604,7 +657,6 @@ export interface GQLCommentEdge {
 
 export interface GQLCommentsInput {
   author?: string
-  quote?: boolean
   sort?: GQLCommentSort
   after?: string
   first?: number
@@ -640,6 +692,7 @@ export enum GQLSearchTypes {
 }
 
 export interface GQLSearchResultConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLSearchResultEdge>
 }
@@ -721,6 +774,7 @@ export interface GQLOSS {
   tags: GQLTagConnection
   reports: GQLReportConnection
   report: GQLReport
+  today: GQLArticleConnection
 }
 
 export interface GQLUsersInput {
@@ -742,6 +796,7 @@ export interface GQLReportsInput {
 }
 
 export interface GQLReportConnection {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLReportEdge>
 }
@@ -857,6 +912,11 @@ export interface GQLMutation {
   clearReadHistory?: boolean
   clearSearchHistory?: boolean
   invite?: boolean
+
+  /**
+   * !!! update state: REMOVE IN PRODUTION !!!
+   */
+  updateUserState__: GQLUser
 }
 
 export interface GQLPublishArticleInput {
@@ -914,7 +974,10 @@ export interface GQLPutCommentInput {
 
 export interface GQLCommentInput {
   content: string
-  quotation?: string
+  quotationStart?: number
+  quotationEnd?: number
+  quotationContent?: string
+  replyTo?: string
   articleId: string
   parentId?: string
   mentions?: Array<string>
@@ -1101,6 +1164,11 @@ export interface GQLInviteInput {
   email?: GQLEmail
 }
 
+export interface GQLUpdateUserStateInput {
+  id: string
+  state: GQLUserState
+}
+
 export interface GQLSubscription {
   _?: boolean
   nodeEdited: GQLNode
@@ -1277,6 +1345,7 @@ export interface GQLResolver {
   TagConnection?: GQLTagConnectionTypeResolver
   TagEdge?: GQLTagEdgeTypeResolver
   Tag?: GQLTagTypeResolver
+  TagOSS?: GQLTagOSSTypeResolver
   UserConnection?: GQLUserConnectionTypeResolver
   UserEdge?: GQLUserEdgeTypeResolver
   DraftConnection?: GQLDraftConnectionTypeResolver
@@ -1300,12 +1369,14 @@ export interface GQLResolver {
   InvitationConnection?: GQLInvitationConnectionTypeResolver
   InvitationEdge?: GQLInvitationEdgeTypeResolver
   Invitation?: GQLInvitationTypeResolver
+  UserOSS?: GQLUserOSSTypeResolver
   NoticeConnection?: GQLNoticeConnectionTypeResolver
   NoticeEdge?: GQLNoticeEdgeTypeResolver
   Notice?: {
     __resolveType: GQLNoticeTypeResolver
   }
 
+  ArticleOSS?: GQLArticleOSSTypeResolver
   Comment?: GQLCommentTypeResolver
   CommentConnection?: GQLCommentConnectionTypeResolver
   CommentEdge?: GQLCommentEdgeTypeResolver
@@ -1482,6 +1553,7 @@ export interface GQLArticleTypeResolver<TParent = any> {
   appreciateLeft?: ArticleToAppreciateLeftResolver<TParent>
   hasAppreciate?: ArticleToHasAppreciateResolver<TParent>
   subscribed?: ArticleToSubscribedResolver<TParent>
+  oss?: ArticleToOssResolver<TParent>
   commentCount?: ArticleToCommentCountResolver<TParent>
   pinCommentLimit?: ArticleToPinCommentLimitResolver<TParent>
   pinCommentLeft?: ArticleToPinCommentLeftResolver<TParent>
@@ -1774,6 +1846,15 @@ export interface ArticleToSubscribedResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface ArticleToOssResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface ArticleToCommentCountResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
@@ -1851,6 +1932,7 @@ export interface GQLUserTypeResolver<TParent = any> {
   isFollower?: UserToIsFollowerResolver<TParent>
   isFollowee?: UserToIsFolloweeResolver<TParent>
   status?: UserToStatusResolver<TParent>
+  oss?: UserToOssResolver<TParent>
   notices?: UserToNoticesResolver<TParent>
 }
 
@@ -2011,6 +2093,15 @@ export interface UserToIsFolloweeResolver<TParent = any, TResult = any> {
 }
 
 export interface UserToStatusResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface UserToOssResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
@@ -2351,6 +2442,7 @@ export interface GQLRecommendationTypeResolver<TParent = any> {
   followeeArticles?: RecommendationToFolloweeArticlesResolver<TParent>
   newest?: RecommendationToNewestResolver<TParent>
   hottest?: RecommendationToHottestResolver<TParent>
+  today?: RecommendationToTodayResolver<TParent>
   icymi?: RecommendationToIcymiResolver<TParent>
   tags?: RecommendationToTagsResolver<TParent>
   topics?: RecommendationToTopicsResolver<TParent>
@@ -2391,6 +2483,15 @@ export interface RecommendationToHottestResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: RecommendationToHottestArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface RecommendationToTodayResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -2445,8 +2546,21 @@ export interface RecommendationToAuthorsResolver<TParent = any, TResult = any> {
 }
 
 export interface GQLArticleConnectionTypeResolver<TParent = any> {
+  totalCount?: ArticleConnectionToTotalCountResolver<TParent>
   pageInfo?: ArticleConnectionToPageInfoResolver<TParent>
   edges?: ArticleConnectionToEdgesResolver<TParent>
+}
+
+export interface ArticleConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface ArticleConnectionToPageInfoResolver<
@@ -2530,8 +2644,21 @@ export interface ArticleEdgeToNodeResolver<TParent = any, TResult = any> {
 }
 
 export interface GQLTagConnectionTypeResolver<TParent = any> {
+  totalCount?: TagConnectionToTotalCountResolver<TParent>
   pageInfo?: TagConnectionToPageInfoResolver<TParent>
   edges?: TagConnectionToEdgesResolver<TParent>
+}
+
+export interface TagConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface TagConnectionToPageInfoResolver<TParent = any, TResult = any> {
@@ -2581,6 +2708,7 @@ export interface GQLTagTypeResolver<TParent = any> {
   count?: TagToCountResolver<TParent>
   articles?: TagToArticlesResolver<TParent>
   createdAt?: TagToCreatedAtResolver<TParent>
+  oss?: TagToOssResolver<TParent>
 }
 
 export interface TagToIdResolver<TParent = any, TResult = any> {
@@ -2631,9 +2759,54 @@ export interface TagToCreatedAtResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface TagToOssResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLTagOSSTypeResolver<TParent = any> {
+  boost?: TagOSSToBoostResolver<TParent>
+  score?: TagOSSToScoreResolver<TParent>
+}
+
+export interface TagOSSToBoostResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface TagOSSToScoreResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface GQLUserConnectionTypeResolver<TParent = any> {
+  totalCount?: UserConnectionToTotalCountResolver<TParent>
   pageInfo?: UserConnectionToPageInfoResolver<TParent>
   edges?: UserConnectionToEdgesResolver<TParent>
+}
+
+export interface UserConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface UserConnectionToPageInfoResolver<
@@ -2681,8 +2854,21 @@ export interface UserEdgeToNodeResolver<TParent = any, TResult = any> {
 }
 
 export interface GQLDraftConnectionTypeResolver<TParent = any> {
+  totalCount?: DraftConnectionToTotalCountResolver<TParent>
   pageInfo?: DraftConnectionToPageInfoResolver<TParent>
   edges?: DraftConnectionToEdgesResolver<TParent>
+}
+
+export interface DraftConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface DraftConnectionToPageInfoResolver<
@@ -2843,8 +3029,21 @@ export interface DraftToPublishStateResolver<TParent = any, TResult = any> {
 }
 
 export interface GQLAudiodraftConnectionTypeResolver<TParent = any> {
+  totalCount?: AudiodraftConnectionToTotalCountResolver<TParent>
   pageInfo?: AudiodraftConnectionToPageInfoResolver<TParent>
   edges?: AudiodraftConnectionToEdgesResolver<TParent>
+}
+
+export interface AudiodraftConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface AudiodraftConnectionToPageInfoResolver<
@@ -3000,8 +3199,21 @@ export interface UserActivityToRecentSearchesResolver<
 }
 
 export interface GQLReadHistoryConnectionTypeResolver<TParent = any> {
+  totalCount?: ReadHistoryConnectionToTotalCountResolver<TParent>
   pageInfo?: ReadHistoryConnectionToPageInfoResolver<TParent>
   edges?: ReadHistoryConnectionToEdgesResolver<TParent>
+}
+
+export interface ReadHistoryConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface ReadHistoryConnectionToPageInfoResolver<
@@ -3085,8 +3297,21 @@ export interface ReadHistoryToReadAtResolver<TParent = any, TResult = any> {
 }
 
 export interface GQLRecentSearchConnectionTypeResolver<TParent = any> {
+  totalCount?: RecentSearchConnectionToTotalCountResolver<TParent>
   pageInfo?: RecentSearchConnectionToPageInfoResolver<TParent>
   edges?: RecentSearchConnectionToEdgesResolver<TParent>
+}
+
+export interface RecentSearchConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface RecentSearchConnectionToPageInfoResolver<
@@ -3310,8 +3535,21 @@ export interface MATToHistoryResolver<TParent = any, TResult = any> {
 }
 
 export interface GQLTransactionConnectionTypeResolver<TParent = any> {
+  totalCount?: TransactionConnectionToTotalCountResolver<TParent>
   pageInfo?: TransactionConnectionToPageInfoResolver<TParent>
   edges?: TransactionConnectionToEdgesResolver<TParent>
+}
+
+export interface TransactionConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface TransactionConnectionToPageInfoResolver<
@@ -3364,7 +3602,7 @@ export interface TransactionEdgeToNodeResolver<TParent = any, TResult = any> {
 export interface GQLTransactionTypeResolver<TParent = any> {
   delta?: TransactionToDeltaResolver<TParent>
   purpose?: TransactionToPurposeResolver<TParent>
-  reference?: TransactionToReferenceResolver<TParent>
+  content?: TransactionToContentResolver<TParent>
   createdAt?: TransactionToCreatedAtResolver<TParent>
 }
 
@@ -3386,7 +3624,7 @@ export interface TransactionToPurposeResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
-export interface TransactionToReferenceResolver<TParent = any, TResult = any> {
+export interface TransactionToContentResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
@@ -3441,8 +3679,21 @@ export interface InvitationStatusToSentResolver<TParent = any, TResult = any> {
 }
 
 export interface GQLInvitationConnectionTypeResolver<TParent = any> {
+  totalCount?: InvitationConnectionToTotalCountResolver<TParent>
   pageInfo?: InvitationConnectionToPageInfoResolver<TParent>
   edges?: InvitationConnectionToEdgesResolver<TParent>
+}
+
+export interface InvitationConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface InvitationConnectionToPageInfoResolver<
@@ -3545,9 +3796,45 @@ export interface InvitationToCreatedAtResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface GQLUserOSSTypeResolver<TParent = any> {
+  boost?: UserOSSToBoostResolver<TParent>
+  score?: UserOSSToScoreResolver<TParent>
+}
+
+export interface UserOSSToBoostResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface UserOSSToScoreResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface GQLNoticeConnectionTypeResolver<TParent = any> {
+  totalCount?: NoticeConnectionToTotalCountResolver<TParent>
   pageInfo?: NoticeConnectionToPageInfoResolver<TParent>
   edges?: NoticeConnectionToEdgesResolver<TParent>
+}
+
+export interface NoticeConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface NoticeConnectionToPageInfoResolver<
@@ -3611,6 +3898,81 @@ export interface GQLNoticeTypeResolver<TParent = any> {
     | 'UpstreamArticleArchivedNotice'
     | 'UserNewFollowerNotice'
 }
+export interface GQLArticleOSSTypeResolver<TParent = any> {
+  boost?: ArticleOSSToBoostResolver<TParent>
+  score?: ArticleOSSToScoreResolver<TParent>
+  inRecommendToday?: ArticleOSSToInRecommendTodayResolver<TParent>
+  inRecommendIcymi?: ArticleOSSToInRecommendIcymiResolver<TParent>
+  inRecommendHottest?: ArticleOSSToInRecommendHottestResolver<TParent>
+  inRecommendNewset?: ArticleOSSToInRecommendNewsetResolver<TParent>
+}
+
+export interface ArticleOSSToBoostResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleOSSToScoreResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleOSSToInRecommendTodayResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleOSSToInRecommendIcymiResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleOSSToInRecommendHottestResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleOSSToInRecommendNewsetResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface GQLCommentTypeResolver<TParent = any> {
   id?: CommentToIdResolver<TParent>
   state?: CommentToStateResolver<TParent>
@@ -3621,11 +3983,14 @@ export interface GQLCommentTypeResolver<TParent = any> {
   pinned?: CommentToPinnedResolver<TParent>
   upvotes?: CommentToUpvotesResolver<TParent>
   downvotes?: CommentToDownvotesResolver<TParent>
-  quote?: CommentToQuoteResolver<TParent>
   myVote?: CommentToMyVoteResolver<TParent>
   mentions?: CommentToMentionsResolver<TParent>
   comments?: CommentToCommentsResolver<TParent>
   parentComment?: CommentToParentCommentResolver<TParent>
+  quotationStart?: CommentToQuotationStartResolver<TParent>
+  quotationEnd?: CommentToQuotationEndResolver<TParent>
+  quotationContent?: CommentToQuotationContentResolver<TParent>
+  replyTo?: CommentToReplyToResolver<TParent>
 }
 
 export interface CommentToIdResolver<TParent = any, TResult = any> {
@@ -3709,15 +4074,6 @@ export interface CommentToDownvotesResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
-export interface CommentToQuoteResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
 export interface CommentToMyVoteResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
@@ -3757,9 +4113,61 @@ export interface CommentToParentCommentResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface CommentToQuotationStartResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CommentToQuotationEndResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CommentToQuotationContentResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CommentToReplyToResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface GQLCommentConnectionTypeResolver<TParent = any> {
+  totalCount?: CommentConnectionToTotalCountResolver<TParent>
   pageInfo?: CommentConnectionToPageInfoResolver<TParent>
   edges?: CommentConnectionToEdgesResolver<TParent>
+}
+
+export interface CommentConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface CommentConnectionToPageInfoResolver<
@@ -3810,8 +4218,21 @@ export interface CommentEdgeToNodeResolver<TParent = any, TResult = any> {
 }
 
 export interface GQLSearchResultConnectionTypeResolver<TParent = any> {
+  totalCount?: SearchResultConnectionToTotalCountResolver<TParent>
   pageInfo?: SearchResultConnectionToPageInfoResolver<TParent>
   edges?: SearchResultConnectionToEdgesResolver<TParent>
+}
+
+export interface SearchResultConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface SearchResultConnectionToPageInfoResolver<
@@ -4235,6 +4656,7 @@ export interface GQLOSSTypeResolver<TParent = any> {
   tags?: OSSToTagsResolver<TParent>
   reports?: OSSToReportsResolver<TParent>
   report?: OSSToReportResolver<TParent>
+  today?: OSSToTodayResolver<TParent>
 }
 
 export interface OSSToUsersArgs {
@@ -4297,9 +4719,34 @@ export interface OSSToReportResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface OSSToTodayArgs {
+  input: GQLConnectionArgs
+}
+export interface OSSToTodayResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: OSSToTodayArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface GQLReportConnectionTypeResolver<TParent = any> {
+  totalCount?: ReportConnectionToTotalCountResolver<TParent>
   pageInfo?: ReportConnectionToPageInfoResolver<TParent>
   edges?: ReportConnectionToEdgesResolver<TParent>
+}
+
+export interface ReportConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
 }
 
 export interface ReportConnectionToPageInfoResolver<
@@ -4481,6 +4928,7 @@ export interface GQLMutationTypeResolver<TParent = any> {
   clearReadHistory?: MutationToClearReadHistoryResolver<TParent>
   clearSearchHistory?: MutationToClearSearchHistoryResolver<TParent>
   invite?: MutationToInviteResolver<TParent>
+  updateUserState__?: MutationToUpdateUserState__Resolver<TParent>
 }
 
 export interface MutationTo_Resolver<TParent = any, TResult = any> {
@@ -4985,6 +5433,21 @@ export interface MutationToInviteResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: MutationToInviteArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface MutationToUpdateUserState__Args {
+  input: GQLUpdateUserStateInput
+}
+export interface MutationToUpdateUserState__Resolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: MutationToUpdateUserState__Args,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult

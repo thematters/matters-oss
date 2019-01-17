@@ -1,40 +1,63 @@
 import * as React from 'react'
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
+import _get from 'lodash/get'
 
-class MattersToday extends React.PureComponent {
+import SearchBar from '../../../components/SearchBar'
+import ErrorMessage from '../../../components/ErrorMessage'
+import ArticleDigestList from '../../../components/Article/DigestList'
+import withMattersTodayList from './withMattersTodayList'
+
+import { ArticleDigest } from '../../../definitions'
+import { MattersTodayChildProps, SearchArticlesChildProps } from './type'
+
+class ArticleList extends React.Component<
+  MattersTodayChildProps & SearchArticlesChildProps
+> {
+  private _renderHeader() {
+    return <SearchBar placeholder="請輸入文章標題" />
+  }
+
+  private _renderContent() {
+    const {
+      data: { oss, search, loading, error }
+    } = this.props
+
+    if (error) {
+      return <ErrorMessage error={error} />
+    }
+
+    if (loading) {
+      return (
+        <ArticleDigestList
+          data={[]}
+          loading
+          recommend={{ toggleToday: true }}
+        />
+      )
+    }
+
+    let articleTableData: ArticleDigest[] = []
+    if (search) {
+      articleTableData = search.edges.map(({ node }) => node)
+    }
+    if (oss && oss.today) {
+      articleTableData = oss.today.edges.map(({ node }) => node)
+    }
+    return (
+      <ArticleDigestList
+        data={articleTableData}
+        recommend={{ toggleToday: true }}
+      />
+    )
+  }
+
   public render() {
     return (
-      <Query
-        query={gql`
-          {
-            node(input: { id: "VXNlcjox" }) {
-              ... on User {
-                id
-                info {
-                  displayName
-                  userName
-                }
-                notices(input: { limit: 50 }) {
-                  id
-                  __typename
-                  createdAt
-                  unread
-                }
-              }
-            }
-          }
-        `}
-      >
-        {({ loading, error, data }) => {
-          if (loading) return <p>Loading...</p>
-          if (error) return <p>Error :(</p>
-
-          return data.node.info.displayName
-        }}
-      </Query>
+      <>
+        {this._renderHeader()}
+        {this._renderContent()}
+      </>
     )
   }
 }
 
-export default MattersToday
+export default withMattersTodayList(ArticleList)

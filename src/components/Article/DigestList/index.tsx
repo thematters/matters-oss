@@ -12,10 +12,23 @@ import ArticleStateTag from '../StateTag'
 
 import { PATH } from '../../../constants'
 import { ArticleDigest } from '../../../definitions'
+import ToggleRecommendToday from '../ToggleRecommendToday'
+import ToggleRecommendIcymi from '../ToggleRecommendIcymi'
+import ToggleRecommendHottest from '../ToggleRecommendHottest'
+import ToggleRecommendNewest from '../ToggleRecommendNewest'
+import ToggleRecommendTopic from '../ToggleRecommendTopic'
 
 type ArticleDigestListProps = {
   data: ArticleDigest[]
   loading?: boolean
+  recommend?: {
+    toggleToday?: boolean
+    toggleIcymi?: boolean
+    toggleHottest?: boolean
+    toggleNewest?: boolean
+    toggleTopic?: boolean
+    setBoost?: boolean
+  }
 }
 
 class ArticleDigestList extends React.Component<ArticleDigestListProps> {
@@ -28,7 +41,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
   }
 
   public render() {
-    const { data, loading = false } = this.props
+    const { data, loading = false, recommend } = this.props
 
     return (
       <Table<ArticleDigest>
@@ -59,25 +72,89 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           title="狀態"
           render={state => <ArticleStateTag state={state} />}
         />
-        <Table.Column<ArticleDigest>
-          dataIndex="public"
-          title="白名單"
-          render={(isPublic, record) => (
-            <TogglePublic checked={isPublic} articleId={record.id} />
-          )}
-        />
-        <Table.Column<ArticleDigest>
-          dataIndex="live"
-          title="LIVE"
-          render={(live, record) => (
-            <ToggleLive checked={live} articleId={record.id} />
-          )}
-        />
+        {!recommend && (
+          <Table.Column<ArticleDigest>
+            dataIndex="public"
+            title="白名單"
+            render={(isPublic, record) => (
+              <TogglePublic checked={isPublic} articleId={record.id} />
+            )}
+          />
+        )}
+        {!recommend && (
+          <Table.Column<ArticleDigest>
+            dataIndex="live"
+            title="LIVE"
+            render={(live, record) => (
+              <ToggleLive checked={live} articleId={record.id} />
+            )}
+          />
+        )}
         <Table.Column<ArticleDigest>
           dataIndex="createdAt"
           title="時間"
           render={createdAt => <DateTime date={createdAt} />}
         />
+        {recommend && recommend.toggleToday && (
+          <Table.Column<ArticleDigest>
+            dataIndex="oss.inRecommendToday"
+            title="在 Matters Today 顯示"
+            render={(inRecommendToday, record) => (
+              <ToggleRecommendToday
+                checked={inRecommendToday}
+                articleId={record.id}
+              />
+            )}
+          />
+        )}
+        {recommend && recommend.toggleIcymi && (
+          <Table.Column<ArticleDigest>
+            dataIndex="oss.inRecommendIcymi"
+            title="在「不要錯過」顯示"
+            render={(inRecommendIcymi, record) => (
+              <ToggleRecommendIcymi
+                checked={inRecommendIcymi}
+                articleId={record.id}
+              />
+            )}
+          />
+        )}
+        {recommend && recommend.toggleHottest && (
+          <Table.Column<ArticleDigest>
+            dataIndex="oss.inRecommendHottest"
+            title="在「熱門文章」顯示"
+            render={(inRecommendHottest, record) => (
+              <ToggleRecommendHottest
+                checked={inRecommendHottest}
+                articleId={record.id}
+              />
+            )}
+          />
+        )}
+        {recommend && recommend.toggleNewest && (
+          <Table.Column<ArticleDigest>
+            dataIndex="oss.inRecommendNewest"
+            title="在「最新發布」顯示"
+            render={(inRecommendNewest, record) => (
+              <ToggleRecommendNewest
+                checked={inRecommendNewest}
+                articleId={record.id}
+              />
+            )}
+          />
+        )}
+        {recommend && recommend.toggleTopic && (
+          <Table.Column<ArticleDigest>
+            dataIndex="oss.inRecommendTopic"
+            title="在「熱議話題」顯示"
+            render={(inRecommendTopic, record) => (
+              <ToggleRecommendTopic
+                checked={inRecommendTopic}
+                articleId={record.id}
+              />
+            )}
+          />
+        )}
       </Table>
     )
   }

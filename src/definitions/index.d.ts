@@ -70,6 +70,15 @@ export type ArticleDigest = {
   author: UserDigest
   title: string
   tags: TagDigest[]
+  oss: {
+    boost: number
+    score: number
+    inRecommendToday: boolean
+    inRecommendIcymi: boolean
+    inRecommendHottest: boolean
+    inRecommendNewset: boolean
+    inRecommendTopic: boolean
+  }
 }
 
 export type ArticleDetail = ArticleDigest & {

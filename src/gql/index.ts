@@ -53,6 +53,15 @@ export const GQL_FRAGMENT_ARTICLE_DIGEST = gql`
     tags {
       ...TagDigest
     }
+    oss {
+      boost
+      score
+      inRecommendToday
+      inRecommendIcymi
+      inRecommendHottest
+      inRecommendNewset
+      inRecommendTopic
+    }
   }
   ${GQL_FRAGMENT_TAG_DIGEST}
   ${GQL_FRAGMENT_USER_DIGEST}
