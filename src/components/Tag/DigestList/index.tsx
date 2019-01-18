@@ -5,10 +5,10 @@ import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
+import SetBoost from '../../SetBoost'
 
 import { PATH } from '../../../constants'
 import { TagDigest } from '../../../definitions'
-import SetTagBoost from '../SetTagBoost'
 
 type TagDigestListProps = {
   data: TagDigest[]
@@ -255,7 +255,7 @@ class TagDigestList extends React.Component<
               dataIndex="oss.boost"
               title="Boost"
               render={(boost, record) => (
-                <SetTagBoost boost={boost} tagId={record.id} />
+                <SetBoost boost={boost} id={record.id} type="Tag" />
               )}
             />
           )}

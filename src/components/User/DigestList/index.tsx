@@ -5,9 +5,9 @@ import _compact from 'lodash/compact'
 
 import UserStateTag from '../../../components/User/StateTag'
 import UserLink from '../../UserLink'
+import SetBoost from '../../SetBoost'
 
 import { UserDigest } from '../../../definitions'
-import SetUserBoost from '../SetUserBoost'
 
 type UserDigestListProps = {
   data: UserDigest[]
@@ -64,7 +64,7 @@ class UserDigestList extends React.Component<UserDigestListProps> {
             dataIndex="oss.boost"
             title="Boost"
             render={(boost, record) => (
-              <SetUserBoost boost={boost} userId={record.id} />
+              <SetBoost boost={boost} id={record.id} type="User" />
             )}
           />
         )}

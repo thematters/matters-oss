@@ -58,10 +58,25 @@ export interface GQLArticle extends GQLNode {
    * MAT recieved for this article
    */
   MAT: number
+
+  /**
+   *
+   * @deprecated not used
+   */
   participantCount: number
+
+  /**
+   *
+   * @deprecated not used
+   */
   participants: GQLUserConnection
   subscribers: GQLUserConnection
   appreciators: GQLUserConnection
+
+  /**
+   *
+   * @deprecated Use `appreciators.totalCount`.
+   */
   appreciatorCount: number
 
   /**
@@ -317,6 +332,11 @@ export interface GQLTagEdge {
 export interface GQLTag extends GQLNode {
   id: string
   content: string
+
+  /**
+   *
+   * @deprecated Use `articles.totalCount`.
+   */
   count: number
   articles: GQLArticleConnection
   createdAt: GQLDateTime
@@ -328,8 +348,21 @@ export interface GQLTag extends GQLNode {
 }
 
 export interface GQLTagOSS {
-  boost: number
-  score: number
+  boost: GQLNonNegativeFloat
+  score: GQLNonNegativeFloat
+}
+
+export type GQLNonNegativeFloat = any
+
+export interface GQLAuthorsInput {
+  after?: string
+  first?: number
+  filter?: GQLAuthorsFilter
+}
+
+export interface GQLAuthorsFilter {
+  random?: boolean
+  followed?: boolean
 }
 
 export interface GQLUserConnection {
@@ -413,7 +446,6 @@ export interface GQLReadHistoryEdge {
 }
 
 export interface GQLReadHistory {
-  id: string
   article: GQLArticle
   readAt: GQLDateTime
 }
@@ -440,11 +472,13 @@ export interface GQLUserStatus {
 
   /**
    * Number of articles published by user
+   * @deprecated Use `User.articles.totalCount`.
    */
   articleCount: number
 
   /**
    * Number of views on articles
+   * @deprecated Use `User.drafts.totalCount`.
    */
   viewCount: number
   draftCount: number
@@ -453,16 +487,28 @@ export interface GQLUserStatus {
    * Number of comments posted by user
    */
   commentCount: number
+
+  /**
+   *
+   * @deprecated not used
+   */
   quotationCount: number
+
+  /**
+   *
+   * @deprecated Use `User.subscriptions.totalCount`.
+   */
   subscriptionCount: number
 
   /**
    * Number of user that this user follows
+   * @deprecated Use `User.followees.totalCount`.
    */
   followeeCount: number
 
   /**
    * Number of user that follows this user
+   * @deprecated Use `User.followers.totalCount`.
    */
   followerCount: number
 
@@ -544,8 +590,8 @@ export interface GQLInvitation extends GQLNode {
 }
 
 export interface GQLUserOSS {
-  boost: number
-  score: number
+  boost: GQLNonNegativeFloat
+  score: GQLNonNegativeFloat
 }
 
 export interface GQLNoticeConnection {
@@ -601,12 +647,13 @@ export interface GQLNoticeNameMap {
 }
 
 export interface GQLArticleOSS {
-  boost: number
-  score: number
+  boost: GQLNonNegativeFloat
+  score: GQLNonNegativeFloat
   inRecommendToday: boolean
   inRecommendIcymi: boolean
   inRecommendHottest: boolean
   inRecommendNewset: boolean
+  inRecommendTopic: boolean
 }
 
 export interface GQLComment extends GQLNode {
@@ -630,7 +677,7 @@ export interface GQLComment extends GQLNode {
   quotationStart?: number
   quotationEnd?: number
   quotationContent?: string
-  replyTo?: GQLUser
+  replyTo?: GQLComment
 }
 
 export enum GQLCommentState {
@@ -836,6 +883,10 @@ export interface GQLMutation {
   appreciateArticle: GQLArticle
   readArticle?: boolean
   recallPublish: GQLDraft
+
+  /**
+   * OSS
+   */
   toggleArticleLive: GQLArticle
   toggleArticlePublic: GQLArticle
   putComment: GQLComment
@@ -860,6 +911,7 @@ export interface GQLMutation {
   markAllNoticesAsRead?: boolean
   singleFileUpload: GQLAsset
   feedback?: boolean
+  setBoost: GQLNode
 
   /**
    * send/confirm verification code
@@ -1066,6 +1118,18 @@ export interface GQLFeedbackInput {
   contact?: string
 }
 
+export interface GQLSetBoostInput {
+  id: string
+  boost: GQLNonNegativeFloat
+  type: GQLBoostTypes
+}
+
+export enum GQLBoostTypes {
+  Article = 'Article',
+  User = 'User',
+  Tag = 'Tag'
+}
+
 export interface GQLSendVerificationCodeInput {
   email: GQLEmail
   type: GQLVerificationCodeType
@@ -1270,12 +1334,32 @@ export interface GQLImportArticlesInput {
 
 export type GQLJSON = any
 
+export type GQLNegativeFloat = any
+
+export type GQLNegativeInt = any
+
+export type GQLNonNegativeInt = any
+
+export type GQLNonPositiveFloat = any
+
+export type GQLNonPositiveInt = any
+
 export interface GQLOfficialAnnouncementNotice extends GQLNotice {
   id: string
   unread: boolean
   createdAt: GQLDateTime
   message: string
   link?: GQLURL
+}
+
+export type GQLPositiveFloat = any
+
+export type GQLPositiveInt = any
+
+export enum GQLRole {
+  vistor = 'vistor',
+  user = 'user',
+  admin = 'admin'
 }
 
 export interface GQLSubscribedArticleNewCommentNotice extends GQLNotice {
@@ -1346,6 +1430,7 @@ export interface GQLResolver {
   TagEdge?: GQLTagEdgeTypeResolver
   Tag?: GQLTagTypeResolver
   TagOSS?: GQLTagOSSTypeResolver
+  NonNegativeFloat?: GraphQLScalarType
   UserConnection?: GQLUserConnectionTypeResolver
   UserEdge?: GQLUserEdgeTypeResolver
   DraftConnection?: GQLDraftConnectionTypeResolver
@@ -1409,7 +1494,14 @@ export interface GQLResolver {
   Date?: GraphQLScalarType
   DownstreamArticleArchivedNotice?: GQLDownstreamArticleArchivedNoticeTypeResolver
   JSON?: GraphQLScalarType
+  NegativeFloat?: GraphQLScalarType
+  NegativeInt?: GraphQLScalarType
+  NonNegativeInt?: GraphQLScalarType
+  NonPositiveFloat?: GraphQLScalarType
+  NonPositiveInt?: GraphQLScalarType
   OfficialAnnouncementNotice?: GQLOfficialAnnouncementNoticeTypeResolver
+  PositiveFloat?: GraphQLScalarType
+  PositiveInt?: GraphQLScalarType
   SubscribedArticleNewCommentNotice?: GQLSubscribedArticleNewCommentNoticeTypeResolver
   Time?: GraphQLScalarType
   UpstreamArticleArchivedNotice?: GQLUpstreamArticleArchivedNoticeTypeResolver
@@ -2534,7 +2626,7 @@ export interface RecommendationToTopicsResolver<TParent = any, TResult = any> {
 }
 
 export interface RecommendationToAuthorsArgs {
-  input: GQLConnectionArgs
+  input: GQLAuthorsInput
 }
 export interface RecommendationToAuthorsResolver<TParent = any, TResult = any> {
   (
@@ -3264,18 +3356,8 @@ export interface ReadHistoryEdgeToNodeResolver<TParent = any, TResult = any> {
 }
 
 export interface GQLReadHistoryTypeResolver<TParent = any> {
-  id?: ReadHistoryToIdResolver<TParent>
   article?: ReadHistoryToArticleResolver<TParent>
   readAt?: ReadHistoryToReadAtResolver<TParent>
-}
-
-export interface ReadHistoryToIdResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
 }
 
 export interface ReadHistoryToArticleResolver<TParent = any, TResult = any> {
@@ -3905,6 +3987,7 @@ export interface GQLArticleOSSTypeResolver<TParent = any> {
   inRecommendIcymi?: ArticleOSSToInRecommendIcymiResolver<TParent>
   inRecommendHottest?: ArticleOSSToInRecommendHottestResolver<TParent>
   inRecommendNewset?: ArticleOSSToInRecommendNewsetResolver<TParent>
+  inRecommendTopic?: ArticleOSSToInRecommendTopicResolver<TParent>
 }
 
 export interface ArticleOSSToBoostResolver<TParent = any, TResult = any> {
@@ -3962,6 +4045,18 @@ export interface ArticleOSSToInRecommendHottestResolver<
 }
 
 export interface ArticleOSSToInRecommendNewsetResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleOSSToInRecommendTopicResolver<
   TParent = any,
   TResult = any
 > {
@@ -4912,6 +5007,7 @@ export interface GQLMutationTypeResolver<TParent = any> {
   markAllNoticesAsRead?: MutationToMarkAllNoticesAsReadResolver<TParent>
   singleFileUpload?: MutationToSingleFileUploadResolver<TParent>
   feedback?: MutationToFeedbackResolver<TParent>
+  setBoost?: MutationToSetBoostResolver<TParent>
   sendVerificationCode?: MutationToSendVerificationCodeResolver<TParent>
   confirmVerificationCode?: MutationToConfirmVerificationCodeResolver<TParent>
   resetPassword?: MutationToResetPasswordResolver<TParent>
@@ -5250,6 +5346,18 @@ export interface MutationToFeedbackResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: MutationToFeedbackArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface MutationToSetBoostArgs {
+  input: GQLSetBoostInput
+}
+export interface MutationToSetBoostResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: MutationToSetBoostArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult

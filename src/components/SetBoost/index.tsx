@@ -3,34 +3,52 @@ import { InputNumber, Button } from 'antd'
 import _get from 'lodash/get'
 
 import ErrorMessage from '../ErrorMessage'
-
-type SetBoostProps = {
-  boost: number
-  onSubmit: any
-  error: any
-  loading: boolean
-}
+import withSetBoost, { ChildProps } from './withSetBoost'
 
 type SetBoostState = {
   boost: number
+  loading: boolean
+  error: any
 }
 
-class SetBoost extends React.Component<SetBoostProps, SetBoostState> {
+class SetBoost extends React.Component<ChildProps, SetBoostState> {
   state: Readonly<SetBoostState> = {
-    boost: this.props.boost
+    boost: this.props.boost,
+    loading: false,
+    error: null
+  }
+
+  private _onSubmit = async () => {
+    this.setState({ loading: true, error: null })
+
+    const { mutate, id, type } = this.props
+
+    try {
+      const result = await mutate({
+        variables: {
+          input: {
+            id,
+            boost: this.state.boost,
+            type
+          }
+        }
+      })
+      // const newBoost = _get(result, 'data.SetArticleBoost.oss.boost')
+      this.setState({ loading: false, error: null })
+    } catch (error) {
+      this.setState({ loading: false, error })
+    }
   }
 
   private _onChange = (value: number | undefined) => {
     if (!value || Number.isNaN(value)) {
       return
     }
-
     this.setState({ boost: value })
   }
 
   public render() {
-    const { loading, error, onSubmit } = this.props
-    const { boost } = this.state
+    const { boost, loading, error } = this.state
     const boostChanged = this.props.boost !== boost
 
     if (error) {
@@ -49,7 +67,7 @@ class SetBoost extends React.Component<SetBoostProps, SetBoostState> {
           style={{ margin: '4px', verticalAlign: 'middle' }}
         />
         <Button
-          onClick={() => onSubmit(boost)}
+          onClick={this._onSubmit}
           type="primary"
           size="small"
           loading={loading}
@@ -68,4 +86,4 @@ class SetBoost extends React.Component<SetBoostProps, SetBoostState> {
   }
 }
 
-export default SetBoost
+export default withSetBoost(SetBoost)

@@ -8,15 +8,15 @@ import DateTime from '../../DateTime'
 import UserLink from '../../UserLink'
 import ToggleLive from '../ToggleLive'
 import TogglePublic from '../TogglePublic'
-import ArticleStateTag from '../StateTag'
-
-import { PATH } from '../../../constants'
-import { ArticleDigest } from '../../../definitions'
+import SetBoost from '../../SetBoost'
 import ToggleRecommendToday from '../ToggleRecommendToday'
 import ToggleRecommendIcymi from '../ToggleRecommendIcymi'
 import ToggleRecommendHottest from '../ToggleRecommendHottest'
 import ToggleRecommendNewest from '../ToggleRecommendNewest'
-import SetArticleBoost from '../SetArticleBoost'
+import ArticleStateTag from '../StateTag'
+
+import { PATH } from '../../../constants'
+import { ArticleDigest } from '../../../definitions'
 
 type ArticleDigestListProps = {
   data: ArticleDigest[]
@@ -147,7 +147,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             dataIndex="oss.boost"
             title="Boost"
             render={(boost, record) => (
-              <SetArticleBoost boost={boost} articleId={record.id} />
+              <SetBoost boost={boost} id={record.id} type="Article" />
             )}
           />
         )}

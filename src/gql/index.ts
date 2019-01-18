@@ -91,7 +91,6 @@ export const GQL_FRAGMENT_COMMENT_DIGEST = gql`
     pinned
     upvotes
     downvotes
-    quote
   }
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
   ${GQL_FRAGMENT_USER_DIGEST}

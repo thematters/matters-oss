@@ -15,7 +15,7 @@ import {
 import { GQL_FRAGMENT_USER_DIGEST } from '../../../gql'
 
 const GET_AUTHORS = gql`
-  query Authors($input: ConnectionArgs!) {
+  query Authors($input: AuthorsInput!) {
     viewer {
       recommendation {
         authors(input: $input) {
