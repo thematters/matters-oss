@@ -170,6 +170,7 @@ export const GQL_FRAGMENT_USER_DETAIL = gql`
       followeeCount
       followerCount
     }
+    remark
   }
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
   ${GQL_FRAGMENT_USER_DIGEST}
@@ -189,6 +190,7 @@ export const GQL_FRAGMENT_TAG_DETAIL = gql`
         }
       }
     }
+    remark
   }
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
 `
@@ -239,6 +241,7 @@ export const GQL_FRAGMENT_ARTICLE_DETAIL = gql`
     # appreciatorCount
     subscribed
     hasAppreciate
+    remark
   }
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
   ${GQL_FRAGMENT_USER_DIGEST}
@@ -267,6 +270,7 @@ export const GQL_FRAGMENT_REPORT = gql`
     description
     contact
     createdAt
+    remark
   }
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
   ${GQL_FRAGMENT_COMMENT_DIGEST}

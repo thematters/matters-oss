@@ -5,6 +5,7 @@ import _get from 'lodash/get'
 import ErrorMessage from '../../components/ErrorMessage'
 import Divider from '../../components/Divider'
 import DateTime from '../../components/DateTime'
+import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
 import InvitationList from '../../components/User/InvitationList'
 import UserStateTag from '../../components/User/StateTag'
@@ -75,6 +76,13 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         <Divider size="large" />
 
         <DescriptionList size="large" title="設定" />
+        <Divider size="large" />
+
+        <DescriptionList size="large" title="備註">
+          <Col span={24} lg={12} style={{ marginBottom: 16 }}>
+            <Remark id={user.id} type="User" remark={user.remark} />
+          </Col>
+        </DescriptionList>
         <Divider size="large" />
 
         <DescriptionList size="large" title="自我描述">

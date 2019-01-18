@@ -8,6 +8,7 @@ import DateTime from '../../components/DateTime'
 import DescriptionList from '../../components/DescriptionList'
 import ArticleDigestList from '../../components/Article/DigestList'
 import CommentDigestList from '../../components/Comment/DigestList'
+import Remark from '../../components/Remark'
 
 import withReportDetail, { ReportDetailChildProps } from './withReportDetail'
 import UserLink from '../../components/UserLink'
@@ -33,6 +34,7 @@ class ReportDetail extends React.Component<ReportDetailChildProps> {
     }
 
     const {
+      id,
       comment,
       article,
       user,
@@ -40,7 +42,8 @@ class ReportDetail extends React.Component<ReportDetailChildProps> {
       description,
       category,
       assets,
-      createdAt
+      createdAt,
+      remark
     } = report.report
 
     return (
@@ -66,6 +69,13 @@ class ReportDetail extends React.Component<ReportDetailChildProps> {
         <DescriptionList size="large" title="舉報描述">
           <Col span={24} style={{ marginBottom: 16 }}>
             <section dangerouslySetInnerHTML={{ __html: description }} />
+          </Col>
+        </DescriptionList>
+        <Divider size="large" />
+
+        <DescriptionList size="large" title="備註">
+          <Col span={24} lg={12} style={{ marginBottom: 16 }}>
+            <Remark id={id} type="Report" remark={remark} />
           </Col>
         </DescriptionList>
         <Divider size="large" />

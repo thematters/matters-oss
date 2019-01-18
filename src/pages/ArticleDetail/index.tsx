@@ -6,6 +6,7 @@ import ErrorMessage from '../../components/ErrorMessage'
 import Divider from '../../components/Divider'
 import DateTime from '../../components/DateTime'
 import UserLink from '../../components/UserLink'
+import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
 import ToggleLive from '../../components/Article/ToggleLive'
 import TogglePublic from '../../components/Article/TogglePublic'
@@ -70,6 +71,13 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           <Description term="LIVE">
             <ToggleLive checked={article.live} articleId={article.id} />
           </Description>
+        </DescriptionList>
+        <Divider size="large" />
+
+        <DescriptionList size="large" title="備註">
+          <Col span={24} lg={12} style={{ marginBottom: 16 }}>
+            <Remark id={article.id} type="Article" remark={article.remark} />
+          </Col>
         </DescriptionList>
         <Divider size="large" />
 

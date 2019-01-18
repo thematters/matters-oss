@@ -5,6 +5,7 @@ import _get from 'lodash/get'
 import ErrorMessage from '../../components/ErrorMessage'
 import Divider from '../../components/Divider'
 import DateTime from '../../components/DateTime'
+import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
 import ArticleDigestList from '../../components/Article/DigestList'
 
@@ -40,6 +41,13 @@ class TagDetail extends React.Component<TagDetailChildProps> {
           <Description term="時間">
             <DateTime date={tag.createdAt} />
           </Description>
+        </DescriptionList>
+        <Divider size="large" />
+
+        <DescriptionList size="large" title="備註">
+          <Col span={24} lg={12} style={{ marginBottom: 16 }}>
+            <Remark id={tag.id} type="Tag" remark={tag.remark} />
+          </Col>
         </DescriptionList>
         <Divider size="large" />
 
