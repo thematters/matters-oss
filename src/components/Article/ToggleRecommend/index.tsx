@@ -1,23 +1,22 @@
 import * as React from 'react'
 import { Switch } from 'antd'
 import _get from 'lodash/get'
+import _capitalize from 'lodash/capitalize'
 
 import ErrorMessage from '../../ErrorMessage'
-import withToggleRecommendHottest, {
-  ChildProps
-} from './withToggleRecommendHottest'
+import withToggleRecommend, { ChildProps } from './withToggleRecommend'
 
-type ToggleRecommendHottestState = {
+type ToggleRecommendState = {
   checked: boolean
   loading: boolean
   error: any
 }
 
-class ToggleRecommendHottest extends React.Component<
+class ToggleRecommend extends React.Component<
   ChildProps,
-  ToggleRecommendHottestState
+  ToggleRecommendState
 > {
-  state: Readonly<ToggleRecommendHottestState> = {
+  state: Readonly<ToggleRecommendState> = {
     checked: this.props.checked,
     loading: false,
     error: null
@@ -26,23 +25,24 @@ class ToggleRecommendHottest extends React.Component<
   private _onChange = async () => {
     this.setState({ loading: true, error: null })
 
-    const { mutate, articleId } = this.props
+    const { mutate, articleId, type } = this.props
 
     try {
       const result = await mutate({
         variables: {
           input: {
             id: articleId,
-            enabled: !this.state.checked
+            enabled: !this.state.checked,
+            type
           }
         }
       })
-      const inRecommendHottest = _get(
+      const inRecommendType = _get(
         result,
-        'data.toggleRecommendHottest.oss.inRecommendHottest'
+        `data.toggleArticleRecommend.oss.inRecommend${_capitalize(type)}`
       )
       this.setState({
-        checked: inRecommendHottest,
+        checked: inRecommendType,
         loading: false,
         error: null
       })
@@ -64,4 +64,4 @@ class ToggleRecommendHottest extends React.Component<
   }
 }
 
-export default withToggleRecommendHottest(ToggleRecommendHottest)
+export default withToggleRecommend(ToggleRecommend)

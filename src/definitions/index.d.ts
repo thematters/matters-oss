@@ -86,8 +86,7 @@ export type ArticleDigest = {
     inRecommendToday: boolean
     inRecommendIcymi: boolean
     inRecommendHottest: boolean
-    inRecommendNewset: boolean
-    inRecommendTopic: boolean
+    inRecommendNewest: boolean
   }
 }
 

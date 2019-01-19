@@ -9,10 +9,7 @@ import UserLink from '../../UserLink'
 import ToggleLive from '../ToggleLive'
 import TogglePublic from '../TogglePublic'
 import SetBoost from '../../SetBoost'
-import ToggleRecommendToday from '../ToggleRecommendToday'
-import ToggleRecommendIcymi from '../ToggleRecommendIcymi'
-import ToggleRecommendHottest from '../ToggleRecommendHottest'
-import ToggleRecommendNewest from '../ToggleRecommendNewest'
+import ToggleRecommend from '../ToggleRecommend'
 import ArticleStateTag from '../StateTag'
 
 import { PATH } from '../../../constants'
@@ -99,9 +96,10 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             dataIndex="oss.inRecommendToday"
             title="在 Matters Today 顯示"
             render={(inRecommendToday, record) => (
-              <ToggleRecommendToday
+              <ToggleRecommend
                 checked={inRecommendToday}
                 articleId={record.id}
+                type="today"
               />
             )}
           />
@@ -111,9 +109,10 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             dataIndex="oss.inRecommendIcymi"
             title="在「不要錯過」顯示"
             render={(inRecommendIcymi, record) => (
-              <ToggleRecommendIcymi
+              <ToggleRecommend
                 checked={inRecommendIcymi}
                 articleId={record.id}
+                type="icymi"
               />
             )}
           />
@@ -123,9 +122,10 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             dataIndex="oss.inRecommendHottest"
             title="在「熱門文章」顯示"
             render={(inRecommendHottest, record) => (
-              <ToggleRecommendHottest
+              <ToggleRecommend
                 checked={inRecommendHottest}
                 articleId={record.id}
+                type="hottest"
               />
             )}
           />
@@ -135,9 +135,10 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             dataIndex="oss.inRecommendNewest"
             title="在「最新發布」顯示"
             render={(inRecommendNewest, record) => (
-              <ToggleRecommendNewest
+              <ToggleRecommend
                 checked={inRecommendNewest}
                 articleId={record.id}
+                type="newest"
               />
             )}
           />

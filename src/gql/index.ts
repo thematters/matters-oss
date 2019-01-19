@@ -67,8 +67,7 @@ export const GQL_FRAGMENT_ARTICLE_DIGEST = gql`
       inRecommendToday
       inRecommendIcymi
       inRecommendHottest
-      inRecommendNewset
-      inRecommendTopic
+      inRecommendNewest
     }
   }
   ${GQL_FRAGMENT_TAG_DIGEST}

@@ -1,7 +1,7 @@
 export const PATH = {
   HOMEPAGE: '/',
   HOMEPAGE_MATTERS_TODAY: '/homepage/matters-today',
-  HOMEPAGE_HOTTEST: '/homepage/hot',
+  HOMEPAGE_HOTTEST: '/homepage/hottest',
   HOMEPAGE_NEWEST: '/homepage/newest',
   HOMEPAGE_TOPICS: '/homepage/topics',
   HOMEPAGE_MATTERS_CHOICE: '/homepage/matters-choice',

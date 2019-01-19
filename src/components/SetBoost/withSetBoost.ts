@@ -36,17 +36,19 @@ type Response = {
   }
 }
 
+type BoostTypes = 'Article' | 'Tag' | 'User'
+
 type InputProps = {
   boost: number
   id: string
-  type: 'Article' | 'Tag' | 'User'
+  type: BoostTypes
 }
 
 type Variables = {
   input: {
     id: string
     boost: number
-    type: 'Article' | 'Tag' | 'User'
+    type: BoostTypes
   }
 }
 
