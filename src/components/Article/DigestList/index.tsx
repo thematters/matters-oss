@@ -68,15 +68,13 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           title="狀態"
           render={state => <ArticleStateTag state={state} />}
         />
-        {!recommend && (
-          <Table.Column<ArticleDigest>
-            dataIndex="public"
-            title="白名單"
-            render={(isPublic, record) => (
-              <TogglePublic checked={isPublic} articleId={record.id} />
-            )}
-          />
-        )}
+        <Table.Column<ArticleDigest>
+          dataIndex="public"
+          title="白名單"
+          render={(isPublic, record) => (
+            <TogglePublic checked={isPublic} articleId={record.id} />
+          )}
+        />
         {!recommend && (
           <Table.Column<ArticleDigest>
             dataIndex="live"

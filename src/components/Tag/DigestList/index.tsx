@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Table, Button, Modal, Tag, Input, Alert } from 'antd'
+import { Table, Button, Modal, Tag, Input, Alert, Spin, message } from 'antd'
 import { Link } from 'react-router-dom'
 import _get from 'lodash/get'
 import _compact from 'lodash/compact'
@@ -9,22 +9,27 @@ import SetBoost from '../../SetBoost'
 
 import { PATH } from '../../../constants'
 import { TagDigest } from '../../../definitions'
+import withTagMutaitons, {
+  DeleteTagsChildProps,
+  RenameTagChildProps,
+  MergeTagsChildProps
+} from '../withTagMutations'
 
-type TagDigestListProps = {
-  data: TagDigest[]
-  loading?: boolean
-  recommend?: {
-    tag?: boolean
+type TagDigestListProps = DeleteTagsChildProps &
+  RenameTagChildProps &
+  MergeTagsChildProps & {
+    data: TagDigest[]
+    loading?: boolean
+    recommend?: {
+      tag?: boolean
+    }
   }
-}
 
 type TagDigestListState = {
-  renameLoading: boolean
-  renameNewTagContent: string
   selectedRowKeys: string[] | number[]
   selectedRows: TagDigest[]
-  deleteLoading: boolean
-  mergeLoading: boolean
+  mutationLoading: boolean
+  renameNewTagContent: string
   mergeNewTagContent: string
 }
 
@@ -35,10 +40,8 @@ class TagDigestList extends React.Component<
   state = {
     selectedRowKeys: [],
     selectedRows: [],
-    renameLoading: false,
+    mutationLoading: false,
     renameNewTagContent: '',
-    deleteLoading: false,
-    mergeLoading: false,
     mergeNewTagContent: ''
   }
 
@@ -49,6 +52,9 @@ class TagDigestList extends React.Component<
     this.setState({ selectedRowKeys, selectedRows })
   }
 
+  /**
+   * Rename
+   */
   _onRenameTags = () => {
     Modal.confirm({
       title: `請輸入新標籤名：`,
@@ -71,6 +77,13 @@ class TagDigestList extends React.Component<
 
   _onConfirmRenameTags = () => {
     const { selectedRowKeys, selectedRows, renameNewTagContent } = this.state
+    // @ts-ignore
+    const { renameTag } = this.props
+
+    if (!renameNewTagContent) {
+      return message.error('請輸入新標籤名')
+    }
+
     Modal.confirm({
       title: `確認修改以下標籤？`,
       content: (
@@ -93,14 +106,36 @@ class TagDigestList extends React.Component<
       cancelText: '取消',
       okText: '確認修改',
       okType: 'danger',
-      onOk: () => {
-        console.log('_onMergeTags', selectedRowKeys)
+      onOk: async () => {
+        this.setState({ mutationLoading: true })
+
+        try {
+          await renameTag({
+            variables: {
+              input: {
+                id: selectedRowKeys[0],
+                content: renameNewTagContent
+              }
+            }
+          })
+          this.setState({ mutationLoading: false })
+          message.success('修改成功')
+        } catch (error) {
+          this.setState({ mutationLoading: false })
+          message.error('修改失敗')
+        }
       }
     })
   }
 
+  /**
+   * Delete
+   */
   _onDeleteTags = () => {
     const { selectedRowKeys, selectedRows } = this.state
+    // @ts-ignore
+    const { deleteTags } = this.props
+
     Modal.confirm({
       title: `確認刪除以下標籤？`,
       content: (
@@ -113,14 +148,59 @@ class TagDigestList extends React.Component<
       cancelText: '取消',
       okText: '確認刪除',
       okType: 'danger',
-      onOk() {
-        console.log('_onDeleteTags', selectedRowKeys)
+      onOk: async () => {
+        this.setState({ mutationLoading: true })
+
+        try {
+          await deleteTags({
+            variables: {
+              input: {
+                ids: selectedRowKeys
+              }
+            }
+          })
+          this.setState({ mutationLoading: false })
+          message.success('刪除成功')
+        } catch (error) {
+          this.setState({ mutationLoading: false })
+          message.error('刪除失敗')
+        }
+      }
+    })
+  }
+
+  /**
+   * Merge
+   */
+  _onMergeTags = () => {
+    Modal.confirm({
+      title: `請輸入新標籤名：`,
+      content: (
+        <Input
+          style={{ marginTop: 16 }}
+          placeholder="標籤名"
+          onChange={e => {
+            this.setState({ mergeNewTagContent: e.target.value })
+          }}
+        />
+      ),
+      cancelText: '取消',
+      okText: '確認',
+      onOk: () => {
+        this._onConfirmMergeTags()
       }
     })
   }
 
   _onConfirmMergeTags = () => {
     const { selectedRowKeys, selectedRows, mergeNewTagContent } = this.state
+    // @ts-ignore
+    const { mergeTags } = this.props
+
+    if (!mergeNewTagContent) {
+      return message.error('請輸入新標籤名')
+    }
+
     Modal.confirm({
       title: `確認合併以下標籤？`,
       content: (
@@ -144,71 +224,71 @@ class TagDigestList extends React.Component<
       cancelText: '取消',
       okText: '確認合併',
       okType: 'danger',
-      onOk: () => {
-        console.log('_onMergeTags', selectedRowKeys)
-      }
-    })
-  }
+      onOk: async () => {
+        this.setState({ mutationLoading: true })
 
-  _onMergeTags = () => {
-    Modal.confirm({
-      title: `請輸入新標籤名：`,
-      content: (
-        <Input
-          style={{ marginTop: 16 }}
-          placeholder="標籤名"
-          onChange={e => {
-            this.setState({ mergeNewTagContent: e.target.value })
-          }}
-        />
-      ),
-      cancelText: '取消',
-      okText: '確認',
-      onOk: () => {
-        this._onConfirmMergeTags()
+        try {
+          await mergeTags({
+            variables: {
+              input: {
+                ids: selectedRowKeys,
+                content: mergeNewTagContent
+              }
+            }
+          })
+          this.setState({ mutationLoading: false })
+          message.success('合併成功')
+        } catch (error) {
+          this.setState({ mutationLoading: false })
+          message.error('合併失敗')
+        }
       }
     })
   }
 
   private _renderTableOperators() {
-    const {
-      selectedRowKeys,
-      renameLoading,
-      deleteLoading,
-      mergeLoading
-    } = this.state
+    const { selectedRowKeys, selectedRows, mutationLoading } = this.state
     const hasSelected = selectedRowKeys.length > 0
 
     return (
-      <section className="c-table__operators">
-        <Button
-          type="primary"
-          onClick={this._onRenameTags}
-          disabled={
-            selectedRowKeys.length !== 1 || !hasSelected || renameLoading
-          }
-          loading={renameLoading}
-        >
-          修改
-        </Button>
-        <Button
-          type="primary"
-          onClick={this._onDeleteTags}
-          disabled={!hasSelected || deleteLoading}
-          loading={deleteLoading}
-        >
-          刪除
-        </Button>
-        <Button
-          type="primary"
-          onClick={this._onMergeTags}
-          disabled={!hasSelected || mergeLoading}
-          loading={mergeLoading}
-        >
-          合併
-        </Button>
-        <span>{hasSelected ? `已選 ${selectedRowKeys.length} 項` : ''}</span>
-      </section>
+      <>
+        <section className="c-table__operators">
+          <Button
+            type="primary"
+            onClick={this._onRenameTags}
+            disabled={
+              selectedRowKeys.length !== 1 || !hasSelected || mutationLoading
+            }
+          >
+            修改
+          </Button>
+          <Button
+            type="primary"
+            onClick={this._onDeleteTags}
+            disabled={!hasSelected || mutationLoading}
+          >
+            刪除
+          </Button>
+          <Button
+            type="primary"
+            onClick={this._onMergeTags}
+            disabled={!hasSelected || mutationLoading}
+          >
+            合併
+          </Button>
+          {mutationLoading && <Spin />}
+        </section>
+        {hasSelected && (
+          <section className="c-table__selected-tags">
+            <span style={{ marginRight: 8 }}>
+              {hasSelected ? `已選 ${selectedRowKeys.length} 項：` : ''}
+            </span>
+            {selectedRows.map(({ content }) => (
+              <Tag>{content}</Tag>
+            ))}
+          </section>
+        )}
+      </>
     )
   }
 
@@ -221,6 +301,7 @@ class TagDigestList extends React.Component<
   }
 
   public render() {
+    console.log(this.props)
     const { data, loading = false, recommend } = this.props
     const { selectedRowKeys } = this.state
     const rowSelection = {
@@ -268,4 +349,4 @@ class TagDigestList extends React.Component<
   }
 }
 
-export default TagDigestList
+export default withTagMutaitons(TagDigestList)

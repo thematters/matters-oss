@@ -31,8 +31,8 @@ const Reports = graphql<
   ReportsVariables,
   ReportsChildProps
 >(GET_ALL_TAGS, {
+  // name: 'reports',
   options: props => ({
-    // name: 'Reports',
     variables: {
       input: {
         article: props.type === 'article',

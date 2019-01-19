@@ -49,8 +49,8 @@ const allTags = graphql<
   AllTagsVariables,
   AllTagsChildProps
 >(GET_ALL_TAGS, {
+  // name: 'allTags',
   options: props => ({
-    // name: 'allTags',
     variables: {
       input: {
         first: 10
@@ -66,8 +66,8 @@ const searchTags = graphql<
   SearchTagsVariables,
   SearchTagsChildProps
 >(SEARCH_TAGS, {
+  // name: 'searchTags',
   options: props => ({
-    // name: 'searchTags',
     variables: {
       input: {
         key: getSearchKey(),

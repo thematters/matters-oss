@@ -51,8 +51,8 @@ const authors = graphql<
   AuthorsVariables,
   AuthorsChildProps
 >(GET_AUTHORS, {
+  // name: 'authors',
   options: props => ({
-    // name: 'Authors',
     variables: {
       input: {
         first: 10
@@ -68,8 +68,8 @@ const searchUsers = graphql<
   SearchUsersVariables,
   SearchUsersChildProps
 >(SEARCH_USERS, {
+  // name: 'searchUsers',
   options: props => ({
-    // name: 'searchUsers',
     variables: {
       input: {
         key: getSearchKey(),

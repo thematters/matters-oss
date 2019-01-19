@@ -51,8 +51,8 @@ const mattersChoice = graphql<
   MattersChoiceVariables,
   MattersChoiceChildProps
 >(GET_MATTERS_CHOICE, {
+  // name: 'MattersChoice',
   options: props => ({
-    // name: 'MattersChoice',
     variables: {
       input: {
         first: 10
@@ -68,8 +68,8 @@ const searchArticles = graphql<
   SearchArticlesVariables,
   SearchArticlesChildProps
 >(SEARCH_ARTICLES, {
+  // name: 'searchArticles',
   options: props => ({
-    // name: 'searchArticles',
     variables: {
       input: {
         key: getSearchKey(),

@@ -49,8 +49,8 @@ const mattersToday = graphql<
   MattersTodayVariables,
   MattersTodayChildProps
 >(GET_MATTERS_TODAY, {
+  // name: 'today',
   options: props => ({
-    // name: 'MattersToday',
     variables: {
       input: {
         first: 10
@@ -66,8 +66,8 @@ const searchArticles = graphql<
   SearchArticlesVariables,
   SearchArticlesChildProps
 >(SEARCH_ARTICLES, {
+  // name: 'searchArticles',
   options: props => ({
-    // name: 'searchArticles',
     variables: {
       input: {
         key: getSearchKey(),

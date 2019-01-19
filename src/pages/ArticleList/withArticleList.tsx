@@ -49,8 +49,8 @@ const allArticles = graphql<
   AllArticlesVariables,
   AllArticlesChildProps
 >(GET_ALL_ARTICLES, {
+  // name: 'allArticles',
   options: props => ({
-    // name: 'allArticles',
     variables: {
       input: {
         first: 10
@@ -66,8 +66,8 @@ const searchArticles = graphql<
   SearchArticlesVariables,
   SearchArticlesChildProps
 >(SEARCH_ARTICLES, {
+  // name: 'searchArticles',
   options: props => ({
-    // name: 'searchArticles',
     variables: {
       input: {
         key: getSearchKey(),

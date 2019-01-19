@@ -4,13 +4,13 @@ import { Layout as AntLayout } from 'antd'
 import { STORE_JWT_TOKEN } from '../../../constants'
 
 const Footer: React.FunctionComponent = () => {
-  const isAuthenticated = !window.localStorage.getItem(STORE_JWT_TOKEN)
+  const isAuthenticated = window.localStorage.getItem(STORE_JWT_TOKEN)
 
   return (
-    <AntLayout.Footer style={{ textAlign: 'center' }}>
+    <AntLayout.Footer style={{ textAlign: 'right' }}>
       © The Matters
       {isAuthenticated && (
-        <span style={{ float: 'right' }}>
+        <span style={{ marginLeft: 16, float: 'right' }}>
           <button
             style={{ fontSize: 12 }}
             type="button"
@@ -23,7 +23,6 @@ const Footer: React.FunctionComponent = () => {
           </button>
         </span>
       )}
-      )
     </AntLayout.Footer>
   )
 }

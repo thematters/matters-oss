@@ -51,8 +51,8 @@ const hottest = graphql<
   HottestVariables,
   HottestChildProps
 >(GET_HOTTEST, {
+  // name: 'hottest',
   options: props => ({
-    // name: 'Hottest',
     variables: {
       input: {
         first: 10
