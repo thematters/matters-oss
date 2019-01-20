@@ -3,12 +3,11 @@ import _get from 'lodash/get'
 
 import ErrorMessage from '../../components/ErrorMessage'
 import ReportDigestList from '../../components/Report/DigestList'
-import withReportList from './withReportList'
+import withReportList, { ReportListChildProps } from './withReportList'
 
 import { Report } from '../../definitions'
-import { ReportsChildProps } from './type'
 
-class ReportsList extends React.Component<ReportsChildProps> {
+class ReportsList extends React.Component<ReportListChildProps> {
   get isArticle() {
     return this.props.type === 'article'
   }
@@ -18,33 +17,28 @@ class ReportsList extends React.Component<ReportsChildProps> {
 
   private _renderContent() {
     const {
-      data: { oss, loading, error }
+      data: { oss, loading, error, fetchMore, variables }
     } = this.props
 
     if (error) {
       return <ErrorMessage error={error} />
     }
 
-    if (loading) {
-      return (
-        <ReportDigestList
-          isArticle={this.isArticle}
-          isComment={this.isComment}
-          data={[]}
-          loading
-        />
-      )
+    let listData: Report[] = []
+    let totalCount: number = 0
+
+    if (oss) {
+      listData = oss.reports.edges.map(({ node }) => node)
+      totalCount = oss.reports.totalCount
     }
 
-    let reportTableData: Report[] = []
-    if (oss && oss.reports) {
-      reportTableData = oss.reports.edges.map(({ node }) => node)
-    }
     return (
       <ReportDigestList
+        data={listData}
+        loading={loading}
+        pagination={{ totalCount, fetchMore, variables }}
         isArticle={this.isArticle}
         isComment={this.isComment}
-        data={reportTableData}
       />
     )
   }

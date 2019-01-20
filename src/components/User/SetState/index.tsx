@@ -14,9 +14,9 @@ type SetStateState = {
   error: any
 }
 
-const USER_STATES: { key: UserState; text: string }[] = [
+const USER_STATES: { key: UserState; text: string; disabled?: boolean }[] = [
   { key: 'active', text: '正常' },
-  { key: 'archived', text: '註銷' },
+  { key: 'archived', text: '註銷', disabled: true },
   { key: 'banned', text: '禁言' },
   { key: 'frozen', text: '凍結' },
   { key: 'onboarding', text: '未激活' }
@@ -113,8 +113,10 @@ class SetState extends React.Component<ChildProps, SetStateState> {
           onSelect={this._onSelectUserState}
           style={{ marginRight: 8 }}
         >
-          {USER_STATES.map(({ key, text }) => (
-            <Select.Option key={key}>{text}</Select.Option>
+          {USER_STATES.map(({ key, text, disabled }) => (
+            <Select.Option key={key} disabled={disabled}>
+              {text}
+            </Select.Option>
           ))}
         </Select>
         {userState === 'banned' && (

@@ -12,12 +12,19 @@ import SetBoost from '../../SetBoost'
 import ToggleRecommend from '../ToggleRecommend'
 import ArticleStateTag from '../StateTag'
 
-import { PATH } from '../../../constants'
 import { ArticleDigest } from '../../../definitions'
+import { PATH, PAGE_SIZE } from '../../../constants'
+import { pageToCursor } from '../../../utils'
 
 type ArticleDigestListProps = {
   data: ArticleDigest[]
   loading?: boolean
+  pagination?: {
+    totalCount: number
+    pageSize?: number
+    fetchMore?: any
+    variables?: any
+  }
   recommend?: {
     today?: boolean
     icymi?: boolean
@@ -36,15 +43,42 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
     )
   }
 
-  public render() {
-    const { data, loading = false, recommend } = this.props
+  private _onPaginationChange = (page: number, pageSize?: number) => {
+    const { pagination } = this.props
 
+    if (!pagination) {
+      return
+    }
+
+    const cursor = pageToCursor(page, pageSize || 0)
+
+    pagination.fetchMore({
+      variables: {
+        input: {
+          ...pagination.variables.input,
+          after: cursor
+        }
+      },
+      updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult
+    })
+  }
+
+  public render() {
+    const { data, loading = false, pagination, recommend } = this.props
     return (
       <Table<ArticleDigest>
         bordered
         loading={loading}
         dataSource={_compact(data)}
-        pagination={false}
+        pagination={
+          pagination
+            ? {
+                pageSize: pagination.pageSize || PAGE_SIZE,
+                total: pagination.totalCount,
+                onChange: this._onPaginationChange
+              }
+            : false
+        }
         rowKey={record => record.id}
       >
         <Table.Column<ArticleDigest>

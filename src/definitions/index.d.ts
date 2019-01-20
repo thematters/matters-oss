@@ -144,6 +144,7 @@ export type Report = {
  * Pagination
  */
 export type Connection<Node> = {
+  totalCount: number
   pageInfo: GQLPageInfo
   edges: Edge<Node>[]
 }

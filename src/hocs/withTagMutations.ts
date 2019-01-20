@@ -1,18 +1,12 @@
 import { graphql, compose, ChildMutateProps } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { TagDigest } from '../../definitions'
-import { GQL_FRAGMENT_TAG_DIGEST } from '../../gql'
+import { TagDigest } from '../definitions'
+import { GQL_FRAGMENT_TAG_DIGEST } from '../gql'
 
 /**
  * Delete Tags
  */
-const DELETE_TAGS = gql`
-  mutation deleteTags($input: DeleteTagsInput!) {
-    deleteTags(input: $input)
-  }
-`
-
 type DeleteTagsResponse = {
   deleteTags: boolean
 }
@@ -29,6 +23,11 @@ export type DeleteTagsChildProps = ChildMutateProps<
   DeleteTagsResponse,
   DeleteTagsVariables
 >
+const DELETE_TAGS = gql`
+  mutation deleteTags($input: DeleteTagsInput!) {
+    deleteTags(input: $input)
+  }
+`
 const deleteTags = graphql<
   DeleteTagsInputProps,
   DeleteTagsResponse,
@@ -41,15 +40,6 @@ const deleteTags = graphql<
 /**
  * Rename Tag
  */
-const RENAME_TAG = gql`
-  mutation renameTag($input: RenameTagInput!) {
-    renameTag(input: $input) {
-      ...TagDigest
-    }
-  }
-  ${GQL_FRAGMENT_TAG_DIGEST}
-`
-
 type RenameTagResponse = {
   renameTag: TagDigest
 }
@@ -68,6 +58,14 @@ export type RenameTagChildProps = ChildMutateProps<
   RenameTagResponse,
   RenameTagVariables
 >
+const RENAME_TAG = gql`
+  mutation renameTag($input: RenameTagInput!) {
+    renameTag(input: $input) {
+      ...TagDigest
+    }
+  }
+  ${GQL_FRAGMENT_TAG_DIGEST}
+`
 const renameTag = graphql<
   RenameTagInputProps,
   RenameTagResponse,
@@ -80,15 +78,6 @@ const renameTag = graphql<
 /**
  * Merge Tags
  */
-const MERGE_TAGS = gql`
-  mutation mergeTags($input: MergeTagsInput!) {
-    mergeTags(input: $input) {
-      ...TagDigest
-    }
-  }
-  ${GQL_FRAGMENT_TAG_DIGEST}
-`
-
 type MergeTagsResponse = {
   mergeTags: TagDigest
 }
@@ -107,6 +96,14 @@ export type MergeTagsChildProps = ChildMutateProps<
   MergeTagsResponse,
   MergeTagsVariables
 >
+const MERGE_TAGS = gql`
+  mutation mergeTags($input: MergeTagsInput!) {
+    mergeTags(input: $input) {
+      ...TagDigest
+    }
+  }
+  ${GQL_FRAGMENT_TAG_DIGEST}
+`
 const mergeTags = graphql<
   MergeTagsInputProps,
   MergeTagsResponse,
@@ -116,8 +113,13 @@ const mergeTags = graphql<
   name: 'mergeTags'
 })
 
+// exports
 export default compose(
   deleteTags,
   renameTag,
   mergeTags
 )
+
+export type TagMutationsChildProps = DeleteTagsChildProps &
+  RenameTagChildProps &
+  MergeTagsChildProps

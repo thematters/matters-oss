@@ -1,23 +1,37 @@
-import { graphql, compose } from 'react-apollo'
+import { graphql, compose, ChildDataProps } from 'react-apollo'
 import gql from 'graphql-tag'
+import { RouteComponentProps } from 'react-router-dom'
 
 import { getSearchKey } from '../../utils'
 import {
+  GQL_FRAGMENT_TAG_DIGEST,
+  GQL_FRAGMENT_CONNECTION_INFO
+} from '../../gql'
+import { PAGE_SIZE } from '../../constants'
+import { TagDigest, GQLConnectionArgs, Connection } from '../../definitions'
+import searchTags, { SearchTagsChildProps } from '../../hocs/withSearchTags'
+
+type AllTagsResponse = {
+  oss: {
+    tags: Connection<TagDigest>
+  }
+}
+type AllTagsInputProps = RouteComponentProps
+type AllTagsVariables = {
+  input: GQLConnectionArgs
+}
+type AllTagsChildProps = ChildDataProps<
   AllTagsInputProps,
   AllTagsResponse,
-  AllTagsVariables,
-  AllTagsChildProps,
-  SearchTagsInputProps,
-  SearchTagsResponse,
-  SearchTagsVariables,
-  SearchTagsChildProps
-} from './type'
-import { GQL_FRAGMENT_TAG_DIGEST } from '../../gql'
+  AllTagsVariables
+>
+export type TagListChildProps = AllTagsChildProps & SearchTagsChildProps
 
 const GET_ALL_TAGS = gql`
   query AllTags($input: ConnectionArgs!) {
     oss {
       tags(input: $input) {
+        ...ConnectionInfo
         edges {
           node {
             ...TagDigest
@@ -26,20 +40,7 @@ const GET_ALL_TAGS = gql`
       }
     }
   }
-  ${GQL_FRAGMENT_TAG_DIGEST}
-`
-const SEARCH_TAGS = gql`
-  query SearchTags($input: SearchInput!) {
-    search(input: $input) {
-      edges {
-        node {
-          ... on Tag {
-            ...TagDigest
-          }
-        }
-      }
-    }
-  }
+  ${GQL_FRAGMENT_CONNECTION_INFO}
   ${GQL_FRAGMENT_TAG_DIGEST}
 `
 
@@ -53,30 +54,11 @@ const allTags = graphql<
   options: props => ({
     variables: {
       input: {
-        first: 10
+        first: PAGE_SIZE
       }
     }
   }),
   skip: () => !!getSearchKey()
-})
-
-const searchTags = graphql<
-  SearchTagsInputProps,
-  SearchTagsResponse,
-  SearchTagsVariables,
-  SearchTagsChildProps
->(SEARCH_TAGS, {
-  // name: 'searchTags',
-  options: props => ({
-    variables: {
-      input: {
-        key: getSearchKey(),
-        type: 'Tag',
-        first: 10
-      }
-    }
-  }),
-  skip: () => !getSearchKey()
 })
 
 export default compose(

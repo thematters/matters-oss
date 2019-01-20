@@ -7,6 +7,21 @@ import _get from 'lodash/get'
 import { ArticleDetail } from '../../definitions'
 import { GQL_FRAGMENT_ARTICLE_DETAIL } from '../../gql'
 
+type ArticleDetailResponse = {
+  article: ArticleDetail
+}
+type ArticleDetailInputProps = RouteComponentProps
+type ArticleDetailVariables = {
+  input: {
+    id: string
+  }
+}
+export type ArticleDetailChildProps = ChildDataProps<
+  ArticleDetailInputProps,
+  ArticleDetailResponse,
+  ArticleDetailVariables
+>
+
 const GET_ARTICLE_DETAIL = gql`
   query ArticleDetail($input: NodeInput!) {
     article: node(input: $input) {
@@ -17,21 +32,6 @@ const GET_ARTICLE_DETAIL = gql`
   }
   ${GQL_FRAGMENT_ARTICLE_DETAIL}
 `
-
-export type ArticleDetailResponse = {
-  article: ArticleDetail
-}
-export type ArticleDetailInputProps = RouteComponentProps
-export type ArticleDetailVariables = {
-  input: {
-    id: string
-  }
-}
-export type ArticleDetailChildProps = ChildDataProps<
-  ArticleDetailInputProps,
-  ArticleDetailResponse,
-  ArticleDetailVariables
->
 
 const articleDetail = graphql<
   ArticleDetailInputProps,

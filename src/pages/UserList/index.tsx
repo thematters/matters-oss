@@ -4,40 +4,42 @@ import _get from 'lodash/get'
 import SearchBar from '../../components/SearchBar'
 import ErrorMessage from '../../components/ErrorMessage'
 import UserDigestList from '../../components/User/DigestList'
-import withUserList from './withUserList'
+import withUserList, { UserListChildProps } from './withUserList'
 
 import { UserDigest } from '../../definitions'
-import { AllUsersChildProps, SearchUsersChildProps } from './type'
 
-class UserList extends React.Component<
-  AllUsersChildProps & SearchUsersChildProps
-> {
+class UserList extends React.Component<UserListChildProps> {
   private _renderHeader() {
     return <SearchBar placeholder="請輸入 Matters ID 或用戶姓名" />
   }
 
   private _renderContent() {
     const {
-      data: { oss, search, loading, error }
+      data: { oss, search, loading, error, fetchMore, variables }
     } = this.props
 
     if (error) {
       return <ErrorMessage error={error} />
     }
 
-    if (loading) {
-      return <UserDigestList data={[]} loading />
-    }
-
-    let userTableData: UserDigest[] = []
+    let listData: UserDigest[] = []
+    let totalCount: number = 0
     if (search) {
-      userTableData = search.edges.map(({ node }) => node)
+      listData = search.edges.map(({ node }) => node)
+      totalCount = search.totalCount
+    }
+    if (oss && oss.users) {
+      listData = oss.users.edges.map(({ node }) => node)
+      totalCount = oss.users.totalCount
     }
 
-    if (oss && oss.users) {
-      userTableData = oss.users.edges.map(({ node }) => node)
-    }
-    return <UserDigestList data={userTableData} />
+    return (
+      <UserDigestList
+        data={listData}
+        loading={loading}
+        pagination={{ totalCount, fetchMore, variables }}
+      />
+    )
   }
 
   public render() {

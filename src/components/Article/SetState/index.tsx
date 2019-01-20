@@ -13,9 +13,13 @@ type SetStateState = {
   error: any
 }
 
-const ARTICLE_STATES: { key: ArticleState; text: string }[] = [
+const ARTICLE_STATES: {
+  key: ArticleState
+  text: string
+  disabled?: boolean
+}[] = [
   { key: 'active', text: '正常' },
-  // { key: 'archived', text: '隱藏' },
+  { key: 'archived', text: '隱藏', disabled: true },
   { key: 'banned', text: '強制隱藏' }
 ]
 
@@ -96,8 +100,10 @@ class SetState extends React.Component<ChildProps, SetStateState> {
           onSelect={this._onSelectArticleState}
           style={{ marginRight: 8, width: 100 }}
         >
-          {ARTICLE_STATES.map(({ key, text }) => (
-            <Select.Option key={key}>{text}</Select.Option>
+          {ARTICLE_STATES.map(({ key, text, disabled }) => (
+            <Select.Option key={key} disabled={disabled}>
+              {text}
+            </Select.Option>
           ))}
         </Select>
         {articleStateChanged && (

@@ -1,24 +1,47 @@
-import { graphql, compose } from 'react-apollo'
+import { graphql, compose, ChildDataProps } from 'react-apollo'
 import gql from 'graphql-tag'
+import { RouteComponentProps } from 'react-router-dom'
 
 import { getSearchKey } from '../../../utils'
 import {
+  GQL_FRAGMENT_ARTICLE_DIGEST,
+  GQL_FRAGMENT_CONNECTION_INFO
+} from '../../../gql'
+import { PAGE_SIZE } from '../../../constants'
+import searchArticles, {
+  SearchArticlesChildProps
+} from '../../../hocs/withSearchArticles'
+
+import {
+  ArticleDigest,
+  GQLConnectionArgs,
+  Connection
+} from '../../../definitions'
+
+type HottestResponse = {
+  viewer: {
+    recommendation: {
+      hottest: Connection<ArticleDigest>
+    }
+  }
+}
+type HottestInputProps = RouteComponentProps
+type HottestVariables = {
+  input: GQLConnectionArgs
+}
+type HottestChildProps = ChildDataProps<
   HottestInputProps,
   HottestResponse,
-  HottestVariables,
-  HottestChildProps,
-  SearchArticlesInputProps,
-  SearchArticlesResponse,
-  SearchArticlesVariables,
-  SearchArticlesChildProps
-} from './type'
-import { GQL_FRAGMENT_ARTICLE_DIGEST } from '../../../gql'
+  HottestVariables
+>
+export type HottestListChildProps = HottestChildProps & SearchArticlesChildProps
 
 const GET_HOTTEST = gql`
   query Hottest($input: ConnectionArgs!) {
     viewer {
       recommendation {
         hottest(input: $input) {
+          ...ConnectionInfo
           edges {
             node {
               ...ArticleDigest
@@ -28,20 +51,7 @@ const GET_HOTTEST = gql`
       }
     }
   }
-  ${GQL_FRAGMENT_ARTICLE_DIGEST}
-`
-const SEARCH_ARTICLES = gql`
-  query SearchArticles($input: SearchInput!) {
-    search(input: $input) {
-      edges {
-        node {
-          ... on Article {
-            ...ArticleDigest
-          }
-        }
-      }
-    }
-  }
+  ${GQL_FRAGMENT_CONNECTION_INFO}
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
 `
 
@@ -55,30 +65,11 @@ const hottest = graphql<
   options: props => ({
     variables: {
       input: {
-        first: 10
+        first: PAGE_SIZE
       }
     }
   }),
   skip: () => !!getSearchKey()
-})
-
-const searchArticles = graphql<
-  SearchArticlesInputProps,
-  SearchArticlesResponse,
-  SearchArticlesVariables,
-  SearchArticlesChildProps
->(SEARCH_ARTICLES, {
-  options: props => ({
-    // name: 'searchArticles',
-    variables: {
-      input: {
-        key: getSearchKey(),
-        type: 'Article',
-        first: 10
-      }
-    }
-  }),
-  skip: () => !getSearchKey()
 })
 
 export default compose(

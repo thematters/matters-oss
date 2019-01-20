@@ -8,16 +8,44 @@ import UserLink from '../../UserLink'
 import SetBoost from '../../SetBoost'
 
 import { UserDigest } from '../../../definitions'
+import { pageToCursor } from '../../../utils'
+import { PAGE_SIZE } from '../../../constants'
 
 type UserDigestListProps = {
   data: UserDigest[]
   loading?: boolean
+  pagination?: {
+    totalCount: number
+    pageSize?: number
+    fetchMore?: any
+    variables?: any
+  }
   recommend?: {
     author?: boolean
   }
 }
 
 class UserDigestList extends React.Component<UserDigestListProps> {
+  private _onPaginationChange = (page: number, pageSize?: number) => {
+    const { pagination } = this.props
+
+    if (!pagination) {
+      return
+    }
+
+    const cursor = pageToCursor(page, pageSize || 0)
+
+    pagination.fetchMore({
+      variables: {
+        input: {
+          ...pagination.variables.input,
+          after: cursor
+        }
+      },
+      updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult
+    })
+  }
+
   private _renderEmailCell(_: any, record: UserDigest): React.ReactNode {
     return (
       <UserLink
@@ -29,14 +57,22 @@ class UserDigestList extends React.Component<UserDigestListProps> {
   }
 
   public render() {
-    const { data, loading = false, recommend } = this.props
+    const { data, loading = false, recommend, pagination } = this.props
 
     return (
       <Table<UserDigest>
         bordered
         loading={loading}
         dataSource={_compact(data)}
-        pagination={false}
+        pagination={
+          pagination
+            ? {
+                pageSize: pagination.pageSize || PAGE_SIZE,
+                total: pagination.totalCount,
+                onChange: this._onPaginationChange
+              }
+            : false
+        }
         rowKey={record => record.id}
       >
         <Table.Column<UserDigest> title="用戶" render={this._renderEmailCell} />

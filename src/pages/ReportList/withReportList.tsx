@@ -1,19 +1,35 @@
-import { graphql, compose } from 'react-apollo'
+import { graphql, compose, ChildDataProps } from 'react-apollo'
 import gql from 'graphql-tag'
+import { RouteComponentProps } from 'react-router-dom'
 
+import { GQL_FRAGMENT_REPORT, GQL_FRAGMENT_CONNECTION_INFO } from '../../gql'
+import { PAGE_SIZE } from '../../constants'
+import { Report, GQLConnectionArgs, Connection } from '../../definitions'
 import { getSearchKey } from '../../utils'
-import {
+
+type ReportsResponse = {
+  oss: {
+    reports: Connection<Report>
+  }
+}
+type ReportsInputProps = RouteComponentProps & {
+  type: 'article' | 'comment'
+}
+type ReportsVariables = {
+  input: GQLConnectionArgs
+}
+type ReportsChildProps = ChildDataProps<
   ReportsInputProps,
   ReportsResponse,
-  ReportsVariables,
-  ReportsChildProps
-} from './type'
-import { GQL_FRAGMENT_REPORT } from '../../gql'
+  ReportsVariables
+>
+export type ReportListChildProps = ReportsChildProps
 
 const GET_ALL_TAGS = gql`
   query Reports($input: ReportsInput!) {
     oss {
       reports(input: $input) {
+        ...ConnectionInfo
         edges {
           node {
             ...Report
@@ -22,6 +38,7 @@ const GET_ALL_TAGS = gql`
       }
     }
   }
+  ${GQL_FRAGMENT_CONNECTION_INFO}
   ${GQL_FRAGMENT_REPORT}
 `
 
@@ -37,7 +54,7 @@ const Reports = graphql<
       input: {
         article: props.type === 'article',
         comment: props.type === 'comment',
-        first: 10
+        first: PAGE_SIZE
       }
     }
   }),

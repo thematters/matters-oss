@@ -65,6 +65,13 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
+        <DescriptionList size="large" title="正文">
+          <Col span={24} style={{ marginBottom: 16 }}>
+            <section dangerouslySetInnerHTML={{ __html: article.content }} />
+          </Col>
+        </DescriptionList>
+        <Divider size="large" />
+
         <DescriptionList size="large" title="設定" col={4}>
           <Description term="白名單">
             <TogglePublic checked={article.public} articleId={article.id} />
@@ -85,13 +92,6 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="正文">
-          <Col span={24} style={{ marginBottom: 16 }}>
-            <section dangerouslySetInnerHTML={{ __html: article.content }} />
-          </Col>
-        </DescriptionList>
-        <Divider size="large" />
-
         <DescriptionList size="large" title="上游文章">
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList data={[article.upstream]} />
@@ -103,6 +103,7 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList
               data={article.downstreams.edges.map(({ node }) => node)}
+              // pagination={{ totalCount: article.downstreams.totalCount }}
             />
           </Col>
         </DescriptionList>

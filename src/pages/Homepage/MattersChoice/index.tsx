@@ -4,21 +4,20 @@ import _get from 'lodash/get'
 import SearchBar from '../../../components/SearchBar'
 import ErrorMessage from '../../../components/ErrorMessage'
 import ArticleDigestList from '../../../components/Article/DigestList'
-import withMattersChoiceList from './withMattersChoiceList'
+import withMattersChoiceList, {
+  MattersChoiceListChildProps
+} from './withMattersChoiceList'
 
 import { ArticleDigest } from '../../../definitions'
-import { MattersChoiceChildProps, SearchArticlesChildProps } from './type'
 
-class ArticleList extends React.Component<
-  MattersChoiceChildProps & SearchArticlesChildProps
-> {
+class ArticleList extends React.Component<MattersChoiceListChildProps> {
   private _renderHeader() {
     return <SearchBar placeholder="請輸入文章標題" />
   }
 
   private _renderContent() {
     const {
-      data: { viewer, search, loading, error }
+      data: { viewer, search, loading, error, fetchMore, variables }
     } = this.props
 
     if (error) {
@@ -29,18 +28,25 @@ class ArticleList extends React.Component<
       return <ArticleDigestList data={[]} loading recommend={{ icymi: true }} />
     }
 
-    let articleTableData: ArticleDigest[] = []
+    let listData: ArticleDigest[] = []
+    let totalCount: number = 0
+
     if (search) {
-      articleTableData = search.edges.map(({ node }) => node)
+      listData = search.edges.map(({ node }) => node)
+      totalCount = search.totalCount
     }
 
     if (viewer && viewer.recommendation && viewer.recommendation.icymi) {
-      articleTableData = viewer.recommendation.icymi.edges.map(
-        ({ node }) => node
-      )
+      listData = viewer.recommendation.icymi.edges.map(({ node }) => node)
+      totalCount = viewer.recommendation.icymi.totalCount
     }
+
     return (
-      <ArticleDigestList data={articleTableData} recommend={{ icymi: true }} />
+      <ArticleDigestList
+        data={listData}
+        recommend={{ icymi: true }}
+        pagination={{ totalCount, fetchMore, variables }}
+      />
     )
   }
 

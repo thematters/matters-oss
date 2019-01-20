@@ -101,7 +101,11 @@ class Login extends React.Component<ChildProps> {
 
   public render() {
     return (
-      <Row style={{ marginTop: 100 }}>
+      <Row
+        type="flex"
+        align="middle"
+        style={{ height: 'calc(100vh - 69px)', margin: '0 24px' }}
+      >
         <Col
           offset={0}
           span={24}

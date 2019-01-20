@@ -4,42 +4,42 @@ import _get from 'lodash/get'
 import SearchBar from '../../../components/SearchBar'
 import ErrorMessage from '../../../components/ErrorMessage'
 import UserDigestList from '../../../components/User/DigestList'
-import withAuthorList from './withAuthorList'
+import withAuthorList, { AuthorListChildProps } from './withAuthorList'
 
 import { UserDigest } from '../../../definitions'
-import { AuthorsChildProps, SearchUsersChildProps } from './type'
 
-class AuthorList extends React.Component<
-  AuthorsChildProps & SearchUsersChildProps
-> {
+class AuthorList extends React.Component<AuthorListChildProps> {
   private _renderHeader() {
     return <SearchBar placeholder="請輸入文章標題" />
   }
 
   private _renderContent() {
     const {
-      data: { viewer, search, loading, error }
+      data: { viewer, search, loading, error, fetchMore, variables }
     } = this.props
 
     if (error) {
       return <ErrorMessage error={error} />
     }
 
-    if (loading) {
-      return <UserDigestList data={[]} loading recommend={{ author: true }} />
-    }
-
-    let userTableData: UserDigest[] = []
+    let listData: UserDigest[] = []
+    let totalCount: number = 0
     if (search) {
-      userTableData = search.edges.map(({ node }) => node)
+      listData = search.edges.map(({ node }) => node)
+      totalCount = search.totalCount
     }
-
     if (viewer && viewer.recommendation && viewer.recommendation.authors) {
-      userTableData = viewer.recommendation.authors.edges.map(
-        ({ node }) => node
-      )
+      listData = viewer.recommendation.authors.edges.map(({ node }) => node)
+      totalCount = viewer.recommendation.authors.totalCount
     }
-    return <UserDigestList data={userTableData} recommend={{ author: true }} />
+    return (
+      <UserDigestList
+        data={listData}
+        loading={loading}
+        recommend={{ author: true }}
+        pagination={{ totalCount, fetchMore, variables }}
+      />
+    )
   }
 
   public render() {

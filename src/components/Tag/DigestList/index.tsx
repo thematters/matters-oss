@@ -6,24 +6,27 @@ import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
 import SetBoost from '../../SetBoost'
-
-import { PATH } from '../../../constants'
-import { TagDigest } from '../../../definitions'
 import withTagMutaitons, {
-  DeleteTagsChildProps,
-  RenameTagChildProps,
-  MergeTagsChildProps
-} from '../withTagMutations'
+  TagMutationsChildProps
+} from '../../../hocs/withTagMutations'
 
-type TagDigestListProps = DeleteTagsChildProps &
-  RenameTagChildProps &
-  MergeTagsChildProps & {
-    data: TagDigest[]
-    loading?: boolean
-    recommend?: {
-      tag?: boolean
-    }
+import { PATH, PAGE_SIZE } from '../../../constants'
+import { TagDigest } from '../../../definitions'
+import { pageToCursor } from '../../../utils'
+
+type TagDigestListProps = TagMutationsChildProps & {
+  data: TagDigest[]
+  loading?: boolean
+  pagination?: {
+    totalCount: number
+    pageSize?: number
+    fetchMore?: any
+    variables?: any
   }
+  recommend?: {
+    tag?: boolean
+  }
+}
 
 type TagDigestListState = {
   selectedRowKeys: string[] | number[]
@@ -43,6 +46,26 @@ class TagDigestList extends React.Component<
     mutationLoading: false,
     renameNewTagContent: '',
     mergeNewTagContent: ''
+  }
+
+  private _onPaginationChange = (page: number, pageSize?: number) => {
+    const { pagination } = this.props
+
+    if (!pagination) {
+      return
+    }
+
+    const cursor = pageToCursor(page, pageSize || 0)
+
+    pagination.fetchMore({
+      variables: {
+        input: {
+          ...pagination.variables.input,
+          after: cursor
+        }
+      },
+      updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult
+    })
   }
 
   _onSelectChange = (
@@ -301,8 +324,7 @@ class TagDigestList extends React.Component<
   }
 
   public render() {
-    console.log(this.props)
-    const { data, loading = false, recommend } = this.props
+    const { data, loading = false, recommend, pagination } = this.props
     const { selectedRowKeys } = this.state
     const rowSelection = {
       selectedRowKeys,
@@ -317,7 +339,15 @@ class TagDigestList extends React.Component<
           loading={loading}
           rowSelection={recommend ? undefined : rowSelection}
           dataSource={_compact(data)}
-          pagination={false}
+          pagination={
+            pagination
+              ? {
+                  pageSize: pagination.pageSize || PAGE_SIZE,
+                  total: pagination.totalCount,
+                  onChange: this._onPaginationChange
+                }
+              : false
+          }
           rowKey={record => record.id}
         >
           <Table.Column<TagDigest>

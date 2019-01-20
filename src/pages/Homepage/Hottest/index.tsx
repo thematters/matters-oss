@@ -4,47 +4,42 @@ import _get from 'lodash/get'
 import SearchBar from '../../../components/SearchBar'
 import ErrorMessage from '../../../components/ErrorMessage'
 import ArticleDigestList from '../../../components/Article/DigestList'
-import withHottestList from './withHottestList'
+import withHottestList, { HottestListChildProps } from './withHottestList'
 
 import { ArticleDigest } from '../../../definitions'
-import { HottestChildProps, SearchArticlesChildProps } from './type'
 
-class ArticleList extends React.Component<
-  HottestChildProps & SearchArticlesChildProps
-> {
+class ArticleList extends React.Component<HottestListChildProps> {
   private _renderHeader() {
     return <SearchBar placeholder="請輸入文章標題" />
   }
 
   private _renderContent() {
     const {
-      data: { viewer, search, loading, error }
+      data: { viewer, search, loading, error, fetchMore, variables }
     } = this.props
 
     if (error) {
       return <ErrorMessage error={error} />
     }
 
-    if (loading) {
-      return (
-        <ArticleDigestList data={[]} loading recommend={{ hottest: true }} />
-      )
-    }
-
-    let articleTableData: ArticleDigest[] = []
+    let listData: ArticleDigest[] = []
+    let totalCount: number = 0
     if (search) {
-      articleTableData = search.edges.map(({ node }) => node)
+      listData = search.edges.map(({ node }) => node)
+      totalCount = search.totalCount
     }
 
     if (viewer && viewer.recommendation && viewer.recommendation.hottest) {
-      articleTableData = viewer.recommendation.hottest.edges.map(
-        ({ node }) => node
-      )
+      listData = viewer.recommendation.hottest.edges.map(({ node }) => node)
+      totalCount = viewer.recommendation.hottest.totalCount
     }
+
     return (
       <ArticleDigestList
-        data={articleTableData}
+        data={listData}
+        loading={loading}
         recommend={{ hottest: true }}
+        pagination={{ totalCount, fetchMore, variables }}
       />
     )
   }

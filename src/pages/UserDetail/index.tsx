@@ -76,23 +76,23 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="設定">
-          <Col span={24} lg={12} style={{ marginBottom: 16 }}>
-            <UserSetState state={user.status.state} id={user.id} />
+        <DescriptionList size="large" title="自我描述">
+          <Col span={24} style={{ marginBottom: 16 }}>
+            {user.info.description}
           </Col>
+        </DescriptionList>
+        <Divider size="large" />
+
+        <DescriptionList size="large" title="設定">
+          <Description term="狀態" col={1}>
+            <UserSetState state={user.status.state} id={user.id} />
+          </Description>
         </DescriptionList>
         <Divider size="large" />
 
         <DescriptionList size="large" title="備註">
           <Col span={24} lg={12} style={{ marginBottom: 16 }}>
             <Remark id={user.id} type="User" remark={user.remark} />
-          </Col>
-        </DescriptionList>
-        <Divider size="large" />
-
-        <DescriptionList size="large" title="自我描述">
-          <Col span={24} style={{ marginBottom: 16 }}>
-            {user.info.description}
           </Col>
         </DescriptionList>
         <Divider size="large" />

@@ -6,17 +6,44 @@ import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
 import UserLink from '../../UserLink'
-import { PATH } from '../../../constants'
+import { PATH, PAGE_SIZE } from '../../../constants'
 import { Report, ArticleDigest, CommentDigest } from '../../../definitions'
+import { pageToCursor } from '../../../utils'
 
 type ReportDigestListProps = {
   data: Report[]
+  loading?: boolean
+  pagination?: {
+    totalCount: number
+    pageSize?: number
+    fetchMore?: any
+    variables?: any
+  }
   isArticle?: boolean
   isComment?: boolean
-  loading?: boolean
 }
 
 class ReportDigestList extends React.Component<ReportDigestListProps> {
+  private _onPaginationChange = (page: number, pageSize?: number) => {
+    const { pagination } = this.props
+
+    if (!pagination) {
+      return
+    }
+
+    const cursor = pageToCursor(page, pageSize || 0)
+
+    pagination.fetchMore({
+      variables: {
+        input: {
+          ...pagination.variables.input,
+          after: cursor
+        }
+      },
+      updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult
+    })
+  }
+
   private _renderArticleTitleCell(title: string, record: any): React.ReactNode {
     return (
       <Link to={PATH.REPORT_DETAIL.replace(':id', record.id)}>{title}</Link>
@@ -35,14 +62,28 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
   }
 
   public render() {
-    const { data, isArticle, isComment, loading = false } = this.props
+    const {
+      data,
+      isArticle,
+      isComment,
+      loading = false,
+      pagination
+    } = this.props
 
     return (
       <Table<Report>
         bordered
         loading={loading}
         dataSource={_compact(data)}
-        pagination={false}
+        pagination={
+          pagination
+            ? {
+                pageSize: pagination.pageSize || PAGE_SIZE,
+                total: pagination.totalCount,
+                onChange: this._onPaginationChange
+              }
+            : false
+        }
         rowKey={record => record.id}
       >
         {isArticle && (

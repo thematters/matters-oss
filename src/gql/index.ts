@@ -1,5 +1,18 @@
 import gql from 'graphql-tag'
 
+import { PAGE_SIZE } from '../constants'
+
+export const GQL_FRAGMENT_CONNECTION_INFO = gql`
+  fragment ConnectionInfo on Connection {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+    }
+  }
+`
+
 /*********************************
  *                               *
  *            Digest             *
@@ -118,21 +131,24 @@ export const GQL_FRAGMENT_USER_DETAIL = gql`
     settings {
       language
     }
-    articles(input: { first: 10 }) {
+    articles(input: { first: ${PAGE_SIZE} }) {
+      ...ConnectionInfo
       edges {
         node {
           ...ArticleDigest
         }
       }
     }
-    commentedArticles(input: { first: 10 }) {
+    commentedArticles(input: { first: ${PAGE_SIZE} }) {
+      ...ConnectionInfo
       edges {
         node {
           ...ArticleDigest
         }
       }
     }
-    subscriptions(input: { first: 10 }) {
+    subscriptions(input: { first: ${PAGE_SIZE} }) {
+      ...ConnectionInfo
       edges {
         node {
           ...ArticleDigest
@@ -146,7 +162,7 @@ export const GQL_FRAGMENT_USER_DETAIL = gql`
       }
       invitation {
         left
-        sent(input: { first: 100 }) {
+        sent(input: { first: ${PAGE_SIZE}0 }) {
           edges {
             node {
               id
@@ -171,6 +187,7 @@ export const GQL_FRAGMENT_USER_DETAIL = gql`
     }
     remark
   }
+  ${GQL_FRAGMENT_CONNECTION_INFO}
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
   ${GQL_FRAGMENT_USER_DIGEST}
 `
@@ -182,7 +199,8 @@ export const GQL_FRAGMENT_TAG_DETAIL = gql`
     content
     count
     createdAt
-    articles(input: { first: 10 }) {
+    articles(input: { first: ${PAGE_SIZE} }) {
+      ...ConnectionInfo
       edges {
         node {
           ...ArticleDigest
@@ -191,6 +209,7 @@ export const GQL_FRAGMENT_TAG_DETAIL = gql`
     }
     remark
   }
+  ${GQL_FRAGMENT_CONNECTION_INFO}
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
 `
 
@@ -207,14 +226,16 @@ export const GQL_FRAGMENT_ARTICLE_DETAIL = gql`
     upstream {
       ...ArticleDigest
     }
-    downstreams(input: { first: 10 }) {
+    downstreams(input: { first: ${PAGE_SIZE} }) {
+      ...ConnectionInfo
       edges {
         node {
           ...ArticleDigest
         }
       }
     }
-    relatedArticles(input: { first: 10 }) {
+    relatedArticles(input: { first: ${PAGE_SIZE} }) {
+      ...ConnectionInfo
       edges {
         node {
           ...ArticleDigest
@@ -223,14 +244,15 @@ export const GQL_FRAGMENT_ARTICLE_DETAIL = gql`
     }
     MAT
     participantCount
-    subscribers(input: { first: 10 }) {
+    subscribers(input: { first: ${PAGE_SIZE} }) {
+      ...ConnectionInfo
       edges {
         node {
           ...UserDigest
         }
       }
     }
-    # appreciators(input: { first: 10 }) {
+    # appreciators(input: { first: ${PAGE_SIZE} }) {
     #   edges {
     #     node {
     #       ...UserDigest
@@ -242,6 +264,7 @@ export const GQL_FRAGMENT_ARTICLE_DETAIL = gql`
     hasAppreciate
     remark
   }
+  ${GQL_FRAGMENT_CONNECTION_INFO}
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
   ${GQL_FRAGMENT_USER_DIGEST}
 `

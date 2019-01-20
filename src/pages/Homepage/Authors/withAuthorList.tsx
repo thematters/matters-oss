@@ -1,24 +1,43 @@
-import { graphql, compose } from 'react-apollo'
+import { graphql, compose, ChildDataProps } from 'react-apollo'
 import gql from 'graphql-tag'
+import { RouteComponentProps } from 'react-router-dom'
 
-import { getSearchKey } from '../../../utils'
 import {
+  GQL_FRAGMENT_USER_DIGEST,
+  GQL_FRAGMENT_CONNECTION_INFO
+} from '../../../gql'
+import { PAGE_SIZE } from '../../../constants'
+import { UserDigest, GQLConnectionArgs, Connection } from '../../../definitions'
+import { getSearchKey } from '../../../utils'
+import searchUsers, {
+  SearchUsersChildProps
+} from '../../../hocs/withSearchUsers'
+
+type AuthorsResponse = {
+  viewer: {
+    recommendation: {
+      authors: Connection<UserDigest>
+    }
+  }
+}
+type AuthorsInputProps = RouteComponentProps
+type AuthorsVariables = {
+  input: GQLConnectionArgs
+}
+type AuthorsChildProps = ChildDataProps<
   AuthorsInputProps,
   AuthorsResponse,
-  AuthorsVariables,
-  AuthorsChildProps,
-  SearchUsersInputProps,
-  SearchUsersResponse,
-  SearchUsersVariables,
-  SearchUsersChildProps
-} from './type'
-import { GQL_FRAGMENT_USER_DIGEST } from '../../../gql'
+  AuthorsVariables
+>
+
+export type AuthorListChildProps = AuthorsChildProps & SearchUsersChildProps
 
 const GET_AUTHORS = gql`
   query Authors($input: AuthorsInput!) {
     viewer {
       recommendation {
         authors(input: $input) {
+          ...ConnectionInfo
           edges {
             node {
               ...UserDigest
@@ -28,20 +47,7 @@ const GET_AUTHORS = gql`
       }
     }
   }
-  ${GQL_FRAGMENT_USER_DIGEST}
-`
-const SEARCH_USERS = gql`
-  query SearchUsers($input: SearchInput!) {
-    search(input: $input) {
-      edges {
-        node {
-          ... on User {
-            ...UserDigest
-          }
-        }
-      }
-    }
-  }
+  ${GQL_FRAGMENT_CONNECTION_INFO}
   ${GQL_FRAGMENT_USER_DIGEST}
 `
 
@@ -55,30 +61,11 @@ const authors = graphql<
   options: props => ({
     variables: {
       input: {
-        first: 10
+        first: PAGE_SIZE
       }
     }
   }),
   skip: () => !!getSearchKey()
-})
-
-const searchUsers = graphql<
-  SearchUsersInputProps,
-  SearchUsersResponse,
-  SearchUsersVariables,
-  SearchUsersChildProps
->(SEARCH_USERS, {
-  // name: 'searchUsers',
-  options: props => ({
-    variables: {
-      input: {
-        key: getSearchKey(),
-        type: 'User',
-        first: 10
-      }
-    }
-  }),
-  skip: () => !getSearchKey()
 })
 
 export default compose(
