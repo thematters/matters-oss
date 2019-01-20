@@ -27,6 +27,7 @@ steps:
         from_secret: AWS_ACCESS_KEY_ID
       secret_key:
         from_secret: AWS_SECRET_ACCESS_KEY
+      region: ap-southeast-1
       source: build/**/*
       target: /
     when:
@@ -56,6 +57,7 @@ steps:
         from_secret: AWS_ACCESS_KEY_ID
       secret_key:
         from_secret: AWS_SECRET_ACCESS_KEY
+      region: ap-southeast-1
       source: build/**/*
       target: /
     when:
