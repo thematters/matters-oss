@@ -22,7 +22,7 @@ steps:
   - name: staging:deploy
     image: plugins/s3
     settings:
-      bucket: oss-staging.matters.news
+      bucket: oss-stage.matters.news
       access_key:
         from_secret: AWS_ACCESS_KEY_ID
       secret_key:
