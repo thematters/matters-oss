@@ -1,0 +1,63 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: node modules
+    image: node:10.14
+    commands:
+      - npm install --no-progress --quiet --unsafe-perm >  npm-install.log
+
+  # === CI tasks for `staging` branch ===
+  - name: staging:build
+    image: node:10.14
+    commands:
+      - npm run build:staging
+
+  - name: staging:deploy
+    image: plugins/s3
+    settings:
+      bucket: oss-staging.matters.news
+      access_key:
+        from_secret: AWS_ACCESS_KEY_ID
+      secret_key:
+        from_secret: AWS_SECRET_ACCESS_KEY
+      source: build/**/*
+      target: /
+    when:
+      branch:
+        - staging
+        - feature/staging
+      event:
+        - push
+
+  # === CI tasks for `master` branch
+  - name: prod:build
+    image: node:10.14
+    commands:
+      - npm run build:production
+
+  - name: prod:deploy
+    image: plugins/s3
+    settings:
+      bucket: oss.matters.news
+      access_key:
+        from_secret: AWS_ACCESS_KEY_ID
+      secret_key:
+        from_secret: AWS_SECRET_ACCESS_KEY
+      source: build/**/*
+      target: /
+    when:
+      branch:
+        - master
+        - feature/prod
+      event:
+        - push
+
+  - name: slack
+    image: plugins/slack
+    settings:
+      webhook: https://hooks.slack.com/services/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
+      channel: log_github
+    username: Drone CI
+    when:
+      status: [success, failure]
