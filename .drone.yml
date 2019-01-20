@@ -30,6 +30,7 @@ steps:
       region: ap-southeast-1
       source: build/**/*
       target: /
+      strip_prefix: build/
     when:
       branch:
         - staging
@@ -60,6 +61,7 @@ steps:
       region: ap-southeast-1
       source: build/**/*
       target: /
+      strip_prefix: build/
     when:
       branch:
         - master
