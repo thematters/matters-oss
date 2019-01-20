@@ -11,7 +11,13 @@ steps:
   - name: staging:build
     image: node:10.14
     commands:
-      - npm run build:staging
+      - npm run build:stage
+    when:
+      branch:
+        - staging
+        - feature/staging
+      event:
+        - push
 
   - name: staging:deploy
     image: plugins/s3
@@ -35,6 +41,12 @@ steps:
     image: node:10.14
     commands:
       - npm run build:production
+    when:
+      branch:
+        - master
+        - feature/prod
+      event:
+        - push
 
   - name: prod:deploy
     image: plugins/s3
