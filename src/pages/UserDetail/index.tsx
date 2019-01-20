@@ -9,6 +9,7 @@ import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
 import InvitationList from '../../components/User/InvitationList'
 import UserStateTag from '../../components/User/StateTag'
+import UserSetState from '../../components/User/SetState'
 
 import withUserDetail, { UserDetailChildProps } from './withUserDetail'
 import ArticleDigestList from '../../components/Article/DigestList'
@@ -75,7 +76,11 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="設定" />
+        <DescriptionList size="large" title="設定">
+          <Col span={24} lg={12} style={{ marginBottom: 16 }}>
+            <UserSetState state={user.status.state} id={user.id} />
+          </Col>
+        </DescriptionList>
         <Divider size="large" />
 
         <DescriptionList size="large" title="備註">
