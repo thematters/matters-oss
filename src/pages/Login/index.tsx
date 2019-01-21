@@ -10,9 +10,19 @@ import { STORE_JWT_TOKEN } from '../../constants'
 import LOGO_URL from '../../assets/logo.svg'
 import './style.less'
 
-class Login extends React.Component<ChildProps> {
+type LoginState = {
+  loading: boolean
+}
+
+class Login extends React.Component<ChildProps, LoginState> {
+  state = {
+    loading: false
+  }
+
   private _renderFormItems() {
+    const { loading } = this.state
     const { getFieldDecorator } = this.props.form
+
     return (
       <>
         <Form.Item>
@@ -44,6 +54,8 @@ class Login extends React.Component<ChildProps> {
             size="large"
             type="primary"
             htmlType="submit"
+            loading={loading}
+            disabled={loading}
             className="login-form-button"
           >
             登入
@@ -69,6 +81,7 @@ class Login extends React.Component<ChildProps> {
       try {
         const email = getFieldValue('email')
         const password = getFieldValue('password')
+        this.setState({ loading: true })
         const result = await mutate({
           variables: {
             input: {
@@ -89,12 +102,14 @@ class Login extends React.Component<ChildProps> {
             }
           })
         }
+        this.setState({ loading: false })
       } catch (e) {
         setFields({
           email: {
             errors: [new Error('登入失敗')]
           }
         })
+        this.setState({ loading: false })
       }
     })
   }
