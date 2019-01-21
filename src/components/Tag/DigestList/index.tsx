@@ -159,7 +159,7 @@ class TagDigestList extends React.Component<
    */
   _onDeleteTags = () => {
     const { selectedRowKeys, selectedRows } = this.state
-    // @ts-ignore
+    // @ts-ignore https://github.com/apollographql/react-apollo/pull/862
     const { deleteTags } = this.props
 
     Modal.confirm({

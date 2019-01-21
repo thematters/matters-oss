@@ -11,8 +11,10 @@ import Layout from './components/Layout'
 
 import routes from './routes'
 import { API_ENDPOINT, STORE_JWT_TOKEN } from './constants'
-// import registerServiceWorker from './registerServiceWorker'
 import './index.less'
+
+import { unregister } from './registerServiceWorker'
+unregister()
 
 const client = new ApolloClient({
   uri: API_ENDPOINT,
@@ -36,4 +38,3 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('root') as HTMLElement)
-// registerServiceWorker()
