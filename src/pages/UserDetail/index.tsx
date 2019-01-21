@@ -127,10 +127,10 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         <DescriptionList size="large" title="邀請紀錄">
           <Col span={24} style={{ marginBottom: 16 }}>
             <InvitationList
-              //@ts-ignore
               data={
-                user.status.invitation.sent.edges &&
-                user.status.invitation.sent.edges.map(({ node }) => node)
+                user.status.invitation.sent.edges
+                  ? user.status.invitation.sent.edges.map(({ node }) => node)
+                  : []
               }
             />
           </Col>

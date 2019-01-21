@@ -83,7 +83,8 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
             ? {
                 pageSize: pagination.pageSize || PAGE_SIZE,
                 total: pagination.totalCount,
-                onChange: this._onPaginationChange
+                onChange: this._onPaginationChange,
+                showTotal: t => `共 ${t} 項`
               }
             : false
         }
