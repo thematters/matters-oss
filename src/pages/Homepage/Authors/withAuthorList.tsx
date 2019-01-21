@@ -36,6 +36,7 @@ const authors = graphql<
 >(QueryRecommendAuthors, {
   // name: 'authors',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         first: PAGE_SIZE

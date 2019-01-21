@@ -32,6 +32,7 @@ const allUsers = graphql<
 >(QueryUserList, {
   // name: 'allUsers',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         first: PAGE_SIZE

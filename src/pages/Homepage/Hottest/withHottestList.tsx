@@ -40,6 +40,7 @@ const hottest = graphql<
 >(QueryRecommendHottest, {
   // name: 'hottest',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         first: PAGE_SIZE

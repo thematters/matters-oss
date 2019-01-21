@@ -30,6 +30,7 @@ export default graphql<
 >(QuerySearchUsers, {
   // name: 'searchUsers',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         key: getSearchKey(),

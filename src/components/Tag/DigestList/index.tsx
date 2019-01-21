@@ -7,6 +7,7 @@ import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
 import SetBoost from '../../SetBoost'
+import TagLink from '../../Tag/Link'
 import withTagMutaitons, {
   TagMutationsChildProps
 } from '../../../hocs/withTagMutations'
@@ -317,14 +318,6 @@ class TagDigestList extends React.Component<
     )
   }
 
-  private _renderContentCell(_: any, record: TagDigest): React.ReactNode {
-    return (
-      <Link to={PATH.TAG_DETAIL.replace(':id', record.id)}>
-        <Tag>{record.content}</Tag>
-      </Link>
-    )
-  }
-
   public render() {
     const { data, loading = false, recommend, pagination } = this.props
     const { selectedRowKeys } = this.state
@@ -341,6 +334,7 @@ class TagDigestList extends React.Component<
           loading={loading}
           rowSelection={recommend ? undefined : rowSelection}
           dataSource={_compact(data)}
+          scroll={{ x: 1200 }}
           pagination={
             pagination
               ? {
@@ -355,7 +349,9 @@ class TagDigestList extends React.Component<
           <Table.Column<TagDigest>
             dataIndex="content"
             title="標籤"
-            render={this._renderContentCell}
+            render={(_, record) => (
+              <TagLink id={record.id} content={record.content} />
+            )}
           />
           <Table.Column<TagDigest> dataIndex="count" title="文章數" />
           <Table.Column<TagDigest>

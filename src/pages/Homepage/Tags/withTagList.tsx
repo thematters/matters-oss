@@ -33,6 +33,7 @@ const tags = graphql<
 >(QueryRecommendTags, {
   // name: 'Tags',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         first: PAGE_SIZE

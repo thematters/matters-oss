@@ -5,7 +5,7 @@ import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
 import UserStateTag from '../../../components/User/StateTag'
-import UserLink from '../../UserLink'
+import UserLink from '../../User/Link'
 import SetBoost from '../../SetBoost'
 
 import { UserDigest } from '../../../definitions'
@@ -66,6 +66,7 @@ class UserDigestList extends React.Component<UserDigestListProps> {
         bordered
         loading={loading}
         dataSource={_compact(data)}
+        scroll={{ x: 1200 }}
         pagination={
           pagination
             ? {
@@ -80,9 +81,14 @@ class UserDigestList extends React.Component<UserDigestListProps> {
         <Table.Column<UserDigest>
           dataIndex="info.id"
           title="用戶"
+          width={150}
           render={this._renderEmailCell}
         />
-        <Table.Column<UserDigest> dataIndex="info.email" title="電子信箱" />
+        <Table.Column<UserDigest>
+          dataIndex="info.email"
+          title="電子信箱"
+          width={300}
+        />
         <Table.Column<UserDigest>
           dataIndex="status.state"
           title="狀態"

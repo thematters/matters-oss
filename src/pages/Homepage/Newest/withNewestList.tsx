@@ -39,6 +39,7 @@ const newest = graphql<
 >(QueryRecommendNewest, {
   options: props => ({
     // name: 'Newest',
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         first: PAGE_SIZE

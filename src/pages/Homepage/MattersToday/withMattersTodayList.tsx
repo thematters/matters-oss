@@ -38,6 +38,7 @@ const mattersToday = graphql<
 >(QueryRecommendToday, {
   // name: 'today',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         first: PAGE_SIZE

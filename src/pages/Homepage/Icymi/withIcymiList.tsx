@@ -39,6 +39,7 @@ const icymi = graphql<
 >(QueryRecommendIcymi, {
   // name: 'MattersChoice',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         first: PAGE_SIZE

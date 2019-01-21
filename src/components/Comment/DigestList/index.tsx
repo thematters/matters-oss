@@ -6,7 +6,7 @@ import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
-import UserLink from '../../UserLink'
+import UserLink from '../../User/Link'
 import CommentStateTag from '../StateTag'
 
 import { PATH, PAGE_SIZE } from '../../../constants'
@@ -62,6 +62,7 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
         bordered
         loading={loading}
         dataSource={_compact(data)}
+        scroll={{ x: 1200 }}
         pagination={
           pagination
             ? {

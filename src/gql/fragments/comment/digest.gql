@@ -8,7 +8,7 @@ fragment CommentDigest on Comment {
   author {
     ...UserId
   }
-  # pinned
-  # upvotes
-  # downvotes
+  pinned
+  upvotes
+  downvotes
 }

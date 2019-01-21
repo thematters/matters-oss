@@ -31,6 +31,7 @@ const allTags = graphql<
 >(QueryTagList, {
   // name: 'allTags',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         first: PAGE_SIZE

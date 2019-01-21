@@ -6,7 +6,7 @@ import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
-import UserLink from '../../UserLink'
+import UserLink from '../../User/Link'
 import { PATH, PAGE_SIZE } from '../../../constants'
 import { Report } from '../../../definitions'
 import { pageToCursor } from '../../../utils'
@@ -77,6 +77,7 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
         bordered
         loading={loading}
         dataSource={_compact(data)}
+        scroll={{ x: 1200 }}
         pagination={
           pagination
             ? {

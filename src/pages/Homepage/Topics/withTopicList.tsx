@@ -39,6 +39,7 @@ const topics = graphql<
 >(QueryRecommendTopics, {
   // name: 'topics',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         first: PAGE_SIZE

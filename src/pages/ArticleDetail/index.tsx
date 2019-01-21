@@ -5,7 +5,8 @@ import _get from 'lodash/get'
 import ErrorMessage from '../../components/ErrorMessage'
 import Divider from '../../components/Divider'
 import DateTime from '../../components/DateTime'
-import UserLink from '../../components/UserLink'
+import UserLink from '../../components/User/Link'
+import TagLink from '../../components/Tag/Link'
 import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
 import ToggleLive from '../../components/Article/ToggleLive'
@@ -57,7 +58,7 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           <Description term="字數">{article.wordCount}</Description>
           <Description term="標籤">
             {article.tags.map(tag => (
-              <Tag>{tag.content}</Tag>
+              <TagLink key={tag.id} id={tag.id} content={tag.content} />
             ))}
           </Description>
           <Description term="MAT">{article.MAT}</Description>

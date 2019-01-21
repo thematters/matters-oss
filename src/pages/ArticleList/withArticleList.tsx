@@ -35,6 +35,7 @@ const allArticles = graphql<
 >(QueryArticleList, {
   // name: 'allArticles',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         first: PAGE_SIZE

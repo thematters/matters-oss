@@ -30,6 +30,7 @@ export default graphql<
 >(QuerySearchArticles, {
   // name: 'searchArticles',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         key: getSearchKey(),

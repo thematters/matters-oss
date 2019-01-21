@@ -32,6 +32,7 @@ const Reports = graphql<
 >(QueryReportList, {
   // name: 'reports',
   options: props => ({
+    notifyOnNetworkStatusChange: true,
     variables: {
       input: {
         article: props.type === 'article',

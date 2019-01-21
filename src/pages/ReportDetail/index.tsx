@@ -11,7 +11,7 @@ import CommentDigestList from '../../components/Comment/DigestList'
 import Remark from '../../components/Remark'
 
 import withReportDetail, { ReportDetailChildProps } from './withReportDetail'
-import UserLink from '../../components/UserLink'
+import UserLink from '../../components/User/Link'
 
 const { Description } = DescriptionList
 

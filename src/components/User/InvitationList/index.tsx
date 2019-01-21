@@ -5,7 +5,7 @@ import _compact from 'lodash/compact'
 
 import LevelTag, { LevelEnum } from '../../../components/LevelTag'
 import DateTime from '../../DateTime'
-import UserLink from '../../UserLink'
+import UserLink from '../../User/Link'
 
 import { GQLInvitation } from '../../../definitions'
 
@@ -38,6 +38,7 @@ class InvitationList extends React.Component<InvitationListProps> {
         loading={loading}
         dataSource={_compact(data)}
         pagination={false}
+        scroll={{ x: 1200 }}
         rowKey={record => record.id}
       >
         <Table.Column<GQLInvitation>

@@ -6,7 +6,7 @@ import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
-import UserLink from '../../UserLink'
+import UserLink from '../../User/Link'
 import ToggleLive from '../ToggleLive'
 import TogglePublic from '../TogglePublic'
 import SetBoost from '../../SetBoost'
@@ -72,6 +72,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
         bordered
         loading={loading}
         dataSource={_compact(data)}
+        scroll={{ x: 1200 }}
         pagination={
           pagination
             ? {
@@ -86,11 +87,13 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
         <Table.Column<ArticleDigest>
           dataIndex="title"
           title="標題"
+          width={400}
           render={this._renderTitleCell}
         />
         <Table.Column<ArticleDigest>
           dataIndex="author"
           title="作者"
+          width={150}
           render={author => (
             <UserLink
               id={author.id}
@@ -102,9 +105,10 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
         <Table.Column<ArticleDigest>
           dataIndex="state"
           title="狀態"
+          width={100}
           render={state => <ArticleStateTag state={state} />}
         />
-        <Table.Column<ArticleDigest> dataIndex="MAT" title="MAT 數" />
+        {/* <Table.Column<ArticleDigest> dataIndex="MAT" title="MAT 數" /> */}
         <Table.Column<ArticleDigest> dataIndex="commentCount" title="評論數" />
         <Table.Column<ArticleDigest>
           dataIndex="public"
