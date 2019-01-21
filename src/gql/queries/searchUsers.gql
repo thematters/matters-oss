@@ -1,0 +1,15 @@
+#import "../fragments/connection.gql"
+#import "../fragments/user/digest.gql"
+
+query OSSSearchUsers($input: SearchInput!) {
+  search(input: $input) {
+    ...ConnectionInfo
+    edges {
+      node {
+        ... on User {
+          ...UserDigest
+        }
+      }
+    }
+  }
+}

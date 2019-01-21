@@ -1,16 +1,12 @@
 import { graphql, compose, ChildDataProps } from 'react-apollo'
-import gql from 'graphql-tag'
 import { RouteComponentProps } from 'react-router-dom'
 
 import { getSearchKey } from '../../../utils'
-import {
-  GQL_FRAGMENT_ARTICLE_DIGEST,
-  GQL_FRAGMENT_CONNECTION_INFO
-} from '../../../gql'
 import { PAGE_SIZE } from '../../../constants'
 import searchArticles, {
   SearchArticlesChildProps
 } from '../../../hocs/withSearchArticles'
+import QueryRecommendHottest from '../../../gql/queries/recommendHottest.gql'
 
 import {
   ArticleDigest,
@@ -36,31 +32,12 @@ type HottestChildProps = ChildDataProps<
 >
 export type HottestListChildProps = HottestChildProps & SearchArticlesChildProps
 
-const GET_HOTTEST = gql`
-  query Hottest($input: ConnectionArgs!) {
-    viewer {
-      recommendation {
-        hottest(input: $input) {
-          ...ConnectionInfo
-          edges {
-            node {
-              ...ArticleDigest
-            }
-          }
-        }
-      }
-    }
-  }
-  ${GQL_FRAGMENT_CONNECTION_INFO}
-  ${GQL_FRAGMENT_ARTICLE_DIGEST}
-`
-
 const hottest = graphql<
   HottestInputProps,
   HottestResponse,
   HottestVariables,
   HottestChildProps
->(GET_HOTTEST, {
+>(QueryRecommendHottest, {
   // name: 'hottest',
   options: props => ({
     variables: {

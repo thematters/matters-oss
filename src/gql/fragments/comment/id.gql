@@ -1,0 +1,6 @@
+fragment CommentId on Comment {
+  id
+  content
+  # state
+  # createdAt
+}

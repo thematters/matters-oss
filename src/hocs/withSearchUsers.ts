@@ -1,11 +1,10 @@
 import { graphql, ChildDataProps } from 'react-apollo'
-import gql from 'graphql-tag'
 import { RouteComponentProps } from 'react-router-dom'
 
-import { GQL_FRAGMENT_USER_DIGEST, GQL_FRAGMENT_CONNECTION_INFO } from '../gql'
 import { PAGE_SIZE } from '../constants'
 import { UserDigest, GQLConnectionArgs, Connection } from '../definitions'
 import { getSearchKey } from '../utils'
+import QuerySearchUsers from '../gql/queries/searchUsers.gql'
 
 type SearchUsersResponse = {
   search: Connection<UserDigest>
@@ -23,29 +22,12 @@ export type SearchUsersChildProps = ChildDataProps<
   SearchUsersVariables
 >
 
-const SEARCH_USERS = gql`
-  query SearchUsers($input: SearchInput!) {
-    search(input: $input) {
-      ...ConnectionInfo
-      edges {
-        node {
-          ... on User {
-            ...UserDigest
-          }
-        }
-      }
-    }
-  }
-  ${GQL_FRAGMENT_CONNECTION_INFO}
-  ${GQL_FRAGMENT_USER_DIGEST}
-`
-
 export default graphql<
   SearchUsersInputProps,
   SearchUsersResponse,
   SearchUsersVariables,
   SearchUsersChildProps
->(SEARCH_USERS, {
+>(QuerySearchUsers, {
   // name: 'searchUsers',
   options: props => ({
     variables: {

@@ -1,0 +1,4 @@
+fragment TagId on Tag {
+  id
+  content
+}

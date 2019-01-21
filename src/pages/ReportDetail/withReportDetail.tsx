@@ -5,18 +5,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import _get from 'lodash/get'
 
 import { Report } from '../../definitions'
-import { GQL_FRAGMENT_REPORT } from '../../gql'
-
-const GET_REPORT_DETAIL = gql`
-  query ReportDetail($input: ReportInput!) {
-    report: oss {
-      report(input: $input) {
-        ...Report
-      }
-    }
-  }
-  ${GQL_FRAGMENT_REPORT}
-`
+import QueryReportDetail from '../../gql/queries/reportDetail.gql'
 
 export type ReportDetailResponse = {
   report: {
@@ -40,7 +29,7 @@ const reportDetail = graphql<
   ReportDetailResponse,
   ReportDetailVariables,
   ReportDetailChildProps
->(GET_REPORT_DETAIL, {
+>(QueryReportDetail, {
   options: props => {
     const id = _get(props, 'match.params.id')
     return {

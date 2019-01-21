@@ -1,0 +1,9 @@
+#import "../fragments/article/detail.gql"
+
+query OSSArticleDetail($input: NodeInput!) {
+  article: node(input: $input) {
+    ... on Article {
+      ...ArticleDetail
+    }
+  }
+}

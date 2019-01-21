@@ -1,11 +1,6 @@
 import { graphql, compose, ChildDataProps } from 'react-apollo'
-import gql from 'graphql-tag'
 import { RouteComponentProps } from 'react-router-dom'
 
-import {
-  GQL_FRAGMENT_ARTICLE_DIGEST,
-  GQL_FRAGMENT_CONNECTION_INFO
-} from '../../../gql'
 import { PAGE_SIZE } from '../../../constants'
 import {
   ArticleDigest,
@@ -16,6 +11,7 @@ import { getSearchKey } from '../../../utils'
 import searchArticles, {
   SearchArticlesChildProps
 } from '../../../hocs/withSearchArticles'
+import QueryRecommendToday from '../../../gql/queries/recommendToday.gql'
 
 type MattersTodayResponse = {
   oss: {
@@ -34,29 +30,12 @@ type MattersTodayChildProps = ChildDataProps<
 export type MattersTodayListChildProps = MattersTodayChildProps &
   SearchArticlesChildProps
 
-const GET_MATTERS_TODAY = gql`
-  query MattersToday($input: ConnectionArgs!) {
-    oss {
-      today(input: $input) {
-        ...ConnectionInfo
-        edges {
-          node {
-            ...ArticleDigest
-          }
-        }
-      }
-    }
-  }
-  ${GQL_FRAGMENT_CONNECTION_INFO}
-  ${GQL_FRAGMENT_ARTICLE_DIGEST}
-`
-
 const mattersToday = graphql<
   MattersTodayInputProps,
   MattersTodayResponse,
   MattersTodayVariables,
   MattersTodayChildProps
->(GET_MATTERS_TODAY, {
+>(QueryRecommendToday, {
   // name: 'today',
   options: props => ({
     variables: {

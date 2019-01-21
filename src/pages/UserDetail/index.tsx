@@ -115,14 +115,14 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="收藏文章">
+        {/* <DescriptionList size="large" title="收藏文章">
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList
               data={user.subscriptions.edges.map(({ node }) => node)}
             />
           </Col>
         </DescriptionList>
-        <Divider size="large" />
+        <Divider size="large" /> */}
 
         <DescriptionList size="large" title="邀請紀錄">
           <Col span={24} style={{ marginBottom: 16 }}>

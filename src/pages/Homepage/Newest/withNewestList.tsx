@@ -1,11 +1,6 @@
 import { graphql, compose, ChildDataProps } from 'react-apollo'
-import gql from 'graphql-tag'
 import { RouteComponentProps } from 'react-router-dom'
 
-import {
-  GQL_FRAGMENT_ARTICLE_DIGEST,
-  GQL_FRAGMENT_CONNECTION_INFO
-} from '../../../gql'
 import { PAGE_SIZE } from '../../../constants'
 import {
   ArticleDigest,
@@ -16,6 +11,7 @@ import { getSearchKey } from '../../../utils'
 import searchArticles, {
   SearchArticlesChildProps
 } from '../../../hocs/withSearchArticles'
+import QueryRecommendNewest from '../../../gql/queries/recommendNewest.gql'
 
 type NewestResponse = {
   viewer: {
@@ -35,31 +31,12 @@ type NewestChildProps = ChildDataProps<
 >
 export type NewestListChildProps = NewestChildProps & SearchArticlesChildProps
 
-const GET_NEWEST = gql`
-  query Newest($input: ConnectionArgs!) {
-    viewer {
-      recommendation {
-        newest(input: $input) {
-          ...ConnectionInfo
-          edges {
-            node {
-              ...ArticleDigest
-            }
-          }
-        }
-      }
-    }
-  }
-  ${GQL_FRAGMENT_CONNECTION_INFO}
-  ${GQL_FRAGMENT_ARTICLE_DIGEST}
-`
-
 const newest = graphql<
   NewestInputProps,
   NewestResponse,
   NewestVariables,
   NewestChildProps
->(GET_NEWEST, {
+>(QueryRecommendNewest, {
   options: props => ({
     // name: 'Newest',
     variables: {

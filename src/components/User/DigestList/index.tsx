@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Table } from 'antd'
+import jump from 'jump.js'
 import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
@@ -35,6 +36,7 @@ class UserDigestList extends React.Component<UserDigestListProps> {
 
     const cursor = pageToCursor(page, pageSize || 0)
 
+    jump('body')
     pagination.fetchMore({
       variables: {
         input: {
@@ -75,7 +77,11 @@ class UserDigestList extends React.Component<UserDigestListProps> {
         }
         rowKey={record => record.id}
       >
-        <Table.Column<UserDigest> title="用戶" render={this._renderEmailCell} />
+        <Table.Column<UserDigest>
+          dataIndex="info.id"
+          title="用戶"
+          render={this._renderEmailCell}
+        />
         <Table.Column<UserDigest> dataIndex="info.email" title="電子信箱" />
         <Table.Column<UserDigest>
           dataIndex="status.state"

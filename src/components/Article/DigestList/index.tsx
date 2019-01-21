@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Table } from 'antd'
+import jump from 'jump.js'
 import { Link } from 'react-router-dom'
 import _get from 'lodash/get'
 import _compact from 'lodash/compact'
@@ -52,6 +53,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
 
     const cursor = pageToCursor(page, pageSize || 0)
 
+    jump('body')
     pagination.fetchMore({
       variables: {
         input: {
@@ -102,6 +104,8 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           title="狀態"
           render={state => <ArticleStateTag state={state} />}
         />
+        <Table.Column<ArticleDigest> dataIndex="MAT" title="MAT 數" />
+        <Table.Column<ArticleDigest> dataIndex="commentCount" title="評論數" />
         <Table.Column<ArticleDigest>
           dataIndex="public"
           title="白名單"

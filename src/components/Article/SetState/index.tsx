@@ -62,11 +62,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
 
   private _onClickChange = () => {
     Modal.confirm({
-      title: `確認修改用戶狀態？`,
+      title: `確認修改文章狀態？`,
       content: (
         <div style={{ marginTop: 16 }}>
           <span>
-            修改後，用戶狀態將從&nbsp;&nbsp;
+            修改後，文章狀態將從&nbsp;&nbsp;
             <ArticleStateTag state={this.props.state} />
             改為&nbsp;&nbsp;
             <ArticleStateTag state={this.state.articleState} />

@@ -866,11 +866,6 @@ export interface GQLOSS {
   today: GQLArticleConnection
 }
 
-export interface GQLUsersInput {
-  after?: string
-  first?: number
-}
-
 export interface GQLArticlesInput {
   public?: boolean
   after?: string
@@ -901,7 +896,7 @@ export interface GQLReport {
   article?: GQLArticle
   comment?: GQLComment
   category: string
-  description: string
+  description?: string
   assets?: Array<GQLURL>
   contact?: string
   createdAt: GQLDateTime
@@ -4885,7 +4880,7 @@ export interface GQLOSSTypeResolver<TParent = any> {
 }
 
 export interface OSSToUsersArgs {
-  input: GQLUsersInput
+  input: GQLConnectionArgs
 }
 export interface OSSToUsersResolver<TParent = any, TResult = any> {
   (

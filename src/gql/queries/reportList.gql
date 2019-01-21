@@ -1,0 +1,15 @@
+#import "../fragments/connection.gql"
+#import "../fragments/report/digest.gql"
+
+query OSSReportList($input: ReportsInput!) {
+  oss {
+    reports(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          ...ReportDigest
+        }
+      }
+    }
+  }
+}

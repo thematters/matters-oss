@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Table } from 'antd'
+import jump from 'jump.js'
 import { Link } from 'react-router-dom'
 import _get from 'lodash/get'
 import _compact from 'lodash/compact'
@@ -7,7 +8,7 @@ import _compact from 'lodash/compact'
 import DateTime from '../../DateTime'
 import UserLink from '../../UserLink'
 import { PATH, PAGE_SIZE } from '../../../constants'
-import { Report, ArticleDigest, CommentDigest } from '../../../definitions'
+import { Report } from '../../../definitions'
 import { pageToCursor } from '../../../utils'
 
 type ReportDigestListProps = {
@@ -33,6 +34,7 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
 
     const cursor = pageToCursor(page, pageSize || 0)
 
+    jump('body')
     pagination.fetchMore({
       variables: {
         input: {

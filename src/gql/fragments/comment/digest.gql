@@ -1,0 +1,14 @@
+#import "../user/id.gql"
+
+fragment CommentDigest on Comment {
+  id
+  content
+  state
+  createdAt
+  author {
+    ...UserId
+  }
+  # pinned
+  # upvotes
+  # downvotes
+}

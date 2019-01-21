@@ -1,0 +1,20 @@
+#import "../fragments/connection.gql"
+#import "../fragments/article/digest.gql"
+
+query OSSRecommendHottest($input: ConnectionArgs!) {
+  viewer {
+    recommendation {
+      hottest(input: $input) {
+        ...ConnectionInfo
+        edges {
+          node {
+            ...ArticleDigest
+            oss {
+              inRecommendHottest
+            }
+          }
+        }
+      }
+    }
+  }
+}

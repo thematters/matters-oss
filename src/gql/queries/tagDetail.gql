@@ -1,0 +1,9 @@
+#import "../fragments/tag/detail.gql"
+
+query OSSTagDetail($input: NodeInput!) {
+  tag: node(input: $input) {
+    ... on Tag {
+      ...TagDetail
+    }
+  }
+}

@@ -1,0 +1,15 @@
+#import "../fragments/connection.gql"
+#import "../fragments/article/digest.gql"
+
+query OSSArticleList($input: ArticlesInput!) {
+  oss {
+    articles(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          ...ArticleDigest
+        }
+      }
+    }
+  }
+}

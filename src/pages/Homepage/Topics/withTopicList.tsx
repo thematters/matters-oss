@@ -1,11 +1,6 @@
 import { graphql, compose, ChildDataProps } from 'react-apollo'
-import gql from 'graphql-tag'
 import { RouteComponentProps } from 'react-router-dom'
 
-import {
-  GQL_FRAGMENT_ARTICLE_DIGEST,
-  GQL_FRAGMENT_CONNECTION_INFO
-} from '../../../gql'
 import { PAGE_SIZE } from '../../../constants'
 import {
   ArticleDigest,
@@ -16,6 +11,7 @@ import { getSearchKey } from '../../../utils'
 import searchArticles, {
   SearchArticlesChildProps
 } from '../../../hocs/withSearchArticles'
+import QueryRecommendTopics from '../../../gql/queries/recommendTopics.gql'
 
 type TopicsResponse = {
   viewer: {
@@ -35,31 +31,12 @@ type TopicsChildProps = ChildDataProps<
 >
 export type TopicsListChildProps = TopicsChildProps & SearchArticlesChildProps
 
-const GET_TOPICS = gql`
-  query Topics($input: ConnectionArgs!) {
-    viewer {
-      recommendation {
-        topics(input: $input) {
-          ...ConnectionInfo
-          edges {
-            node {
-              ...ArticleDigest
-            }
-          }
-        }
-      }
-    }
-  }
-  ${GQL_FRAGMENT_CONNECTION_INFO}
-  ${GQL_FRAGMENT_ARTICLE_DIGEST}
-`
-
 const topics = graphql<
   TopicsInputProps,
   TopicsResponse,
   TopicsVariables,
   TopicsChildProps
->(GET_TOPICS, {
+>(QueryRecommendTopics, {
   // name: 'topics',
   options: props => ({
     variables: {

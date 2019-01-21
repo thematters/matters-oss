@@ -1,0 +1,18 @@
+#import "../article/id.gql"
+#import "../user/id.gql"
+
+fragment CommentDetail on Comment {
+  id
+  state
+  createdAt
+  article {
+    ...ArticleId
+  }
+  content
+  author {
+    ...UserId
+  }
+  pinned
+  upvotes
+  downvotes
+}

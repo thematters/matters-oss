@@ -1,11 +1,10 @@
 import { graphql, ChildDataProps } from 'react-apollo'
-import gql from 'graphql-tag'
 import { RouteComponentProps } from 'react-router-dom'
 
-import { GQL_FRAGMENT_TAG_DIGEST, GQL_FRAGMENT_CONNECTION_INFO } from '../gql'
 import { PAGE_SIZE } from '../constants'
 import { TagDigest, GQLConnectionArgs, Connection } from '../definitions'
 import { getSearchKey } from '../utils'
+import QuerySearchTags from '../gql/queries/searchTags.gql'
 
 type SearchTagsResponse = {
   search: Connection<TagDigest>
@@ -23,29 +22,12 @@ export type SearchTagsChildProps = ChildDataProps<
   SearchTagsVariables
 >
 
-const SEARCH_TAGS = gql`
-  query SearchTags($input: SearchInput!) {
-    search(input: $input) {
-      ...ConnectionInfo
-      edges {
-        node {
-          ... on Tag {
-            ...TagDigest
-          }
-        }
-      }
-    }
-  }
-  ${GQL_FRAGMENT_CONNECTION_INFO}
-  ${GQL_FRAGMENT_TAG_DIGEST}
-`
-
 export default graphql<
   SearchTagsInputProps,
   SearchTagsResponse,
   SearchTagsVariables,
   SearchTagsChildProps
->(SEARCH_TAGS, {
+>(QuerySearchTags, {
   // name: 'searchTags',
   options: props => ({
     variables: {

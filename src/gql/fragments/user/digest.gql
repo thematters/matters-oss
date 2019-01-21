@@ -1,0 +1,18 @@
+fragment UserDigest on User {
+  id
+  uuid
+  info {
+    userName
+    displayName
+    description
+    email
+  }
+  status {
+    state
+    articleCount
+    commentCount
+    MAT {
+      total
+    }
+  }
+}

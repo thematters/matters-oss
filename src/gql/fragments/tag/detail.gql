@@ -1,0 +1,18 @@
+#import "../connection.gql"
+#import "../article/digest.gql"
+
+fragment TagDetail on Tag {
+  id
+  content
+  count
+  createdAt
+  articles(input: { first: 20 }) {
+    ...ConnectionInfo
+    edges {
+      node {
+        ...ArticleDigest
+      }
+    }
+  }
+  remark
+}

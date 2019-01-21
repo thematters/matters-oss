@@ -1,0 +1,18 @@
+#import "../article/digest.gql"
+#import "../comment/digest.gql"
+#import "../user/id.gql"
+
+fragment ReportDigest on Report {
+  id
+  user {
+    ...UserId
+  }
+  article {
+    ...ArticleDigest
+  }
+  comment {
+    ...CommentDigest
+  }
+  category
+  createdAt
+}

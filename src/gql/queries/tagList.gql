@@ -1,0 +1,15 @@
+#import "../fragments/connection.gql"
+#import "../fragments/tag/digest.gql"
+
+query OSSTagList($input: ConnectionArgs!) {
+  oss {
+    tags(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          ...TagDigest
+        }
+      }
+    }
+  }
+}

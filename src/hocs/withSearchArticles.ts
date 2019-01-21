@@ -1,14 +1,10 @@
 import { graphql, ChildDataProps } from 'react-apollo'
-import gql from 'graphql-tag'
 import { RouteComponentProps } from 'react-router-dom'
 
-import {
-  GQL_FRAGMENT_ARTICLE_DIGEST,
-  GQL_FRAGMENT_CONNECTION_INFO
-} from '../gql'
 import { PAGE_SIZE } from '../constants'
 import { ArticleDigest, GQLConnectionArgs, Connection } from '../definitions'
 import { getSearchKey } from '../utils'
+import QuerySearchArticles from '../gql/queries/searchArticles.gql'
 
 type SearchArticlesResponse = {
   search: Connection<ArticleDigest>
@@ -26,29 +22,12 @@ export type SearchArticlesChildProps = ChildDataProps<
   SearchArticlesVariables
 >
 
-const SEARCH_ARTICLES = gql`
-  query SearchArticles($input: SearchInput!) {
-    search(input: $input) {
-      ...ConnectionInfo
-      edges {
-        node {
-          ... on Article {
-            ...ArticleDigest
-          }
-        }
-      }
-    }
-  }
-  ${GQL_FRAGMENT_CONNECTION_INFO}
-  ${GQL_FRAGMENT_ARTICLE_DIGEST}
-`
-
 export default graphql<
   SearchArticlesInputProps,
   SearchArticlesResponse,
   SearchArticlesVariables,
   SearchArticlesChildProps
->(SEARCH_ARTICLES, {
+>(QuerySearchArticles, {
   // name: 'searchArticles',
   options: props => ({
     variables: {

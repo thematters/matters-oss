@@ -4,13 +4,11 @@ import _get from 'lodash/get'
 import SearchBar from '../../../components/SearchBar'
 import ErrorMessage from '../../../components/ErrorMessage'
 import ArticleDigestList from '../../../components/Article/DigestList'
-import withMattersChoiceList, {
-  MattersChoiceListChildProps
-} from './withMattersChoiceList'
+import withIcymiList, { IcymiListChildProps } from './withIcymiList'
 
 import { ArticleDigest } from '../../../definitions'
 
-class ArticleList extends React.Component<MattersChoiceListChildProps> {
+class ArticleList extends React.Component<IcymiListChildProps> {
   private _renderHeader() {
     return <SearchBar placeholder="請輸入文章標題" />
   }
@@ -60,4 +58,4 @@ class ArticleList extends React.Component<MattersChoiceListChildProps> {
   }
 }
 
-export default withMattersChoiceList(ArticleList)
+export default withIcymiList(ArticleList)

@@ -1,15 +1,11 @@
 import { graphql, compose, ChildDataProps } from 'react-apollo'
-import gql from 'graphql-tag'
 import { RouteComponentProps } from 'react-router-dom'
 
 import { getSearchKey } from '../../utils'
-import {
-  GQL_FRAGMENT_USER_DIGEST,
-  GQL_FRAGMENT_CONNECTION_INFO
-} from '../../gql'
 import { PAGE_SIZE } from '../../constants'
 import { UserDigest, GQLConnectionArgs, Connection } from '../../definitions'
 import searchUsers, { SearchUsersChildProps } from '../../hocs/withSearchUsers'
+import QueryUserList from '../../gql/queries/userList.gql'
 
 type AllUsersResponse = {
   oss: {
@@ -28,29 +24,12 @@ type AllUsersChildProps = ChildDataProps<
 
 export type UserListChildProps = AllUsersChildProps & SearchUsersChildProps
 
-const GET_ALL_USERS = gql`
-  query AllUsers($input: UsersInput!) {
-    oss {
-      users(input: $input) {
-        ...ConnectionInfo
-        edges {
-          node {
-            ...UserDigest
-          }
-        }
-      }
-    }
-  }
-  ${GQL_FRAGMENT_CONNECTION_INFO}
-  ${GQL_FRAGMENT_USER_DIGEST}
-`
-
 const allUsers = graphql<
   AllUsersInputProps,
   AllUsersResponse,
   AllUsersVariables,
   AllUsersChildProps
->(GET_ALL_USERS, {
+>(QueryUserList, {
   // name: 'allUsers',
   options: props => ({
     variables: {

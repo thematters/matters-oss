@@ -1,0 +1,9 @@
+fragment ArticleId on Article {
+  id
+  slug
+  title
+  # createdAt
+  # state
+  # public
+  # live
+}

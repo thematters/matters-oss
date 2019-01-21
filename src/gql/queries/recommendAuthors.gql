@@ -1,0 +1,21 @@
+#import "../fragments/connection.gql"
+#import "../fragments/user/digest.gql"
+
+query OSSRecommendAuthors($input: AuthorsInput!) {
+  viewer {
+    recommendation {
+      authors(input: $input) {
+        ...ConnectionInfo
+        edges {
+          node {
+            ...UserDigest
+            oss {
+              boost
+              score
+            }
+          }
+        }
+      }
+    }
+  }
+}

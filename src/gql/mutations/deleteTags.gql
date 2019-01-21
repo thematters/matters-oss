@@ -1,0 +1,3 @@
+mutation OSSDeleteTags($input: DeleteTagsInput!) {
+  deleteTags(input: $input)
+}

@@ -5,7 +5,7 @@ import Layout from '../components/Layout'
 import Private from '../components/Private'
 import MattersToday from '../pages/Homepage/MattersToday'
 import { PATH } from '../constants'
-import MattersChoice from '../pages/Homepage/MattersChoice'
+import Icymi from '../pages/Homepage/Icymi'
 import Hottest from '../pages/Homepage/Hottest'
 import Newest from '../pages/Homepage/Newest'
 import Topics from '../pages/Homepage/Topics'
@@ -25,12 +25,12 @@ const homepageRoutes = [
     )
   },
   {
-    path: PATH.HOMEPAGE_MATTERS_CHOICE,
+    path: PATH.HOMEPAGE_ICYMI,
     component: (props: RouteConfigComponentProps) => (
       <Private>
         <Layout.Header />
         <Layout.Content>
-          <MattersChoice {...props} />
+          <Icymi {...props} />
         </Layout.Content>
       </Private>
     )

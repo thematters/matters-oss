@@ -1,0 +1,21 @@
+#import "../fragments/connection.gql"
+#import "../fragments/article/digest.gql"
+
+query OSSRecommendTopics($input: ConnectionArgs!) {
+  viewer {
+    recommendation {
+      topics(input: $input) {
+        ...ConnectionInfo
+        edges {
+          node {
+            ...ArticleDigest
+            oss {
+              boost
+              score
+            }
+          }
+        }
+      }
+    }
+  }
+}

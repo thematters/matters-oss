@@ -1,8 +1,9 @@
 import { graphql, compose, ChildMutateProps } from 'react-apollo'
-import gql from 'graphql-tag'
 
 import { TagDigest } from '../definitions'
-import { GQL_FRAGMENT_TAG_DIGEST } from '../gql'
+import MutationDeleteTags from '../gql/mutations/deleteTags.gql'
+import MutationRenameTag from '../gql/mutations/renameTag.gql'
+import MutationMergeTags from '../gql/mutations/mergeTags.gql'
 
 /**
  * Delete Tags
@@ -23,17 +24,13 @@ export type DeleteTagsChildProps = ChildMutateProps<
   DeleteTagsResponse,
   DeleteTagsVariables
 >
-const DELETE_TAGS = gql`
-  mutation deleteTags($input: DeleteTagsInput!) {
-    deleteTags(input: $input)
-  }
-`
+
 const deleteTags = graphql<
   DeleteTagsInputProps,
   DeleteTagsResponse,
   DeleteTagsVariables,
   DeleteTagsChildProps
->(DELETE_TAGS, {
+>(MutationDeleteTags, {
   name: 'deleteTags'
 })
 
@@ -58,20 +55,13 @@ export type RenameTagChildProps = ChildMutateProps<
   RenameTagResponse,
   RenameTagVariables
 >
-const RENAME_TAG = gql`
-  mutation renameTag($input: RenameTagInput!) {
-    renameTag(input: $input) {
-      ...TagDigest
-    }
-  }
-  ${GQL_FRAGMENT_TAG_DIGEST}
-`
+
 const renameTag = graphql<
   RenameTagInputProps,
   RenameTagResponse,
   RenameTagVariables,
   RenameTagChildProps
->(RENAME_TAG, {
+>(MutationRenameTag, {
   name: 'renameTag'
 })
 
@@ -96,20 +86,13 @@ export type MergeTagsChildProps = ChildMutateProps<
   MergeTagsResponse,
   MergeTagsVariables
 >
-const MERGE_TAGS = gql`
-  mutation mergeTags($input: MergeTagsInput!) {
-    mergeTags(input: $input) {
-      ...TagDigest
-    }
-  }
-  ${GQL_FRAGMENT_TAG_DIGEST}
-`
+
 const mergeTags = graphql<
   MergeTagsInputProps,
   MergeTagsResponse,
   MergeTagsVariables,
   MergeTagsChildProps
->(MERGE_TAGS, {
+>(MutationMergeTags, {
   name: 'mergeTags'
 })
 

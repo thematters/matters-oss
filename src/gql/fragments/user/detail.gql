@@ -1,0 +1,77 @@
+#import "../connection.gql"
+#import "../article/digest.gql"
+#import "./digest.gql"
+
+fragment UserDetail on User {
+  id
+  uuid
+  remark
+  info {
+    createdAt
+    userName
+    userNameEditable
+    displayName
+    description
+    avatar
+    email
+    emailVerified
+    mobile
+  }
+  settings {
+    language
+  }
+  status {
+    state
+    MAT {
+      total
+    }
+    articleCount
+    # viewCount
+    # draftCount
+    commentCount
+    # quotationCount
+    subscriptionCount
+    followeeCount
+    followerCount
+    invitation {
+      left
+      sent(input: { first: 200 }) {
+        edges {
+          node {
+            id
+            user {
+              ...UserDigest
+            }
+            email
+            accepted
+            createdAt
+          }
+        }
+      }
+    }
+  }
+  articles(input: { first: 20 }) {
+    ...ConnectionInfo
+    edges {
+      node {
+        ...ArticleDigest
+      }
+    }
+  }
+  commentedArticles(input: { first: 20 }) {
+    ...ConnectionInfo
+    edges {
+      node {
+        ...ArticleDigest
+      }
+    }
+  }
+  # subscriptions(input: { first: 20 }) {
+  #   ...ConnectionInfo
+  #   edges {
+  #     node {
+  #       ...ArticleDigest
+  #     }
+  #   }
+  # }
+}

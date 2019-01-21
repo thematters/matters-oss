@@ -1,0 +1,20 @@
+#import "../fragments/connection.gql"
+#import "../fragments/article/digest.gql"
+
+query OSSRecommendNewest($input: ConnectionArgs!) {
+  viewer {
+    recommendation {
+      newest(input: $input) {
+        ...ConnectionInfo
+        edges {
+          node {
+            ...ArticleDigest
+            oss {
+              inRecommendNewest
+            }
+          }
+        }
+      }
+    }
+  }
+}

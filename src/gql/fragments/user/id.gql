@@ -1,0 +1,9 @@
+fragment UserId on User {
+  id
+  uuid
+  info {
+    userName
+    displayName
+    email
+  }
+}

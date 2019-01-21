@@ -1,15 +1,7 @@
 import { graphql, ChildMutateProps } from 'react-apollo'
-import gql from 'graphql-tag'
 import { FormComponentProps } from 'antd/lib/form'
 
-const USER_LOGIN = gql`
-  mutation UserLogin($input: UserLoginInput!) {
-    userLogin(input: $input) {
-      auth
-      token
-    }
-  }
-`
+import MutationUserLogin from '../../gql/mutations/userLogin.gql'
 
 type AuthResult = {
   auth: boolean
@@ -32,7 +24,7 @@ type Variables = {
 export type ChildProps = ChildMutateProps<InputProps, Response, Variables>
 
 const withUserLogin = graphql<InputProps, Response, Variables, ChildProps>(
-  USER_LOGIN
+  MutationUserLogin
 )
 
 export default withUserLogin

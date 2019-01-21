@@ -1,0 +1,5 @@
+mutation OSSMergeTags($input: MergeTagsInput!) {
+  mergeTags(input: $input) {
+    ...TagDigest
+  }
+}

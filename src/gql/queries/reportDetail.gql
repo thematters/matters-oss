@@ -1,0 +1,9 @@
+#import "../fragments/report/detail.gql"
+
+query OSSReportDetail($input: ReportInput!) {
+  report: oss {
+    report(input: $input) {
+      ...ReportDetail
+    }
+  }
+}

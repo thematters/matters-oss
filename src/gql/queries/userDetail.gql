@@ -1,0 +1,9 @@
+#import "../fragments/user/detail.gql"
+
+query OSSUserDetail($input: NodeInput!) {
+  user: node(input: $input) {
+    ... on User {
+      ...UserDetail
+    }
+  }
+}

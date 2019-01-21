@@ -1,22 +1,10 @@
 import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
 import { ChildDataProps } from 'react-apollo'
 import { RouteComponentProps } from 'react-router-dom'
 import _get from 'lodash/get'
 
 import { TagDetail } from '../../definitions'
-import { GQL_FRAGMENT_TAG_DETAIL } from '../../gql'
-
-const GET_TAG_DETAIL = gql`
-  query TagDetail($input: NodeInput!) {
-    tag: node(input: $input) {
-      ... on Tag {
-        ...TagDetail
-      }
-    }
-  }
-  ${GQL_FRAGMENT_TAG_DETAIL}
-`
+import QueryTagDetail from '../../gql/queries/tagDetail.gql'
 
 export type TagDetailResponse = {
   tag: TagDetail
@@ -38,7 +26,7 @@ const tagDetail = graphql<
   TagDetailResponse,
   TagDetailVariables,
   TagDetailChildProps
->(GET_TAG_DETAIL, {
+>(QueryTagDetail, {
   options: props => {
     const id = _get(props, 'match.params.id')
     return {

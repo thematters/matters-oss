@@ -4,7 +4,7 @@ export const PATH = {
   HOMEPAGE_HOTTEST: '/homepage/hottest',
   HOMEPAGE_NEWEST: '/homepage/newest',
   HOMEPAGE_TOPICS: '/homepage/topics',
-  HOMEPAGE_MATTERS_CHOICE: '/homepage/matters-choice',
+  HOMEPAGE_ICYMI: '/homepage/icymi',
   HOMEPAGE_AUTHORS: '/homepage/authors',
   HOMEPAGE_TAGS: '/homepage/tags',
 
@@ -35,7 +35,7 @@ export const PAGE_TITLE = {
   [PATH.HOMEPAGE_HOTTEST]: '熱門文章',
   [PATH.HOMEPAGE_NEWEST]: '最新發布',
   [PATH.HOMEPAGE_TOPICS]: '熱議話題',
-  [PATH.HOMEPAGE_MATTERS_CHOICE]: '不要錯過',
+  [PATH.HOMEPAGE_ICYMI]: '不要錯過',
   [PATH.HOMEPAGE_AUTHORS]: '活躍作者',
   [PATH.HOMEPAGE_TAGS]: '標籤',
 

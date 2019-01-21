@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Table, Button, Modal, Tag, Input, Alert, Spin, message } from 'antd'
+import jump from 'jump.js'
 import { Link } from 'react-router-dom'
 import _get from 'lodash/get'
 import _compact from 'lodash/compact'
@@ -57,6 +58,7 @@ class TagDigestList extends React.Component<
 
     const cursor = pageToCursor(page, pageSize || 0)
 
+    jump('body')
     pagination.fetchMore({
       variables: {
         input: {

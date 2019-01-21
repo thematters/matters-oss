@@ -1,17 +1,13 @@
 import { graphql, ChildDataProps, compose } from 'react-apollo'
-import gql from 'graphql-tag'
 import { RouteComponentProps } from 'react-router-dom'
 
-import {
-  GQL_FRAGMENT_ARTICLE_DIGEST,
-  GQL_FRAGMENT_CONNECTION_INFO
-} from '../../gql'
 import { PAGE_SIZE } from '../../constants'
 import { ArticleDigest, GQLConnectionArgs, Connection } from '../../definitions'
 import { getSearchKey } from '../../utils'
 import searchArticles, {
   SearchArticlesChildProps
 } from '../../hocs/withSearchArticles'
+import QueryArticleList from '../../gql/queries/articleList.gql'
 
 type AllArticlesResponse = {
   oss: {
@@ -31,29 +27,12 @@ type AllArticlesChildProps = ChildDataProps<
 export type ArticleListChildProps = AllArticlesChildProps &
   SearchArticlesChildProps
 
-const GET_ALL_ARTICLES = gql`
-  query AllArticles($input: ArticlesInput!) {
-    oss {
-      articles(input: $input) {
-        ...ConnectionInfo
-        edges {
-          node {
-            ...ArticleDigest
-          }
-        }
-      }
-    }
-  }
-  ${GQL_FRAGMENT_CONNECTION_INFO}
-  ${GQL_FRAGMENT_ARTICLE_DIGEST}
-`
-
 const allArticles = graphql<
   AllArticlesInputProps,
   AllArticlesResponse,
   AllArticlesVariables,
   AllArticlesChildProps
->(GET_ALL_ARTICLES, {
+>(QueryArticleList, {
   // name: 'allArticles',
   options: props => ({
     variables: {

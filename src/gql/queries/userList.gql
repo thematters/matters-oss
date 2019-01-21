@@ -1,0 +1,15 @@
+#import "../fragments/connection.gql"
+#import "../fragments/user/digest.gql"
+
+query OSSUserList($input: ConnectionArgs!) {
+  oss {
+    users(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          ...UserDigest
+        }
+      }
+    }
+  }
+}

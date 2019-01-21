@@ -1,0 +1,6 @@
+mutation OSSUserLogin($input: UserLoginInput!) {
+  userLogin(input: $input) {
+    auth
+    token
+  }
+}

@@ -1,0 +1,8 @@
+fragment ConnectionInfo on Connection {
+  totalCount
+  pageInfo {
+    startCursor
+    endCursor
+    hasNextPage
+  }
+}
