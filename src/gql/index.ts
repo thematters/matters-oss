@@ -232,14 +232,14 @@ export const GQL_FRAGMENT_ARTICLE_DETAIL = gql`
         }
       }
     }
-    relatedArticles(input: { first: ${PAGE_SIZE} }) {
-      ...ConnectionInfo
-      edges {
-        node {
-          ...ArticleDigest
-        }
-      }
-    }
+    # relatedArticles(input: { first: ${PAGE_SIZE} }) {
+    #   ...ConnectionInfo
+    #   edges {
+    #     node {
+    #       ...ArticleDigest
+    #     }
+    #   }
+    # }
     MAT
     participantCount
     subscribers(input: { first: ${PAGE_SIZE} }) {

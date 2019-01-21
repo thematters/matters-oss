@@ -9,7 +9,7 @@ import Layout from './components/Layout'
 
 import routes from './routes'
 import { API_ENDPOINT, STORE_JWT_TOKEN } from './constants'
-import registerServiceWorker from './registerServiceWorker'
+// import registerServiceWorker from './registerServiceWorker'
 import './index.less'
 
 const client = new ApolloClient({
@@ -34,4 +34,4 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('root') as HTMLElement)
-registerServiceWorker()
+// registerServiceWorker()
