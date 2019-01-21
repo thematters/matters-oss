@@ -23,13 +23,13 @@ export type SearchTagsChildProps = ChildDataProps<
   SearchTagsVariables
 >
 
-const SEARCH_ARTICLES = gql`
+const SEARCH_TAGS = gql`
   query SearchTags($input: SearchInput!) {
     search(input: $input) {
       ...ConnectionInfo
       edges {
         node {
-          ... on Article {
+          ... on Tag {
             ...TagDetail
           }
         }
@@ -45,7 +45,7 @@ export default graphql<
   SearchTagsResponse,
   SearchTagsVariables,
   SearchTagsChildProps
->(SEARCH_ARTICLES, {
+>(SEARCH_TAGS, {
   // name: 'searchTags',
   options: props => ({
     variables: {

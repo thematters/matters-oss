@@ -24,12 +24,12 @@ export type SearchUsersChildProps = ChildDataProps<
 >
 
 const SEARCH_USERS = gql`
-  query SearchArticles($input: SearchInput!) {
+  query SearchUsers($input: SearchInput!) {
     search(input: $input) {
       ...ConnectionInfo
       edges {
         node {
-          ... on Article {
+          ... on User {
             ...UserDigest
           }
         }
