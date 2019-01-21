@@ -195,10 +195,7 @@ export const GQL_FRAGMENT_USER_DETAIL = gql`
 // Tag Detail
 export const GQL_FRAGMENT_TAG_DETAIL = gql`
   fragment TagDetail on Tag {
-    id
-    content
-    count
-    createdAt
+    ...TagDigest
     articles(input: { first: ${PAGE_SIZE} }) {
       ...ConnectionInfo
       edges {
@@ -211,6 +208,7 @@ export const GQL_FRAGMENT_TAG_DETAIL = gql`
   }
   ${GQL_FRAGMENT_CONNECTION_INFO}
   ${GQL_FRAGMENT_ARTICLE_DIGEST}
+  ${GQL_FRAGMENT_TAG_DIGEST}
 `
 
 // Article Detail

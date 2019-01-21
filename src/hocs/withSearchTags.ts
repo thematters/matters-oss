@@ -4,11 +4,11 @@ import { RouteComponentProps } from 'react-router-dom'
 
 import { GQL_FRAGMENT_TAG_DIGEST, GQL_FRAGMENT_CONNECTION_INFO } from '../gql'
 import { PAGE_SIZE } from '../constants'
-import { TagDetail, GQLConnectionArgs, Connection } from '../definitions'
+import { TagDigest, GQLConnectionArgs, Connection } from '../definitions'
 import { getSearchKey } from '../utils'
 
 type SearchTagsResponse = {
-  search: Connection<TagDetail>
+  search: Connection<TagDigest>
 }
 type SearchTagsInputProps = RouteComponentProps
 type SearchTagsVariables = {
@@ -30,7 +30,7 @@ const SEARCH_TAGS = gql`
       edges {
         node {
           ... on Tag {
-            ...TagDetail
+            ...TagDigest
           }
         }
       }
