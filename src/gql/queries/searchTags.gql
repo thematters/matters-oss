@@ -8,6 +8,10 @@ query OSSSearchTags($input: SearchInput!) {
       node {
         ... on Tag {
           ...TagDigest
+          oss {
+            boost
+            score
+          }
         }
       }
     }

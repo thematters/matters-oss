@@ -8,6 +8,10 @@ query OSSSearchUsers($input: SearchInput!) {
       node {
         ... on User {
           ...UserDigest
+          oss {
+            boost
+            score
+          }
         }
       }
     }

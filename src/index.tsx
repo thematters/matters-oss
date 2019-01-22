@@ -1,8 +1,5 @@
-/// <reference path="./gql/index.d.ts" />
-
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
@@ -10,18 +7,11 @@ import { renderRoutes } from 'react-router-config'
 import Layout from './components/Layout'
 
 import routes from './routes'
-import { API_ENDPOINT, STORE_JWT_TOKEN } from './constants'
+import client from './client'
 import './index.less'
 
 import { unregister } from './registerServiceWorker'
 unregister()
-
-const client = new ApolloClient({
-  uri: API_ENDPOINT,
-  headers: {
-    'x-access-token': localStorage.getItem(STORE_JWT_TOKEN)
-  }
-})
 
 class App extends React.Component {
   public render() {

@@ -8,6 +8,14 @@ query OSSSearchArticles($input: SearchInput!) {
       node {
         ... on Article {
           ...ArticleDigest
+          oss {
+            boost
+            score
+            inRecommendToday
+            inRecommendIcymi
+            inRecommendHottest
+            inRecommendNewest
+          }
         }
       }
     }
