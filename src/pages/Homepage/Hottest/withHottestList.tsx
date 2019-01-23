@@ -43,7 +43,8 @@ const hottest = graphql<
     notifyOnNetworkStatusChange: true,
     variables: {
       input: {
-        first: PAGE_SIZE
+        first: PAGE_SIZE,
+        oss: true
       }
     }
   }),
