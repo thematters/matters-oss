@@ -126,7 +126,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
             style={{ marginRight: 8 }}
           >
             {BAN_DAYS.map(({ key, text }) => (
-              <Select.Option key={key}>{text}</Select.Option>
+              <Select.Option key={key} disabled>{text}</Select.Option>
             ))}
           </Select>
         )}
