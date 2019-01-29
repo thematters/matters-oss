@@ -3,10 +3,11 @@ import { Form, Icon, Input, Button, Row, Col } from 'antd'
 import { compose } from 'react-apollo'
 import queryString from 'query-string'
 import _get from 'lodash/get'
+import { GraphQLError } from 'graphql'
 
 import withUserLogin, { ChildProps } from './withUserLogin'
 
-import { STORE_JWT_TOKEN } from '../../constants'
+import { STORE_JWT_TOKEN, ERROR_CODE } from '../../constants'
 import LOGO_URL from '../../assets/logo.svg'
 import './style.less'
 
@@ -104,11 +105,41 @@ class Login extends React.Component<ChildProps, LoginState> {
         }
         this.setState({ loading: false })
       } catch (e) {
-        setFields({
-          email: {
-            errors: [new Error('登入失敗')]
-          }
-        })
+        if (e.graphQLErrors) {
+          const errors: ReadonlyArray<GraphQLError> = e.graphQLErrors
+          errors.map(({ extensions }) => {
+            const code = _get(extensions, 'code')
+            switch (code) {
+              case ERROR_CODE.USER_EMAIL_NOT_FOUND:
+                setFields({
+                  email: {
+                    errors: [new Error('郵箱不存在')]
+                  }
+                })
+                break
+              case ERROR_CODE.USER_PASSWORD_INVALID:
+                setFields({
+                  email: {
+                    errors: [new Error('密碼有誤')]
+                  }
+                })
+                break
+              default:
+                setFields({
+                  email: {
+                    errors: [new Error('登入失敗')]
+                  }
+                })
+                break
+            }
+          })
+        } else {
+          setFields({
+            email: {
+              errors: [new Error('登入失敗')]
+            }
+          })
+        }
         this.setState({ loading: false })
       }
     })
