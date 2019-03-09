@@ -12,3 +12,4 @@ export const API_ENDPOINT = __DEV__
   ? 'https://server-develop.matters.news'
   : __PROD__
   ? 'https://server.matters.news'
+  : ''
