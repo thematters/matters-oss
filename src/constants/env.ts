@@ -10,4 +10,5 @@ export const API_ENDPOINT = __DEV__
   ? 'http://localhost:4000'
   : __STAGE__
   ? 'https://server-stage.matters.news'
-  : ''
+  : __PROD__
+  ? 'https://server.matters.news'
