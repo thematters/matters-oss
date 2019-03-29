@@ -87,12 +87,16 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="進階設定">
-          <Description term="指定封面">
-            <FileUpload articleId={article.id} cover={article.cover} />
-          </Description>
-        </DescriptionList>
-        <Divider size="large" />
+        {article.oss && article.oss.inRecommendToday && (
+          <>
+            <DescriptionList size="large" title="進階設定">
+              <Description term="指定封面">
+                <FileUpload articleId={article.id} cover={article.oss.todayCover} />
+              </Description>
+            </DescriptionList>
+            <Divider size="large" />
+          </>
+        )}
 
         <DescriptionList size="large" title="備註">
           <Col span={24} lg={12} style={{ marginBottom: 16 }}>
