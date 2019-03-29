@@ -6,6 +6,7 @@ import {
 import { HttpLink } from 'apollo-link-http'
 import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
+import { createUploadLink } from 'apollo-upload-client'
 import _get from 'lodash/get'
 
 import { API_ENDPOINT, STORE_JWT_TOKEN, ERROR_CODE } from './constants'
@@ -31,7 +32,7 @@ const client = new ApolloClient({
         })
       if (networkError) console.log(`[Network error]: ${networkError}`)
     }),
-    new HttpLink({
+    createUploadLink({
       uri: API_ENDPOINT,
       credentials: 'same-origin',
       headers: token && {
