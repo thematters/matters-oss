@@ -50,4 +50,8 @@ fragment ArticleDetail on Article {
       }
     }
   }
+  oss {
+    inRecommendToday
+    todayCover
+  }
 }

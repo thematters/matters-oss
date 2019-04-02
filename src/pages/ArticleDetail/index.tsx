@@ -14,6 +14,7 @@ import TogglePublic from '../../components/Article/TogglePublic'
 import ArticleDigestList from '../../components/Article/DigestList'
 import ArticleStateTag from '../../components/Article/StateTag'
 import ArticleSetState from '../../components/Article/SetState'
+import FileUpload from '../../components/Article/FileUpload'
 
 import withArticleDetail, { ArticleDetailChildProps } from './withArticleDetail'
 
@@ -85,6 +86,17 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           </Description>
         </DescriptionList>
         <Divider size="large" />
+
+        {article.oss && article.oss.inRecommendToday && (
+          <>
+            <DescriptionList size="large" title="進階設定">
+              <Description term="指定封面">
+                <FileUpload articleId={article.id} cover={article.oss.todayCover} />
+              </Description>
+            </DescriptionList>
+            <Divider size="large" />
+          </>
+        )}
 
         <DescriptionList size="large" title="備註">
           <Col span={24} lg={12} style={{ marginBottom: 16 }}>

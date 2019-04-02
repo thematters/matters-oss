@@ -1,6 +1,6 @@
 {
   "name": "matters-oss",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@babel/core": "7.1.6",
@@ -11,6 +11,7 @@
     "apollo-link": "^1.2.6",
     "apollo-link-error": "^1.1.5",
     "apollo-link-http": "^1.5.9",
+    "apollo-upload-client": "^10.0.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
@@ -83,6 +84,7 @@
     "test": "REACT_APP_ENV=test node scripts/test.js --env=jsdom"
   },
   "devDependencies": {
+    "@types/apollo-upload-client": "^8.1.1",
     "@types/graphql": "^14.0.4",
     "@types/jest": "^23.3.11",
     "@types/js-base64": "^2.3.1",
