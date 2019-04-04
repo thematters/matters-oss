@@ -66,7 +66,7 @@ class UserDigestList extends React.Component<UserDigestListProps> {
         bordered
         loading={loading}
         dataSource={_compact(data)}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1200, y: '70vh' }}
         pagination={
           pagination
             ? {
@@ -82,7 +82,6 @@ class UserDigestList extends React.Component<UserDigestListProps> {
         <Table.Column<UserDigest>
           dataIndex="info.id"
           title="用戶"
-          width={150}
           render={this._renderEmailCell}
         />
         <Table.Column<UserDigest>
@@ -93,17 +92,24 @@ class UserDigestList extends React.Component<UserDigestListProps> {
         <Table.Column<UserDigest>
           dataIndex="status.state"
           title="狀態"
+          width={100}
           render={state => <UserStateTag state={state} />}
         />
         <Table.Column<UserDigest>
           dataIndex="status.articleCount"
           title="文章數"
+          width={100}
         />
         <Table.Column<UserDigest>
           dataIndex="status.commentCount"
           title="評論數"
+          width={100}
         />
-        <Table.Column<UserDigest> dataIndex="status.MAT.total" title="MAT 數" />
+        <Table.Column<UserDigest>
+          dataIndex="status.MAT.total"
+          title="MAT 數"
+          width={100}
+        />
         {/* <Table.Column<UserDigest>
           dataIndex="info.description"
           title="自我描述"
@@ -112,13 +118,18 @@ class UserDigestList extends React.Component<UserDigestListProps> {
           <Table.Column<UserDigest>
             dataIndex="oss.boost"
             title="Boost"
+            width={150}
             render={(boost, record) => (
               <SetBoost boost={boost} id={record.id} type="User" />
             )}
           />
         )}
         {recommend && recommend.author && (
-          <Table.Column<UserDigest> dataIndex="oss.score" title="Score" />
+          <Table.Column<UserDigest>
+            dataIndex="oss.score"
+            title="Score"
+            width={100}
+          />
         )}
       </Table>
     )

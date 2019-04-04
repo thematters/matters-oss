@@ -77,7 +77,7 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
         bordered
         loading={loading}
         dataSource={_compact(data)}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1200, y: '70vh' }}
         pagination={
           pagination
             ? {
@@ -101,13 +101,19 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
           <Table.Column<Report>
             dataIndex="comment.content"
             title="評論內容"
+            width={300}
             render={this._renderCommentContentCell}
           />
         )}
-        <Table.Column<Report> dataIndex="category" title="舉報原因" />
+        <Table.Column<Report>
+          dataIndex="category"
+          title="舉報原因"
+          width={100}
+        />
         <Table.Column<Report>
           dataIndex={isArticle ? 'article.author' : 'comment.author'}
           title={isArticle ? '文章作者' : '評論作者'}
+          width={150}
           render={author => (
             <UserLink
               id={author.id}
@@ -119,6 +125,7 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
         <Table.Column<Report>
           dataIndex="user"
           title="舉報人"
+          width={150}
           render={user => {
             if (!user) {
               return
@@ -135,6 +142,7 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
         <Table.Column<Report>
           dataIndex="createdAt"
           title="時間"
+          width={150}
           render={createdAt => <DateTime date={createdAt} />}
         />
       </Table>

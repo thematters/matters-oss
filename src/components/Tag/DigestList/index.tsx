@@ -334,7 +334,7 @@ class TagDigestList extends React.Component<
           loading={loading}
           rowSelection={recommend ? undefined : rowSelection}
           dataSource={_compact(data)}
-          scroll={{ x: 1200 }}
+          scroll={{ x: 1200, y: '70vh' }}
           pagination={
             pagination
               ? {
@@ -354,23 +354,33 @@ class TagDigestList extends React.Component<
               <TagLink id={record.id} content={record.content} />
             )}
           />
-          <Table.Column<TagDigest> dataIndex="count" title="文章數" />
+          <Table.Column<TagDigest>
+            dataIndex="count"
+            title="文章數"
+            width={100}
+          />
           <Table.Column<TagDigest>
             dataIndex="createdAt"
             title="時間"
+            width={300}
             render={createdAt => <DateTime date={createdAt} />}
           />
           {recommend && recommend.tag && (
             <Table.Column<TagDigest>
               dataIndex="oss.boost"
               title="Boost"
+              width={150}
               render={(boost, record) => (
                 <SetBoost boost={boost} id={record.id} type="Tag" />
               )}
             />
           )}
           {recommend && recommend.tag && (
-            <Table.Column<TagDigest> dataIndex="oss.score" title="Score" />
+            <Table.Column<TagDigest>
+              dataIndex="oss.score"
+              title="Score"
+              width={100}
+            />
           )}
         </Table>
       </>

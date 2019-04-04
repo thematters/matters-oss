@@ -72,7 +72,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
         bordered
         loading={loading}
         dataSource={_compact(data)}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1200, y: '70vh' }}
         pagination={
           pagination
             ? {
@@ -88,13 +88,12 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
         <Table.Column<ArticleDigest>
           dataIndex="title"
           title="標題"
-          width={400}
           render={this._renderTitleCell}
         />
         <Table.Column<ArticleDigest>
           dataIndex="author"
           title="作者"
-          width={150}
+          width={200}
           render={author => (
             <UserLink
               id={author.id}
@@ -110,10 +109,15 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           render={state => <ArticleStateTag state={state} />}
         />
         {/* <Table.Column<ArticleDigest> dataIndex="MAT" title="MAT 數" /> */}
-        <Table.Column<ArticleDigest> dataIndex="commentCount" title="評論數" />
+        <Table.Column<ArticleDigest>
+          dataIndex="commentCount"
+          width={100}
+          title="評論數"
+        />
         <Table.Column<ArticleDigest>
           dataIndex="public"
           title="白名單"
+          width={100}
           render={(isPublic, record) => (
             <TogglePublic checked={isPublic} articleId={record.id} />
           )}
@@ -122,6 +126,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           <Table.Column<ArticleDigest>
             dataIndex="live"
             title="LIVE"
+            width={100}
             render={(live, record) => (
               <ToggleLive checked={live} articleId={record.id} />
             )}
@@ -130,12 +135,14 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
         <Table.Column<ArticleDigest>
           dataIndex="createdAt"
           title="時間"
+          width={200}
           render={createdAt => <DateTime date={createdAt} />}
         />
         {recommend && recommend.today && (
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendToday"
             title="在 Matters Today 顯示"
+            width={100}
             render={(inRecommendToday, record) => (
               <ToggleRecommend
                 checked={inRecommendToday}
@@ -149,6 +156,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendIcymi"
             title="在「不要錯過」顯示"
+            width={100}
             render={(inRecommendIcymi, record) => (
               <ToggleRecommend
                 checked={inRecommendIcymi}
@@ -162,6 +170,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendHottest"
             title="在「熱門文章」顯示"
+            width={100}
             render={(inRecommendHottest, record) => (
               <ToggleRecommend
                 checked={inRecommendHottest}
@@ -175,6 +184,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendNewest"
             title="在「最新發布」顯示"
+            width={100}
             render={(inRecommendNewest, record) => (
               <ToggleRecommend
                 checked={inRecommendNewest}
@@ -188,13 +198,18 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           <Table.Column<ArticleDigest>
             dataIndex="oss.boost"
             title="Boost"
+            width={150}
             render={(boost, record) => (
               <SetBoost boost={boost} id={record.id} type="Article" />
             )}
           />
         )}
         {recommend && recommend.topic && (
-          <Table.Column<ArticleDigest> dataIndex="oss.score" title="Score" />
+          <Table.Column<ArticleDigest>
+            dataIndex="oss.score"
+            title="Score"
+            width={100}
+          />
         )}
       </Table>
     )

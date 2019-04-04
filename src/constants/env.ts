@@ -13,3 +13,7 @@ export const API_ENDPOINT = __DEV__
   : __PROD__
   ? 'https://server.matters.news'
   : ''
+
+export const SITE_DOMIAN = __PROD__
+  ? 'https://matters.news'
+  : 'https://web-develop.matters.news'

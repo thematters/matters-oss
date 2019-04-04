@@ -62,7 +62,7 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
         bordered
         loading={loading}
         dataSource={_compact(data)}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1200, y: '70vh' }}
         pagination={
           pagination
             ? {
@@ -78,11 +78,13 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
         <Table.Column<CommentDigest>
           dataIndex="title"
           title="內容"
+          width={300}
           render={this._renderContentCell}
         />
         <Table.Column<CommentDigest>
           dataIndex="author"
           title="作者"
+          width={150}
           render={author => (
             <UserLink
               id={author.id}
@@ -94,18 +96,29 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
         <Table.Column<CommentDigest>
           dataIndex="state"
           title="狀態"
+          width={100}
           render={state => <CommentStateTag state={state} />}
         />
         <Table.Column<CommentDigest>
           dataIndex="pinned"
           title="置頂"
+          width={150}
           render={pinned => <Switch disabled checked={pinned} />}
         />
-        <Table.Column<CommentDigest> dataIndex="upvotes" title="讚數" />
-        <Table.Column<CommentDigest> dataIndex="downvotes" title="踩數" />
+        <Table.Column<CommentDigest>
+          dataIndex="upvotes"
+          title="讚數"
+          width={100}
+        />
+        <Table.Column<CommentDigest>
+          dataIndex="downvotes"
+          title="踩數"
+          width={100}
+        />
         <Table.Column<CommentDigest>
           dataIndex="createdAt"
           title="時間"
+          width={150}
           render={createdAt => <DateTime date={createdAt} />}
         />
       </Table>

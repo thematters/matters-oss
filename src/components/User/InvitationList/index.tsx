@@ -38,17 +38,22 @@ class InvitationList extends React.Component<InvitationListProps> {
         loading={loading}
         dataSource={_compact(data)}
         pagination={false}
-        scroll={{ x: 1200 }}
+        scroll={{ x: 1200, y: '70vh' }}
         rowKey={record => record.id}
       >
         <Table.Column<GQLInvitation>
           title="用戶"
           render={this._renderUserCell}
         />
-        <Table.Column<GQLInvitation> dataIndex="email" title="電子信箱" />
+        <Table.Column<GQLInvitation>
+          dataIndex="email"
+          title="電子信箱"
+          width={300}
+        />
         <Table.Column<GQLInvitation>
           dataIndex="accepted"
           title="狀態"
+          width={150}
           render={accepted => (
             <LevelTag level={accepted ? LevelEnum.SUCCESS : LevelEnum.INFO}>
               {accepted ? '已激活' : '未激活'}
@@ -58,6 +63,7 @@ class InvitationList extends React.Component<InvitationListProps> {
         <Table.Column<GQLInvitation>
           dataIndex="createdAt"
           title="邀請時間"
+          width={150}
           render={createdAt => <DateTime date={createdAt} />}
         />
       </Table>
