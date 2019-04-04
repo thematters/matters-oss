@@ -17,6 +17,7 @@ import ArticleSetState from '../../components/Article/SetState'
 import FileUpload from '../../components/Article/FileUpload'
 
 import withArticleDetail, { ArticleDetailChildProps } from './withArticleDetail'
+import { SITE_DOMIAN } from '../../constants'
 
 const { Description } = DescriptionList
 
@@ -63,7 +64,16 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
             ))}
           </Description>
           <Description term="MAT">{article.MAT}</Description>
-          <Description term="IPFS Hash">{article.dataHash}</Description>
+          <Description term="站內連結">
+            <a
+              href={`${SITE_DOMIAN}/@${article.author.userName}/${
+                article.slug
+              }-${article.mediaHash}`}
+              target="_blank"
+            >
+              {article.mediaHash}
+            </a>
+          </Description>
         </DescriptionList>
         <Divider size="large" />
 
@@ -91,7 +101,10 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           <>
             <DescriptionList size="large" title="進階設定">
               <Description term="指定封面">
-                <FileUpload articleId={article.id} cover={article.oss.todayCover} />
+                <FileUpload
+                  articleId={article.id}
+                  cover={article.oss.todayCover}
+                />
               </Description>
             </DescriptionList>
             <Divider size="large" />
