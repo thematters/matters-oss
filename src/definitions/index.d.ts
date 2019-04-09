@@ -18,6 +18,7 @@ export * from './schema'
 export type UserDigest = {
   id: string
   uuid: GQLUUID
+  userName: string
   info: {
     userName: string
     displayName: string
