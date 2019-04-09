@@ -70,7 +70,7 @@ class FileUpload extends React.Component<Props, FileUploadState> {
       return undefined
     }
     if (file && file.size > UPLOAD_FILE_SIZE_LIMIT) {
-      this.setState(prev => ({ ...prev, warning: '檔案超過 1MB' }))
+      this.setState(prev => ({ ...prev, warning: '檔案超過 5MB' }))
       return undefined
     }
 
@@ -128,7 +128,7 @@ class FileUpload extends React.Component<Props, FileUploadState> {
                   >
                     <Button>
                       {loading ? <Spin style={spinStyle} size="small"/> : <Icon type="upload"/>}
-                      上傳並設定 (1MB 內)
+                      上傳並設定 (5MB 內)
                     </Button>
                   </Upload>
                 </div>
