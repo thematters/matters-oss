@@ -85,9 +85,9 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
         <Divider size="large" />
 
         <DescriptionList size="large" title="設定" col={4}>
-          <Description term="白名單">
+          {/* <Description term="白名單">
             <TogglePublic checked={article.public} articleId={article.id} />
-          </Description>
+          </Description> */}
           <Description term="LIVE">
             <ToggleLive checked={article.live} articleId={article.id} />
           </Description>
