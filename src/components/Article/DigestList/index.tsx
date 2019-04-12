@@ -114,14 +114,14 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           width={100}
           title="評論數"
         />
-        <Table.Column<ArticleDigest>
+        {/* <Table.Column<ArticleDigest>
           dataIndex="public"
           title="白名單"
           width={100}
           render={(isPublic, record) => (
             <TogglePublic checked={isPublic} articleId={record.id} />
           )}
-        />
+        /> */}
         {!recommend && (
           <Table.Column<ArticleDigest>
             dataIndex="live"
