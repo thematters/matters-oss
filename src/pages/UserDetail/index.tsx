@@ -13,6 +13,7 @@ import UserSetState from '../../components/User/SetState'
 
 import withUserDetail, { UserDetailChildProps } from './withUserDetail'
 import ArticleDigestList from '../../components/Article/DigestList'
+import { SITE_DOMIAN } from '../../constants'
 
 const { Description } = DescriptionList
 const LanguageMap = {
@@ -42,7 +43,11 @@ class UserDetail extends React.Component<UserDetailChildProps> {
     return (
       <>
         <DescriptionList col={3} size="large" title="簡介">
-          <Description term="姓名">{user.info.displayName}</Description>
+          <Description term="姓名">
+            <a href={`${SITE_DOMIAN}/@${user.userName}`} target="_blank">
+              {user.info.displayName}
+            </a>
+          </Description>
           <Description term="Matters ID">
             {user.info.userName}{' '}
             <small>

@@ -1,6 +1,7 @@
 fragment UserDigest on User {
   id
   uuid
+  userName
   info {
     userName
     displayName

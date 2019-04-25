@@ -16,17 +16,6 @@ fragment ArticleDetail on Article {
   subscribed
   hasAppreciate
   remark
-  upstream {
-    ...ArticleDigest
-  }
-  downstreams(input: { first: 20 }) {
-    ...ConnectionInfo
-    edges {
-      node {
-        ...ArticleDigest
-      }
-    }
-  }
   # relatedArticles(input: { first: 20 }) {
   #   ...ConnectionInfo
   #   edges {

@@ -117,7 +117,7 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           </Col>
         </DescriptionList>
         <Divider size="large" />
-
+        {/*
         <DescriptionList size="large" title="上游文章">
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList data={[article.upstream]} />
@@ -132,7 +132,7 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
               // pagination={{ totalCount: article.downstreams.totalCount }}
             />
           </Col>
-        </DescriptionList>
+        </DescriptionList> */}
       </>
     )
   }

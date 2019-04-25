@@ -99,8 +99,6 @@ export type ArticleDetail = ArticleDigest & {
   dataHash: string
   mediaHash: string
   content: string
-  upstream: ArticleDigest
-  downstreams: Connection<ArticleDigest>
   relatedArticles: Connection<ArticleDigest>
   MAT: number
   participantCount: number
