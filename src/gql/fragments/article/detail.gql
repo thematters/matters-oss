@@ -11,20 +11,28 @@ fragment ArticleDetail on Article {
   mediaHash
   content
   MAT
+  collection(input: { first: null }) {
+    ...ConnectionInfo
+    edges {
+      node {
+        ...ArticleDigest
+      }
+    }
+  }
+  collectedBy(input: { first: null }) {
+    ...ConnectionInfo
+    edges {
+      node {
+        ...ArticleDigest
+      }
+    }
+  }
   participantCount
   appreciatorCount
   subscribed
   hasAppreciate
   remark
-  # relatedArticles(input: { first: 20 }) {
-  #   ...ConnectionInfo
-  #   edges {
-  #     node {
-  #       ...ArticleDigest
-  #     }
-  #   }
-  # }
-  subscribers(input: { first: 20 }) {
+  subscribers(input: { first: null }) {
     ...ConnectionInfo
     edges {
       node {
@@ -32,7 +40,7 @@ fragment ArticleDetail on Article {
       }
     }
   }
-  appreciators(input: { first: 20 }) {
+  appreciators(input: { first: null }) {
     edges {
       node {
         ...UserDigest

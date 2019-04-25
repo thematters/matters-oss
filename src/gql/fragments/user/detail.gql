@@ -36,7 +36,7 @@ fragment UserDetail on User {
     followerCount
     invitation {
       left
-      sent(input: { first: 200 }) {
+      sent(input: { first: null }) {
         edges {
           node {
             id

@@ -117,22 +117,28 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           </Col>
         </DescriptionList>
         <Divider size="large" />
-        {/*
-        <DescriptionList size="large" title="上游文章">
+
+        <DescriptionList size="large" title="关联了本文的作品">
           <Col span={24} style={{ marginBottom: 16 }}>
-            <ArticleDigestList data={[article.upstream]} />
+            <ArticleDigestList
+              data={article.collectedBy.edges.map(({ node }) => node)}
+              // pagination={{ totalCount: article.downstreams.totalCount }}
+            />
           </Col>
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="下游文章">
+        <DescriptionList
+          size="large"
+          title={`关联了 ${article.collection.totalCount} 篇作品`}
+        >
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList
-              data={article.downstreams.edges.map(({ node }) => node)}
+              data={article.collection.edges.map(({ node }) => node)}
               // pagination={{ totalCount: article.downstreams.totalCount }}
             />
           </Col>
-        </DescriptionList> */}
+        </DescriptionList>
       </>
     )
   }
