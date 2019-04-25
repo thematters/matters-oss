@@ -9,7 +9,11 @@ import DateTime from '../../DateTime'
 import UserLink from '../../User/Link'
 import { PATH, PAGE_SIZE } from '../../../constants'
 import { Report } from '../../../definitions'
-import { pageToCursor } from '../../../utils'
+import {
+  pageToCursor,
+  onPaginationChange,
+  getCurrentPaginationFromUrl
+} from '../../../utils'
 
 type ReportDigestListProps = {
   data: Report[]
@@ -25,27 +29,6 @@ type ReportDigestListProps = {
 }
 
 class ReportDigestList extends React.Component<ReportDigestListProps> {
-  private _onPaginationChange = (page: number, pageSize?: number) => {
-    const { pagination } = this.props
-
-    if (!pagination) {
-      return
-    }
-
-    const cursor = pageToCursor(page, pageSize || 0)
-
-    jump('body')
-    pagination.fetchMore({
-      variables: {
-        input: {
-          ...pagination.variables.input,
-          after: cursor
-        }
-      },
-      updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult
-    })
-  }
-
   private _renderArticleTitleCell(title: string, record: any): React.ReactNode {
     return (
       <Link to={PATH.REPORT_DETAIL.replace(':id', record.id)}>{title}</Link>
@@ -71,6 +54,7 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
       loading = false,
       pagination
     } = this.props
+    const currentPagination = getCurrentPaginationFromUrl()
 
     return (
       <Table<Report>
@@ -81,10 +65,12 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
         pagination={
           pagination
             ? {
+                defaultCurrent: currentPagination && currentPagination.page,
                 pageSize: pagination.pageSize || PAGE_SIZE,
                 total: pagination.totalCount,
-                onChange: this._onPaginationChange,
-                showTotal: t => `共 ${t} 項`
+                onChange: page => onPaginationChange({ pagination, page }),
+                showTotal: t => `共 ${t} 項`,
+                position: 'both'
               }
             : false
         }

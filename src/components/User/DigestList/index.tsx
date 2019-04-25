@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Table } from 'antd'
-import jump from 'jump.js'
 import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
@@ -9,7 +8,7 @@ import UserLink from '../../User/Link'
 import SetBoost from '../../SetBoost'
 
 import { UserDigest } from '../../../definitions'
-import { pageToCursor } from '../../../utils'
+import { onPaginationChange, getCurrentPaginationFromUrl } from '../../../utils'
 import { PAGE_SIZE } from '../../../constants'
 
 type UserDigestListProps = {
@@ -27,27 +26,6 @@ type UserDigestListProps = {
 }
 
 class UserDigestList extends React.Component<UserDigestListProps> {
-  private _onPaginationChange = (page: number, pageSize?: number) => {
-    const { pagination } = this.props
-
-    if (!pagination) {
-      return
-    }
-
-    const cursor = pageToCursor(page, pageSize || 0)
-
-    jump('body')
-    pagination.fetchMore({
-      variables: {
-        input: {
-          ...pagination.variables.input,
-          after: cursor
-        }
-      },
-      updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult
-    })
-  }
-
   private _renderEmailCell(_: any, record: UserDigest): React.ReactNode {
     return (
       <UserLink
@@ -60,6 +38,7 @@ class UserDigestList extends React.Component<UserDigestListProps> {
 
   public render() {
     const { data, loading = false, recommend, pagination } = this.props
+    const currentPagination = getCurrentPaginationFromUrl()
 
     return (
       <Table<UserDigest>
@@ -70,10 +49,12 @@ class UserDigestList extends React.Component<UserDigestListProps> {
         pagination={
           pagination
             ? {
+                defaultCurrent: currentPagination && currentPagination.page,
                 pageSize: pagination.pageSize || PAGE_SIZE,
                 total: pagination.totalCount,
-                onChange: this._onPaginationChange,
-                showTotal: t => `共 ${t} 項`
+                onChange: page => onPaginationChange({ pagination, page }),
+                showTotal: t => `共 ${t} 項`,
+                position: 'both'
               }
             : false
         }

@@ -1,7 +1,5 @@
 import * as React from 'react'
 import { Table, Button, Modal, Tag, Input, Alert, Spin, message } from 'antd'
-import jump from 'jump.js'
-import { Link } from 'react-router-dom'
 import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
@@ -12,9 +10,9 @@ import withTagMutaitons, {
   TagMutationsChildProps
 } from '../../../hocs/withTagMutations'
 
-import { PATH, PAGE_SIZE } from '../../../constants'
+import { PAGE_SIZE } from '../../../constants'
 import { TagDigest } from '../../../definitions'
-import { pageToCursor } from '../../../utils'
+import { onPaginationChange, getCurrentPaginationFromUrl } from '../../../utils'
 
 type TagDigestListProps = TagMutationsChildProps & {
   data: TagDigest[]
@@ -48,27 +46,6 @@ class TagDigestList extends React.Component<
     mutationLoading: false,
     renameNewTagContent: '',
     mergeNewTagContent: ''
-  }
-
-  private _onPaginationChange = (page: number, pageSize?: number) => {
-    const { pagination } = this.props
-
-    if (!pagination) {
-      return
-    }
-
-    const cursor = pageToCursor(page, pageSize || 0)
-
-    jump('body')
-    pagination.fetchMore({
-      variables: {
-        input: {
-          ...pagination.variables.input,
-          after: cursor
-        }
-      },
-      updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult
-    })
   }
 
   _onSelectChange = (
@@ -325,6 +302,7 @@ class TagDigestList extends React.Component<
       selectedRowKeys,
       onChange: this._onSelectChange
     }
+    const currentPagination = getCurrentPaginationFromUrl()
 
     return (
       <>
@@ -338,10 +316,12 @@ class TagDigestList extends React.Component<
           pagination={
             pagination
               ? {
+                  defaultCurrent: currentPagination && currentPagination.page,
                   pageSize: pagination.pageSize || PAGE_SIZE,
                   total: pagination.totalCount,
-                  onChange: this._onPaginationChange,
-                  showTotal: t => `共 ${t} 項`
+                  onChange: page => onPaginationChange({ pagination, page }),
+                  showTotal: t => `共 ${t} 項`,
+                  position: 'both'
                 }
               : false
           }

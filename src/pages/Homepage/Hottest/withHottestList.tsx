@@ -1,7 +1,7 @@
 import { graphql, compose, ChildDataProps } from 'react-apollo'
 import { RouteComponentProps } from 'react-router-dom'
 
-import { getSearchKey } from '../../../utils'
+import { getSearchKey, getCurrentPaginationFromUrl } from '../../../utils'
 import { PAGE_SIZE } from '../../../constants'
 import searchArticles, {
   SearchArticlesChildProps
@@ -39,15 +39,19 @@ const hottest = graphql<
   HottestChildProps
 >(QueryRecommendHottest, {
   // name: 'hottest',
-  options: props => ({
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      input: {
-        first: PAGE_SIZE,
-        oss: true
+  options: props => {
+    const currentPagination = getCurrentPaginationFromUrl()
+    return {
+      notifyOnNetworkStatusChange: true,
+      variables: {
+        input: {
+          first: PAGE_SIZE,
+          after: currentPagination && currentPagination.after,
+          oss: true
+        }
       }
     }
-  }),
+  },
   skip: () => !!getSearchKey()
 })
 

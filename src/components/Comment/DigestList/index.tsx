@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Table, Switch } from 'antd'
-import jump from 'jump.js'
 import { Link } from 'react-router-dom'
 import _get from 'lodash/get'
 import _compact from 'lodash/compact'
@@ -11,7 +10,7 @@ import CommentStateTag from '../StateTag'
 
 import { PATH, PAGE_SIZE } from '../../../constants'
 import { CommentDigest } from '../../../definitions'
-import { pageToCursor } from '../../../utils'
+import { onPaginationChange, getCurrentPaginationFromUrl } from '../../../utils'
 
 type CommentDigestListProps = {
   data: CommentDigest[]
@@ -25,27 +24,6 @@ type CommentDigestListProps = {
 }
 
 class CommentDigestList extends React.Component<CommentDigestListProps> {
-  private _onPaginationChange = (page: number, pageSize?: number) => {
-    const { pagination } = this.props
-
-    if (!pagination) {
-      return
-    }
-
-    const cursor = pageToCursor(page, pageSize || 0)
-
-    jump('body')
-    pagination.fetchMore({
-      variables: {
-        input: {
-          ...pagination.variables.input,
-          after: cursor
-        }
-      },
-      updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult
-    })
-  }
-
   private _renderContentCell(_: any, record: CommentDigest): React.ReactNode {
     return (
       <Link to={PATH.COMMENT_DETAIL.replace(':id', record.id)}>
@@ -56,6 +34,7 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
 
   public render() {
     const { data, loading = false, pagination } = this.props
+    const currentPagination = getCurrentPaginationFromUrl()
 
     return (
       <Table<CommentDigest>
@@ -66,10 +45,12 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
         pagination={
           pagination
             ? {
+                defaultCurrent: currentPagination && currentPagination.page,
                 pageSize: pagination.pageSize || PAGE_SIZE,
                 total: pagination.totalCount,
-                onChange: this._onPaginationChange,
-                showTotal: t => `共 ${t} 項`
+                onChange: page => onPaginationChange({ pagination, page }),
+                showTotal: t => `共 ${t} 項`,
+                position: 'both'
               }
             : false
         }
