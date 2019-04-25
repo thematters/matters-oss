@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router-dom'
 
 import { PAGE_SIZE } from '../../constants'
 import { ArticleDigest, GQLConnectionArgs, Connection } from '../../definitions'
-import { getSearchKey } from '../../utils'
+import { getSearchKey, getCurrentPaginationFromUrl } from '../../utils'
 import searchArticles, {
   SearchArticlesChildProps
 } from '../../hocs/withSearchArticles'
@@ -34,14 +34,18 @@ const allArticles = graphql<
   AllArticlesChildProps
 >(QueryArticleList, {
   // name: 'allArticles',
-  options: props => ({
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      input: {
-        first: PAGE_SIZE
+  options: props => {
+    const currentPagination = getCurrentPaginationFromUrl()
+    return {
+      notifyOnNetworkStatusChange: true,
+      variables: {
+        input: {
+          first: PAGE_SIZE,
+          after: currentPagination && currentPagination.after
+        }
       }
     }
-  }),
+  },
   skip: () => !!getSearchKey()
 })
 
