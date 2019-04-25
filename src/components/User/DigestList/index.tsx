@@ -110,10 +110,6 @@ class UserDigestList extends React.Component<UserDigestListProps> {
           title="MAT 數"
           width={100}
         />
-        {/* <Table.Column<UserDigest>
-          dataIndex="info.description"
-          title="自我描述"
-        /> */}
         {recommend && recommend.author && (
           <Table.Column<UserDigest>
             dataIndex="oss.boost"

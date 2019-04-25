@@ -90,38 +90,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           title="標題"
           render={this._renderTitleCell}
         />
-        <Table.Column<ArticleDigest>
-          dataIndex="author"
-          title="作者"
-          width={200}
-          render={author => (
-            <UserLink
-              id={author.id}
-              userName={author.info.userName}
-              displayName={author.info.displayName}
-            />
-          )}
-        />
-        <Table.Column<ArticleDigest>
-          dataIndex="state"
-          title="狀態"
-          width={100}
-          render={state => <ArticleStateTag state={state} />}
-        />
-        {/* <Table.Column<ArticleDigest> dataIndex="MAT" title="MAT 數" /> */}
-        <Table.Column<ArticleDigest>
-          dataIndex="commentCount"
-          width={100}
-          title="評論數"
-        />
-        {/* <Table.Column<ArticleDigest>
-          dataIndex="public"
-          title="白名單"
-          width={100}
-          render={(isPublic, record) => (
-            <TogglePublic checked={isPublic} articleId={record.id} />
-          )}
-        /> */}
+
         {!recommend && (
           <Table.Column<ArticleDigest>
             dataIndex="live"
@@ -132,12 +101,6 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             )}
           />
         )}
-        <Table.Column<ArticleDigest>
-          dataIndex="createdAt"
-          title="時間"
-          width={200}
-          render={createdAt => <DateTime date={createdAt} />}
-        />
         {recommend && recommend.today && (
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendToday"
@@ -194,6 +157,36 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             )}
           />
         )}
+
+        <Table.Column<ArticleDigest>
+          dataIndex="author"
+          title="作者"
+          width={200}
+          render={author => (
+            <UserLink
+              id={author.id}
+              userName={author.info.userName}
+              displayName={author.info.displayName}
+            />
+          )}
+        />
+        <Table.Column<ArticleDigest>
+          dataIndex="state"
+          title="狀態"
+          width={100}
+          render={state => <ArticleStateTag state={state} />}
+        />
+        <Table.Column<ArticleDigest>
+          dataIndex="commentCount"
+          width={100}
+          title="評論數"
+        />
+        <Table.Column<ArticleDigest>
+          dataIndex="createdAt"
+          title="時間"
+          width={200}
+          render={createdAt => <DateTime date={createdAt} />}
+        />
         {recommend && recommend.topic && (
           <Table.Column<ArticleDigest>
             dataIndex="oss.boost"
