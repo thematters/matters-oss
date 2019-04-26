@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2019-04-26
+
+### Changed
+
+- Hide public toggle #10
+- Pagination in URL #11
+- Add user site link in UserDetail page #11
+- Collection support in ArticleDetail page #11
+- Sort by "hottest" in TagList #12
+
 ## [0.2.1] - 2019-04-09
 
 ### Changed
