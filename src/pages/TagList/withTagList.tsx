@@ -42,7 +42,7 @@ const allTags = graphql<
         input: {
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
-          sort: getSortKey()
+          sort: getSortKey() === 'descend' ? 'hottest' : undefined
         }
       }
     }
