@@ -7,7 +7,7 @@ import {
   GQLConnectionArgs,
   Connection
 } from '../../../definitions'
-import { getSearchKey } from '../../../utils'
+import { getSearchKey, getCurrentPaginationFromUrl } from '../../../utils'
 import searchArticles, {
   SearchArticlesChildProps
 } from '../../../hocs/withSearchArticles'
@@ -38,15 +38,19 @@ const topics = graphql<
   TopicsChildProps
 >(QueryRecommendTopics, {
   // name: 'topics',
-  options: props => ({
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      input: {
-        first: PAGE_SIZE,
-        oss: true
+  options: props => {
+    const currentPagination = getCurrentPaginationFromUrl()
+    return {
+      notifyOnNetworkStatusChange: true,
+      variables: {
+        input: {
+          first: PAGE_SIZE,
+          after: currentPagination && currentPagination.after,
+          oss: true
+        }
       }
     }
-  }),
+  },
   skip: () => !!getSearchKey()
 })
 

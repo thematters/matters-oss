@@ -5,11 +5,11 @@ export const __DEVELOP__ = process.env.REACT_APP_ENV === 'develop'
 export const __PROD__ = process.env.REACT_APP_ENV === 'production'
 
 export const API_ENDPOINT = __DEV__
-  ? 'http://localhost:4000'
+  ? 'https://server-stage.matters.news'
   : __TEST__
   ? 'http://localhost:4000'
   : __DEVELOP__
-  ? 'https://server-develop.matters.news'
+  ? 'https://server-stage.matters.news'
   : __PROD__
   ? 'https://server.matters.news'
   : ''

@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router-dom'
 
 import { PAGE_SIZE } from '../constants'
 import { TagDigest, GQLConnectionArgs, Connection } from '../definitions'
-import { getSearchKey } from '../utils'
+import { getSearchKey, getCurrentPaginationFromUrl } from '../utils'
 import QuerySearchTags from '../gql/queries/searchTags.gql'
 
 type SearchTagsResponse = {
@@ -29,15 +29,19 @@ export default graphql<
   SearchTagsChildProps
 >(QuerySearchTags, {
   // name: 'searchTags',
-  options: props => ({
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      input: {
-        key: getSearchKey(),
-        type: 'Tag',
-        first: PAGE_SIZE
+  options: props => {
+    const currentPagination = getCurrentPaginationFromUrl()
+    return {
+      notifyOnNetworkStatusChange: true,
+      variables: {
+        input: {
+          key: getSearchKey(),
+          type: 'Tag',
+          first: PAGE_SIZE,
+          after: currentPagination && currentPagination.after
+        }
       }
     }
-  }),
+  },
   skip: () => !getSearchKey()
 })
