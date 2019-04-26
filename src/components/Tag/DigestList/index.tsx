@@ -12,7 +12,12 @@ import withTagMutaitons, {
 
 import { PAGE_SIZE } from '../../../constants'
 import { TagDigest } from '../../../definitions'
-import { onPaginationChange, getCurrentPaginationFromUrl } from '../../../utils'
+import {
+  onPaginationChange,
+  getCurrentPaginationFromUrl,
+  setQS,
+  getSortKey
+} from '../../../utils'
 
 type TagDigestListProps = TagMutationsChildProps & {
   data: TagDigest[]
@@ -26,6 +31,7 @@ type TagDigestListProps = TagMutationsChildProps & {
   recommend?: {
     tag?: boolean
   }
+  hasSorter?: boolean
 }
 
 type TagDigestListState = {
@@ -296,7 +302,13 @@ class TagDigestList extends React.Component<
   }
 
   public render() {
-    const { data, loading = false, recommend, pagination } = this.props
+    const {
+      data,
+      loading = false,
+      recommend,
+      pagination,
+      hasSorter
+    } = this.props
     const { selectedRowKeys } = this.state
     const rowSelection = {
       selectedRowKeys,
@@ -325,6 +337,25 @@ class TagDigestList extends React.Component<
                 }
               : false
           }
+          onChange={(pagination, filters, sorter) => {
+            if (!hasSorter) {
+              return
+            }
+
+            const currentSort = getSortKey()
+
+            if (sorter.order === 'descend') {
+              if (currentSort !== 'descend') {
+                setQS({ sort: 'descend' })
+                window.location.reload()
+              }
+            } else {
+              if (currentSort) {
+                setQS({ sort: '' })
+                window.location.reload()
+              }
+            }
+          }}
           rowKey={record => record.id}
         >
           <Table.Column<TagDigest>
@@ -338,6 +369,13 @@ class TagDigestList extends React.Component<
             dataIndex="count"
             title="文章數"
             width={100}
+            {...(hasSorter
+              ? {
+                  defaultSortOrder: getSortKey() as any,
+                  sorter: true,
+                  sortDirections: ['descend']
+                }
+              : {})}
           />
           <Table.Column<TagDigest>
             dataIndex="createdAt"
