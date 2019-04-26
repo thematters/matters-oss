@@ -1,7 +1,7 @@
 #import "../fragments/connection.gql"
 #import "../fragments/tag/digest.gql"
 
-query OSSTagList($input: ConnectionArgs!) {
+query OSSTagList($input: TagsInput!) {
   oss {
     tags(input: $input) {
       ...ConnectionInfo

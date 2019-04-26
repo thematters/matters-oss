@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router-dom'
 
 import { PAGE_SIZE } from '../../constants'
 import { Report, GQLConnectionArgs, Connection } from '../../definitions'
-import { getSearchKey } from '../../utils'
+import { getSearchKey, getCurrentPaginationFromUrl } from '../../utils'
 import QueryReportList from '../../gql/queries/reportList.gql'
 
 type ReportsResponse = {
@@ -31,16 +31,20 @@ const Reports = graphql<
   ReportsChildProps
 >(QueryReportList, {
   // name: 'reports',
-  options: props => ({
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      input: {
-        article: props.type === 'article',
-        comment: props.type === 'comment',
-        first: PAGE_SIZE
+  options: props => {
+    const currentPagination = getCurrentPaginationFromUrl()
+    return {
+      notifyOnNetworkStatusChange: true,
+      variables: {
+        input: {
+          first: PAGE_SIZE,
+          after: currentPagination && currentPagination.after,
+          article: props.type === 'article',
+          comment: props.type === 'comment'
+        }
       }
     }
-  }),
+  },
   skip: () => !!getSearchKey()
 })
 

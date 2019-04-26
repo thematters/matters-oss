@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Table } from 'antd'
-import jump from 'jump.js'
 import { Link } from 'react-router-dom'
 import _get from 'lodash/get'
 import _compact from 'lodash/compact'
@@ -8,14 +7,13 @@ import _compact from 'lodash/compact'
 import DateTime from '../../DateTime'
 import UserLink from '../../User/Link'
 import ToggleLive from '../ToggleLive'
-import TogglePublic from '../TogglePublic'
 import SetBoost from '../../SetBoost'
 import ToggleRecommend from '../ToggleRecommend'
 import ArticleStateTag from '../StateTag'
 
 import { ArticleDigest } from '../../../definitions'
 import { PATH, PAGE_SIZE } from '../../../constants'
-import { pageToCursor } from '../../../utils'
+import { getCurrentPaginationFromUrl, onPaginationChange } from '../../../utils'
 
 type ArticleDigestListProps = {
   data: ArticleDigest[]
@@ -44,29 +42,10 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
     )
   }
 
-  private _onPaginationChange = (page: number, pageSize?: number) => {
-    const { pagination } = this.props
-
-    if (!pagination) {
-      return
-    }
-
-    const cursor = pageToCursor(page, pageSize || 0)
-
-    jump('body')
-    pagination.fetchMore({
-      variables: {
-        input: {
-          ...pagination.variables.input,
-          after: cursor
-        }
-      },
-      updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult
-    })
-  }
-
   public render() {
     const { data, loading = false, pagination, recommend } = this.props
+    const currentPagination = getCurrentPaginationFromUrl()
+
     return (
       <Table<ArticleDigest>
         bordered
@@ -76,10 +55,12 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
         pagination={
           pagination
             ? {
+                defaultCurrent: currentPagination && currentPagination.page,
                 pageSize: pagination.pageSize || PAGE_SIZE,
                 total: pagination.totalCount,
-                onChange: this._onPaginationChange,
-                showTotal: t => `共 ${t} 項`
+                onChange: page => onPaginationChange({ pagination, page }),
+                showTotal: t => `共 ${t} 項`,
+                position: 'both'
               }
             : false
         }
@@ -90,38 +71,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           title="標題"
           render={this._renderTitleCell}
         />
-        <Table.Column<ArticleDigest>
-          dataIndex="author"
-          title="作者"
-          width={200}
-          render={author => (
-            <UserLink
-              id={author.id}
-              userName={author.info.userName}
-              displayName={author.info.displayName}
-            />
-          )}
-        />
-        <Table.Column<ArticleDigest>
-          dataIndex="state"
-          title="狀態"
-          width={100}
-          render={state => <ArticleStateTag state={state} />}
-        />
-        {/* <Table.Column<ArticleDigest> dataIndex="MAT" title="MAT 數" /> */}
-        <Table.Column<ArticleDigest>
-          dataIndex="commentCount"
-          width={100}
-          title="評論數"
-        />
-        <Table.Column<ArticleDigest>
-          dataIndex="public"
-          title="白名單"
-          width={100}
-          render={(isPublic, record) => (
-            <TogglePublic checked={isPublic} articleId={record.id} />
-          )}
-        />
+
         {!recommend && (
           <Table.Column<ArticleDigest>
             dataIndex="live"
@@ -132,12 +82,6 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             )}
           />
         )}
-        <Table.Column<ArticleDigest>
-          dataIndex="createdAt"
-          title="時間"
-          width={200}
-          render={createdAt => <DateTime date={createdAt} />}
-        />
         {recommend && recommend.today && (
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendToday"
@@ -194,6 +138,36 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             )}
           />
         )}
+
+        <Table.Column<ArticleDigest>
+          dataIndex="author"
+          title="作者"
+          width={200}
+          render={author => (
+            <UserLink
+              id={author.id}
+              userName={author.info.userName}
+              displayName={author.info.displayName}
+            />
+          )}
+        />
+        <Table.Column<ArticleDigest>
+          dataIndex="state"
+          title="狀態"
+          width={100}
+          render={state => <ArticleStateTag state={state} />}
+        />
+        <Table.Column<ArticleDigest>
+          dataIndex="commentCount"
+          width={100}
+          title="評論數"
+        />
+        <Table.Column<ArticleDigest>
+          dataIndex="createdAt"
+          title="時間"
+          width={200}
+          render={createdAt => <DateTime date={createdAt} />}
+        />
         {recommend && recommend.topic && (
           <Table.Column<ArticleDigest>
             dataIndex="oss.boost"
