@@ -10,6 +10,7 @@ import SetBoost from '../../SetBoost'
 import { UserDigest } from '../../../definitions'
 import { onPaginationChange, getCurrentPaginationFromUrl } from '../../../utils'
 import { PAGE_SIZE } from '../../../constants'
+import DateTime from '../../DateTime'
 
 type UserDigestListProps = {
   data: UserDigest[]
@@ -34,6 +35,10 @@ class UserDigestList extends React.Component<UserDigestListProps> {
         displayName={record.info.displayName}
       />
     )
+  }
+
+  private _renderCreatedAt(_: any, record: UserDigest): React.ReactNode {
+    return <DateTime date={record.info.createdAt} />
   }
 
   public render() {
@@ -64,6 +69,12 @@ class UserDigestList extends React.Component<UserDigestListProps> {
           dataIndex="info.id"
           title="用戶"
           render={this._renderEmailCell}
+        />
+        <Table.Column<UserDigest>
+          dataIndex="info.createdAt"
+          title="註冊時間"
+          render={this._renderCreatedAt}
+          width={200}
         />
         <Table.Column<UserDigest>
           dataIndex="info.email"
