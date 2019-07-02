@@ -3,6 +3,7 @@ fragment UserDigest on User {
   uuid
   userName
   info {
+    createdAt
     userName
     displayName
     description
