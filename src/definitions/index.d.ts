@@ -20,6 +20,7 @@ export type UserDigest = {
   uuid: GQLUUID
   userName: string
   info: {
+    createdAt: Date
     userName: string
     displayName: string
     email: GQLEmail
