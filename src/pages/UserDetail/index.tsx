@@ -72,9 +72,6 @@ class UserDetail extends React.Component<UserDetailChildProps> {
           <Description term="收藏數">
             {user.status.subscriptionCount}
           </Description>
-          <Description term="邀請資格">
-            {user.status.invitation.left}
-          </Description>
           <Description term="語言">
             {LanguageMap[user.settings.language]}
           </Description>
@@ -129,7 +126,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         </DescriptionList>
         <Divider size="large" /> */}
 
-        <DescriptionList size="large" title="邀請紀錄">
+        {/* <DescriptionList size="large" title="邀請紀錄">
           <Col span={24} style={{ marginBottom: 16 }}>
             <InvitationList
               data={
@@ -139,7 +136,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
               }
             />
           </Col>
-        </DescriptionList>
+        </DescriptionList> */}
       </>
     )
   }
