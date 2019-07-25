@@ -29,25 +29,104 @@ export interface GQLArticleInput {
 
 export type GQLUUID = any
 
+/**
+ * This type contains metadata, content, hash and related data of an article. If you
+ * want information about article's comments. Please check Comment type.
+ */
 export interface GQLArticle extends GQLNode {
+  /**
+   * Unique ID of this article
+   */
   id: string
+
+  /**
+   * The number represents how popular is this article.
+   */
   topicScore?: number
+
+  /**
+   * Slugified article title.
+   */
   slug: string
+
+  /**
+   * Time of this article was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * State of this article.
+   */
   state: GQLArticleState
+
+  /**
+   * This value determines if this article is accessible to visitors.
+   */
   public: boolean
+
+  /**
+   * This value determines if this article is under Subscription or not.
+   */
   live: boolean
+
+  /**
+   * Author of this article.
+   */
   author: GQLUser
+
+  /**
+   * Article title.
+   */
   title: string
+
+  /**
+   * Article cover's link.
+   */
   cover?: GQLURL
+
+  /**
+   * A short summary for this article.
+   */
   summary: string
+
+  /**
+   * Tags attached to this article.
+   */
   tags?: Array<GQLTag>
+
+  /**
+   * Word count of this article.
+   */
   wordCount?: number
+
+  /**
+   * IPFS hash of this article.
+   */
   dataHash?: string
+
+  /**
+   * Media hash, composed of cid encoding, of this article.
+   */
   mediaHash?: string
+
+  /**
+   * Content of this article.
+   */
   content: string
+
+  /**
+   * List of articles which added this article into their collections.
+   */
   collectedBy: GQLArticleConnection
+
+  /**
+   * List of articles added into this articles' collection.
+   */
   collection: GQLArticleConnection
+
+  /**
+   * Related articles to this articles.
+   */
   relatedArticles: GQLArticleConnection
 
   /**
@@ -66,28 +145,40 @@ export interface GQLArticle extends GQLNode {
    * @deprecated not used
    */
   participants: GQLUserConnection
+
+  /**
+   * Subscribers of this articles.
+   */
   subscribers: GQLUserConnection
+
+  /**
+   * Appreciators of this articles.
+   */
   appreciators: GQLUserConnection
 
   /**
-   *
+   * Total count of this article's appreciations.
    * @deprecated Use `appreciators.totalCount`.
    */
   appreciatorCount: number
 
   /**
-   * limit the nuhmber of appreciate per user
+   * Limit the nuhmber of appreciate per user.
    */
   appreciateLimit: number
+
+  /**
+   * Number represents how many times per user can appreciate this article.
+   */
   appreciateLeft: number
 
   /**
-   * Viewer has appreciate
+   * This value determines if current viewer has appreciated or not.
    */
   hasAppreciate: boolean
 
   /**
-   * Viewer has subscribed
+   * This value determines if current Viewer has subscribed of not.
    */
   subscribed: boolean
 
@@ -96,11 +187,41 @@ export interface GQLArticle extends GQLNode {
    */
   oss: GQLArticleOSS
   remark?: string
+
+  /**
+   * The counting number of comments.
+   */
   commentCount: number
+
+  /**
+   * The number determines how many pinned comments can be set.
+   */
   pinCommentLimit: number
+
+  /**
+   * The number determines how many comments can be set as pinned comment.
+   */
   pinCommentLeft: number
+
+  /**
+   * List of pinned comments.
+   */
   pinnedComments?: Array<GQLComment>
+
+  /**
+   * List of comments of this article.
+   */
   comments: GQLCommentConnection
+
+  /**
+   * The counting number of this article.
+   */
+  responseCount: number
+
+  /**
+   * List of responses of a article.
+   */
+  responses: GQLResponseConnection
 }
 
 export interface GQLNode {
@@ -126,6 +247,9 @@ export interface GQLNodeNameMap {
 
 export type GQLDateTime = any
 
+/**
+ * Enums for an article state.
+ */
 export enum GQLArticleState {
   active = 'active',
   archived = 'archived',
@@ -133,56 +257,99 @@ export enum GQLArticleState {
 }
 
 export interface GQLUser extends GQLNode {
+  /**
+   * Global id of an user.
+   */
   id: string
+
+  /**
+   * UUID of an user, for backward compatibility.
+   */
   uuid: GQLUUID
+
+  /**
+   * Global unique user name of a user.
+   */
   userName?: string
 
   /**
-   * Display name on profile
+   * Display name on user profile, can be duplicated.
    */
   displayName?: string
 
   /**
-   * URL for avatar
+   * URL for user avatar.
    */
   avatar?: GQLURL
+
+  /**
+   * User information.
+   */
   info: GQLUserInfo
+
+  /**
+   * User settings.
+   */
   settings: GQLUserSettings
+
+  /**
+   * Article recommendations for current user.
+   */
   recommendation: GQLRecommendation
 
   /**
-   * Articles written by this user
+   * Articles authored by current user.
    */
   articles: GQLArticleConnection
+
+  /**
+   * Drafts authored by current user.
+   */
   drafts: GQLDraftConnection
+
+  /**
+   * Audiodraft by user, currently not used.
+   */
   audiodrafts: GQLAudiodraftConnection
 
   /**
-   * Comments posted by this user
+   * Articles current user commented on
    */
   commentedArticles: GQLArticleConnection
+
+  /**
+   * Artilces current user subscribed to.
+   */
   subscriptions: GQLArticleConnection
+
+  /**
+   * Record of user activity, only accessable by current user.
+   */
   activity: GQLUserActivity
 
   /**
-   * Followers of this user
+   * Followers of this user.
    */
   followers: GQLUserConnection
 
   /**
-   * Users that this user follows
+   * Users that this user follows.
    */
   followees: GQLUserConnection
 
   /**
-   * This user is following viewer
+   * Whether current user is following viewer.
    */
   isFollower: boolean
 
   /**
-   * Viewer is following this user
+   * Whether viewer is following current user.
    */
   isFollowee: boolean
+
+  /**
+   * Status of current user.
+   */
   status?: GQLUserStatus
 
   /**
@@ -196,44 +363,67 @@ export interface GQLUser extends GQLNode {
 export type GQLURL = any
 
 export interface GQLUserInfo {
+  /**
+   * Timestamp of registration.
+   */
   createdAt: GQLDateTime
 
   /**
-   * Unique user name
+   * Unique user name.
    * @deprecated Use `User.userName`.
    */
   userName: string
 
   /**
-   * Is user name editable
+   * Is user name editable.
    */
   userNameEditable: boolean
 
   /**
-   * Display name on profile
+   * Display name on profile.
    * @deprecated Use `User.displayName`.
    */
   displayName: string
 
   /**
-   * User desciption
+   * User desciption.
    */
   description?: string
 
   /**
-   * URL for avatar
+   * URL for avatar.
    * @deprecated Use `User.avatar`.
    */
   avatar?: GQLURL
+
+  /**
+   * User email.
+   */
   email?: GQLEmail
+
+  /**
+   * Is email verified.
+   */
   emailVerified?: boolean
+
+  /**
+   * Moble number.
+   */
   mobile?: string
 
   /**
-   * Use 500 for now, adaptive in the future
+   * User reading speed, 500 as default.
    */
   readSpeed: number
+
+  /**
+   * User badges.
+   */
   badges?: Array<GQLBadge>
+
+  /**
+   * Timestamp of user agreement.
+   */
   agreeOn?: GQLDateTime
 }
 
@@ -249,14 +439,12 @@ export enum GQLBadgeType {
 
 export interface GQLUserSettings {
   /**
-   * User language setting
+   * User language setting.
    */
   language: GQLUserLanguage
 
   /**
-   * Thrid party accounts binded for the user
-   * oauthType: [OAuthType!]
-   * Notification settings
+   * Notification settings.
    */
   notification: GQLNotificationSetting
 }
@@ -269,6 +457,7 @@ export enum GQLUserLanguage {
 
 export interface GQLNotificationSetting {
   enable: boolean
+  email: boolean
   mention: boolean
   follow: boolean
   comment: boolean
@@ -287,21 +476,44 @@ export interface GQLNotificationSetting {
 }
 
 export interface GQLRecommendation {
+  /**
+   * Articles published by user's followees.
+   */
   followeeArticles: GQLArticleConnection
+
+  /**
+   * Global articles sort by publish time.
+   */
   newest: GQLArticleConnection
+
+  /**
+   * Global articles sort by latest activity time.
+   */
   hottest: GQLArticleConnection
 
   /**
-   * Matters Today
+   * 'Matters Today' recommendation.
    */
   today?: GQLArticle
 
   /**
-   * In case you missed it
+   * 'In case you missed it' recommendation.
    */
   icymi: GQLArticleConnection
+
+  /**
+   * Global tag list, sort by activities in recent 14 days.
+   */
   tags: GQLTagConnection
+
+  /**
+   * Gloabl article list, sort by activities in recent 72 hours.
+   */
   topics: GQLArticleConnection
+
+  /**
+   * Global user list, sort by activities in recent 6 month.
+   */
   authors: GQLUserConnection
 }
 
@@ -335,6 +547,7 @@ export type GQLPossibleConnectionTypeNames =
   | 'InvitationConnection'
   | 'NoticeConnection'
   | 'CommentConnection'
+  | 'ResponseConnection'
   | 'SearchResultConnection'
   | 'ReportConnection'
 
@@ -351,6 +564,7 @@ export interface GQLConnectionNameMap {
   InvitationConnection: GQLInvitationConnection
   NoticeConnection: GQLNoticeConnection
   CommentConnection: GQLCommentConnection
+  ResponseConnection: GQLResponseConnection
   SearchResultConnection: GQLSearchResultConnection
   ReportConnection: GQLReportConnection
 }
@@ -359,6 +573,7 @@ export interface GQLPageInfo {
   startCursor?: string
   endCursor?: string
   hasNextPage: boolean
+  hasPreviousPage: boolean
 }
 
 export interface GQLArticleEdge {
@@ -377,8 +592,18 @@ export interface GQLTagEdge {
   node: GQLTag
 }
 
+/**
+ * This type contains content, count and related data of an article tag.
+ */
 export interface GQLTag extends GQLNode {
+  /**
+   * Unique id of this tag.
+   */
   id: string
+
+  /**
+   * Content of this tag.
+   */
   content: string
 
   /**
@@ -386,7 +611,15 @@ export interface GQLTag extends GQLNode {
    * @deprecated Use `articles.totalCount`.
    */
   count: number
+
+  /**
+   * List of how many articles were attached with this tag.
+   */
   articles: GQLArticleConnection
+
+  /**
+   * Time of this tag was created.
+   */
   createdAt: GQLDateTime
 
   /**
@@ -437,27 +670,123 @@ export interface GQLDraftEdge {
   node: GQLDraft
 }
 
+/**
+ * This type contains content, collections, assets and related data of a draft.
+ */
 export interface GQLDraft extends GQLNode {
+  /**
+   * Unique ID of this draft.
+   */
   id: string
+
+  /**
+   * Collection list of this draft.
+   */
   collection: GQLArticleConnection
+
+  /**
+   * Draft title.
+   */
   title?: string
+
+  /**
+   * Slugified draft title.
+   */
   slug: string
+
+  /**
+   * Summary of this draft.
+   */
   summary?: string
+
+  /**
+   * Content of this draft.
+   */
   content?: string
   scheduledAt?: GQLDateTime
+
+  /**
+   * Time of this draft was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * Last time of this draft was upadted.
+   */
   updatedAt: GQLDateTime
+
+  /**
+   * The counting number of words in this draft.
+   */
   wordCount: number
+
+  /**
+   * Tags are attached to this draft.
+   */
   tags?: Array<string>
+
+  /**
+   * Draft's cover link.
+   */
   cover?: GQLURL
+
+  /**
+   * State of draft during publihsing.
+   */
   publishState: GQLPublishState
+
+  /**
+   * List of asstets are belonged to this draft.
+   */
+  assets: Array<GQLAsset>
 }
 
+/**
+ * Enums for publishing state.
+ */
 export enum GQLPublishState {
   unpublished = 'unpublished',
   pending = 'pending',
   error = 'error',
   published = 'published'
+}
+
+/**
+ * This type contains type, link and related data of an asset.
+ */
+export interface GQLAsset {
+  /**
+   * Unique ID of this Asset.
+   */
+  id: string
+
+  /**
+   * Types of this asset.
+   */
+  type: GQLAssetType
+
+  /**
+   * Link of this asset.
+   */
+  path: string
+
+  /**
+   * Time of this asset was created.
+   */
+  createdAt: GQLDateTime
+}
+
+/**
+ * Enums for asset types.
+ */
+export enum GQLAssetType {
+  avatar = 'avatar',
+  cover = 'cover',
+  audiodraft = 'audiodraft',
+  report = 'report',
+  feedback = 'feedback',
+  embed = 'embed',
+  embedaudio = 'embedaudio'
 }
 
 export interface GQLAudiodraftConnection extends GQLConnection {
@@ -482,7 +811,14 @@ export interface GQLAudiodraft {
 }
 
 export interface GQLUserActivity {
+  /**
+   * User reading history.
+   */
   history: GQLReadHistoryConnection
+
+  /**
+   * User search history.
+   */
   recentSearches: GQLRecentSearchConnection
 }
 
@@ -514,14 +850,26 @@ export interface GQLRecentSearchEdge {
 }
 
 export interface GQLUserStatus {
+  /**
+   * User state.
+   */
   state: GQLUserState
+
+  /**
+   * User role and access level.
+   */
   role: GQLUserRole
 
   /**
-   * Total MAT left in wallet
+   * Total MAT left in wallet.
    */
   MAT: GQLMAT
-  invitation: GQLInvitationStatus
+
+  /**
+   * Invitation. Deprecated.
+   * @deprecated removed
+   */
+  invitation?: GQLInvitationStatus
 
   /**
    * Number of articles published by user
@@ -530,43 +878,53 @@ export interface GQLUserStatus {
   articleCount: number
 
   /**
-   * Number of views on articles
+   * Number of views on user articles. Not yet in use.
    */
   viewCount: number
 
   /**
-   *
+   * Number of draft of user.
    * @deprecated Use `User.drafts.totalCount`.
    */
   draftCount: number
 
   /**
-   * Number of comments posted by user
+   * Number of comments posted by user.
    */
   commentCount: number
 
   /**
-   * quotationCount: Int! @deprecated(reason: "not used")
+   *
    * @deprecated Use `User.subscriptions.totalCount`.
    */
   subscriptionCount: number
 
   /**
-   * Number of user that this user follows
+   *
    * @deprecated Use `User.followees.totalCount`.
    */
   followeeCount: number
 
   /**
-   * Number of user that follows this user
+   *
    * @deprecated Use `User.followers.totalCount`.
    */
   followerCount: number
 
   /**
-   * Number of unread notices
+   * Number of unread notices.
    */
   unreadNoticeCount: number
+
+  /**
+   * Whether there are unread articles from followees.
+   */
+  unreadFolloweeArticles: boolean
+
+  /**
+   * Whether user has read response info or not.
+   */
+  unreadResponseInfoPopUp: boolean
 }
 
 export enum GQLUserState {
@@ -616,31 +974,43 @@ export enum GQLTransactionPurpose {
   systemSubsidy = 'systemSubsidy'
 }
 
+/**
+ * # TODO: remove in OSS
+ */
 export interface GQLInvitationStatus {
-  reward: string
+  reward?: string
 
   /**
    * invitation number left
    */
-  left: number
+  left?: number
 
   /**
    * invitations sent
    */
-  sent: GQLInvitationConnection
+  sent?: GQLInvitationConnection
 }
 
+/**
+ * # TODO: remove in OSS
+ */
 export interface GQLInvitationConnection extends GQLConnection {
   totalCount: number
   pageInfo: GQLPageInfo
   edges?: Array<GQLInvitationEdge>
 }
 
+/**
+ * # TODO: remove in OSS
+ */
 export interface GQLInvitationEdge {
   cursor: string
   node: GQLInvitation
 }
 
+/**
+ * # TODO: remove in OSS
+ */
 export interface GQLInvitation {
   id: string
   user?: GQLUser
@@ -665,9 +1035,23 @@ export interface GQLNoticeEdge {
   node: GQLNotice
 }
 
+/**
+ * This interface contains common fields of a notice.
+ */
 export interface GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
 }
 
@@ -675,6 +1059,7 @@ export interface GQLNotice {
 export type GQLPossibleNoticeTypeNames =
   | 'ArticleMentionedYouNotice'
   | 'ArticleNewAppreciationNotice'
+  | 'ArticleNewCollectedNotice'
   | 'ArticleNewCommentNotice'
   | 'ArticleNewDownstreamNotice'
   | 'ArticleNewSubscriberNotice'
@@ -693,6 +1078,7 @@ export interface GQLNoticeNameMap {
   Notice: GQLNotice
   ArticleMentionedYouNotice: GQLArticleMentionedYouNotice
   ArticleNewAppreciationNotice: GQLArticleNewAppreciationNotice
+  ArticleNewCollectedNotice: GQLArticleNewCollectedNotice
   ArticleNewCommentNotice: GQLArticleNewCommentNotice
   ArticleNewDownstreamNotice: GQLArticleNewDownstreamNotice
   ArticleNewSubscriberNotice: GQLArticleNewSubscriberNotice
@@ -720,20 +1106,58 @@ export interface GQLArticleOSS {
   todaySummary?: string
 }
 
+/**
+ * This type contains content, author, descendant comments and related data of a comment.
+ */
 export interface GQLComment extends GQLNode {
+  /**
+   * Unique ID of this comment.
+   */
   id: string
+
+  /**
+   * State of this comment.
+   */
   state: GQLCommentState
+
+  /**
+   * Time of this comment was created.
+   */
   createdAt: GQLDateTime
 
   /**
-   * Original article of this comment
+   * Article that the comment is belonged to.
    */
   article: GQLArticle
+
+  /**
+   * Content of this comment.
+   */
   content?: string
+
+  /**
+   * Author of this comment.
+   */
   author: GQLUser
+
+  /**
+   * This value determines this comment is pinned or not.
+   */
   pinned: boolean
+
+  /**
+   * The counting number of upvotes.
+   */
   upvotes: number
+
+  /**
+   * The counting number of downvotes.
+   */
   downvotes: number
+
+  /**
+   * The value determines current user's vote.
+   */
   myVote?: GQLVote
 
   /**
@@ -741,21 +1165,39 @@ export interface GQLComment extends GQLNode {
    * @deprecated not used
    */
   mentions?: Array<GQLUser>
+
+  /**
+   * Descendant comments of this comment.
+   */
   comments: GQLCommentConnection
+
+  /**
+   * Parent comment of this comment.
+   */
   parentComment?: GQLComment
   quotationStart?: number
   quotationEnd?: number
   quotationContent?: string
+
+  /**
+   * A Comment that this comment replied to.
+   */
   replyTo?: GQLComment
   remark?: string
 }
 
+/**
+ * Enums for comment state.
+ */
 export enum GQLCommentState {
   active = 'active',
   archived = 'archived',
   banned = 'banned'
 }
 
+/**
+ * Enums for vote types.
+ */
 export enum GQLVote {
   up = 'up',
   down = 'down'
@@ -768,9 +1210,17 @@ export interface GQLCommentCommentsInput {
   first?: number
 }
 
+/**
+ * Enums for sorting comments by time.
+ */
 export enum GQLCommentSort {
   oldest = 'oldest',
   newest = 'newest',
+
+  /**
+   *
+   * @deprecated not used
+   */
   upvotes = 'upvotes'
 }
 
@@ -786,11 +1236,59 @@ export interface GQLCommentEdge {
 }
 
 export interface GQLCommentsInput {
-  author?: string
   sort?: GQLCommentSort
   after?: string
+  before?: string
+  includeAfter?: boolean
+  includeBefore?: boolean
   first?: number
-  parent?: boolean
+  filter?: GQLCommentsFilter
+}
+
+export interface GQLCommentsFilter {
+  parentComment?: string
+  state?: GQLCommentState
+  author?: string
+}
+
+export interface GQLResponsesInput {
+  sort?: GQLResponseSort
+  after?: string
+  before?: string
+  includeAfter?: boolean
+  includeBefore?: boolean
+  first?: number
+  articleOnly?: boolean
+}
+
+/**
+ * Enums for sorting responses.
+ */
+export enum GQLResponseSort {
+  oldest = 'oldest',
+  newest = 'newest'
+}
+
+export interface GQLResponseConnection extends GQLConnection {
+  totalCount: number
+  pageInfo: GQLPageInfo
+  edges?: Array<GQLResponseEdge>
+}
+
+export interface GQLResponseEdge {
+  cursor: string
+  node: GQLResponse
+}
+
+export type GQLResponse = GQLArticle | GQLComment
+
+/** Use this to resolve union type Response */
+export type GQLPossibleResponseTypeNames = 'Article' | 'Comment'
+
+export interface GQLResponseNameMap {
+  Response: GQLResponse
+  Article: GQLArticle
+  Comment: GQLComment
 }
 
 export interface GQLNodeInput {
@@ -827,13 +1325,19 @@ export interface GQLSearchResultEdge {
   node: GQLNode
 }
 
+/**
+ * This type contains system-wise settings.
+ */
 export interface GQLOfficial {
   reportCategory: Array<GQLCategory>
   feedbackCategory: Array<GQLCategory>
   releases?: Array<GQLRelease>
+
+  /**
+   * Links of specific pages on Matters site.
+   */
   links: GQLOfficialLinks
   placements: GQLPlacements
-  gatewayUrls?: Array<GQLURL>
 }
 
 export interface GQLCategory {
@@ -914,6 +1418,9 @@ export interface GQLTagsInput {
   sort?: GQLTagsSort
 }
 
+/**
+ * Enums for sorting tags.
+ */
 export enum GQLTagsSort {
   newest = 'newest',
   oldest = 'oldest',
@@ -960,14 +1467,49 @@ export interface GQLUserInput {
 }
 
 export interface GQLMutation {
+  /**
+   * Publish an article onto IPFS.
+   */
   publishArticle: GQLDraft
+
+  /**
+   * Archive an article and users won't be able to view this article.
+   */
   archiveArticle: GQLArticle
+
+  /**
+   * Subscribe an artcile.
+   */
   subscribeArticle: GQLArticle
+
+  /**
+   * Unsubscribe an article.
+   */
   unsubscribeArticle: GQLArticle
+
+  /**
+   * Report an article to team.
+   */
   reportArticle?: boolean
+
+  /**
+   * Appreciate an article.
+   */
   appreciateArticle: GQLArticle
+
+  /**
+   * Read an article.
+   */
   readArticle: GQLArticle
+
+  /**
+   * Recall while publishing.
+   */
   recallPublish: GQLDraft
+
+  /**
+   * Set collection of an article.
+   */
   setCollection: GQLArticle
 
   /**
@@ -981,87 +1523,154 @@ export interface GQLMutation {
   renameTag: GQLTag
   mergeTags: GQLTag
   updateMattersToday: GQLArticle
-  putComment: GQLComment
-  pinComment: GQLComment
-  unpinComment: GQLComment
-  deleteComment: GQLComment
-  reportComment?: boolean
-  voteComment: GQLComment
-  unvoteComment: GQLComment
-  updateCommentState: GQLComment
 
   /**
-   * audio dtaft
+   * Publish a comment.
    */
+  putComment: GQLComment
+
+  /**
+   * Pin a comment.
+   */
+  pinComment: GQLComment
+
+  /**
+   * Unpin a comment.
+   */
+  unpinComment: GQLComment
+
+  /**
+   * Remove a comment.
+   */
+  deleteComment: GQLComment
+
+  /**
+   * Report a comment to team.
+   */
+  reportComment?: boolean
+
+  /**
+   * Upvote or downvote a comment.
+   */
+  voteComment: GQLComment
+
+  /**
+   * Unvote a comment.
+   */
+  unvoteComment: GQLComment
+
+  /**
+   * Update a comment's state.
+   */
+  updateCommentState: GQLComment
   putAudiodraft: GQLAudiodraft
   deleteAudiodraft?: boolean
 
   /**
-   * draft
+   * Create or update a draft.
    */
   putDraft: GQLDraft
+
+  /**
+   * Remove a draft.
+   */
   deleteDraft?: boolean
+
+  /**
+   * Mark all received notices as read.
+   */
   markAllNoticesAsRead?: boolean
+
+  /**
+   * Upload a single file.
+   */
   singleFileUpload: GQLAsset
+
+  /**
+   * Delete a uploaded file.
+   */
   singleFileDelete: boolean
   feedback?: boolean
   setBoost: GQLNode
   putRemark?: string
 
   /**
-   * send/confirm verification code
+   * Add specific user behavior record.
+   */
+  logRecord?: boolean
+
+  /**
+   * Send verification code for email.
    */
   sendVerificationCode?: boolean
+
+  /**
+   * Confirm verification code from email.
+   */
   confirmVerificationCode: string
 
   /**
-   * change or reset password
+   * Reset user password.
    */
   resetPassword?: boolean
 
   /**
-   * change email
+   * Change user email.
    */
   changeEmail?: boolean
 
   /**
-   * verify email
+   * Verify user email.
    */
   verifyEmail?: boolean
 
   /**
-   * register
+   * Register user.
    */
   userRegister: GQLAuthResult
 
   /**
-   * login
+   * Login user.
    */
   userLogin: GQLAuthResult
+
+  /**
+   * Logout user.
+   */
   userLogout: boolean
 
   /**
-   * addOAuth(input: AddOAuthInput!): Boolean
-   * update info/ setting
+   * Update user information.
    */
   updateUserInfo: GQLUser
+
+  /**
+   * Update user notification settings.
+   */
   updateNotificationSetting: GQLUser
 
   /**
-   * follow/unfollow
+   * Follow a given user.
    */
   followUser: GQLUser
+
+  /**
+   * Unfollow curent user.
+   */
   unfollowUser: GQLUser
 
   /**
-   * importArticles(input: ImportArticlesInput!): [Article!]
+   * Clear read history for user.
    */
   clearReadHistory?: boolean
-  clearSearchHistory?: boolean
-  invite?: boolean
 
   /**
-   * OSS
+   * Clear search history for user.
+   */
+  clearSearchHistory?: boolean
+
+  /**
+   * Update state of a user, used in OSS.
    */
   updateUserState: GQLUser
 }
@@ -1125,6 +1734,9 @@ export interface GQLToggleArticleRecommendInput {
   type: GQLRecommendTypes
 }
 
+/**
+ * Enums for types of recommend articles.
+ */
 export enum GQLRecommendTypes {
   today = 'today',
   icymi = 'icymi',
@@ -1236,24 +1848,16 @@ export interface GQLSingleFileUploadInput {
   type: GQLAssetType
   file?: GQLUpload
   url?: GQLURL
-}
-
-export enum GQLAssetType {
-  avatar = 'avatar',
-  cover = 'cover',
-  audiodraft = 'audiodraft',
-  report = 'report',
-  feedback = 'feedback',
-  embed = 'embed'
+  entityType: GQLEntityType
+  entityId?: string
 }
 
 export type GQLUpload = any
 
-export interface GQLAsset {
-  id: string
-  type: GQLAssetType
-  path: string
-  createdAt: GQLDateTime
+export enum GQLEntityType {
+  article = 'article',
+  draft = 'draft',
+  user = 'user'
 }
 
 export interface GQLSingleFileDeleteInput {
@@ -1294,6 +1898,15 @@ export enum GQLRemarkTypes {
   Feedback = 'Feedback'
 }
 
+export interface GQLLogRecordInput {
+  type: GQLLogRecordTypes
+}
+
+export enum GQLLogRecordTypes {
+  ReadFolloweeArticles = 'ReadFolloweeArticles',
+  ReadResponseInfoPopUp = 'ReadResponseInfoPopUp'
+}
+
 export interface GQLSendVerificationCodeInput {
   email: GQLEmail
   type: GQLVerificationCodeType
@@ -1302,6 +1915,7 @@ export interface GQLSendVerificationCodeInput {
 export enum GQLVerificationCodeType {
   register = 'register',
   email_reset = 'email_reset',
+  email_reset_confirm = 'email_reset_confirm',
   password_reset = 'password_reset',
   email_verify = 'email_verify'
 }
@@ -1368,6 +1982,7 @@ export interface GQLUpdateNotificationSettingInput {
 
 export enum GQLNotificationSettingType {
   enable = 'enable',
+  email = 'email',
   mention = 'mention',
   follow = 'follow',
   comment = 'comment',
@@ -1393,11 +2008,6 @@ export interface GQLClearReadHistoryInput {
   id: string
 }
 
-export interface GQLInviteInput {
-  id?: string
-  email?: GQLEmail
-}
-
 export interface GQLUpdateUserStateInput {
   id: string
   state: GQLUserState
@@ -1414,29 +2024,138 @@ export interface GQLNodeEditedInput {
   id: string
 }
 
+/**
+ * This notice type contains info about current user has been mentioned in an article.
+ */
 export interface GQLArticleMentionedYouNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * The user who mentioned current user.
+   */
   actor: GQLUser
+
+  /**
+   * The article that current user has been mentioned in.
+   */
   target?: GQLArticle
 }
 
+/**
+ * This notice type contains info about current user's article has been appreciated by others.
+ */
 export interface GQLArticleNewAppreciationNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * List of users who appreciated current user's article.
+   */
   actors?: Array<GQLUser | null>
+
+  /**
+   * The article that has been appreciated.
+   */
   target?: GQLArticle
+
+  /**
+   * The amount of appreciations.
+   */
   MAT: number
 }
 
-export interface GQLArticleNewCommentNotice extends GQLNotice {
+/**
+ * This notice type contains info about current user's article has been collected by others.
+ */
+export interface GQLArticleNewCollectedNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
-  actors?: Array<GQLUser | null>
+
+  /**
+   * The user collect current user's articles.
+   */
+  actor: GQLUser
+
+  /**
+   * The article that collected current user's articles.
+   */
+  collection?: GQLArticle
+
+  /**
+   * The article that has been collected.
+   */
   target?: GQLArticle
+}
+
+/**
+ * This notice type contains info about current user's article has new comment.
+ */
+export interface GQLArticleNewCommentNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
+  id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
+  unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
+  createdAt: GQLDateTime
+
+  /**
+   * The user who comment current user's article.
+   */
+  actors?: Array<GQLUser | null>
+
+  /**
+   * The article that has new comment.
+   */
+  target?: GQLArticle
+
+  /**
+   * The comment data.
+   */
   comment?: GQLComment
 }
 
@@ -1449,18 +2168,58 @@ export interface GQLArticleNewDownstreamNotice extends GQLNotice {
   target?: GQLArticle
 }
 
+/**
+ * This notice type contains info about current user's article has been subscribed by others.
+ */
 export interface GQLArticleNewSubscriberNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * List of users who subscribed current user's article.
+   */
   actors?: Array<GQLUser | null>
+
+  /**
+   * The article that has been subscribed.
+   */
   target?: GQLArticle
 }
 
+/**
+ * This notice type contains info about current user's article publihsed successfully.
+ */
 export interface GQLArticlePublishedNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * The article that has been published.
+   */
   target?: GQLArticle
 }
 
@@ -1472,29 +2231,104 @@ export interface GQLCommentMentionedYouNotice extends GQLNotice {
   target?: GQLComment
 }
 
+/**
+ * This notice type contains info about current user's comment has new reply.
+ */
 export interface GQLCommentNewReplyNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * The user who replied current user's comment.
+   */
   actors?: Array<GQLUser | null>
+
+  /**
+   * The comment that has new replied.
+   */
   target?: GQLComment
+
+  /**
+   * The comment that replied to current user's existing comment.
+   */
   reply?: GQLComment
 }
 
+/**
+ * The notice type contains info about current user's comment has new vote.
+ */
 export interface GQLCommentNewUpvoteNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * The user who vote current user's comment.
+   */
   actors?: Array<GQLUser | null>
+
+  /**
+   * The comment that has new vote.
+   */
   target?: GQLComment
 }
 
+/**
+ * This notice type contains info about current user's comment has been pinned.
+ */
 export interface GQLCommentPinnedNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * The user who pinned current user's comment.
+   */
   actor: GQLUser
+
+  /**
+   * The comment data.
+   */
   target?: GQLComment
+}
+
+export interface GQLCostComplexity {
+  min?: number
+  max?: number
 }
 
 export type GQLDate = any
@@ -1524,28 +2358,79 @@ export type GQLNonPositiveFloat = any
 
 export type GQLNonPositiveInt = any
 
+/**
+ * The notice type contains info about official announcement.
+ */
 export interface GQLOfficialAnnouncementNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * The message content.
+   */
   message: string
+
+  /**
+   * The link to a specific page if provided.
+   */
   link?: GQLURL
 }
 
 export type GQLPositiveFloat = any
 
+/**
+ * Enums for user roles.
+ */
 export enum GQLRole {
   vistor = 'vistor',
   user = 'user',
   admin = 'admin'
 }
 
+/**
+ * This notice type contains info about current user's subscribed article has new comment.
+ */
 export interface GQLSubscribedArticleNewCommentNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * The user who made new comment to current user's subscribed article.
+   */
   actors?: Array<GQLUser | null>
+
+  /**
+   * The article that current user has been subscribed.
+   */
   target?: GQLArticle
+
+  /**
+   * The comment data.
+   */
   comment?: GQLComment
 }
 
@@ -1568,10 +2453,28 @@ export enum GQLUserInfoFields {
   agreeOn = 'agreeOn'
 }
 
+/**
+ * This notice type contains info about current user has new followers.
+ */
 export interface GQLUserNewFollowerNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
   id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
   unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
   createdAt: GQLDateTime
+
+  /**
+   * List of new followers.
+   */
   actors?: Array<GQLUser | null>
 }
 
@@ -1619,6 +2522,7 @@ export interface GQLResolver {
   DraftConnection?: GQLDraftConnectionTypeResolver
   DraftEdge?: GQLDraftEdgeTypeResolver
   Draft?: GQLDraftTypeResolver
+  Asset?: GQLAssetTypeResolver
   AudiodraftConnection?: GQLAudiodraftConnectionTypeResolver
   AudiodraftEdge?: GQLAudiodraftEdgeTypeResolver
   Audiodraft?: GQLAudiodraftTypeResolver
@@ -1648,6 +2552,12 @@ export interface GQLResolver {
   Comment?: GQLCommentTypeResolver
   CommentConnection?: GQLCommentConnectionTypeResolver
   CommentEdge?: GQLCommentEdgeTypeResolver
+  ResponseConnection?: GQLResponseConnectionTypeResolver
+  ResponseEdge?: GQLResponseEdgeTypeResolver
+  Response?: {
+    __resolveType: GQLResponseTypeResolver
+  }
+
   SearchResultConnection?: GQLSearchResultConnectionTypeResolver
   SearchResultEdge?: GQLSearchResultEdgeTypeResolver
   Official?: GQLOfficialTypeResolver
@@ -1662,12 +2572,12 @@ export interface GQLResolver {
   Report?: GQLReportTypeResolver
   Mutation?: GQLMutationTypeResolver
   Upload?: GraphQLScalarType
-  Asset?: GQLAssetTypeResolver
   AuthResult?: GQLAuthResultTypeResolver
   PositiveInt?: GraphQLScalarType
   Subscription?: GQLSubscriptionTypeResolver
   ArticleMentionedYouNotice?: GQLArticleMentionedYouNoticeTypeResolver
   ArticleNewAppreciationNotice?: GQLArticleNewAppreciationNoticeTypeResolver
+  ArticleNewCollectedNotice?: GQLArticleNewCollectedNoticeTypeResolver
   ArticleNewCommentNotice?: GQLArticleNewCommentNoticeTypeResolver
   ArticleNewDownstreamNotice?: GQLArticleNewDownstreamNoticeTypeResolver
   ArticleNewSubscriberNotice?: GQLArticleNewSubscriberNoticeTypeResolver
@@ -1826,6 +2736,8 @@ export interface GQLArticleTypeResolver<TParent = any> {
   pinCommentLeft?: ArticleToPinCommentLeftResolver<TParent>
   pinnedComments?: ArticleToPinnedCommentsResolver<TParent>
   comments?: ArticleToCommentsResolver<TParent>
+  responseCount?: ArticleToResponseCountResolver<TParent>
+  responses?: ArticleToResponsesResolver<TParent>
 }
 
 export interface ArticleToIdResolver<TParent = any, TResult = any> {
@@ -2180,6 +3092,27 @@ export interface ArticleToCommentsResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: ArticleToCommentsArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleToResponseCountResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleToResponsesArgs {
+  input: GQLResponsesInput
+}
+export interface ArticleToResponsesResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: ArticleToResponsesArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -2607,6 +3540,7 @@ export interface UserSettingsToNotificationResolver<
 
 export interface GQLNotificationSettingTypeResolver<TParent = any> {
   enable?: NotificationSettingToEnableResolver<TParent>
+  email?: NotificationSettingToEmailResolver<TParent>
   mention?: NotificationSettingToMentionResolver<TParent>
   follow?: NotificationSettingToFollowResolver<TParent>
   comment?: NotificationSettingToCommentResolver<TParent>
@@ -2623,6 +3557,18 @@ export interface GQLNotificationSettingTypeResolver<TParent = any> {
 }
 
 export interface NotificationSettingToEnableResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface NotificationSettingToEmailResolver<
   TParent = any,
   TResult = any
 > {
@@ -2928,6 +3874,7 @@ export interface GQLConnectionTypeResolver<TParent = any> {
     | 'InvitationConnection'
     | 'NoticeConnection'
     | 'CommentConnection'
+    | 'ResponseConnection'
     | 'SearchResultConnection'
     | 'ReportConnection'
 }
@@ -2935,6 +3882,7 @@ export interface GQLPageInfoTypeResolver<TParent = any> {
   startCursor?: PageInfoToStartCursorResolver<TParent>
   endCursor?: PageInfoToEndCursorResolver<TParent>
   hasNextPage?: PageInfoToHasNextPageResolver<TParent>
+  hasPreviousPage?: PageInfoToHasPreviousPageResolver<TParent>
 }
 
 export interface PageInfoToStartCursorResolver<TParent = any, TResult = any> {
@@ -2956,6 +3904,18 @@ export interface PageInfoToEndCursorResolver<TParent = any, TResult = any> {
 }
 
 export interface PageInfoToHasNextPageResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface PageInfoToHasPreviousPageResolver<
+  TParent = any,
+  TResult = any
+> {
   (
     parent: TParent,
     args: {},
@@ -3283,6 +4243,7 @@ export interface GQLDraftTypeResolver<TParent = any> {
   tags?: DraftToTagsResolver<TParent>
   cover?: DraftToCoverResolver<TParent>
   publishState?: DraftToPublishStateResolver<TParent>
+  assets?: DraftToAssetsResolver<TParent>
 }
 
 export interface DraftToIdResolver<TParent = any, TResult = any> {
@@ -3397,6 +4358,58 @@ export interface DraftToCoverResolver<TParent = any, TResult = any> {
 }
 
 export interface DraftToPublishStateResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface DraftToAssetsResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLAssetTypeResolver<TParent = any> {
+  id?: AssetToIdResolver<TParent>
+  type?: AssetToTypeResolver<TParent>
+  path?: AssetToPathResolver<TParent>
+  createdAt?: AssetToCreatedAtResolver<TParent>
+}
+
+export interface AssetToIdResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface AssetToTypeResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface AssetToPathResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface AssetToCreatedAtResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
@@ -3744,6 +4757,8 @@ export interface GQLUserStatusTypeResolver<TParent = any> {
   followeeCount?: UserStatusToFolloweeCountResolver<TParent>
   followerCount?: UserStatusToFollowerCountResolver<TParent>
   unreadNoticeCount?: UserStatusToUnreadNoticeCountResolver<TParent>
+  unreadFolloweeArticles?: UserStatusToUnreadFolloweeArticlesResolver<TParent>
+  unreadResponseInfoPopUp?: UserStatusToUnreadResponseInfoPopUpResolver<TParent>
 }
 
 export interface UserStatusToStateResolver<TParent = any, TResult = any> {
@@ -3861,6 +4876,30 @@ export interface UserStatusToFollowerCountResolver<
 }
 
 export interface UserStatusToUnreadNoticeCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface UserStatusToUnreadFolloweeArticlesResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface UserStatusToUnreadResponseInfoPopUpResolver<
   TParent = any,
   TResult = any
 > {
@@ -4252,6 +5291,7 @@ export interface GQLNoticeTypeResolver<TParent = any> {
   (parent: TParent, context: Context, info: GraphQLResolveInfo):
     | 'ArticleMentionedYouNotice'
     | 'ArticleNewAppreciationNotice'
+    | 'ArticleNewCollectedNotice'
     | 'ArticleNewCommentNotice'
     | 'ArticleNewDownstreamNotice'
     | 'ArticleNewSubscriberNotice'
@@ -4628,6 +5668,76 @@ export interface CommentEdgeToNodeResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface GQLResponseConnectionTypeResolver<TParent = any> {
+  totalCount?: ResponseConnectionToTotalCountResolver<TParent>
+  pageInfo?: ResponseConnectionToPageInfoResolver<TParent>
+  edges?: ResponseConnectionToEdgesResolver<TParent>
+}
+
+export interface ResponseConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ResponseConnectionToPageInfoResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ResponseConnectionToEdgesResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLResponseEdgeTypeResolver<TParent = any> {
+  cursor?: ResponseEdgeToCursorResolver<TParent>
+  node?: ResponseEdgeToNodeResolver<TParent>
+}
+
+export interface ResponseEdgeToCursorResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ResponseEdgeToNodeResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLResponseTypeResolver<TParent = any> {
+  (parent: TParent, context: Context, info: GraphQLResolveInfo):
+    | 'Article'
+    | 'Comment'
+}
 export interface GQLSearchResultConnectionTypeResolver<TParent = any> {
   totalCount?: SearchResultConnectionToTotalCountResolver<TParent>
   pageInfo?: SearchResultConnectionToPageInfoResolver<TParent>
@@ -4702,7 +5812,6 @@ export interface GQLOfficialTypeResolver<TParent = any> {
   releases?: OfficialToReleasesResolver<TParent>
   links?: OfficialToLinksResolver<TParent>
   placements?: OfficialToPlacementsResolver<TParent>
-  gatewayUrls?: OfficialToGatewayUrlsResolver<TParent>
 }
 
 export interface OfficialToReportCategoryResolver<
@@ -4751,15 +5860,6 @@ export interface OfficialToLinksResolver<TParent = any, TResult = any> {
 }
 
 export interface OfficialToPlacementsResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface OfficialToGatewayUrlsResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
@@ -5343,6 +6443,7 @@ export interface GQLMutationTypeResolver<TParent = any> {
   feedback?: MutationToFeedbackResolver<TParent>
   setBoost?: MutationToSetBoostResolver<TParent>
   putRemark?: MutationToPutRemarkResolver<TParent>
+  logRecord?: MutationToLogRecordResolver<TParent>
   sendVerificationCode?: MutationToSendVerificationCodeResolver<TParent>
   confirmVerificationCode?: MutationToConfirmVerificationCodeResolver<TParent>
   resetPassword?: MutationToResetPasswordResolver<TParent>
@@ -5359,7 +6460,6 @@ export interface GQLMutationTypeResolver<TParent = any> {
   unfollowUser?: MutationToUnfollowUserResolver<TParent>
   clearReadHistory?: MutationToClearReadHistoryResolver<TParent>
   clearSearchHistory?: MutationToClearSearchHistoryResolver<TParent>
-  invite?: MutationToInviteResolver<TParent>
   updateUserState?: MutationToUpdateUserStateResolver<TParent>
 }
 
@@ -5825,6 +6925,18 @@ export interface MutationToPutRemarkResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface MutationToLogRecordArgs {
+  input: GQLLogRecordInput
+}
+export interface MutationToLogRecordResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: MutationToLogRecordArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface MutationToSendVerificationCodeArgs {
   input: GQLSendVerificationCodeInput
 }
@@ -6005,18 +7117,6 @@ export interface MutationToClearSearchHistoryResolver<
   ): TResult
 }
 
-export interface MutationToInviteArgs {
-  input: GQLInviteInput
-}
-export interface MutationToInviteResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: MutationToInviteArgs,
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
 export interface MutationToUpdateUserStateArgs {
   input: GQLUpdateUserStateInput
 }
@@ -6027,49 +7127,6 @@ export interface MutationToUpdateUserStateResolver<
   (
     parent: TParent,
     args: MutationToUpdateUserStateArgs,
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface GQLAssetTypeResolver<TParent = any> {
-  id?: AssetToIdResolver<TParent>
-  type?: AssetToTypeResolver<TParent>
-  path?: AssetToPathResolver<TParent>
-  createdAt?: AssetToCreatedAtResolver<TParent>
-}
-
-export interface AssetToIdResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface AssetToTypeResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface AssetToPathResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface AssetToCreatedAtResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -6261,6 +7318,87 @@ export interface ArticleNewAppreciationNoticeToTargetResolver<
 }
 
 export interface ArticleNewAppreciationNoticeToMATResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLArticleNewCollectedNoticeTypeResolver<TParent = any> {
+  id?: ArticleNewCollectedNoticeToIdResolver<TParent>
+  unread?: ArticleNewCollectedNoticeToUnreadResolver<TParent>
+  createdAt?: ArticleNewCollectedNoticeToCreatedAtResolver<TParent>
+  actor?: ArticleNewCollectedNoticeToActorResolver<TParent>
+  collection?: ArticleNewCollectedNoticeToCollectionResolver<TParent>
+  target?: ArticleNewCollectedNoticeToTargetResolver<TParent>
+}
+
+export interface ArticleNewCollectedNoticeToIdResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleNewCollectedNoticeToUnreadResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleNewCollectedNoticeToCreatedAtResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleNewCollectedNoticeToActorResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleNewCollectedNoticeToCollectionResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleNewCollectedNoticeToTargetResolver<
   TParent = any,
   TResult = any
 > {

@@ -60,10 +60,14 @@ class FileUpload extends React.Component<Props, FileUploadState> {
     cover: this.props.cover,
     loading: false,
     warning: null,
-    error: null,
+    error: null
   }
 
-  private action = async (params: any, upload: any, update: any): Promise<any> => {
+  private action = async (
+    params: any,
+    upload: any,
+    update: any
+  ): Promise<any> => {
     const { articleId } = this.state
     const { file, onSuccess, onError } = params
     if (!upload || !update) {
@@ -74,21 +78,41 @@ class FileUpload extends React.Component<Props, FileUploadState> {
       return undefined
     }
 
-    this.setState(prev => ({ ...prev, error: null, loading: true, warning: null }))
+    this.setState(prev => ({
+      ...prev,
+      error: null,
+      loading: true,
+      warning: null
+    }))
 
     let coverPath: string | null = null
     upload({
-        variables: { input: { file, type: 'cover' } }
-      })
+      variables: {
+        input: {
+          file,
+          type: 'cover',
+          entityType: 'article',
+          entityId: articleId
+        }
+      }
+    })
       .then((response: any) => {
-        const { data: { singleFileUpload: { id, path } } } = response
+        const {
+          data: {
+            singleFileUpload: { id, path }
+          }
+        } = response
         coverPath = path
         return update({
-          variables: { input: { id: articleId, cover: id }}
+          variables: { input: { id: articleId, cover: id } }
         })
       })
       .then((response: any) => {
-        const { data: { updateMattersToday: { id } } } = response
+        const {
+          data: {
+            updateMattersToday: { id }
+          }
+        } = response
         if (coverPath) {
           this.setState({ articleId: id, cover: coverPath, error: null })
         }
@@ -103,7 +127,7 @@ class FileUpload extends React.Component<Props, FileUploadState> {
       })
   }
 
-  private _onChange = async(params: any) => {
+  private _onChange = async (params: any) => {
     // TODO: Catch status
   }
 
@@ -123,23 +147,34 @@ class FileUpload extends React.Component<Props, FileUploadState> {
                 <div>
                   <Upload
                     showUploadList={false}
-                    customRequest={(params: any) => { this.action(params, upload, update) }}
+                    customRequest={(params: any) => {
+                      this.action(params, upload, update)
+                    }}
                     onChange={this._onChange}
                   >
                     <Button>
-                      {loading ? <Spin style={spinStyle} size="small"/> : <Icon type="upload"/>}
+                      {loading ? (
+                        <Spin style={spinStyle} size="small" />
+                      ) : (
+                        <Icon type="upload" />
+                      )}
                       上傳並設定 (5MB 內)
                     </Button>
                   </Upload>
                 </div>
-                {warning &&
-                  <Alert type="warning" message={warning} showIcon={true} style={warningStyle} />
-                }
-                {cover &&
+                {warning && (
+                  <Alert
+                    type="warning"
+                    message={warning}
+                    showIcon={true}
+                    style={warningStyle}
+                  />
+                )}
+                {cover && (
                   <div style={coverContainerStyle}>
                     <img src={cover} width="220" height="160" />
                   </div>
-                }
+                )}
               </>
             )}
           </Mutation>
