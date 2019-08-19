@@ -4,6 +4,7 @@
 fragment ArticleDigest on Article {
   id
   slug
+  mediaHash
   title
   createdAt
   state

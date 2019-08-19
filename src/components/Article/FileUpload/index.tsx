@@ -140,9 +140,9 @@ class FileUpload extends React.Component<Props, FileUploadState> {
 
     return (
       <Mutation mutation={UPLOAD_FILE}>
-        {upload => (
+        {(upload: any) => (
           <Mutation mutation={UPDATE_MATTERS_TODAY}>
-            {update => (
+            {(update: any) => (
               <>
                 <div>
                   <Upload

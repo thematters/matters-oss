@@ -39,7 +39,6 @@ const Sider: React.FunctionComponent<RouteComponentProps> = ({ location }) => {
         defaultOpenKeys={['homepage', 'user', 'article', 'comment', 'report']}
       >
         <SubMenu
-          mode="inline"
           key="homepage"
           title={<strong>{PAGE_TITLE[PATH.HOMEPAGE]}</strong>}
         >
@@ -80,13 +79,13 @@ const Sider: React.FunctionComponent<RouteComponentProps> = ({ location }) => {
           </Menu.Item>
         </SubMenu>
 
-        <SubMenu mode="inline" key="user" title={<strong>用戶</strong>}>
+        <SubMenu key="user" title={<strong>用戶</strong>}>
           <Menu.Item key={PATH.USER_LIST}>
             <Link to={PATH.USER_LIST}>{PAGE_TITLE[PATH.USER_LIST]}</Link>
           </Menu.Item>
         </SubMenu>
 
-        <SubMenu mode="inline" key="article" title={<strong>文章</strong>}>
+        <SubMenu key="article" title={<strong>文章</strong>}>
           <Menu.Item key={PATH.ARTICLE_LIST}>
             <Link to={PATH.ARTICLE_LIST}>{PAGE_TITLE[PATH.ARTICLE_LIST]}</Link>
           </Menu.Item>
@@ -100,10 +99,10 @@ const Sider: React.FunctionComponent<RouteComponentProps> = ({ location }) => {
           </Menu.Item>
         </SubMenu>
 
-        <SubMenu mode="inline" key="comment" title={<strong>評論</strong>}>
-          {/* <Menu.Item key={PATH.COMMENT_LIST}>
-              <Link to={PATH.COMMENT_LIST}>評論清單</Link>
-            </Menu.Item> */}
+        <SubMenu key="comment" title={<strong>評論</strong>}>
+          <Menu.Item key={PATH.COMMENT_LIST}>
+            <Link to={PATH.COMMENT_LIST}>評論清單</Link>
+          </Menu.Item>
           <Menu.Item key={PATH.REPORT_LIST_COMMENT}>
             <Link to={PATH.REPORT_LIST_COMMENT}>
               {PAGE_TITLE[PATH.REPORT_LIST_COMMENT]}
