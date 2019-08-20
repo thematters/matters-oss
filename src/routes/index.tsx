@@ -8,6 +8,7 @@ import { PATH } from '../constants'
 import homepageRoutes from './homepage'
 import userRoutes from './user'
 import articleRoutes from './article'
+import commentRoutes from './comment'
 import reportRoutes from './report'
 import { Redirect } from 'react-router'
 
@@ -32,6 +33,7 @@ const routes = [
   ...homepageRoutes,
   ...userRoutes,
   ...articleRoutes,
+  ...commentRoutes,
   ...reportRoutes
 ]
 

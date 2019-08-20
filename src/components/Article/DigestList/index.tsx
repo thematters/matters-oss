@@ -1,18 +1,18 @@
 import * as React from 'react'
 import { Table } from 'antd'
-import { Link } from 'react-router-dom'
 import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
 import UserLink from '../../User/Link'
+import ArticleLink from '../Link'
 import ToggleLive from '../ToggleLive'
 import SetBoost from '../../SetBoost'
 import ToggleRecommend from '../ToggleRecommend'
 import ArticleStateTag from '../StateTag'
 
 import { ArticleDigest } from '../../../definitions'
-import { PATH, PAGE_SIZE } from '../../../constants'
+import { PAGE_SIZE } from '../../../constants'
 import { getCurrentPaginationFromUrl, onPaginationChange } from '../../../utils'
 
 type ArticleDigestListProps = {
@@ -35,11 +35,7 @@ type ArticleDigestListProps = {
 
 class ArticleDigestList extends React.Component<ArticleDigestListProps> {
   private _renderTitleCell(_: any, record: ArticleDigest): React.ReactNode {
-    return (
-      <Link to={PATH.ARTICLE_DETAIL.replace(':id', record.id)}>
-        {record.title}
-      </Link>
-    )
+    return <ArticleLink id={record.id} title={record.title} />
   }
 
   public render() {

@@ -75,6 +75,7 @@ export type TagDetail = TagDigest & {
 export type ArticleDigest = {
   id: string
   slug: string
+  mediaHash: string
   createdAt: Date
   state: GQLArticleState
   live: boolean
@@ -125,6 +126,8 @@ export type CommentDigest = {
   downvotes: number
   quote: boolean
 }
+
+export type CommentDetail = CommentDigest
 
 /**
  * Report

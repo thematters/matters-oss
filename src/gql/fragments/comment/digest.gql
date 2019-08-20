@@ -1,3 +1,4 @@
+#import "../article/digest.gql"
 #import "../user/id.gql"
 
 fragment CommentDigest on Comment {
@@ -5,6 +6,9 @@ fragment CommentDigest on Comment {
   content
   state
   createdAt
+  article {
+    ...ArticleDigest
+  }
   author {
     ...UserId
   }

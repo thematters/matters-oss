@@ -1,0 +1,9 @@
+#import "../fragments/comment/detail.gql"
+
+query OSSCommentDetail($input: NodeInput!) {
+  comment: node(input: $input) {
+    ... on Comment {
+      ...CommentDetail
+    }
+  }
+}
