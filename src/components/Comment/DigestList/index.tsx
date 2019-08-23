@@ -1,14 +1,15 @@
 import * as React from 'react'
 import { Table, Switch } from 'antd'
-import { Link } from 'react-router-dom'
 import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
 import UserLink from '../../User/Link'
+import CommentLink from '../../Comment/Link'
+import ArticleLink from '../../Article/Link'
 import CommentStateTag from '../StateTag'
 
-import { PATH, PAGE_SIZE } from '../../../constants'
+import { PAGE_SIZE } from '../../../constants'
 import { CommentDigest } from '../../../definitions'
 import { onPaginationChange, getCurrentPaginationFromUrl } from '../../../utils'
 
@@ -25,11 +26,11 @@ type CommentDigestListProps = {
 
 class CommentDigestList extends React.Component<CommentDigestListProps> {
   private _renderContentCell(_: any, record: CommentDigest): React.ReactNode {
-    return (
-      <Link to={PATH.COMMENT_DETAIL.replace(':id', record.id)}>
-        {record.content.slice(0, 17)}...
-      </Link>
-    )
+    return <CommentLink id={record.id} content={record.content} />
+  }
+
+  private _renderTitleCell(_: any, record: CommentDigest): React.ReactNode {
+    return <ArticleLink id={record.article.id} title={record.article.title} />
   }
 
   public render() {
@@ -59,7 +60,6 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
         <Table.Column<CommentDigest>
           dataIndex="title"
           title="內容"
-          width={300}
           render={this._renderContentCell}
         />
         <Table.Column<CommentDigest>
@@ -74,6 +74,14 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
             />
           )}
         />
+
+        <Table.Column<CommentDigest>
+          dataIndex="title"
+          title="文章"
+          width={300}
+          render={this._renderTitleCell}
+        />
+
         <Table.Column<CommentDigest>
           dataIndex="state"
           title="狀態"

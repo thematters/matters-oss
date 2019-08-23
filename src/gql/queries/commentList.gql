@@ -1,0 +1,15 @@
+#import "../fragments/connection.gql"
+#import "../fragments/comment/digest.gql"
+
+query OSSCommentList($input: ConnectionArgs!) {
+  oss {
+    comments(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          ...CommentDigest
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-#import "../article/id.gql"
+#import "../article/digest.gql"
 #import "../user/id.gql"
 
 fragment CommentDetail on Comment {
@@ -6,7 +6,7 @@ fragment CommentDetail on Comment {
   state
   createdAt
   article {
-    ...ArticleId
+    ...ArticleDigest
   }
   content
   author {
