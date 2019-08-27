@@ -32,7 +32,9 @@ class CommentList extends React.Component<CommentListChildProps> {
                 className="input"
                 placeholder="輸入站內評論連結"
                 onChange={(e: any) => {
-                  const commentId = e.target.value.split('#')[1]
+                  const commentId = (e.target.value.split('#')[1] || '')
+                    .split('-')
+                    .slice(-1)[0]
                   if (commentId) {
                     this.setState({ inputCommentId: commentId })
                   } else {
