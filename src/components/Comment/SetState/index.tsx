@@ -31,11 +31,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private _onSelectCommentState = (value: CommentState) => {
-    this.setState({ commentState: value })
-
-    if (this.props.state !== value) {
-      this.preConfirm()
-    }
+    this.setState({ commentState: value }, () => {
+      if (this.props.state !== value) {
+        this.preConfirm()
+      }
+    })
   }
 
   private _onConfirmChange = async () => {
@@ -66,11 +66,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
 
   private preConfirm = () => {
     Modal.confirm({
-      title: `確認修改文章狀態？`,
+      title: `確認修改評論狀態？`,
       content: (
         <div style={{ marginTop: 16 }}>
           <span>
-            修改後，文章狀態將從&nbsp;&nbsp;
+            修改後，評論狀態將從&nbsp;&nbsp;
             <CommentStateTag state={this.props.state} />
             改為&nbsp;&nbsp;
             <CommentStateTag state={this.state.commentState} />

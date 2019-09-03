@@ -42,11 +42,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private _onSelectUserState = (value: UserState) => {
-    this.setState({ userState: value })
-
-    if (this.props.state !== value) {
-      this.preConfirm()
-    }
+    this.setState({ userState: value }, () => {
+      if (this.props.state !== value) {
+        this.preConfirm()
+      }
+    })
   }
 
   private _onSelectBanDays = (value: string) => {
