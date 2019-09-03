@@ -31,11 +31,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private _onSelectArticleState = (value: ArticleState) => {
-    this.setState({ articleState: value })
-
-    if (this.props.state !== value) {
-      this.preConfirm()
-    }
+    this.setState({ articleState: value }, () => {
+      if (this.props.state !== value) {
+        this.preConfirm()
+      }
+    })
   }
 
   private _onConfirmChange = async () => {
