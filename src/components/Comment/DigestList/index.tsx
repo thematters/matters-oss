@@ -7,7 +7,7 @@ import DateTime from '../../DateTime'
 import UserLink from '../../User/Link'
 import CommentLink from '../../Comment/Link'
 import ArticleLink from '../../Article/Link'
-import CommentStateTag from '../StateTag'
+import CommentSetState from '../SetState'
 
 import { PAGE_SIZE } from '../../../constants'
 import { CommentDigest } from '../../../definitions'
@@ -31,6 +31,10 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
 
   private _renderTitleCell(_: any, record: CommentDigest): React.ReactNode {
     return <ArticleLink id={record.article.id} title={record.article.title} />
+  }
+
+  private _renderStateCell(_: any, record: CommentDigest): React.ReactNode {
+    return <CommentSetState state={record.state} id={record.id} />
   }
 
   public render() {
@@ -78,6 +82,7 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
         <Table.Column<CommentDigest>
           dataIndex="title"
           title="文章"
+          key="id"
           width={300}
           render={this._renderTitleCell}
         />
@@ -85,8 +90,8 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
         <Table.Column<CommentDigest>
           dataIndex="state"
           title="狀態"
-          width={100}
-          render={state => <CommentStateTag state={state} />}
+          width={150}
+          render={this._renderStateCell}
         />
         <Table.Column<CommentDigest>
           dataIndex="pinned"

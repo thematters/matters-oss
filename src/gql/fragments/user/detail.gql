@@ -1,6 +1,7 @@
 #import "../connection.gql"
 #import "../article/digest.gql"
 #import "./digest.gql"
+#import "../comment/digest.gql"
 
 fragment UserDetail on User {
   id
@@ -59,11 +60,20 @@ fragment UserDetail on User {
       }
     }
   }
-  commentedArticles(input: { first: 20 }) {
+  commentedArticles(input: { first: null }) {
     ...ConnectionInfo
     edges {
+      cursor
       node {
         ...ArticleDigest
+        comments(input: { filter: { author: $author }, first: null }) {
+          edges {
+            cursor
+            node {
+              ...CommentDigest
+            }
+          }
+        }
       }
     }
   }
