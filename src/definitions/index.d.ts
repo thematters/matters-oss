@@ -44,7 +44,9 @@ export type UserDetail = UserDigest & {
   info: GQLUserInfo
   settings: GQLUserSettings
   articles: Connection<ArticleDigest>
-  commentedArticles: Connection<ArticleDigest>
+  commentedArticles: Connection<
+    ArticleDigest & { comments: Connection<CommentDigest> }
+  >
   subscriptions: Connection<ArticleDigest>
   status: GQLUserStatus
   remark: string
@@ -109,6 +111,7 @@ export type ArticleDetail = ArticleDigest & {
   subscribed: boolean
   hasAppreciate: boolean
   remark: string
+  comments: Connection<CommentDigest>
 }
 
 /**

@@ -1,6 +1,7 @@
 #import "../connection.gql"
 #import "../user/digest.gql"
 #import "./digest.gql"
+#import "../comment/digest.gql"
 
 fragment ArticleDetail on Article {
   ...ArticleDigest
@@ -44,6 +45,13 @@ fragment ArticleDetail on Article {
     edges {
       node {
         ...UserDigest
+      }
+    }
+  }
+  comments(input: { first: null }) {
+    edges {
+      node {
+        ...CommentDigest
       }
     }
   }

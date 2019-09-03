@@ -14,6 +14,7 @@ import UserSetState from '../../components/User/SetState'
 import withUserDetail, { UserDetailChildProps } from './withUserDetail'
 import ArticleDigestList from '../../components/Article/DigestList'
 import { SITE_DOMIAN } from '../../constants'
+import CommentDigestList from '../../components/Comment/DigestList'
 
 const { Description } = DescriptionList
 const LanguageMap = {
@@ -39,6 +40,12 @@ class UserDetail extends React.Component<UserDetailChildProps> {
     if (!user) {
       return <Empty />
     }
+
+    const userComments = user.commentedArticles.edges
+      .map(({ node }) => {
+        return node.comments.edges.map(({ node: comment }) => comment)
+      })
+      .flat()
 
     return (
       <>
@@ -99,7 +106,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="發表文章">
+        <DescriptionList size="large" title="文章">
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList
               data={user.articles.edges.map(({ node }) => node)}
@@ -108,11 +115,18 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="評論文章">
+        {/* <DescriptionList size="large" title="評論文章">
           <Col span={24} style={{ marginBottom: 16 }}>
             <ArticleDigestList
               data={user.commentedArticles.edges.map(({ node }) => node)}
             />
+          </Col>
+        </DescriptionList>
+        <Divider size="large" /> */}
+
+        <DescriptionList size="large" title="評論">
+          <Col span={24} style={{ marginBottom: 16 }}>
+            <CommentDigestList data={userComments} />
           </Col>
         </DescriptionList>
         <Divider size="large" />
