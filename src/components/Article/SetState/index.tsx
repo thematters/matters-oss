@@ -31,7 +31,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private _onSelectArticleState = (value: ArticleState) => {
-    this.setState({ articleState: value })
+    this.setState({ articleState: value }, () => {
+      if (this.props.state !== value) {
+        this.preConfirm()
+      }
+    })
   }
 
   private _onConfirmChange = async () => {
@@ -60,7 +64,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
     }
   }
 
-  private _onClickChange = () => {
+  private preConfirm = () => {
     Modal.confirm({
       title: `確認修改文章狀態？`,
       content: (
@@ -77,17 +81,17 @@ class SetState extends React.Component<ChildProps, SetStateState> {
       okText: '確認',
       onOk: () => {
         this._onConfirmChange()
-      }
+      },
+      onCancel: this.revertChange
     })
   }
 
-  private _onClickRevertChange = () => {
+  private revertChange = () => {
     this.setState({ articleState: this.props.state })
   }
 
   public render() {
     const { articleState, loading, error } = this.state
-    const articleStateChanged = this.props.state !== articleState
 
     if (error) {
       return <ErrorMessage error={error} />
@@ -106,29 +110,6 @@ class SetState extends React.Component<ChildProps, SetStateState> {
             </Select.Option>
           ))}
         </Select>
-        {articleStateChanged && (
-          <Button
-            onClick={this._onClickChange}
-            type="primary"
-            loading={loading}
-            disabled={!articleStateChanged}
-            style={{
-              marginRight: 8
-            }}
-          >
-            確認
-          </Button>
-        )}
-        {articleStateChanged && (
-          <Button
-            onClick={this._onClickRevertChange}
-            type="default"
-            loading={loading}
-            disabled={!articleStateChanged}
-          >
-            取消
-          </Button>
-        )}
       </span>
     )
   }

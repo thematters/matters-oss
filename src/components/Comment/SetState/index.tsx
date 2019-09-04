@@ -31,7 +31,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private _onSelectCommentState = (value: CommentState) => {
-    this.setState({ commentState: value })
+    this.setState({ commentState: value }, () => {
+      if (this.props.state !== value) {
+        this.preConfirm()
+      }
+    })
   }
 
   private _onConfirmChange = async () => {
@@ -60,13 +64,13 @@ class SetState extends React.Component<ChildProps, SetStateState> {
     }
   }
 
-  private _onClickChange = () => {
+  private preConfirm = () => {
     Modal.confirm({
-      title: `確認修改文章狀態？`,
+      title: `確認修改評論狀態？`,
       content: (
         <div style={{ marginTop: 16 }}>
           <span>
-            修改後，文章狀態將從&nbsp;&nbsp;
+            修改後，評論狀態將從&nbsp;&nbsp;
             <CommentStateTag state={this.props.state} />
             改為&nbsp;&nbsp;
             <CommentStateTag state={this.state.commentState} />
@@ -77,17 +81,17 @@ class SetState extends React.Component<ChildProps, SetStateState> {
       okText: '確認',
       onOk: () => {
         this._onConfirmChange()
-      }
+      },
+      onCancel: this.revertChange
     })
   }
 
-  private _onClickRevertChange = () => {
+  private revertChange = () => {
     this.setState({ commentState: this.props.state })
   }
 
   public render() {
     const { commentState, loading, error } = this.state
-    const commentStateChanged = this.props.state !== commentState
 
     if (error) {
       return <ErrorMessage error={error} />
@@ -106,29 +110,6 @@ class SetState extends React.Component<ChildProps, SetStateState> {
             </Select.Option>
           ))}
         </Select>
-        {commentStateChanged && (
-          <Button
-            onClick={this._onClickChange}
-            type="primary"
-            loading={loading}
-            disabled={!commentStateChanged}
-            style={{
-              marginRight: 8
-            }}
-          >
-            確認
-          </Button>
-        )}
-        {commentStateChanged && (
-          <Button
-            onClick={this._onClickRevertChange}
-            type="default"
-            loading={loading}
-            disabled={!commentStateChanged}
-          >
-            取消
-          </Button>
-        )}
       </span>
     )
   }

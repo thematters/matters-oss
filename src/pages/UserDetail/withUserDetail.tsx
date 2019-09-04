@@ -33,7 +33,8 @@ const userDetail = graphql<
       variables: {
         input: {
           id
-        }
+        },
+        author: id
       }
     }
   }

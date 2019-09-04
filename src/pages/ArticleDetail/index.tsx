@@ -18,6 +18,7 @@ import FileUpload from '../../components/Article/FileUpload'
 
 import withArticleDetail, { ArticleDetailChildProps } from './withArticleDetail'
 import { SITE_DOMIAN } from '../../constants'
+import CommentDigestList from '../../components/Comment/DigestList'
 
 const { Description } = DescriptionList
 
@@ -66,9 +67,7 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           <Description term="MAT">{article.MAT}</Description>
           <Description term="站內連結">
             <a
-              href={`${SITE_DOMIAN}/@${article.author.userName}/${
-                article.slug
-              }-${article.mediaHash}`}
+              href={`${SITE_DOMIAN}/@${article.author.userName}/${article.slug}-${article.mediaHash}`}
               target="_blank"
             >
               {article.mediaHash}
@@ -114,6 +113,15 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
         <DescriptionList size="large" title="備註">
           <Col span={24} lg={12} style={{ marginBottom: 16 }}>
             <Remark id={article.id} type="Article" remark={article.remark} />
+          </Col>
+        </DescriptionList>
+        <Divider size="large" />
+
+        <DescriptionList size="large" title="評論">
+          <Col span={24} style={{ marginBottom: 16 }}>
+            <CommentDigestList
+              data={article.comments.edges.map(({ node }) => node)}
+            />
           </Col>
         </DescriptionList>
         <Divider size="large" />

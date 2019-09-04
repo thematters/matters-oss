@@ -42,7 +42,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private _onSelectUserState = (value: UserState) => {
-    this.setState({ userState: value })
+    this.setState({ userState: value }, () => {
+      if (this.props.state !== value) {
+        this.preConfirm()
+      }
+    })
   }
 
   private _onSelectBanDays = (value: string) => {
@@ -73,7 +77,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
     }
   }
 
-  private _onClickChange = () => {
+  private preConfirm = () => {
     Modal.confirm({
       title: `確認修改用戶狀態？`,
       content: (
@@ -90,17 +94,17 @@ class SetState extends React.Component<ChildProps, SetStateState> {
       okText: '確認',
       onOk: () => {
         this._onConfirmhange()
-      }
+      },
+      onCancel: this.revertChange
     })
   }
 
-  private _onClickRevertChange = () => {
+  private revertChange = () => {
     this.setState({ userState: this.props.state, banDays: BAN_DAYS[0].key })
   }
 
   public render() {
     const { userState, banDays, loading, error } = this.state
-    const userStateChanged = this.props.state !== userState
 
     if (error) {
       return <ErrorMessage error={error} />
@@ -126,32 +130,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
             style={{ marginRight: 8 }}
           >
             {BAN_DAYS.map(({ key, text }) => (
-              <Select.Option key={key} disabled>{text}</Select.Option>
+              <Select.Option key={key} disabled>
+                {text}
+              </Select.Option>
             ))}
           </Select>
-        )}
-        {userStateChanged && (
-          <Button
-            onClick={this._onClickChange}
-            type="primary"
-            loading={loading}
-            disabled={!userStateChanged}
-            style={{
-              marginRight: 8
-            }}
-          >
-            確認
-          </Button>
-        )}
-        {userStateChanged && (
-          <Button
-            onClick={this._onClickRevertChange}
-            type="default"
-            loading={loading}
-            disabled={!userStateChanged}
-          >
-            取消
-          </Button>
         )}
       </span>
     )
