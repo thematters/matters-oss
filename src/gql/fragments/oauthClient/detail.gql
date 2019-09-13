@@ -1,0 +1,9 @@
+#import "./digest.gql"
+
+fragment OAuthClientDetail on OAuthClient {
+  ...OAuthClientDigest
+  secret
+  description
+  redirectURIs
+  grantTypes
+}

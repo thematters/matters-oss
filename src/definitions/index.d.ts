@@ -161,3 +161,23 @@ export type Edge<Node> = {
   cursor: string
   node: Node
 }
+
+/**
+ * OAuth Client
+ */
+export type OAuthClientDigest = {
+  id: string
+  name: string
+  website: string
+  scope: string[]
+  avatar: string
+  createdAt: Date
+}
+
+export type OAuthClientDetail = OAuthClientDigest & {
+  secret: string
+  description: string
+  redirectURIs: string[]
+  grantTypes: string[]
+  user: UserDigest
+}

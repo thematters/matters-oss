@@ -1,0 +1,7 @@
+#import "../fragments/oauthClient/detail.gql"
+
+query OSSOAuthClientDetail($input: OAuthClientInput!) {
+  oauthClient(input: $input) {
+    ...OAuthClientDetail
+  }
+}

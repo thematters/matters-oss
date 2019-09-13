@@ -1,0 +1,15 @@
+#import "../fragments/connection.gql"
+#import "../fragments/oauthClient/digest.gql"
+
+query OSSOAuthClientList($input: ConnectionArgs!) {
+  oss {
+    oauthClients(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          ...OAuthClientDigest
+        }
+      }
+    }
+  }
+}

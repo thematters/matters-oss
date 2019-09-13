@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { RouteConfigComponentProps } from 'react-router-config'
+import { Redirect } from 'react-router'
 
-import Private from '../components/Private'
 import Login from '../pages/Login'
 
 import { PATH } from '../constants'
@@ -10,7 +10,7 @@ import userRoutes from './user'
 import articleRoutes from './article'
 import commentRoutes from './comment'
 import reportRoutes from './report'
-import { Redirect } from 'react-router'
+import oauthClientRoutes from './oauthClient'
 
 const routes = [
   {
@@ -34,7 +34,8 @@ const routes = [
   ...userRoutes,
   ...articleRoutes,
   ...commentRoutes,
-  ...reportRoutes
+  ...reportRoutes,
+  ...oauthClientRoutes
 ]
 
 export default routes
