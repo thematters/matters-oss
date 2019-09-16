@@ -46,15 +46,20 @@ class OAuthClientForm extends React.Component<
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  valueToArray = (value: string) => {
-    if (typeof value !== 'string') {
-      return
+  normalizeValue = (value: string, toArray?: boolean) => {
+    console.log(value)
+    if (!value) {
+      return null
+    }
+
+    if (toArray) {
+      return value
+        .split('\n')
+        .map(v => v.trim())
+        .filter(v => !!v)
     }
 
     return value
-      .split('\n')
-      .map(v => v.trim())
-      .filter(v => !!v)
   }
 
   async handleSubmit(e: any, update: any) {
@@ -69,10 +74,16 @@ class OAuthClientForm extends React.Component<
       await update({
         variables: {
           input: {
-            ...values,
-            scope: this.valueToArray(values.scope),
-            redirectURIs: this.valueToArray(values.redirectURIs),
-            grantTypes: this.valueToArray(values.grantTypes)
+            id: this.normalizeValue(values.id),
+            secret: this.normalizeValue(values.secret),
+            name: this.normalizeValue(values.name),
+            description: this.normalizeValue(values.description),
+            avatar: this.normalizeValue(values.avatar),
+            website: this.normalizeValue(values.website),
+            user: this.normalizeValue(values.user),
+            scope: this.normalizeValue(values.scope, true),
+            redirectURIs: this.normalizeValue(values.redirectURIs, true),
+            grantTypes: this.normalizeValue(values.grantTypes, true)
           }
         }
       })
