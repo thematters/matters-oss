@@ -3,18 +3,23 @@ import { Skeleton, Empty } from 'antd'
 import _get from 'lodash/get'
 
 import ErrorMessage from '../../components/ErrorMessage'
-import Divider from '../../components/Divider'
-import DateTime from '../../components/DateTime'
-import UserLink from '../../components/User/Link'
-import DescriptionList from '../../components/DescriptionList'
 
 import withOAuthClientDetail, {
   OAuthClientDetailChildProps
 } from './withOAuthClientDetail'
-
-const { Description } = DescriptionList
+import Form from './Form'
 
 class CommentDetail extends React.Component<OAuthClientDetailChildProps> {
+  handleSubmit(e: any) {
+    e.preventDefault()
+    // @ts-ignore
+    this.props.form.validateFields((err: any, values: any) => {
+      if (!err) {
+        console.log('Received values of form: ', values)
+      }
+    })
+  }
+
   public render() {
     const {
       data: { oauthClient, loading, error }
@@ -32,34 +37,8 @@ class CommentDetail extends React.Component<OAuthClientDetailChildProps> {
       return <Empty />
     }
 
-    return (
-      <>
-        <DescriptionList size="large" title="簡介">
-          <Description term="Developer">
-            {oauthClient.user ? (
-              <UserLink
-                id={oauthClient.user.id}
-                userName={oauthClient.user.info.userName}
-                displayName={oauthClient.user.info.displayName}
-              />
-            ) : null}
-          </Description>
-          <Description term="Client ID">{oauthClient.id}</Description>
-          <Description term="Client Secrect">{oauthClient.secret}</Description>
-          <Description term="Scope">
-            <DateTime date={oauthClient.createdAt} />
-          </Description>
-          <Description term="Created At">
-            <DateTime date={oauthClient.createdAt} />
-          </Description>
-
-          <Description term="Created At">
-            <DateTime date={oauthClient.createdAt} />
-          </Description>
-        </DescriptionList>
-        <Divider size="large" />
-      </>
-    )
+    // @ts-ignore
+    return <Form data={oauthClient} />
   }
 }
 
