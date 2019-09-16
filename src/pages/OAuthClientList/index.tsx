@@ -1,5 +1,6 @@
 import React from 'react'
 import _get from 'lodash/get'
+import { Row } from 'antd'
 
 import ErrorMessage from '../../components/ErrorMessage'
 import OAuthClientDigestList from '../../components/OAuthClient/DigestList'
@@ -8,8 +9,21 @@ import withOAuthClientList, {
 } from './withOAuthClientList'
 
 import { OAuthClientDigest } from '../../definitions'
+import Divider from '../../components/Divider'
+import CreateOAuthClientForm from './CreateOAuthClientForm'
 
 class OAuthClientList extends React.Component<OAuthClientListChildProps> {
+  private _renderHeader() {
+    return (
+      <>
+        <Row>
+          <CreateOAuthClientForm />
+        </Row>
+        <Divider size="large" />
+      </>
+    )
+  }
+
   private _renderContent() {
     const {
       data: { oss, loading, error, fetchMore, variables }
@@ -37,7 +51,12 @@ class OAuthClientList extends React.Component<OAuthClientListChildProps> {
   }
 
   public render() {
-    return <>{this._renderContent()}</>
+    return (
+      <>
+        {this._renderHeader()}
+        {this._renderContent()}
+      </>
+    )
   }
 }
 

@@ -9,17 +9,7 @@ import withOAuthClientDetail, {
 } from './withOAuthClientDetail'
 import Form from './Form'
 
-class CommentDetail extends React.Component<OAuthClientDetailChildProps> {
-  handleSubmit(e: any) {
-    e.preventDefault()
-    // @ts-ignore
-    this.props.form.validateFields((err: any, values: any) => {
-      if (!err) {
-        console.log('Received values of form: ', values)
-      }
-    })
-  }
-
+class OAuthClientDetail extends React.Component<OAuthClientDetailChildProps> {
   public render() {
     const {
       data: { oauthClient, loading, error }
@@ -37,9 +27,8 @@ class CommentDetail extends React.Component<OAuthClientDetailChildProps> {
       return <Empty />
     }
 
-    // @ts-ignore
     return <Form data={oauthClient} />
   }
 }
 
-export default withOAuthClientDetail(CommentDetail)
+export default withOAuthClientDetail(OAuthClientDetail)
