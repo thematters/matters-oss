@@ -71,11 +71,11 @@ class FileUpload extends React.Component<Props, FileUploadState> {
     const { articleId } = this.state
     const { file, onSuccess, onError } = params
     if (!upload || !update) {
-      return undefined
+      return
     }
     if (file && file.size > UPLOAD_FILE_SIZE_LIMIT) {
       this.setState(prev => ({ ...prev, warning: '檔案超過 5MB' }))
-      return undefined
+      return
     }
 
     this.setState(prev => ({

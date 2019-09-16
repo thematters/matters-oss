@@ -7,6 +7,7 @@ import gql from 'graphql-tag'
 
 import { OAuthClientDetail } from '../../definitions'
 import ErrorMessage from '../../components/ErrorMessage'
+import UploadAvatar from './UploadAvatar'
 
 type OAuthClientFormProps = FormComponentProps & { data: OAuthClientDetail }
 
@@ -47,7 +48,6 @@ class OAuthClientForm extends React.Component<
   }
 
   normalizeValue = (value: string, toArray?: boolean) => {
-    console.log(value)
     if (!value) {
       return null
     }
@@ -97,7 +97,7 @@ class OAuthClientForm extends React.Component<
   public render() {
     const { loading, error } = this.state
     const { data, form } = this.props
-    const { getFieldDecorator } = form
+    const { getFieldDecorator, setFieldsValue } = form
 
     if (error) {
       return <ErrorMessage error={error} />
@@ -155,13 +155,6 @@ class OAuthClientForm extends React.Component<
               })(<Input.TextArea autosize />)}
             </Form.Item>
 
-            {/*
-        <Form.Item label="Avatar" hasFeedback>
-          {getFieldDecorator('avatar', {
-            initialValue: data.avatar,
-          })(<Input />)}
-        </Form.Item> */}
-
             <Form.Item label="Redirect URIs" hasFeedback>
               {getFieldDecorator('redirectURIs', {
                 initialValue: data.redirectURIs
@@ -182,6 +175,19 @@ class OAuthClientForm extends React.Component<
               {getFieldDecorator('user', {
                 initialValue: data.user && data.user.id
               })(<Input />)}
+            </Form.Item>
+
+            <Form.Item label="Avatar" hasFeedback>
+              {getFieldDecorator('avatar', {
+                initialValue: data.avatar
+              })(
+                <UploadAvatar
+                  avatar={data.avatar}
+                  onSuccess={({ id, path }: { id: string; path: string }) => {
+                    setFieldsValue({ avatar: id })
+                  }}
+                />
+              )}
             </Form.Item>
 
             <Form.Item>
