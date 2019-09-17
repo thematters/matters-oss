@@ -5,11 +5,11 @@ export const __DEVELOP__ = process.env.REACT_APP_ENV === 'develop'
 export const __PROD__ = process.env.REACT_APP_ENV === 'production'
 
 export const API_ENDPOINT = __DEV__
-  ? 'https://server-stage.matters.news/graphql'
+  ? 'http://localhost:4000/graphql'
   : __TEST__
   ? 'http://localhost:4000/graphql'
   : __DEVELOP__
-  ? 'https://server-stage.matters.news/graphql'
+  ? 'http://localhost:4000/graphql'
   : __PROD__
   ? 'https://server.matters.news/graphql'
   : ''
