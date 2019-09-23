@@ -88,7 +88,6 @@ const GenerateForm = ({
   const [stopped, setStopped] = React.useState(true)
   const [generating, setGenerating] = React.useState(false)
   const [noLikerIdCount, setNoLikerIdCount] = React.useState(initNoLikerIdCount)
-
   const startGenerate = async () => {
     try {
       setGenerating(true)
@@ -106,6 +105,20 @@ const GenerateForm = ({
       setGenerating(false)
     }
   }
+  const noLikerIdRate = parseInt(
+    ((noLikerIdCount / totalUserCount) * 100).toFixed(2),
+    10
+  )
+  const ResultTitle = () => {
+    return (
+      <span style={{ fontSize: '1rem' }}>
+        <b>{noLikerIdCount}</b>
+        <small>（無 LikerId）</small>
+        <span> / </span>
+        <b>{totalUserCount}</b>
+      </span>
+    )
+  }
 
   React.useEffect(() => {
     if (!generating && !stopped) {
@@ -121,16 +134,8 @@ const GenerateForm = ({
     <div className="c-box">
       <Result
         status="info"
-        icon={
-          <Progress
-            type="circle"
-            percent={parseInt(
-              ((noLikerIdCount / totalUserCount) * 100).toFixed(2),
-              10
-            )}
-          />
-        }
-        title={`${noLikerIdCount} / ${totalUserCount}`}
+        icon={<Progress type="circle" percent={noLikerIdRate} />}
+        title={<ResultTitle />}
         extra={
           <Form layout="inline">
             <Form.Item>
