@@ -50,7 +50,7 @@ const GenerateTempLikerIds = () => {
           let noLikerIdCount = _get(data, 'oss.noLikerIdCount')
 
           if (!totalUserCount || !noLikerIdCount) {
-            message.warning('無法用戶當前用戶數')
+            message.warning('無法獲取當前用戶數')
           }
 
           return (
