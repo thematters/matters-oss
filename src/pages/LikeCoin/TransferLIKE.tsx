@@ -20,21 +20,21 @@ const USER_COUNTS = gql`
       users(input: { first: 0 }) {
         totalCount
       }
-      noLikerIdCount
+      noPendingLIKECount
     }
   }
 `
 
-const GENERATE_TEMP_LIKER_IDS = gql`
-  mutation GenerateTempLikerIds($input: GenerateTempLikerIdsInput!) {
-    generateTempLikerIds(input: $input)
+const TRANSFER_LIKE = gql`
+  mutation TransferLIKE($input: TransferLIKEInput!) {
+    transferLIKE(input: $input)
   }
 `
 
-const GenerateTempLikerIds = () => {
+const TransferLIKE = () => {
   return (
     <section style={{ padding: '1rem' }}>
-      <h2>生成 Temp Liker IDs</h2>
+      <h2>遷移 MAT 到 pending LIKE</h2>
 
       <Query query={USER_COUNTS}>
         {({ data, loading }: QueryResult) => {
@@ -47,20 +47,20 @@ const GenerateTempLikerIds = () => {
           }
 
           const totalUserCount = _get(data, 'oss.users.totalCount')
-          let noLikerIdCount = _get(data, 'oss.noLikerIdCount')
+          let noPendingLIKECount = _get(data, 'oss.noPendingLIKECount')
 
-          if (!totalUserCount || !noLikerIdCount) {
+          if (!totalUserCount || !noPendingLIKECount) {
             message.warning('無法獲取當前用戶數')
           }
 
           return (
-            <Mutation mutation={GENERATE_TEMP_LIKER_IDS}>
-              {(generate: any, result: MutationResult) => {
+            <Mutation mutation={TRANSFER_LIKE}>
+              {(transfer: any, result: MutationResult) => {
                 return (
-                  <GenerateForm
+                  <TransferForm
                     totalUserCount={totalUserCount}
-                    noLikerIdCount={noLikerIdCount}
-                    generate={generate}
+                    noPendingLIKECount={noPendingLIKECount}
+                    transfer={transfer}
                     {...result}
                   />
                 )
@@ -73,47 +73,49 @@ const GenerateTempLikerIds = () => {
   )
 }
 
-const GenerateForm = ({
+const TransferForm = ({
   totalUserCount,
-  noLikerIdCount: initNoLikerIdCount,
-  generate,
+  noPendingLIKECount: initNoPendingLIKECountCount,
+  transfer,
   error,
   data
 }: {
   totalUserCount: number
-  noLikerIdCount: number
-  generate: (params: any) => void
+  noPendingLIKECount: number
+  transfer: (params: any) => void
 } & MutationResult) => {
   const [step, setStep] = React.useState(1)
   const [stopped, setStopped] = React.useState(true)
-  const [generating, setGenerating] = React.useState(false)
-  const [noLikerIdCount, setNoLikerIdCount] = React.useState(initNoLikerIdCount)
-  const startGenerate = async () => {
+  const [transfering, setTransfering] = React.useState(false)
+  const [noPendingLIKECount, setNoPendingLIKECount] = React.useState(
+    initNoPendingLIKECountCount
+  )
+  const startTransfer = async () => {
     try {
-      setGenerating(true)
-      const res = await generate({
+      setTransfering(true)
+      const res = await transfer({
         variables: { input: { step } }
       })
-      const newNoLikerIdCount = _get(res, 'data.generateTempLikerIds')
+      const newNoPendingLIKECount = _get(res, 'data.transferLIKE')
 
-      if (newNoLikerIdCount) {
-        setNoLikerIdCount(newNoLikerIdCount)
+      if (newNoPendingLIKECount) {
+        setNoPendingLIKECount(newNoPendingLIKECount)
       }
 
-      setGenerating(false)
+      setTransfering(false)
     } catch (e) {
-      setGenerating(false)
+      setTransfering(false)
     }
   }
-  const noLikerIdRate = parseInt(
-    ((noLikerIdCount / totalUserCount) * 100).toFixed(2),
+  const noPendingLIKERate = parseInt(
+    ((noPendingLIKECount / totalUserCount) * 100).toFixed(2),
     10
   )
   const ResultTitle = () => {
     return (
       <span style={{ fontSize: '1rem' }}>
-        <b>{noLikerIdCount}</b>
-        <small>（無 LikerId）</small>
+        <b>{noPendingLIKECount}</b>
+        <small>（無 pending LIKE）</small>
         <span> / </span>
         <b>{totalUserCount}</b>
       </span>
@@ -121,8 +123,8 @@ const GenerateForm = ({
   }
 
   React.useEffect(() => {
-    if (!generating && !stopped && !error) {
-      startGenerate()
+    if (!transfering && !stopped && !error) {
+      startTransfer()
     }
   })
 
@@ -134,7 +136,7 @@ const GenerateForm = ({
     <div className="c-box">
       <Result
         status="info"
-        icon={<Progress type="circle" percent={noLikerIdRate} />}
+        icon={<Progress type="circle" percent={noPendingLIKERate} />}
         title={<ResultTitle />}
         extra={
           <Form layout="inline">
@@ -144,7 +146,7 @@ const GenerateForm = ({
                 max={50}
                 min={1}
                 value={step}
-                disabled={generating}
+                disabled={transfering}
                 onChange={value => {
                   if (value) {
                     setStep(value)
@@ -155,20 +157,20 @@ const GenerateForm = ({
             <Form.Item>
               <Button
                 type="primary"
-                loading={generating}
-                disabled={generating}
+                loading={transfering}
+                disabled={transfering}
                 onClick={() => {
                   setStopped(false)
                 }}
               >
-                {!generating ? 'Generate' : 'Generating'}
+                {!transfering ? 'Transfer' : 'Transfering'}
               </Button>
             </Form.Item>
             <Form.Item>
               <Button
                 type="danger"
-                disabled={!generating}
-                loading={generating && stopped}
+                disabled={!transfering}
+                loading={transfering && stopped}
                 onClick={() => {
                   setStopped(true)
                 }}
@@ -183,4 +185,4 @@ const GenerateForm = ({
   )
 }
 
-export default GenerateTempLikerIds
+export default TransferLIKE
