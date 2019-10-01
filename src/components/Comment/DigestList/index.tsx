@@ -73,8 +73,8 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
           render={author => (
             <UserLink
               id={author.id}
-              userName={author.info.userName}
-              displayName={author.info.displayName}
+              userName={author.userName}
+              displayName={author.displayName}
             />
           )}
         />

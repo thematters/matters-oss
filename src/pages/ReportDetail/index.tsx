@@ -53,8 +53,8 @@ class ReportDetail extends React.Component<ReportDetailChildProps> {
             <Description term="舉報人">
               <UserLink
                 id={user.id}
-                userName={user.info.userName}
-                displayName={user.info.displayName}
+                userName={user.userName}
+                displayName={user.displayName}
               />
             </Description>
           )}

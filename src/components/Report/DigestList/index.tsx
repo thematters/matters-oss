@@ -103,8 +103,8 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
           render={author => (
             <UserLink
               id={author.id}
-              userName={author.info.userName}
-              displayName={author.info.displayName}
+              userName={author.userName}
+              displayName={author.displayName}
             />
           )}
         />
@@ -119,8 +119,8 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
             return (
               <UserLink
                 id={user.id}
-                userName={user.info.userName}
-                displayName={user.info.displayName}
+                userName={user.userName}
+                displayName={user.displayName}
               />
             )
           }}

@@ -7,7 +7,6 @@ import Divider from '../../components/Divider'
 import DateTime from '../../components/DateTime'
 import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
-import InvitationList from '../../components/User/InvitationList'
 import UserStateTag from '../../components/User/StateTag'
 import UserSetState from '../../components/User/SetState'
 
@@ -52,18 +51,14 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         <DescriptionList col={3} size="large" title="簡介">
           <Description term="姓名">
             <a href={`${SITE_DOMIAN}/@${user.userName}`} target="_blank">
-              {user.info.displayName}
+              {user.displayName}
             </a>
           </Description>
           <Description term="Matters ID">
-            {user.info.userName}{' '}
+            {user.userName}{' '}
             <small>
               （{user.info.userNameEditable ? '可修改' : '不可修改'}）
             </small>
-          </Description>
-          <Description term="電子信箱">
-            {user.info.email}{' '}
-            <small>（{user.info.emailVerified ? '已認證' : '未認證'}）</small>
           </Description>
           <Description term="狀態">
             <UserStateTag state={user.status.state} />
@@ -71,14 +66,10 @@ class UserDetail extends React.Component<UserDetailChildProps> {
           <Description term="註冊時間">
             <DateTime date={user.info.createdAt} />
           </Description>
-          <Description term="被追蹤數">{user.status.followerCount}</Description>
-          <Description term="追蹤數">{user.status.followeeCount}</Description>
-          <Description term="MAT">{user.status.MAT.total}</Description>
+          <Description term="被追蹤數">{user.followers.totalCount}</Description>
+          <Description term="追蹤數">{user.followees.totalCount}</Description>
           <Description term="文章數">{user.status.articleCount}</Description>
           <Description term="評論數">{user.status.commentCount}</Description>
-          <Description term="收藏數">
-            {user.status.subscriptionCount}
-          </Description>
           <Description term="語言">
             {LanguageMap[user.settings.language]}
           </Description>
@@ -130,27 +121,6 @@ class UserDetail extends React.Component<UserDetailChildProps> {
           </Col>
         </DescriptionList>
         <Divider size="large" />
-
-        {/* <DescriptionList size="large" title="收藏文章">
-          <Col span={24} style={{ marginBottom: 16 }}>
-            <ArticleDigestList
-              data={user.subscriptions.edges.map(({ node }) => node)}
-            />
-          </Col>
-        </DescriptionList>
-        <Divider size="large" /> */}
-
-        {/* <DescriptionList size="large" title="邀請紀錄">
-          <Col span={24} style={{ marginBottom: 16 }}>
-            <InvitationList
-              data={
-                user.status.invitation.sent.edges
-                  ? user.status.invitation.sent.edges.map(({ node }) => node)
-                  : []
-              }
-            />
-          </Col>
-        </DescriptionList> */}
       </>
     )
   }

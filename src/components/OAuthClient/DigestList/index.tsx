@@ -88,8 +88,8 @@ class OAuthClientDigestList extends React.Component<
             user ? (
               <UserLink
                 id={user.id}
-                userName={user.info.userName}
-                displayName={user.info.displayName}
+                userName={user.userName}
+                displayName={user.displayName}
               />
             ) : null
           }

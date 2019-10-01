@@ -46,8 +46,8 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           <Description term="作者">
             <UserLink
               id={article.author.id}
-              userName={article.author.info.userName}
-              displayName={article.author.info.displayName}
+              userName={article.author.userName}
+              displayName={article.author.displayName}
             />
           </Description>
           <Description term="標題">{article.title}</Description>
@@ -64,7 +64,9 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
               <TagLink key={tag.id} id={tag.id} content={tag.content} />
             ))}
           </Description>
-          <Description term="MAT">{article.MAT}</Description>
+          <Description term="讚賞數">
+            {article.appreciationsReceivedTotal}
+          </Description>
           <Description term="站內連結">
             <a
               href={`${SITE_DOMIAN}/@${article.author.userName}/${article.slug}-${article.mediaHash}`}

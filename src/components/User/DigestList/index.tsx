@@ -31,8 +31,8 @@ class UserDigestList extends React.Component<UserDigestListProps> {
     return (
       <UserLink
         id={record.id}
-        userName={record.info.userName}
-        displayName={record.info.displayName}
+        userName={record.userName}
+        displayName={record.displayName}
       />
     )
   }
@@ -95,11 +95,6 @@ class UserDigestList extends React.Component<UserDigestListProps> {
         <Table.Column<UserDigest>
           dataIndex="status.commentCount"
           title="評論數"
-          width={100}
-        />
-        <Table.Column<UserDigest>
-          dataIndex="status.MAT.total"
-          title="MAT 數"
           width={100}
         />
         {recommend && recommend.author && (

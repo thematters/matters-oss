@@ -1,56 +1,33 @@
 #import "../connection.gql"
 #import "../article/digest.gql"
-#import "./digest.gql"
 #import "../comment/digest.gql"
 
 fragment UserDetail on User {
   id
   uuid
   userName
+  displayName
+  avatar
   remark
   info {
     createdAt
-    userName
     userNameEditable
-    displayName
     description
-    avatar
     email
-    emailVerified
-    mobile
   }
   settings {
     language
   }
   status {
     state
-    MAT {
-      total
-    }
     articleCount
-    # viewCount
-    # draftCount
     commentCount
-    # quotationCount
-    subscriptionCount
-    followeeCount
-    followerCount
-    invitation {
-      left
-      sent(input: { first: null }) {
-        edges {
-          node {
-            id
-            user {
-              ...UserDigest
-            }
-            email
-            accepted
-            createdAt
-          }
-        }
-      }
-    }
+  }
+  followees(input: { first: 0 }) {
+    ...ConnectionInfo
+  }
+  followers(input: { first: 0 }) {
+    ...ConnectionInfo
   }
   articles(input: { first: 20 }) {
     ...ConnectionInfo
@@ -77,12 +54,4 @@ fragment UserDetail on User {
       }
     }
   }
-  # subscriptions(input: { first: 20 }) {
-  #   ...ConnectionInfo
-  #   edges {
-  #     node {
-  #       ...ArticleDigest
-  #     }
-  #   }
-  # }
 }

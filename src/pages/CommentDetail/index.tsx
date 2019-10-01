@@ -40,8 +40,8 @@ class CommentDetail extends React.Component<CommentDetailChildProps> {
           <Description term="作者">
             <UserLink
               id={comment.author.id}
-              userName={comment.author.info.userName}
-              displayName={comment.author.info.displayName}
+              userName={comment.author.userName}
+              displayName={comment.author.displayName}
             />
           </Description>
           <Description term="日期">
@@ -60,9 +60,7 @@ class CommentDetail extends React.Component<CommentDetailChildProps> {
           </Description>
           <Description term="站內連結">
             <a
-              href={`${SITE_DOMIAN}/@${comment.article.author.userName}/${
-                comment.article.slug
-              }-${comment.article.mediaHash}#${comment.id}`}
+              href={`${SITE_DOMIAN}/@${comment.article.author.userName}/${comment.article.slug}-${comment.article.mediaHash}#${comment.id}`}
               target="_blank"
             >
               {comment.article.mediaHash}#{comment.id}
