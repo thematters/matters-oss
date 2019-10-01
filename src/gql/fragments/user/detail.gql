@@ -35,22 +35,6 @@ fragment UserDetail on User {
     subscriptionCount
     followeeCount
     followerCount
-    invitation {
-      left
-      sent(input: { first: null }) {
-        edges {
-          node {
-            id
-            user {
-              ...UserDigest
-            }
-            email
-            accepted
-            createdAt
-          }
-        }
-      }
-    }
   }
   articles(input: { first: 20 }) {
     ...ConnectionInfo

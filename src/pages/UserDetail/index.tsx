@@ -7,7 +7,6 @@ import Divider from '../../components/Divider'
 import DateTime from '../../components/DateTime'
 import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
-import InvitationList from '../../components/User/InvitationList'
 import UserStateTag from '../../components/User/StateTag'
 import UserSetState from '../../components/User/SetState'
 
@@ -130,27 +129,6 @@ class UserDetail extends React.Component<UserDetailChildProps> {
           </Col>
         </DescriptionList>
         <Divider size="large" />
-
-        {/* <DescriptionList size="large" title="收藏文章">
-          <Col span={24} style={{ marginBottom: 16 }}>
-            <ArticleDigestList
-              data={user.subscriptions.edges.map(({ node }) => node)}
-            />
-          </Col>
-        </DescriptionList>
-        <Divider size="large" /> */}
-
-        {/* <DescriptionList size="large" title="邀請紀錄">
-          <Col span={24} style={{ marginBottom: 16 }}>
-            <InvitationList
-              data={
-                user.status.invitation.sent.edges
-                  ? user.status.invitation.sent.edges.map(({ node }) => node)
-                  : []
-              }
-            />
-          </Col>
-        </DescriptionList> */}
       </>
     )
   }
