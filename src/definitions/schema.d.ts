@@ -2537,7 +2537,6 @@ export enum GQLUserInfoFields {
   avatar = 'avatar',
   description = 'description',
   email = 'email',
-  mobile = 'mobile',
   agreeOn = 'agreeOn'
 }
 

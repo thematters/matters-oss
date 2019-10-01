@@ -11,7 +11,7 @@ fragment ArticleDetail on Article {
   dataHash
   mediaHash
   content
-  MAT
+  appreciationsReceivedTotal
   collection(input: { first: null }) {
     ...ConnectionInfo
     edges {
@@ -28,20 +28,11 @@ fragment ArticleDetail on Article {
       }
     }
   }
-  participantCount
-  appreciatorCount
   subscribed
   hasAppreciate
   remark
   subscribers(input: { first: null }) {
     ...ConnectionInfo
-    edges {
-      node {
-        ...UserDigest
-      }
-    }
-  }
-  appreciators(input: { first: null }) {
     edges {
       node {
         ...UserDigest

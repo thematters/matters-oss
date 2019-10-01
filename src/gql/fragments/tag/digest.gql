@@ -1,6 +1,8 @@
 fragment TagDigest on Tag {
   id
   content
-  count
   createdAt
+  articles(input: { first: 0 }) {
+    ...ConnectionInfo
+  }
 }

@@ -4,7 +4,6 @@
 fragment TagDetail on Tag {
   id
   content
-  count
   createdAt
   articles(input: { first: 20 }) {
     ...ConnectionInfo
