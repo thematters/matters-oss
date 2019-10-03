@@ -2,10 +2,9 @@ fragment UserDigest on User {
   id
   uuid
   userName
+  displayName
   info {
     createdAt
-    userName
-    displayName
     description
     email
   }
@@ -13,8 +12,5 @@ fragment UserDigest on User {
     state
     articleCount
     commentCount
-    MAT {
-      total
-    }
   }
 }

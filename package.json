@@ -1,6 +1,6 @@
 {
   "name": "matters-oss",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "private": true,
   "dependencies": {
     "@babel/core": "7.5.5",
@@ -78,8 +78,8 @@
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "start": "REACT_APP_ENV=dev node scripts/start.js",
-    "build:local": "REACT_APP_ENV=dev node scripts/build.js",
+    "start": "REACT_APP_ENV=local node scripts/start.js",
+    "build:local": "REACT_APP_ENV=local node scripts/build.js",
     "build:develop": "REACT_APP_ENV=develop node scripts/build.js",
     "build:production": "REACT_APP_ENV=production node scripts/build.js",
     "test": "REACT_APP_ENV=test node scripts/test.js --env=jsdom"

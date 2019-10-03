@@ -142,8 +142,8 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           render={author => (
             <UserLink
               id={author.id}
-              userName={author.info.userName}
-              displayName={author.info.displayName}
+              userName={author.userName}
+              displayName={author.displayName}
             />
           )}
         />

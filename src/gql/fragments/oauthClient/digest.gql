@@ -1,0 +1,13 @@
+#import "../user/id.gql"
+
+fragment OAuthClientDigest on OAuthClient {
+  id
+  name
+  website
+  scope
+  avatar
+  createdAt
+  user {
+    ...UserId
+  }
+}

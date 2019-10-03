@@ -37,7 +37,7 @@ class TagDetail extends React.Component<TagDetailChildProps> {
           <Description term="標籤">
             <Tag>{tag.content}</Tag>
           </Description>
-          <Description term="文章數">{tag.count}</Description>
+          <Description term="文章數">{tag.articles.totalCount}</Description>
           <Description term="時間">
             <DateTime date={tag.createdAt} />
           </Description>

@@ -20,6 +20,11 @@ export const PATH = {
   COMMENT_LIST: '/comments',
   COMMENT_DETAIL: '/comments/:id',
 
+  OAUTH_CLIENT_LIST: '/oauth-clients',
+  OAUTH_CLIENT_DETAIL: '/oauth-clients/:id',
+
+  LIKECOIN: '/likecoin',
+
   REPORT_LIST_ARTICLE: '/reports/article',
   REPORT_LIST_COMMENT: '/reports/comment',
   REPORT_DETAIL: '/reports/:id',
@@ -50,6 +55,10 @@ export const PAGE_TITLE = {
 
   [PATH.COMMENT_LIST]: '評論清單',
   [PATH.COMMENT_DETAIL]: '評論詳情',
+
+  [PATH.OAUTH_CLIENT_LIST]: 'OAuth Client 清單',
+  [PATH.OAUTH_CLIENT_DETAIL]: 'OAuth Client 詳情',
+  [PATH.LIKECOIN]: 'LikeCoin Dashboard',
 
   [PATH.REPORT_LIST_ARTICLE]: '舉報文章清單',
   [PATH.REPORT_LIST_COMMENT]: '舉報評論清單',

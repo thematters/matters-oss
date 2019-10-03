@@ -19,10 +19,9 @@ export type UserDigest = {
   id: string
   uuid: GQLUUID
   userName: string
+  displayName: string
   info: {
     createdAt: Date
-    userName: string
-    displayName: string
     email: GQLEmail
     description: string
   }
@@ -30,9 +29,6 @@ export type UserDigest = {
     state: GQLUserState
     articleCount: number
     commentCount: number
-    MAT: {
-      total: number
-    }
   }
   oss: {
     boost: number
@@ -44,6 +40,8 @@ export type UserDetail = UserDigest & {
   info: GQLUserInfo
   settings: GQLUserSettings
   articles: Connection<ArticleDigest>
+  followers: Connection<UserDigest>
+  followees: Connection<UserDigest>
   commentedArticles: Connection<
     ArticleDigest & { comments: Connection<CommentDigest> }
   >
@@ -58,7 +56,6 @@ export type UserDetail = UserDigest & {
 export type TagDigest = {
   id: string
   content: string
-  count: number
   createdAt: Date
   oss: {
     boost: number
@@ -103,10 +100,9 @@ export type ArticleDetail = ArticleDigest & {
   dataHash: string
   mediaHash: string
   content: string
+  appreciationsReceivedTotal: number
   collection: Connection<ArticleDigest>
   collectedBy: Connection<ArticleDigest>
-  MAT: number
-  participantCount: number
   subscribers: UserDigest[]
   subscribed: boolean
   hasAppreciate: boolean
@@ -127,7 +123,6 @@ export type CommentDigest = {
   pinned: boolean
   upvotes: number
   downvotes: number
-  quote: boolean
 }
 
 export type CommentDetail = CommentDigest
@@ -160,4 +155,24 @@ export type Connection<Node> = {
 export type Edge<Node> = {
   cursor: string
   node: Node
+}
+
+/**
+ * OAuth Client
+ */
+export type OAuthClientDigest = {
+  id: string
+  name: string
+  website: string
+  scope: string[]
+  avatar: string
+  createdAt: Date
+}
+
+export type OAuthClientDetail = OAuthClientDigest & {
+  secret: string
+  description: string
+  redirectURIs: string[]
+  grantTypes: string[]
+  user: UserDigest
 }

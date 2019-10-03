@@ -2,9 +2,8 @@ fragment UserId on User {
   id
   uuid
   userName
+  displayName
   info {
-    userName
-    displayName
     email
   }
 }
