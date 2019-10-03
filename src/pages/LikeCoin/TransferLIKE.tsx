@@ -49,10 +49,6 @@ const TransferLIKE = () => {
           const totalUserCount = _get(data, 'oss.users.totalCount')
           let noPendingLIKECount = _get(data, 'oss.noPendingLIKECount')
 
-          if (!totalUserCount || !noPendingLIKECount) {
-            message.warning('無法獲取當前用戶數')
-          }
-
           return (
             <Mutation mutation={TRANSFER_LIKE}>
               {(transfer: any, result: MutationResult) => {
@@ -90,6 +86,7 @@ const TransferForm = ({
   const [noPendingLIKECount, setNoPendingLIKECount] = React.useState(
     initNoPendingLIKECountCount
   )
+  const finished = noPendingLIKECount <= 0
   const startTransfer = async () => {
     try {
       setTransfering(true)
@@ -123,7 +120,7 @@ const TransferForm = ({
   }
 
   React.useEffect(() => {
-    if (!transfering && !stopped && !error) {
+    if (!finished && !transfering && !stopped && !error) {
       startTransfer()
     }
   })
@@ -146,7 +143,7 @@ const TransferForm = ({
                 max={50}
                 min={1}
                 value={step}
-                disabled={transfering}
+                disabled={finished || transfering}
                 onChange={value => {
                   if (value) {
                     setStep(value)
