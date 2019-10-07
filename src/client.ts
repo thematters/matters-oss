@@ -37,7 +37,6 @@ const sentryLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
   link: ApolloLink.from([
-    sentryLink,
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
         graphQLErrors.map(({ message, locations, path, extensions }) => {
@@ -51,6 +50,7 @@ const client = new ApolloClient({
         })
       if (networkError) console.log(`[Network error]: ${networkError}`)
     }),
+    sentryLink,
     createUploadLink({
       uri: API_ENDPOINT,
       credentials: 'same-origin',
