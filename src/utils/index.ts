@@ -1,6 +1,7 @@
 export * from './url'
 export * from './time'
 export * from './pagination'
+export * from './random'
 
 export const stripHtml = (html: string, replacement = ' ') =>
   (String(html) || '')
