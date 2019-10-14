@@ -49,10 +49,6 @@ const GenerateTempLikerIds = () => {
           const totalUserCount = _get(data, 'oss.users.totalCount')
           let noLikerIdCount = _get(data, 'oss.noLikerIdCount')
 
-          if (!totalUserCount || !noLikerIdCount) {
-            message.warning('無法獲取當前用戶數')
-          }
-
           return (
             <Mutation mutation={GENERATE_TEMP_LIKER_IDS}>
               {(generate: any, result: MutationResult) => {
@@ -88,6 +84,7 @@ const GenerateForm = ({
   const [stopped, setStopped] = React.useState(true)
   const [generating, setGenerating] = React.useState(false)
   const [noLikerIdCount, setNoLikerIdCount] = React.useState(initNoLikerIdCount)
+  const finished = noLikerIdCount <= 0
   const startGenerate = async () => {
     try {
       setGenerating(true)
@@ -121,7 +118,7 @@ const GenerateForm = ({
   }
 
   React.useEffect(() => {
-    if (!generating && !stopped && !error) {
+    if (!finished && !generating && !stopped && !error) {
       startGenerate()
     }
   })
@@ -156,7 +153,7 @@ const GenerateForm = ({
               <Button
                 type="primary"
                 loading={generating}
-                disabled={generating}
+                disabled={finished || generating}
                 onClick={() => {
                   setStopped(false)
                 }}
