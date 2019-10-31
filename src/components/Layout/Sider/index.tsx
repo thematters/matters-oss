@@ -22,6 +22,7 @@ const Sider: React.FunctionComponent<RouteComponentProps> = ({ location }) => {
       width="250"
       breakpoint="lg"
       collapsedWidth="0"
+      collapsible
     >
       <Link to={PATH.HOMEPAGE}>
         <div className="logo" style={{ padding: '24px 24px 0' }}>

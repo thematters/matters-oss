@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 const SET_STATE = gql`
   mutation updateArticleState($input: UpdateArticleStateInput!) {
     updateArticleState(input: $input) {
-      id # for update cache
+      id
       state
     }
   }
@@ -27,7 +27,6 @@ type Variables = {
   input: {
     id: string
     state: ArticleState
-    banDays?: number
   }
 }
 

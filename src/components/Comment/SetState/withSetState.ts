@@ -2,16 +2,16 @@ import { graphql, ChildMutateProps } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const SET_STATE = gql`
-  mutation updateCommentState($input: UpdateCommentStateInput!) {
-    updateCommentState(input: $input) {
-      id # for update cache
+  mutation updateCommentsState($input: UpdateCommentsStateInput!) {
+    updateCommentsState(input: $input) {
+      id
       state
     }
   }
 `
 
 type Response = {
-  updateCommentState: {
+  updateCommentsState: {
     state: string
   }
 }
@@ -19,15 +19,14 @@ type Response = {
 export type CommentState = 'active' | 'archived' | 'banned'
 
 type InputProps = {
-  id: string
+  ids: string[]
   state: CommentState
 }
 
 type Variables = {
   input: {
-    id: string
+    ids: string[]
     state: CommentState
-    banDays?: number
   }
 }
 

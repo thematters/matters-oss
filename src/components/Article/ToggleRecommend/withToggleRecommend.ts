@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 const TOGGLE_RECOMMEND = gql`
   mutation ToggleRecommend($input: ToggleArticleRecommendInput!) {
     toggleArticleRecommend(input: $input) {
-      id # for update cache
+      id
       oss {
         inRecommendToday
         inRecommendIcymi

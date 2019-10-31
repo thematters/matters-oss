@@ -131,12 +131,6 @@ export interface GQLArticle extends GQLNode {
   relatedArticles: GQLArticleConnection
 
   /**
-   * MAT recieved for this article (will be decrpecated soon)
-   * @deprecated Use 'appreciationsReceived' instead.
-   */
-  MAT: number
-
-  /**
    * Appreciations history of this article.
    */
   appreciationsReceived: GQLTransactionConnection
@@ -150,11 +144,6 @@ export interface GQLArticle extends GQLNode {
    * Subscribers of this articles.
    */
   subscribers: GQLUserConnection
-
-  /**
-   * Appreciators of this articles.
-   */
-  appreciators: GQLUserConnection
 
   /**
    * Limit the nuhmber of appreciate per user.
@@ -350,6 +339,21 @@ export interface GQLUser extends GQLNode {
    * Whether viewer is following current user.
    */
   isFollowee: boolean
+
+  /**
+   * Users that blocked by current user.
+   */
+  blockList: GQLUserConnection
+
+  /**
+   * Whether current user is blocking viewer.
+   */
+  isBlocking: boolean
+
+  /**
+   * Whether current user is blocked by viewer.
+   */
+  isBlocked: boolean
 
   /**
    * Status of current user.
@@ -830,11 +834,6 @@ export interface GQLTransactionEdge {
 }
 
 export interface GQLTransaction {
-  /**
-   *
-   * @deprecated use 'amount' instead.
-   */
-  delta: number
   amount: number
   purpose: GQLTransactionPurpose
   content: string
@@ -843,11 +842,6 @@ export interface GQLTransaction {
    * Timestamp of transaction.
    */
   createdAt: GQLDateTime
-
-  /**
-   * Unit of transaction used.
-   */
-  unit: GQLTransactionUnit
 
   /**
    * Recipient of transaction.
@@ -876,11 +870,6 @@ export enum GQLTransactionPurpose {
   systemSubsidy = 'systemSubsidy'
 }
 
-export enum GQLTransactionUnit {
-  mat = 'mat',
-  like = 'like'
-}
-
 export interface GQLUserStatus {
   /**
    * User state.
@@ -896,12 +885,6 @@ export interface GQLUserStatus {
    * Total LIKE left in wallet.
    */
   LIKE: GQLLIKE
-
-  /**
-   * Total MAT left in wallet.
-   * @deprecated Use 'UserActivity.appreciations*' instead.
-   */
-  MAT: GQLMAT
 
   /**
    * Number of articles published by user
@@ -950,11 +933,6 @@ export enum GQLUserRole {
 export interface GQLLIKE {
   total: GQLNonNegativeFloat
   rateUSD?: GQLNonNegativeFloat
-}
-
-export interface GQLMAT {
-  total: number
-  history: GQLTransactionConnection
 }
 
 export interface GQLUserOSS {
@@ -1335,8 +1313,6 @@ export interface GQLOSS {
   report: GQLReport
   today: GQLArticleConnection
   oauthClients: GQLOAuthClientConnection
-  noLikerIdCount: number
-  noPendingLIKECount: number
 }
 
 export interface GQLOSSArticlesInput {
@@ -1577,9 +1553,9 @@ export interface GQLMutation {
   unvoteComment: GQLComment
 
   /**
-   * Update a comment's state.
+   * Update a comments' state.
    */
-  updateCommentState: GQLComment
+  updateCommentsState: Array<GQLComment>
 
   /**
    * Create or update a draft.
@@ -1680,6 +1656,16 @@ export interface GQLMutation {
   unfollowUser: GQLUser
 
   /**
+   * Block a given user.
+   */
+  blockUser: GQLUser
+
+  /**
+   * Unblock a given user.
+   */
+  unblockUser: GQLUser
+
+  /**
    * Clear read history for user.
    */
   clearReadHistory?: boolean
@@ -1693,16 +1679,6 @@ export interface GQLMutation {
    * Update state of a user, used in OSS.
    */
   updateUserState: GQLUser
-
-  /**
-   * Generate temporary LikerIds for users without it, used in OSS
-   */
-  generateTempLikerIds: number
-
-  /**
-   * Transfer user's MAT to pending LIKE, used in OSS
-   */
-  transferLIKE: number
 
   /**
    * Create or Update an OAuth Client, used in OSS.
@@ -1852,8 +1828,8 @@ export interface GQLUnvoteCommentInput {
   id: string
 }
 
-export interface GQLUpdateCommentStateInput {
-  id: string
+export interface GQLUpdateCommentsStateInput {
+  ids: Array<string>
   state: GQLCommentState
 }
 
@@ -2022,7 +1998,7 @@ export interface GQLFollowUserInput {
   id: string
 }
 
-export interface GQLUnfollowUserInput {
+export interface GQLBlockUserInput {
   id: string
 }
 
@@ -2037,16 +2013,6 @@ export interface GQLUpdateUserStateInput {
 }
 
 export type GQLPositiveInt = any
-
-export interface GQLGenerateTempLikerIdsInput {
-  id?: string
-  step?: number
-}
-
-export interface GQLTransferLIKEInput {
-  id?: string
-  step?: number
-}
 
 export interface GQLPutOAuthClientInput {
   id?: string
@@ -2127,11 +2093,6 @@ export interface GQLArticleNewAppreciationNotice extends GQLNotice {
    * The article that has been appreciated.
    */
   target?: GQLArticle
-
-  /**
-   * The amount of appreciations.
-   */
-  MAT: number
 }
 
 /**
@@ -2396,6 +2357,11 @@ export interface GQLImportArticlesInput {
 
 export type GQLJSON = any
 
+export interface GQLMAT {
+  total: number
+  history: GQLTransactionConnection
+}
+
 export type GQLNegativeFloat = any
 
 export type GQLNegativeInt = any
@@ -2581,7 +2547,6 @@ export interface GQLResolver {
   Transaction?: GQLTransactionTypeResolver
   UserStatus?: GQLUserStatusTypeResolver
   LIKE?: GQLLIKETypeResolver
-  MAT?: GQLMATTypeResolver
   UserOSS?: GQLUserOSSTypeResolver
   NoticeConnection?: GQLNoticeConnectionTypeResolver
   NoticeEdge?: GQLNoticeEdgeTypeResolver
@@ -2633,6 +2598,7 @@ export interface GQLResolver {
   CommentPinnedNotice?: GQLCommentPinnedNoticeTypeResolver
   DownstreamArticleArchivedNotice?: GQLDownstreamArticleArchivedNoticeTypeResolver
   JSON?: GraphQLScalarType
+  MAT?: GQLMATTypeResolver
   NegativeFloat?: GraphQLScalarType
   NegativeInt?: GraphQLScalarType
   NonNegativeInt?: GraphQLScalarType
@@ -2776,13 +2742,11 @@ export interface GQLArticleTypeResolver<TParent = any> {
   collectedBy?: ArticleToCollectedByResolver<TParent>
   collection?: ArticleToCollectionResolver<TParent>
   relatedArticles?: ArticleToRelatedArticlesResolver<TParent>
-  MAT?: ArticleToMATResolver<TParent>
   appreciationsReceived?: ArticleToAppreciationsReceivedResolver<TParent>
   appreciationsReceivedTotal?: ArticleToAppreciationsReceivedTotalResolver<
     TParent
   >
   subscribers?: ArticleToSubscribersResolver<TParent>
-  appreciators?: ArticleToAppreciatorsResolver<TParent>
   appreciateLimit?: ArticleToAppreciateLimitResolver<TParent>
   appreciateLeft?: ArticleToAppreciateLeftResolver<TParent>
   hasAppreciate?: ArticleToHasAppreciateResolver<TParent>
@@ -2983,15 +2947,6 @@ export interface ArticleToRelatedArticlesResolver<
   ): TResult
 }
 
-export interface ArticleToMATResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
 export interface ArticleToAppreciationsReceivedArgs {
   input: GQLConnectionArgs
 }
@@ -3026,18 +2981,6 @@ export interface ArticleToSubscribersResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: ArticleToSubscribersArgs,
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface ArticleToAppreciatorsArgs {
-  input: GQLConnectionArgs
-}
-export interface ArticleToAppreciatorsResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: ArticleToAppreciatorsArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -3223,6 +3166,9 @@ export interface GQLUserTypeResolver<TParent = any> {
   followees?: UserToFolloweesResolver<TParent>
   isFollower?: UserToIsFollowerResolver<TParent>
   isFollowee?: UserToIsFolloweeResolver<TParent>
+  blockList?: UserToBlockListResolver<TParent>
+  isBlocking?: UserToIsBlockingResolver<TParent>
+  isBlocked?: UserToIsBlockedResolver<TParent>
   status?: UserToStatusResolver<TParent>
   oss?: UserToOssResolver<TParent>
   remark?: UserToRemarkResolver<TParent>
@@ -3401,6 +3347,36 @@ export interface UserToIsFollowerResolver<TParent = any, TResult = any> {
 }
 
 export interface UserToIsFolloweeResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface UserToBlockListArgs {
+  input: GQLConnectionArgs
+}
+export interface UserToBlockListResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: UserToBlockListArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface UserToIsBlockingResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface UserToIsBlockedResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
@@ -4746,24 +4722,13 @@ export interface TransactionEdgeToNodeResolver<TParent = any, TResult = any> {
 }
 
 export interface GQLTransactionTypeResolver<TParent = any> {
-  delta?: TransactionToDeltaResolver<TParent>
   amount?: TransactionToAmountResolver<TParent>
   purpose?: TransactionToPurposeResolver<TParent>
   content?: TransactionToContentResolver<TParent>
   createdAt?: TransactionToCreatedAtResolver<TParent>
-  unit?: TransactionToUnitResolver<TParent>
   recipient?: TransactionToRecipientResolver<TParent>
   sender?: TransactionToSenderResolver<TParent>
   target?: TransactionToTargetResolver<TParent>
-}
-
-export interface TransactionToDeltaResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
 }
 
 export interface TransactionToAmountResolver<TParent = any, TResult = any> {
@@ -4794,15 +4759,6 @@ export interface TransactionToContentResolver<TParent = any, TResult = any> {
 }
 
 export interface TransactionToCreatedAtResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TransactionToUnitResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
@@ -4842,7 +4798,6 @@ export interface GQLUserStatusTypeResolver<TParent = any> {
   state?: UserStatusToStateResolver<TParent>
   role?: UserStatusToRoleResolver<TParent>
   LIKE?: UserStatusToLIKEResolver<TParent>
-  MAT?: UserStatusToMATResolver<TParent>
   articleCount?: UserStatusToArticleCountResolver<TParent>
   commentCount?: UserStatusToCommentCountResolver<TParent>
   unreadNoticeCount?: UserStatusToUnreadNoticeCountResolver<TParent>
@@ -4870,15 +4825,6 @@ export interface UserStatusToRoleResolver<TParent = any, TResult = any> {
 }
 
 export interface UserStatusToLIKEResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface UserStatusToMATResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
@@ -4977,32 +4923,6 @@ export interface LIKEToRateUSDResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface GQLMATTypeResolver<TParent = any> {
-  total?: MATToTotalResolver<TParent>
-  history?: MATToHistoryResolver<TParent>
-}
-
-export interface MATToTotalResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface MATToHistoryArgs {
-  input: GQLConnectionArgs
-}
-export interface MATToHistoryResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: MATToHistoryArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -5933,8 +5853,6 @@ export interface GQLOSSTypeResolver<TParent = any> {
   report?: OSSToReportResolver<TParent>
   today?: OSSToTodayResolver<TParent>
   oauthClients?: OSSToOauthClientsResolver<TParent>
-  noLikerIdCount?: OSSToNoLikerIdCountResolver<TParent>
-  noPendingLIKECount?: OSSToNoPendingLIKECountResolver<TParent>
 }
 
 export interface OSSToUsersArgs {
@@ -6028,24 +5946,6 @@ export interface OSSToOauthClientsResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: OSSToOauthClientsArgs,
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface OSSToNoLikerIdCountResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface OSSToNoPendingLIKECountResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -6426,7 +6326,7 @@ export interface GQLMutationTypeResolver<TParent = any> {
   reportComment?: MutationToReportCommentResolver<TParent>
   voteComment?: MutationToVoteCommentResolver<TParent>
   unvoteComment?: MutationToUnvoteCommentResolver<TParent>
-  updateCommentState?: MutationToUpdateCommentStateResolver<TParent>
+  updateCommentsState?: MutationToUpdateCommentsStateResolver<TParent>
   putDraft?: MutationToPutDraftResolver<TParent>
   deleteDraft?: MutationToDeleteDraftResolver<TParent>
   markAllNoticesAsRead?: MutationToMarkAllNoticesAsReadResolver<TParent>
@@ -6451,11 +6351,11 @@ export interface GQLMutationTypeResolver<TParent = any> {
   >
   followUser?: MutationToFollowUserResolver<TParent>
   unfollowUser?: MutationToUnfollowUserResolver<TParent>
+  blockUser?: MutationToBlockUserResolver<TParent>
+  unblockUser?: MutationToUnblockUserResolver<TParent>
   clearReadHistory?: MutationToClearReadHistoryResolver<TParent>
   clearSearchHistory?: MutationToClearSearchHistoryResolver<TParent>
   updateUserState?: MutationToUpdateUserStateResolver<TParent>
-  generateTempLikerIds?: MutationToGenerateTempLikerIdsResolver<TParent>
-  transferLIKE?: MutationToTransferLIKEResolver<TParent>
   putOAuthClient?: MutationToPutOAuthClientResolver<TParent>
 }
 
@@ -6792,16 +6692,16 @@ export interface MutationToUnvoteCommentResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
-export interface MutationToUpdateCommentStateArgs {
-  input: GQLUpdateCommentStateInput
+export interface MutationToUpdateCommentsStateArgs {
+  input: GQLUpdateCommentsStateInput
 }
-export interface MutationToUpdateCommentStateResolver<
+export interface MutationToUpdateCommentsStateResolver<
   TParent = any,
   TResult = any
 > {
   (
     parent: TParent,
-    args: MutationToUpdateCommentStateArgs,
+    args: MutationToUpdateCommentsStateArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -7075,12 +6975,36 @@ export interface MutationToFollowUserResolver<TParent = any, TResult = any> {
 }
 
 export interface MutationToUnfollowUserArgs {
-  input: GQLUnfollowUserInput
+  input: GQLFollowUserInput
 }
 export interface MutationToUnfollowUserResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: MutationToUnfollowUserArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface MutationToBlockUserArgs {
+  input: GQLBlockUserInput
+}
+export interface MutationToBlockUserResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: MutationToBlockUserArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface MutationToUnblockUserArgs {
+  input: GQLBlockUserInput
+}
+export interface MutationToUnblockUserResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: MutationToUnblockUserArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -7123,33 +7047,6 @@ export interface MutationToUpdateUserStateResolver<
   (
     parent: TParent,
     args: MutationToUpdateUserStateArgs,
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface MutationToGenerateTempLikerIdsArgs {
-  input?: GQLGenerateTempLikerIdsInput
-}
-export interface MutationToGenerateTempLikerIdsResolver<
-  TParent = any,
-  TResult = any
-> {
-  (
-    parent: TParent,
-    args: MutationToGenerateTempLikerIdsArgs,
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface MutationToTransferLIKEArgs {
-  input?: GQLTransferLIKEInput
-}
-export interface MutationToTransferLIKEResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: MutationToTransferLIKEArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -7292,7 +7189,6 @@ export interface GQLArticleNewAppreciationNoticeTypeResolver<TParent = any> {
   createdAt?: ArticleNewAppreciationNoticeToCreatedAtResolver<TParent>
   actors?: ArticleNewAppreciationNoticeToActorsResolver<TParent>
   target?: ArticleNewAppreciationNoticeToTargetResolver<TParent>
-  MAT?: ArticleNewAppreciationNoticeToMATResolver<TParent>
 }
 
 export interface ArticleNewAppreciationNoticeToIdResolver<
@@ -7344,18 +7240,6 @@ export interface ArticleNewAppreciationNoticeToActorsResolver<
 }
 
 export interface ArticleNewAppreciationNoticeToTargetResolver<
-  TParent = any,
-  TResult = any
-> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface ArticleNewAppreciationNoticeToMATResolver<
   TParent = any,
   TResult = any
 > {
@@ -8078,6 +7962,32 @@ export interface DownstreamArticleArchivedNoticeToTargetResolver<
   (
     parent: TParent,
     args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLMATTypeResolver<TParent = any> {
+  total?: MATToTotalResolver<TParent>
+  history?: MATToHistoryResolver<TParent>
+}
+
+export interface MATToTotalResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface MATToHistoryArgs {
+  input: GQLConnectionArgs
+}
+export interface MATToHistoryResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: MATToHistoryArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult

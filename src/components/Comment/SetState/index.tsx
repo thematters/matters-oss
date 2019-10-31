@@ -41,19 +41,19 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   private _onConfirmChange = async () => {
     this.setState({ loading: true, error: null })
 
-    const { mutate, id } = this.props
+    const { mutate, ids } = this.props
     const { commentState } = this.state
 
     try {
       const result = await mutate({
         variables: {
           input: {
-            id,
+            ids,
             state: commentState
           }
         }
       })
-      const newCommentState = _get(result, 'data.updateCommentState.state')
+      const newCommentState = _get(result, 'data.updateCommentsState.0.state')
       this.setState({
         commentState: newCommentState,
         loading: false,

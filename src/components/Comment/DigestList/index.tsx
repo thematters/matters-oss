@@ -34,7 +34,7 @@ class CommentDigestList extends React.Component<CommentDigestListProps> {
   }
 
   private _renderStateCell(_: any, record: CommentDigest): React.ReactNode {
-    return <CommentSetState state={record.state} id={record.id} />
+    return <CommentSetState state={record.state} ids={[record.id]} />
   }
 
   public render() {
