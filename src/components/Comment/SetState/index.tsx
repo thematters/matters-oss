@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Select, Button, Modal, Alert } from 'antd'
+import { Select, Modal, message } from 'antd'
 import _get from 'lodash/get'
 
 import ErrorMessage from '../../ErrorMessage'
@@ -8,10 +8,12 @@ import CommentStateTag from '../StateTag'
 import withSetState, { ChildProps, CommentState } from './withSetState'
 
 type SetStateState = {
-  commentState: CommentState
+  commentState?: CommentState
   loading: boolean
   error: any
 }
+
+const PLACEHOLDER_KEY = 'placeholder'
 
 const COMMENT_STATES: {
   key: CommentState
@@ -30,7 +32,13 @@ class SetState extends React.Component<ChildProps, SetStateState> {
     error: null
   }
 
-  private _onSelectCommentState = (value: CommentState) => {
+  private _onSelectCommentState = (
+    value: CommentState | typeof PLACEHOLDER_KEY
+  ) => {
+    if (!value || value === PLACEHOLDER_KEY) {
+      return
+    }
+
     this.setState({ commentState: value }, () => {
       if (this.props.state !== value) {
         this.preConfirm()
@@ -41,8 +49,12 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   private _onConfirmChange = async () => {
     this.setState({ loading: true, error: null })
 
-    const { mutate, ids } = this.props
+    const { mutate, ids, onSuccess } = this.props
     const { commentState } = this.state
+
+    if (!commentState) {
+      return
+    }
 
     try {
       const result = await mutate({
@@ -59,6 +71,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
         loading: false,
         error: null
       })
+      message.success('修改成功', 1, () => {
+        if (onSuccess) {
+          onSuccess()
+        }
+      })
     } catch (error) {
       this.setState({ loading: false, error })
     }
@@ -71,9 +88,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
         <div style={{ marginTop: 16 }}>
           <span>
             修改後，評論狀態將從&nbsp;&nbsp;
-            <CommentStateTag state={this.props.state} />
+            {this.props.state && <CommentStateTag state={this.props.state} />}
             改為&nbsp;&nbsp;
-            <CommentStateTag state={this.state.commentState} />
+            {this.state.commentState && (
+              <CommentStateTag state={this.state.commentState} />
+            )}
           </span>
         </div>
       ),
@@ -91,6 +110,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   public render() {
+    const { disabled } = this.props
     const { commentState, loading, error } = this.state
 
     if (error) {
@@ -103,7 +123,10 @@ class SetState extends React.Component<ChildProps, SetStateState> {
           value={commentState}
           onSelect={this._onSelectCommentState}
           style={{ marginRight: 8, width: 100 }}
+          loading={loading}
+          disabled={disabled}
         >
+          <Select.Option key={PLACEHOLDER_KEY} disabled></Select.Option>
           {COMMENT_STATES.map(({ key, text, disabled }) => (
             <Select.Option key={key} disabled={disabled}>
               {text}

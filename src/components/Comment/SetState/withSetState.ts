@@ -12,6 +12,7 @@ const SET_STATE = gql`
 
 type Response = {
   updateCommentsState: {
+    id: string
     state: string
   }
 }
@@ -20,7 +21,9 @@ export type CommentState = 'active' | 'archived' | 'banned'
 
 type InputProps = {
   ids: string[]
-  state: CommentState
+  state?: CommentState
+  disabled?: boolean
+  onSuccess?: () => void
 }
 
 type Variables = {
