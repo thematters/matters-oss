@@ -65,3 +65,8 @@ export const PAGE_TITLE = {
 
   [PATH.LOGIN]: '登入'
 }
+
+export const PATH_REGEXP = {
+  articleDetail: /^\/@([^@\/]+?)\/.*-([^-\/]+?)(?:\/)?$/i,
+  user: /^\/@([^@\/]+?)(?:\/)?$/i
+}
