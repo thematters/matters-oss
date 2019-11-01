@@ -366,7 +366,7 @@ class TagDigestList extends React.Component<
             )}
           />
           <Table.Column<TagDigest>
-            dataIndex="count"
+            dataIndex="articles.totalCount"
             title="文章數"
             width={100}
             {...(hasSorter

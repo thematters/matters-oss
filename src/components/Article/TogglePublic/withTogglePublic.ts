@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 const TOGGLE_ARTICLE_PUBLIC = gql`
   mutation ToggleArticlePublic($input: ToggleArticlePublicInput!) {
     toggleArticlePublic(input: $input) {
-      id # for update cache
+      id
       public
     }
   }

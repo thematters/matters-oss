@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 const TOGGLE_ARTICLE_LIVE = gql`
   mutation ToggleArticleLive($input: ToggleArticleLiveInput!) {
     toggleArticleLive(input: $input) {
-      id # for update cache
+      id
       live
     }
   }

@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 const SET_BOOST = gql`
   mutation setBoost($input: SetBoostInput!) {
     setBoost(input: $input) {
-      id # for update cache
+      id
       ... on Article {
         oss {
           boost

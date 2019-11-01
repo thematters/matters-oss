@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 const SET_STATE = gql`
   mutation updateUserState($input: UpdateUserStateInput!) {
     updateUserState(input: $input) {
-      id # for update cache
+      id
       status {
         state
       }

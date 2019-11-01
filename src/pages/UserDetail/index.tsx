@@ -9,6 +9,8 @@ import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
 import UserStateTag from '../../components/User/StateTag'
 import UserSetState from '../../components/User/SetState'
+import UserRoleTag from '../../components/User/RoleTag'
+import UserSetRole from '../../components/User/SetRole'
 
 import withUserDetail, { UserDetailChildProps } from './withUserDetail'
 import ArticleDigestList from '../../components/Article/DigestList'
@@ -63,6 +65,9 @@ class UserDetail extends React.Component<UserDetailChildProps> {
           <Description term="狀態">
             <UserStateTag state={user.status.state} />
           </Description>
+          <Description term="權限">
+            <UserRoleTag role={user.status.role} />
+          </Description>
           <Description term="註冊時間">
             <DateTime date={user.info.createdAt} />
           </Description>
@@ -86,6 +91,9 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         <DescriptionList size="large" title="設定">
           <Description term="狀態" col={1}>
             <UserSetState state={user.status.state} id={user.id} />
+          </Description>
+          <Description term="權限" col={1}>
+            <UserSetRole role={user.status.role} id={user.id} />
           </Description>
         </DescriptionList>
         <Divider size="large" />
