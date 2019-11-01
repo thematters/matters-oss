@@ -19,6 +19,7 @@ fragment UserDetail on User {
     language
   }
   status {
+    role
     state
     articleCount
     commentCount
