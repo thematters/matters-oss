@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { Row, Col, Input, Button } from 'antd'
+import { Row, Col, Input, Button, message } from 'antd'
 import queryString from 'query-string'
 import { ApolloConsumer } from 'react-apollo'
 import _get from 'lodash/get'
@@ -59,7 +59,10 @@ class SearchBar extends React.Component<
 
     const isUserLink = PATH_REGEXP.user.test(path)
     if (isUserLink) {
-      const userName = path.split('@')[1]
+      const userName = path
+        .split('#')[0]
+        .split('?')[0]
+        .split('@')[1]
       const { data } = await client.query({
         query: QUERY_USER,
         variables: { input: { userName } }
@@ -68,6 +71,8 @@ class SearchBar extends React.Component<
 
       if (userId) {
         history.push(`/users/${userId}`)
+      } else {
+        message.error('請輸入正確的用戶主頁連結')
       }
     }
 
@@ -86,6 +91,8 @@ class SearchBar extends React.Component<
 
       if (articleId) {
         history.push(`/articles/${articleId}`)
+      } else {
+        message.error('請輸入正確的文章連結')
       }
     }
   }
