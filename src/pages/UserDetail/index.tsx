@@ -16,6 +16,7 @@ import withUserDetail, { UserDetailChildProps } from './withUserDetail'
 import ArticleDigestList from '../../components/Article/DigestList'
 import { SITE_DOMIAN } from '../../constants'
 import CommentDigestList from '../../components/Comment/DigestList'
+import SetBoost from '../../components/SetBoost'
 
 const { Description } = DescriptionList
 const LanguageMap = {
@@ -89,9 +90,16 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         <Divider size="large" />
 
         <DescriptionList size="large" title="設定">
+          <Description term="Boost">
+            <SetBoost boost={user.oss.boost} id={user.id} type="User" />
+          </Description>
+
+          <Description term="Score">{user.oss.score}</Description>
+
           <Description term="狀態" col={1}>
             <UserSetState state={user.status.state} id={user.id} />
           </Description>
+
           <Description term="權限" col={1}>
             <UserSetRole role={user.status.role} id={user.id} />
           </Description>

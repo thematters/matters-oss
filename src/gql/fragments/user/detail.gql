@@ -24,6 +24,10 @@ fragment UserDetail on User {
     articleCount
     commentCount
   }
+  oss {
+    boost
+    score
+  }
   followees(input: { first: 0 }) {
     ...ConnectionInfo
   }
