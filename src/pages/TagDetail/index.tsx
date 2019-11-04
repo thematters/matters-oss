@@ -10,6 +10,7 @@ import DescriptionList from '../../components/DescriptionList'
 import ArticleDigestList from '../../components/Article/DigestList'
 
 import withTagDetail, { TagDetailChildProps } from './withTagDetail'
+import SetBoost from '../../components/SetBoost'
 
 const { Description } = DescriptionList
 
@@ -41,6 +42,15 @@ class TagDetail extends React.Component<TagDetailChildProps> {
           <Description term="時間">
             <DateTime date={tag.createdAt} />
           </Description>
+        </DescriptionList>
+        <Divider size="large" />
+
+        <DescriptionList size="large" title="設定">
+          <Description term="Boost">
+            <SetBoost boost={tag.oss.boost} id={tag.id} type="Tag" />
+          </Description>
+
+          <Description term="Score">{tag.oss.score}</Description>
         </DescriptionList>
         <Divider size="large" />
 
