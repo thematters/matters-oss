@@ -11,7 +11,6 @@ import articleRoutes from './article'
 import commentRoutes from './comment'
 import reportRoutes from './report'
 import oauthClientRoutes from './oauthClient'
-import likeCoinRoutes from './likecoin'
 
 const routes = [
   {
@@ -37,7 +36,6 @@ const routes = [
   ...commentRoutes,
   ...reportRoutes,
   ...oauthClientRoutes,
-  ...likeCoinRoutes
 ]
 
 export default routes

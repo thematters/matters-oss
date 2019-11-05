@@ -13,5 +13,9 @@ fragment TagDetail on Tag {
       }
     }
   }
+  oss {
+    boost
+    score
+  }
   remark
 }

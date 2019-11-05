@@ -78,7 +78,7 @@ class CommentDetail extends React.Component<CommentDetailChildProps> {
 
         <DescriptionList size="large" title="設定" col={4}>
           <Description term="狀態">
-            <CommentSetState state={comment.state} id={comment.id} />
+            <CommentSetState state={comment.state} ids={[comment.id]} />
           </Description>
         </DescriptionList>
         <Divider size="large" />

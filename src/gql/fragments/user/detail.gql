@@ -19,9 +19,14 @@ fragment UserDetail on User {
     language
   }
   status {
+    role
     state
     articleCount
     commentCount
+  }
+  oss {
+    boost
+    score
   }
   followees(input: { first: 0 }) {
     ...ConnectionInfo

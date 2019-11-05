@@ -19,6 +19,8 @@ import FileUpload from '../../components/Article/FileUpload'
 import withArticleDetail, { ArticleDetailChildProps } from './withArticleDetail'
 import { SITE_DOMIAN } from '../../constants'
 import CommentDigestList from '../../components/Comment/DigestList'
+import ToggleRecommend from '../../components/Article/ToggleRecommend'
+import SetBoost from '../../components/SetBoost'
 
 const { Description } = DescriptionList
 
@@ -92,6 +94,49 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           <Description term="LIVE">
             <ToggleLive checked={article.live} articleId={article.id} />
           </Description>
+
+          <Description term="在 Matters Today 顯示">
+            <ToggleRecommend
+              checked={article.oss.inRecommendToday}
+              articleId={article.id}
+              type="today"
+            />
+          </Description>
+
+          <Description term="在「不要錯過」顯示">
+            <ToggleRecommend
+              checked={article.oss.inRecommendIcymi}
+              articleId={article.id}
+              type="icymi"
+            />
+          </Description>
+
+          <Description term="在「熱門文章」顯示">
+            <ToggleRecommend
+              checked={article.oss.inRecommendHottest}
+              articleId={article.id}
+              type="hottest"
+            />
+          </Description>
+
+          <Description term="在「最新發布」顯示">
+            <ToggleRecommend
+              checked={article.oss.inRecommendNewest}
+              articleId={article.id}
+              type="newest"
+            />
+          </Description>
+
+          <Description term="Boost">
+            <SetBoost
+              boost={article.oss.boost}
+              id={article.id}
+              type="Article"
+            />
+          </Description>
+
+          <Description term="Score">{article.oss.score}</Description>
+
           <Description term="狀態">
             <ArticleSetState state={article.state} id={article.id} />
           </Description>
