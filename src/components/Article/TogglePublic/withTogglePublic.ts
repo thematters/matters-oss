@@ -2,7 +2,7 @@ import { graphql, ChildMutateProps } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const TOGGLE_ARTICLE_PUBLIC = gql`
-  mutation ToggleArticlePublic($input: ToggleArticlePublicInput!) {
+  mutation ToggleArticlePublic($input: ToggleItemInput!) {
     toggleArticlePublic(input: $input) {
       id
       public
