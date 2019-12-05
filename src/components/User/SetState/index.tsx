@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Select, Button, Modal, Alert, Input } from 'antd'
+import { Select, Button, Modal, Alert, Input, message } from 'antd'
 import _get from 'lodash/get'
 import { ModalFuncProps } from 'antd/lib/modal'
 
@@ -7,6 +7,7 @@ import ErrorMessage from '../../ErrorMessage'
 import UserStateTag from '../StateTag'
 
 import withSetState, { ChildProps, UserState } from './withSetState'
+import { getErrorCodes } from '../../../utils'
 
 type SetStateState = {
   userState: UserState
@@ -64,7 +65,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
     this.setState({ loading: true, error: null })
 
     const { mutate, id } = this.props
-    const { userState } = this.state
+    const { userState, password } = this.state
     const banDays = parseInt(this.state.banDays, 10)
 
     try {
@@ -73,14 +74,26 @@ class SetState extends React.Component<ChildProps, SetStateState> {
           input: {
             id,
             state: userState,
-            banDays: userState === 'banned' && banDays > 0 ? banDays : undefined
+            banDays:
+              userState === 'banned' && banDays > 0 ? banDays : undefined,
+            password
           }
         }
       })
       const newUserState = _get(result, 'data.updateUserState.status.state')
       this.setState({ userState: newUserState, loading: false, error: null })
     } catch (error) {
-      this.setState({ loading: false, error })
+      const errorCodes = getErrorCodes(error)
+
+      if (errorCodes.indexOf('BAD_USER_INPUT') >= 0) {
+        message.error('輸入有誤')
+        this.setState({ loading: false })
+      } else if (errorCodes.indexOf('USER_PASSWORD_INVALID') >= 0) {
+        message.error('密碼輸入有誤')
+        this.setState({ loading: false })
+      } else {
+        this.setState({ loading: false, error })
+      }
     }
   }
 

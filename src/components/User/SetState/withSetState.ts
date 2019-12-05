@@ -38,6 +38,7 @@ type Variables = {
     id: string
     state: UserState
     banDays?: number
+    password?: string
   }
 }
 
