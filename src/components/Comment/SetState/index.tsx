@@ -21,8 +21,9 @@ const COMMENT_STATES: {
   disabled?: boolean
 }[] = [
   { key: 'active', text: '正常' },
-  { key: 'archived', text: '隱藏', disabled: true },
-  { key: 'banned', text: '強制隱藏' }
+  { key: 'archived', text: '刪除', disabled: true },
+  { key: 'banned', text: '強制隱藏' },
+  { key: 'collapsed', text: '折疊' }
 ]
 
 class SetState extends React.Component<ChildProps, SetStateState> {
