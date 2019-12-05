@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { Select, Button, Modal, Alert } from 'antd'
+import { Select, Button, Modal, Alert, Input } from 'antd'
 import _get from 'lodash/get'
+import { ModalFuncProps } from 'antd/lib/modal'
 
 import ErrorMessage from '../../ErrorMessage'
 import UserStateTag from '../StateTag'
@@ -10,13 +11,14 @@ import withSetState, { ChildProps, UserState } from './withSetState'
 type SetStateState = {
   userState: UserState
   banDays: string
+  password: string
   loading: boolean
   error: any
 }
 
 const USER_STATES: { key: UserState; text: string; disabled?: boolean }[] = [
   { key: 'active', text: '正常' },
-  { key: 'archived', text: '註銷', disabled: true },
+  { key: 'archived', text: '註銷' },
   { key: 'banned', text: '禁言' },
   { key: 'frozen', text: '凍結' },
   { key: 'onboarding', text: '未激活' }
@@ -37,6 +39,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   state: Readonly<SetStateState> = {
     userState: this.props.state,
     banDays: BAN_DAYS[0].key,
+    password: '',
     loading: false,
     error: null
   }
@@ -51,6 +54,10 @@ class SetState extends React.Component<ChildProps, SetStateState> {
 
   private _onSelectBanDays = (value: string) => {
     this.setState({ banDays: value })
+  }
+
+  private _onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ password: event.target.value })
   }
 
   private _onConfirmhange = async () => {
@@ -78,18 +85,68 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private preConfirm = () => {
-    Modal.confirm({
+    const { state, userName } = this.props
+    const { userState, password, banDays } = this.state
+    const isBanned = userState === 'banned'
+    const isArchived = userState === 'archived'
+
+    let modalProps: ModalFuncProps = {
       title: `確認修改用戶狀態？`,
       content: (
-        <div style={{ marginTop: 16 }}>
-          <span>
-            修改後，用戶狀態將從&nbsp;&nbsp;
-            <UserStateTag state={this.props.state} />
-            改為&nbsp;&nbsp;
-            <UserStateTag state={this.state.userState} />
-          </span>
-        </div>
-      ),
+        <>
+          <div style={{ marginTop: 16 }}>
+            <span>
+              修改後，用戶狀態將從&nbsp;&nbsp;
+              <UserStateTag state={state} />
+              改為&nbsp;&nbsp;
+              <UserStateTag state={userState} />
+            </span>
+          </div>
+
+          {isBanned && (
+            <div style={{ marginTop: 16 }}>
+              <Select
+                value={banDays}
+                onSelect={this._onSelectBanDays}
+                style={{ marginRight: 8 }}
+              >
+                {BAN_DAYS.map(({ key, text }) => (
+                  <Select.Option key={key} disabled>
+                    {text}
+                  </Select.Option>
+                ))}
+              </Select>
+            </div>
+          )}
+        </>
+      )
+    }
+
+    if (isArchived) {
+      modalProps = {
+        title: `註銷用戶 ${userName}`,
+        content: (
+          <>
+            <div style={{ marginTop: 16 }}>
+              <span>
+                确认注销账户吗？此步骤之后将不可撤回，而且被註銷帳戶（
+                <strong>{this.props.userName}</strong>）無法恢復。
+              </span>
+            </div>
+
+            <div style={{ marginTop: 16 }}>
+              <Input.Password
+                placeholder="密碼"
+                onChange={this._onChangePassword}
+              ></Input.Password>
+            </div>
+          </>
+        )
+      }
+    }
+
+    Modal.confirm({
+      ...modalProps,
       cancelText: '取消',
       okText: '確認',
       onOk: () => {
@@ -104,7 +161,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   public render() {
-    const { userState, banDays, loading, error } = this.state
+    const { userState, error } = this.state
 
     if (error) {
       return <ErrorMessage error={error} />
@@ -123,19 +180,6 @@ class SetState extends React.Component<ChildProps, SetStateState> {
             </Select.Option>
           ))}
         </Select>
-        {userState === 'banned' && (
-          <Select
-            value={banDays}
-            onSelect={this._onSelectBanDays}
-            style={{ marginRight: 8 }}
-          >
-            {BAN_DAYS.map(({ key, text }) => (
-              <Select.Option key={key} disabled>
-                {text}
-              </Select.Option>
-            ))}
-          </Select>
-        )}
       </span>
     )
   }
