@@ -57,10 +57,12 @@ export type TagDigest = {
   id: string
   content: string
   createdAt: Date
+  description: number
   oss: {
     boost: number
     score: number
   }
+  deleted: boolean
 }
 
 export type TagDetail = TagDigest & {

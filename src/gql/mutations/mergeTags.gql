@@ -1,3 +1,5 @@
+#import "../fragments/tag/digest.gql"
+
 mutation OSSMergeTags($input: MergeTagsInput!) {
   mergeTags(input: $input) {
     ...TagDigest

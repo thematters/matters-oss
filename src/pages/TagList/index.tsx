@@ -39,6 +39,7 @@ class TagList extends React.Component<TagListChildProps> {
         loading={loading}
         pagination={{ totalCount, fetchMore, variables }}
         hasSorter
+        inRecommendedTagsPage
       />
     )
   }

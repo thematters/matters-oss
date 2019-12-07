@@ -6,6 +6,7 @@ import _compact from 'lodash/compact'
 import DateTime from '../../DateTime'
 import SetBoost from '../../SetBoost'
 import TagLink from '../../Tag/Link'
+import TagStateTag from '../../Tag/StateTag'
 import withTagMutaitons, {
   TagMutationsChildProps
 } from '../../../hocs/withTagMutations'
@@ -32,6 +33,7 @@ type TagDigestListProps = TagMutationsChildProps & {
     tag?: boolean
   }
   hasSorter?: boolean
+  inRecommendedTagsPage?: boolean
 }
 
 type TagDigestListState = {
@@ -307,7 +309,8 @@ class TagDigestList extends React.Component<
       loading = false,
       recommend,
       pagination,
-      hasSorter
+      hasSorter,
+      inRecommendedTagsPage,
     } = this.props
     const { selectedRowKeys } = this.state
     const rowSelection = {
@@ -315,7 +318,6 @@ class TagDigestList extends React.Component<
       onChange: this._onSelectChange
     }
     const currentPagination = getCurrentPaginationFromUrl()
-
     return (
       <>
         {!recommend && this._renderTableOperators()}
@@ -365,6 +367,22 @@ class TagDigestList extends React.Component<
               <TagLink id={record.id} content={record.content} />
             )}
           />
+          {inRecommendedTagsPage && (
+            <Table.Column<TagDigest>
+              dataIndex="description"
+              title="描述"
+              width={300}
+              render={(_, record) => <span>{record.description}</span>}
+            />
+          )}
+          {inRecommendedTagsPage && (
+            <Table.Column<TagDigest>
+              dataIndex="state"
+              title="狀態"
+              width={100}
+              render={(_, record) => <TagStateTag deleted={record.deleted} />}
+            />
+          )}
           <Table.Column<TagDigest>
             dataIndex="articles.totalCount"
             title="文章數"
