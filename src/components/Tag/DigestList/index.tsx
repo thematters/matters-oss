@@ -63,6 +63,16 @@ class TagDigestList extends React.Component<
     this.setState({ selectedRowKeys, selectedRows })
   }
 
+  _sync = () => {
+    const currentPagination = getCurrentPaginationFromUrl()
+    if (this.props.pagination && currentPagination) {
+      onPaginationChange({
+        pagination: this.props.pagination,
+        page: currentPagination.page
+      })
+    }
+  }
+
   /**
    * Rename
    */
@@ -129,11 +139,17 @@ class TagDigestList extends React.Component<
               }
             }
           })
-          this.setState({ mutationLoading: false })
-          message.success('修改成功')
+          this.setState(
+            { mutationLoading: false, selectedRowKeys: [], selectedRows: [] },
+            () => {
+              message.success('修改成功')
+              this._sync()
+            }
+          )
         } catch (error) {
-          this.setState({ mutationLoading: false })
-          message.error('修改失敗')
+          this.setState({ mutationLoading: false }, () => {
+            message.error('修改失敗')
+          })
         }
       }
     })
@@ -170,11 +186,17 @@ class TagDigestList extends React.Component<
               }
             }
           })
-          this.setState({ mutationLoading: false })
-          message.success('刪除成功')
+          this.setState(
+            { mutationLoading: false, selectedRowKeys: [], selectedRows: [] },
+            () => {
+              message.success('刪除成功')
+              this._sync()
+            }
+          )
         } catch (error) {
-          this.setState({ mutationLoading: false })
-          message.error('刪除失敗')
+          this.setState({ mutationLoading: false }, () => {
+            message.error('刪除失敗')
+          })
         }
       }
     })
@@ -247,11 +269,17 @@ class TagDigestList extends React.Component<
               }
             }
           })
-          this.setState({ mutationLoading: false })
-          message.success('合併成功')
+          this.setState(
+            { mutationLoading: false, selectedRowKeys: [], selectedRows: [] },
+            () => {
+              message.success('合併成功')
+              this._sync()
+            }
+          )
         } catch (error) {
-          this.setState({ mutationLoading: false })
-          message.error('合併失敗')
+          this.setState({ mutationLoading: false }, () => {
+            message.error('合併失敗')
+          })
         }
       }
     })
@@ -310,8 +338,9 @@ class TagDigestList extends React.Component<
       recommend,
       pagination,
       hasSorter,
-      inRecommendedTagsPage,
+      inRecommendedTagsPage
     } = this.props
+
     const { selectedRowKeys } = this.state
     const rowSelection = {
       selectedRowKeys,
