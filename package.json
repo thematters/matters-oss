@@ -38,7 +38,7 @@
     "file-loader": "4.2.0",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "8.1.0",
-    "graphql": "^14.4.2",
+    "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
     "html-webpack-plugin": "4.0.0-alpha.2",
     "identity-obj-proxy": "3.0.0",
@@ -84,6 +84,7 @@
     "build:local": "REACT_APP_ENV=local node scripts/build.js",
     "build:develop": "REACT_APP_ENV=develop node scripts/build.js",
     "build:production": "REACT_APP_ENV=production node scripts/build.js",
+    "format": "prettier --write \"{,!(build|config|node_modules|scripts)/**/}*.{ts,tsx,json}\"",
     "test": "REACT_APP_ENV=test node scripts/test.js --env=jsdom"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 #import "../fragments/tag/digest.gql"
+
 mutation OSSRenameTag($input: RenameTagInput!) {
   renameTag(input: $input) {
     ...TagDigest

@@ -786,6 +786,7 @@ export interface GQLTag extends GQLNode {
    */
   oss: GQLTagOSS
   remark?: string
+  deleted: boolean
 }
 
 export interface GQLTagOSS {

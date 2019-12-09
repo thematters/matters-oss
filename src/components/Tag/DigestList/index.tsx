@@ -6,6 +6,7 @@ import _compact from 'lodash/compact'
 import DateTime from '../../DateTime'
 import SetBoost from '../../SetBoost'
 import TagLink from '../../Tag/Link'
+import TagStateTag from '../../Tag/StateTag'
 import withTagMutaitons, {
   TagMutationsChildProps
 } from '../../../hocs/withTagMutations'
@@ -32,6 +33,7 @@ type TagDigestListProps = TagMutationsChildProps & {
     tag?: boolean
   }
   hasSorter?: boolean
+  inRecommendedTagsPage?: boolean
 }
 
 type TagDigestListState = {
@@ -59,6 +61,16 @@ class TagDigestList extends React.Component<
     selectedRows: TagDigest[]
   ) => {
     this.setState({ selectedRowKeys, selectedRows })
+  }
+
+  _sync = () => {
+    const currentPagination = getCurrentPaginationFromUrl()
+    if (this.props.pagination && currentPagination) {
+      onPaginationChange({
+        pagination: this.props.pagination,
+        page: currentPagination.page
+      })
+    }
   }
 
   /**
@@ -127,11 +139,17 @@ class TagDigestList extends React.Component<
               }
             }
           })
-          this.setState({ mutationLoading: false })
-          message.success('修改成功')
+          this.setState(
+            { mutationLoading: false, selectedRowKeys: [], selectedRows: [] },
+            () => {
+              message.success('修改成功')
+              this._sync()
+            }
+          )
         } catch (error) {
-          this.setState({ mutationLoading: false })
-          message.error('修改失敗')
+          this.setState({ mutationLoading: false }, () => {
+            message.error('修改失敗')
+          })
         }
       }
     })
@@ -168,11 +186,17 @@ class TagDigestList extends React.Component<
               }
             }
           })
-          this.setState({ mutationLoading: false })
-          message.success('刪除成功')
+          this.setState(
+            { mutationLoading: false, selectedRowKeys: [], selectedRows: [] },
+            () => {
+              message.success('刪除成功')
+              this._sync()
+            }
+          )
         } catch (error) {
-          this.setState({ mutationLoading: false })
-          message.error('刪除失敗')
+          this.setState({ mutationLoading: false }, () => {
+            message.error('刪除失敗')
+          })
         }
       }
     })
@@ -245,11 +269,17 @@ class TagDigestList extends React.Component<
               }
             }
           })
-          this.setState({ mutationLoading: false })
-          message.success('合併成功')
+          this.setState(
+            { mutationLoading: false, selectedRowKeys: [], selectedRows: [] },
+            () => {
+              message.success('合併成功')
+              this._sync()
+            }
+          )
         } catch (error) {
-          this.setState({ mutationLoading: false })
-          message.error('合併失敗')
+          this.setState({ mutationLoading: false }, () => {
+            message.error('合併失敗')
+          })
         }
       }
     })
@@ -307,15 +337,16 @@ class TagDigestList extends React.Component<
       loading = false,
       recommend,
       pagination,
-      hasSorter
+      hasSorter,
+      inRecommendedTagsPage
     } = this.props
+
     const { selectedRowKeys } = this.state
     const rowSelection = {
       selectedRowKeys,
       onChange: this._onSelectChange
     }
     const currentPagination = getCurrentPaginationFromUrl()
-
     return (
       <>
         {!recommend && this._renderTableOperators()}
@@ -365,6 +396,22 @@ class TagDigestList extends React.Component<
               <TagLink id={record.id} content={record.content} />
             )}
           />
+          {inRecommendedTagsPage && (
+            <Table.Column<TagDigest>
+              dataIndex="description"
+              title="描述"
+              width={300}
+              render={(_, record) => <span>{record.description}</span>}
+            />
+          )}
+          {inRecommendedTagsPage && (
+            <Table.Column<TagDigest>
+              dataIndex="state"
+              title="狀態"
+              width={100}
+              render={(_, record) => <TagStateTag deleted={record.deleted} />}
+            />
+          )}
           <Table.Column<TagDigest>
             dataIndex="articles.totalCount"
             title="文章數"
