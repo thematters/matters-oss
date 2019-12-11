@@ -65,10 +65,10 @@ class TagDigestList extends React.Component<
 
   _sync = () => {
     const currentPagination = getCurrentPaginationFromUrl()
-    if (this.props.pagination && currentPagination) {
+    if (this.props.pagination) {
       onPaginationChange({
         pagination: this.props.pagination,
-        page: currentPagination.page
+        page: currentPagination ? currentPagination.page : 1
       })
     }
   }
