@@ -5,6 +5,7 @@ fragment TagDetail on Tag {
   id
   content
   createdAt
+  description
   articles(input: { first: 20 }) {
     ...ConnectionInfo
     edges {
@@ -18,4 +19,5 @@ fragment TagDetail on Tag {
     score
   }
   remark
+  deleted
 }

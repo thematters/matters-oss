@@ -8,6 +8,8 @@ query OSSTagList($input: TagsInput!) {
       edges {
         node {
           ...TagDigest
+          description
+          deleted
         }
       }
     }

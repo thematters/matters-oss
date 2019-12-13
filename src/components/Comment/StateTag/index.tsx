@@ -14,10 +14,18 @@ const StateMap = {
   banned: {
     level: LevelEnum.ERROR,
     text: '強制隱藏'
+  },
+  collapsed: {
+    level: LevelEnum.WARNING,
+    text: '折疊'
   }
 }
 
-const StateTag = ({ state }: { state: 'active' | 'archived' | 'banned' }) => {
+const StateTag = ({
+  state
+}: {
+  state: 'active' | 'archived' | 'banned' | 'collapsed'
+}) => {
   const { level, text } = StateMap[state]
   return <LevelTag level={level}>{text}</LevelTag>
 }

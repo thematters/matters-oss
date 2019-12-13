@@ -17,7 +17,7 @@ type Response = {
   }
 }
 
-export type CommentState = 'active' | 'archived' | 'banned'
+export type CommentState = 'active' | 'archived' | 'banned' | 'collapsed'
 
 type InputProps = {
   ids: string[]

@@ -8,6 +8,7 @@ import DateTime from '../../components/DateTime'
 import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
 import ArticleDigestList from '../../components/Article/DigestList'
+import TagStateTag from '../../components/Tag/StateTag'
 
 import withTagDetail, { TagDetailChildProps } from './withTagDetail'
 import SetBoost from '../../components/SetBoost'
@@ -37,6 +38,10 @@ class TagDetail extends React.Component<TagDetailChildProps> {
         <DescriptionList size="large" title="簡介">
           <Description term="標籤">
             <Tag>{tag.content}</Tag>
+          </Description>
+          <Description term="描述">{tag.description}</Description>
+          <Description term="狀態">
+            <TagStateTag deleted={tag.deleted} />
           </Description>
           <Description term="文章數">{tag.articles.totalCount}</Description>
           <Description term="時間">
