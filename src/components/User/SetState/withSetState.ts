@@ -30,6 +30,7 @@ export type UserState =
 type InputProps = {
   id: string
   state: UserState
+  userName: string
 }
 
 type Variables = {
@@ -37,6 +38,7 @@ type Variables = {
     id: string
     state: UserState
     banDays?: number
+    password?: string
   }
 }
 

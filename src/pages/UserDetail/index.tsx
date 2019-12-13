@@ -97,7 +97,11 @@ class UserDetail extends React.Component<UserDetailChildProps> {
           <Description term="Score">{user.oss.score}</Description>
 
           <Description term="狀態" col={1}>
-            <UserSetState state={user.status.state} id={user.id} />
+            <UserSetState
+              state={user.status.state}
+              id={user.id}
+              userName={user.userName}
+            />
           </Description>
 
           <Description term="權限" col={1}>
