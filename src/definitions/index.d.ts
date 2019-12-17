@@ -7,7 +7,8 @@ import {
   GQLUUID,
   GQLUserInfo,
   GQLUserSettings,
-  GQLUserStatus
+  GQLUserStatus,
+  GQLLiker
 } from './schema'
 
 export * from './schema'
@@ -38,6 +39,7 @@ export type UserDigest = {
 
 export type UserDetail = UserDigest & {
   info: GQLUserInfo
+  liker: GQLLiker
   settings: GQLUserSettings
   articles: Connection<ArticleDigest>
   followers: Connection<UserDigest>

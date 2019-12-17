@@ -63,6 +63,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
               （{user.info.userNameEditable ? '可修改' : '不可修改'}）
             </small>
           </Description>
+          <Description term="Liker ID">{user.liker.likerId}</Description>
           <Description term="狀態">
             <UserStateTag state={user.status.state} />
           </Description>

@@ -9,6 +9,9 @@ fragment UserDetail on User {
   displayName
   avatar
   remark
+  liker {
+    likerId
+  }
   info {
     createdAt
     userNameEditable
