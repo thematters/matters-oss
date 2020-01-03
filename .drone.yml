@@ -7,15 +7,14 @@ steps:
     commands:
       - npm install --no-progress --quiet --unsafe-perm >  npm-install.log
 
-
   # === CI tasks for `develop` branch ===
   - name: develop:build
     image: node:10.14
     commands:
       - npm run build:develop
-      when:
-        branch:
-          - develop
+    when:
+      branch:
+        - develop
 
   - name: develop:deploy
     image: plugins/s3
@@ -40,9 +39,9 @@ steps:
     image: node:10.14
     commands:
       - npm run build:production
-      when:
-        branch:
-          - master
+    when:
+      branch:
+        - master
 
   - name: prod:deploy
     image: plugins/s3
