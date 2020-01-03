@@ -10,7 +10,7 @@ steps:
   - name: build
     image: node:10.14
     commands:
-      - npm run build
+      - npm run build:production
 
   # === CI tasks for `develop` branch ===
   - name: develop:deploy
