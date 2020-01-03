@@ -10,12 +10,12 @@ steps:
 
   # === CI tasks for `develop` branch ===
   - name: develop:build
-  image: node:10.14
-  commands:
-    - npm run build:develop
-    when:
-      branch:
-        - develop
+    image: node:10.14
+    commands:
+      - npm run build:develop
+      when:
+        branch:
+          - develop
 
   - name: develop:deploy
     image: plugins/s3
@@ -37,12 +37,12 @@ steps:
 
   # === CI tasks for `master` branch
   - name: prod:build
-  image: node:10.14
-  commands:
-    - npm run build:production
-    when:
-      branch:
-        - master
+    image: node:10.14
+    commands:
+      - npm run build:production
+      when:
+        branch:
+          - master
 
   - name: prod:deploy
     image: plugins/s3
