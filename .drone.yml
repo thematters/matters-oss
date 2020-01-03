@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 steps:
-  - name: node modules
+  - name: node_modules
     image: node:10.14
     commands:
       - npm install --no-progress --quiet --unsafe-perm >  npm-install.log
@@ -15,8 +15,6 @@ steps:
     when:
       branch:
         - develop
-      event:
-        - push
 
   - name: develop:deploy
     image: plugins/s3
@@ -44,8 +42,6 @@ steps:
     when:
       branch:
         - master
-      event:
-        - push
 
   - name: prod:deploy
     image: plugins/s3
