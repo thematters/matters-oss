@@ -35,7 +35,7 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "file-loader": "4.2.0",
+    "file-loader": "5.0.2",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "8.1.0",
     "graphql": "^14.5.8",
