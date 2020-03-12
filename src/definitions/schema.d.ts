@@ -438,6 +438,8 @@ export interface GQLUserInfo {
   profileCover?: GQLURL
 }
 
+export type GQLEmail = any
+
 export interface GQLBadge {
   type: GQLBadgeType
 }
