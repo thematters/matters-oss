@@ -3,7 +3,6 @@ import {
   GQLUserState,
   GQLCommentState,
   GQLPageInfo,
-  GQLEmail,
   GQLUUID,
   GQLUserInfo,
   GQLUserSettings,
@@ -23,7 +22,6 @@ export type UserDigest = {
   displayName: string
   info: {
     createdAt: Date
-    email: GQLEmail
     description: string
   }
   status: {

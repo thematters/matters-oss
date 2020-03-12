@@ -3,7 +3,4 @@ fragment UserId on User {
   uuid
   userName
   displayName
-  info {
-    email
-  }
 }
