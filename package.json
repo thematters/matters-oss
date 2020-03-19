@@ -59,7 +59,7 @@
     "query-string": "^6.11.1",
     "react": "^16.12.0",
     "react-apollo": "^2.5.8",
-    "react-app-polyfill": "^1.0.5",
+    "react-app-polyfill": "^1.0.6",
     "react-dev-utils": "^10.0.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1",
