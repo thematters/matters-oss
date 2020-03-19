@@ -3,13 +3,13 @@ name: default
 
 steps:
   - name: node_modules
-    image: node:10.14
+    image: node:12.16
     commands:
       - npm install --no-progress --quiet --unsafe-perm >  npm-install.log
 
   # === CI tasks for `develop` branch ===
   - name: develop:build
-    image: node:10.14
+    image: node:12.16
     commands:
       - npm run build:develop
     when:
@@ -36,7 +36,7 @@ steps:
 
   # === CI tasks for `master` branch
   - name: prod:build
-    image: node:10.14
+    image: node:12.16
     commands:
       - npm run build:production
     when:
