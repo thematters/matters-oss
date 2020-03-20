@@ -27,7 +27,7 @@ type UserDigestListProps = {
 }
 
 class UserDigestList extends React.Component<UserDigestListProps> {
-  private _renderEmailCell(_: any, record: UserDigest): React.ReactNode {
+  private _renderNameCell(_: any, record: UserDigest): React.ReactNode {
     return (
       <UserLink
         id={record.id}
@@ -68,18 +68,13 @@ class UserDigestList extends React.Component<UserDigestListProps> {
         <Table.Column<UserDigest>
           dataIndex="info.id"
           title="用戶"
-          render={this._renderEmailCell}
+          render={this._renderNameCell}
         />
         <Table.Column<UserDigest>
           dataIndex="info.createdAt"
           title="註冊時間"
           render={this._renderCreatedAt}
           width={200}
-        />
-        <Table.Column<UserDigest>
-          dataIndex="info.email"
-          title="電子信箱"
-          width={300}
         />
         <Table.Column<UserDigest>
           dataIndex="status.state"

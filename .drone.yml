@@ -2,21 +2,19 @@ kind: pipeline
 name: default
 
 steps:
-  - name: node modules
-    image: node:10.14
+  - name: node_modules
+    image: node:12.16
     commands:
       - npm install --no-progress --quiet --unsafe-perm >  npm-install.log
 
   # === CI tasks for `develop` branch ===
   - name: develop:build
-    image: node:10.14
+    image: node:12.16
     commands:
       - npm run build:develop
     when:
       branch:
         - develop
-      event:
-        - push
 
   - name: develop:deploy
     image: plugins/s3
@@ -38,14 +36,12 @@ steps:
 
   # === CI tasks for `master` branch
   - name: prod:build
-    image: node:10.14
+    image: node:12.16
     commands:
       - npm run build:production
     when:
       branch:
         - master
-      event:
-        - push
 
   - name: prod:deploy
     image: plugins/s3
@@ -68,7 +64,8 @@ steps:
   - name: slack
     image: plugins/slack
     settings:
-      webhook: https://hooks.slack.com/services/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
+      webhook:
+        from_secret: SLACK_WEBHOOK_URL
       channel: log_github
     username: Drone CI
     when:

@@ -6,7 +6,6 @@ fragment UserDigest on User {
   info {
     createdAt
     description
-    email
   }
   status {
     state
