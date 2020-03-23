@@ -6,7 +6,7 @@
     "@babel/core": "7.8.7",
     "@sentry/browser": "^5.12.4",
     "@svgr/webpack": "^5.1.0",
-    "antd": "^3.26.7",
+    "antd": "^3.26.14",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
     "apollo-link": "^1.2.13",
