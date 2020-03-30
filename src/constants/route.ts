@@ -67,7 +67,7 @@ export const PAGE_TITLE = {
 
   [PATH.LOGIN]: '登入',
 
-  [PATH.BLOCK_LIST]: '自動封禁清單'
+  [PATH.BLOCK_LIST]: '自動封鎖清單'
 }
 
 export const PATH_REGEXP = {

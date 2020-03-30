@@ -53,16 +53,19 @@ class BlockListItemDigestList extends React.Component<BlockListItemDigestListPro
         />
         <Table.Column<BlockListItemDigest>
           dataIndex="type"
-          title="種類"
+          title="封鎖類型"
           width={120}
+          render={type => (
+            <>{ type === 'email' ? '郵件' : '指紋' }</>
+          )}
         />
         <Table.Column<BlockListItemDigest>
           dataIndex="value"
-          title="值"
+          title="封鎖資料"
         />
         <Table.Column<BlockListItemDigest>
           dataIndex="archived"
-          title="解除封禁"
+          title="解除封鎖"
           width={100}
           render={(archived, record) => (
             <ToggleArchive checked={archived} id={record.id} />

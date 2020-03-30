@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Switch } from 'antd'
+import { Modal, Switch } from 'antd'
 import _get from 'lodash/get'
 
 import ErrorMessage from '../../ErrorMessage'
@@ -19,6 +19,31 @@ class ToggleArchive extends React.Component<ChildProps, ToggleArchiveState> {
   }
 
   private _onChange = async () => {
+    this.preConfirm()
+  }
+
+  private preConfirm = () => {
+    const archived = this.state.checked
+
+    Modal.confirm({
+      title: archived ? `封鎖該項目？` : `解除封鎖？`,
+      content: (
+        <div style={{ marginTop: 16 }}>
+          <span>
+            {!archived && '提醒：解除郵件封鎖時，系統會一併解除其相應的指紋封鎖。'}
+          </span>
+        </div>
+      ),
+      cancelText: '取消',
+      okText: '確認',
+      onOk: () => {
+        this._onConfirmChange()
+      },
+      onCancel: () => {}
+    })
+  }
+
+  private _onConfirmChange = async () => {
     this.setState({ loading: true, error: null })
 
     const { mutate, id } = this.props

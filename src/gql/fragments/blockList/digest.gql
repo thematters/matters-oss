@@ -3,6 +3,7 @@ fragment BlockListItemDigest on AgentHash {
   uuid
   type
   value
+  archived
   createdAt
   updatedAt
 }
