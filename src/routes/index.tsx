@@ -11,7 +11,7 @@ import articleRoutes from './article'
 import commentRoutes from './comment'
 import reportRoutes from './report'
 import oauthClientRoutes from './oauthClient'
-import blocklistRoutes from './blocklist'
+import blockListRoutes from './blocklist'
 
 const routes = [
   {
@@ -37,7 +37,7 @@ const routes = [
   ...commentRoutes,
   ...reportRoutes,
   ...oauthClientRoutes,
-  ...blocklistRoutes
+  ...blockListRoutes
 ]
 
 export default routes

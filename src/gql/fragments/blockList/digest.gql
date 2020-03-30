@@ -1,0 +1,8 @@
+fragment BlockListItemDigest on AgentHash {
+  id
+  uuid
+  type
+  value
+  createdAt
+  updatedAt
+}

@@ -1,0 +1,15 @@
+#import "../fragments/connection.gql"
+#import "../fragments/blockList/digest.gql"
+
+query OSSBlockList($input: ConnectionArgs!) {
+  oss {
+    agentHashes(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          ...BlockListItemDigest
+        }
+      }
+    }
+  }
+}
