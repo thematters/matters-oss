@@ -54,9 +54,9 @@ class BlockListItemDigestList extends React.Component<BlockListItemDigestListPro
         <Table.Column<BlockListItemDigest>
           dataIndex="type"
           title="封鎖類型"
-          width={120}
+          width={100}
           render={type => (
-            <>{ type === 'email' ? '郵件' : '指紋' }</>
+            <>{ type === 'email' ? '郵箱' : '指紋' }</>
           )}
         />
         <Table.Column<BlockListItemDigest>
@@ -67,20 +67,18 @@ class BlockListItemDigestList extends React.Component<BlockListItemDigestListPro
           dataIndex="archived"
           title="解除封鎖"
           width={100}
-          render={(archived, record) => (
-            <ToggleArchive checked={archived} id={record.id} />
-          )}
+          render={(archived, record) => (<ToggleArchive checked={archived} id={record.id} />)}
         />
         <Table.Column<BlockListItemDigest>
           dataIndex="createdAt"
           title="建立時間"
-          width={250}
+          width={260}
           render={createdAt => <DateTime date={createdAt} />}
         />
         <Table.Column<BlockListItemDigest>
           dataIndex="updatedAt"
           title="更新時間"
-          width={250}
+          width={260}
           render={updatedAt => <DateTime date={updatedAt} />}
         />
       </Table>

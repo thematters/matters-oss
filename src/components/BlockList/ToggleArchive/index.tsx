@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Modal, Switch } from 'antd'
 import _get from 'lodash/get'
 
+import QueryBlockList from '../../../gql/queries/blockList.gql'
 import ErrorMessage from '../../ErrorMessage'
 import withToggleArchive, { ChildProps } from './withToggleArchive'
 
@@ -30,7 +31,10 @@ class ToggleArchive extends React.Component<ChildProps, ToggleArchiveState> {
       content: (
         <div style={{ marginTop: 16 }}>
           <span>
-            {!archived && '提醒：解除郵件封鎖時，系統會一併解除其相應的指紋封鎖。'}
+            {archived
+              ? '封鎖郵箱時，系統會一併封鎖其相應的指紋。'
+              : '解除郵箱封鎖時，系統會一併解除其相應的指紋封鎖。'
+            }
           </span>
         </div>
       ),
@@ -49,19 +53,58 @@ class ToggleArchive extends React.Component<ChildProps, ToggleArchiveState> {
     const { mutate, id } = this.props
 
     try {
+      const archived = !this.state.checked
       const result = await mutate({
         variables: {
           input: {
             id,
-            archived: !this.state.checked
+            archived
           }
+        },
+        update: (cache, { data }) => {
+          const variables = { input: { first: 20 } }
+          const ids = (_get(data, 'putSkippedListItem', [])).map((item: any) => item.id)
+          const cacheData = cache.readQuery<any>({ query: QueryBlockList, variables })
+
+          const newEdges = (_get(cacheData, 'oss.skippedListItems.edges', []))
+            .map((item: any) => {
+              if (ids.includes(item.id)) {
+                return { ...item, archived }
+              }
+              return item
+            })
+
+          cache.writeQuery({
+            query: QueryBlockList,
+            variables,
+            data: {
+              oss: {
+                ...cacheData.oss,
+                skippedListItems: {
+                  ...cacheData.oss.skippedListItems,
+                  edges: newEdges
+                }
+              }
+            }
+          })
         }
       })
-      const archived = _get(result, 'data.putAgentHash.archived')
-      this.setState({ checked: archived, loading: false, error: null })
+
+      this.setState({ loading: false, error: null })
     } catch (error) {
       this.setState({ loading: false, error })
     }
+  }
+
+  static getDerivedStateFromProps(props: any, state: any) {
+    if (props.checked !== state.checked) {
+      return {
+        checked: props.checked,
+        loading: false,
+        error: null
+      }
+    }
+    return null
   }
 
   public render() {

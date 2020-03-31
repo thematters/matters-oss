@@ -8,7 +8,7 @@ import QueryBlockList from '../../gql/queries/blockList.gql'
 
 type AllBlockListItemsResponse = {
   oss: {
-    agentHashes: Connection<BlockListItemDigest>
+    skippedListItems: Connection<BlockListItemDigest>
   }
 }
 

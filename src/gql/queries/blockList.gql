@@ -3,7 +3,7 @@
 
 query OSSBlockList($input: ConnectionArgs!) {
   oss {
-    agentHashes(input: $input) {
+    skippedListItems(input: $input) {
       ...ConnectionInfo
       edges {
         node {

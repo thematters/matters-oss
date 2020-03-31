@@ -2,8 +2,8 @@ import { graphql, ChildMutateProps } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const TOGGLE_BLOCK_LIST_ITEM_ARCHIVE = gql`
-  mutation PutAgentHash($input: PutAgentHashInput!) {
-    putAgentHash(input: $input) {
+  mutation PutSkippedListItem($input: PutSkippedListItemInput!) {
+    putSkippedListItem(input: $input) {
       id
       archived
       updatedAt

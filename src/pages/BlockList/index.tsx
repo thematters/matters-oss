@@ -21,8 +21,8 @@ class BlockList extends React.Component<AllBlockListItemsChildProps> {
     let listData: BlockListItemDigest[] = []
     let totalCount: number = 0
     if (oss) {
-      listData = oss.agentHashes.edges.map(({ node }) => node)
-      totalCount = oss.agentHashes.totalCount
+      listData = oss.skippedListItems.edges.map(({ node }) => node)
+      totalCount = oss.skippedListItems.totalCount
     }
 
     return (

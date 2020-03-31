@@ -1,4 +1,4 @@
-fragment BlockListItemDigest on AgentHash {
+fragment BlockListItemDigest on SkippedListItem {
   id
   uuid
   type
