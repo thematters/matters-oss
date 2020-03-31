@@ -32,8 +32,8 @@ class ToggleArchive extends React.Component<ChildProps, ToggleArchiveState> {
         <div style={{ marginTop: 16 }}>
           <span>
             {archived
-              ? '封鎖郵箱時，系統會一併封鎖其相應的指紋。'
-              : '解除郵箱封鎖時，系統會一併解除其相應的指紋封鎖。'
+              ? '封鎖郵箱時，會一併封鎖其相應的指紋。'
+              : '解除郵箱封鎖時，會一併解除其相應的指紋封鎖。'
             }
           </span>
         </div>
