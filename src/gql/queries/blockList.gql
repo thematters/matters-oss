@@ -1,0 +1,15 @@
+#import "../fragments/connection.gql"
+#import "../fragments/blockList/digest.gql"
+
+query OSSBlockList($input: ConnectionArgs!) {
+  oss {
+    skippedListItems(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          ...BlockListItemDigest
+        }
+      }
+    }
+  }
+}
