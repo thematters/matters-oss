@@ -42,7 +42,7 @@
     "graphql-tag": "^2.10.3",
     "html-webpack-plugin": "4.0.2",
     "identity-obj-proxy": "3.0.0",
-    "jest": "25.1.0",
+    "jest": "25.2.6",
     "jest-pnp-resolver": "1.2.1",
     "jest-resolve": "25.1.0",
     "js-base64": "^2.5.2",
