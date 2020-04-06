@@ -22,7 +22,8 @@ const USER_STATES: { key: UserState; text: string; disabled?: boolean }[] = [
   { key: 'archived', text: '註銷' },
   { key: 'banned', text: '禁言' },
   { key: 'frozen', text: '凍結' },
-  { key: 'onboarding', text: '未激活' }
+  { key: 'forbidden', text: '封禁' },
+  { key: 'onboarding', text: '未激活' },
 ]
 const BAN_DAYS: { key: string; text: string }[] = [
   { key: '-1', text: '一直' },
@@ -102,6 +103,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
     const { userState, password, banDays } = this.state
     const isBanned = userState === 'banned'
     const isArchived = userState === 'archived'
+    const isForbidden = userState === 'forbidden'
 
     let modalProps: ModalFuncProps = {
       title: `確認修改用戶狀態？`,
@@ -135,7 +137,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
       )
     }
 
-    if (isArchived) {
+    if (isArchived || isForbidden) {
       modalProps = {
         title: `註銷用戶 ${userName}`,
         content: (
