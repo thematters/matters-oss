@@ -29,7 +29,9 @@ export const PATH = {
 
   FEEDBACK: '/feedback',
 
-  LOGIN: '/auth/login/'
+  LOGIN: '/auth/login/',
+
+  BLOCK_LIST: '/blocklist'
 }
 
 export const PAGE_TITLE = {
@@ -63,7 +65,9 @@ export const PAGE_TITLE = {
 
   [PATH.FEEDBACK]: '反饋',
 
-  [PATH.LOGIN]: '登入'
+  [PATH.LOGIN]: '登入',
+
+  [PATH.BLOCK_LIST]: '自動封鎖清單'
 }
 
 export const PATH_REGEXP = {

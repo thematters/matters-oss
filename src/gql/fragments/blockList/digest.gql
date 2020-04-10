@@ -1,0 +1,9 @@
+fragment BlockListItemDigest on SkippedListItem {
+  id
+  uuid
+  type
+  value
+  archived
+  createdAt
+  updatedAt
+}

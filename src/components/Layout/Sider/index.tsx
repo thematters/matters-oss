@@ -114,6 +114,10 @@ const Sider: React.FunctionComponent<RouteComponentProps> = ({ location }) => {
         <Menu.Item key={PATH.FEEDBACK}>
           <Link to={PATH.FEEDBACK}>{PAGE_TITLE[PATH.FEEDBACK]}</Link>
         </Menu.Item>
+
+        <Menu.Item key={PATH.BLOCK_LIST}>
+          <Link to={PATH.BLOCK_LIST}>{PAGE_TITLE[PATH.BLOCK_LIST]}</Link>
+        </Menu.Item>
       </Menu>
     </AntLayout.Sider>
   )

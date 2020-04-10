@@ -178,3 +178,15 @@ export type OAuthClientDetail = OAuthClientDigest & {
   grantTypes: string[]
   user: UserDigest
 }
+
+/**
+ * Block List Item Digest
+ */
+export interface BlockListItemDigest {
+  id: string
+  uuid: GQLUUID
+  type: string
+  value: string
+  createdAt: Date
+  updatedAt: Date
+}
