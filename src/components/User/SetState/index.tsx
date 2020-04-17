@@ -21,7 +21,6 @@ const USER_STATES: { key: UserState; text: string; disabled?: boolean }[] = [
   { key: 'active', text: '正常' },
   { key: 'archived', text: '註銷' },
   { key: 'banned', text: '禁言' },
-  { key: 'frozen', text: '凍結' },
   { key: 'onboarding', text: '未激活' }
 ]
 const BAN_DAYS: { key: string; text: string }[] = [
