@@ -24,16 +24,50 @@ const USER_STATES: { key: UserState; text: string; disabled?: boolean }[] = [
   { key: 'onboarding', text: '未激活' }
 ]
 const BAN_DAYS: { key: string; text: string }[] = [
-  { key: '-1', text: '一直' },
   { key: '1', text: '1 天' },
-  { key: '3', text: '3 天' },
   { key: '7', text: '7 天' },
-  { key: '14', text: '14 天' },
   { key: '30', text: '30 天' },
-  { key: '60', text: '60 天' },
   { key: '90', text: '90 天' },
   { key: '180', text: '180 天' }
 ]
+
+interface BanSelectorState {
+  banDays: string
+}
+
+type BanSelectorProps = BanSelectorState & { callback: (banDays: string) => void }
+
+class BanSelector extends React.Component<BanSelectorProps, BanSelectorState> {
+  state: Readonly<{ banDays: string }> = {
+    banDays: this.props.banDays,
+  }
+
+  private _onSelectBanDays = (value: string) => {
+    this.setState({ banDays: value }, () => {
+      if (this.props.callback) {
+        this.props.callback(value)
+      }
+    })
+  }
+
+  public render () {
+    return (
+      <div style={{ marginTop: 16 }}>
+        <Select
+          value={this.state.banDays}
+          onSelect={this._onSelectBanDays}
+          style={{ marginRight: 8, minWidth: 80 }}
+        >
+          {BAN_DAYS.map(({ key, text }) => (
+            <Select.Option key={key}>
+              {text}
+            </Select.Option>
+          ))}
+        </Select>
+      </div>
+    )
+  }
+}
 
 class SetState extends React.Component<ChildProps, SetStateState> {
   state: Readonly<SetStateState> = {
@@ -116,19 +150,10 @@ class SetState extends React.Component<ChildProps, SetStateState> {
           </div>
 
           {isBanned && (
-            <div style={{ marginTop: 16 }}>
-              <Select
-                value={banDays}
-                onSelect={this._onSelectBanDays}
-                style={{ marginRight: 8 }}
-              >
-                {BAN_DAYS.map(({ key, text }) => (
-                  <Select.Option key={key} disabled>
-                    {text}
-                  </Select.Option>
-                ))}
-              </Select>
-            </div>
+            <BanSelector
+              banDays={banDays}
+              callback={this._onSelectBanDays}
+            />
           )}
         </>
       )
