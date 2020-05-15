@@ -24,7 +24,6 @@ export type UserState =
   | 'active'
   | 'onboarding'
   | 'banned'
-  | 'frozen'
   | 'archived'
 
 type InputProps = {

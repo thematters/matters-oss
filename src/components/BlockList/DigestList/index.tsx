@@ -56,7 +56,7 @@ class BlockListItemDigestList extends React.Component<BlockListItemDigestListPro
           title="封鎖類型"
           width={100}
           render={type => (
-            <>{ type === 'email' ? '郵箱' : '指紋' }</>
+            <>{ type === 'email' ? '✉️ 郵箱' : '🖐🏻 指紋' }</>
           )}
         />
         <Table.Column<BlockListItemDigest>
