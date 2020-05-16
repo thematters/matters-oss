@@ -12,7 +12,7 @@ type UserLinkProps = {
 const UserLink: React.FunctionComponent<UserLinkProps> = ({
   id,
   userName,
-  displayName
+  displayName,
 }) => {
   const to = PATH.USER_DETAIL.replace(':id', id)
 

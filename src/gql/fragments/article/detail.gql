@@ -47,10 +47,8 @@ fragment ArticleDetail on Article {
     }
   }
   oss {
-    todayCover
     boost
     score
-    inRecommendToday
     inRecommendIcymi
     inRecommendHottest
     inRecommendNewest

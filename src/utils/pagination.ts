@@ -27,7 +27,7 @@ export const pageToCursor = (
 
 export const onPaginationChange = ({
   page,
-  pagination
+  pagination,
 }: {
   page: number
   pagination: {
@@ -52,10 +52,10 @@ export const onPaginationChange = ({
     variables: {
       input: {
         ...pagination.variables.input,
-        after: cursor
-      }
+        after: cursor,
+      },
     },
-    updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult
+    updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult,
   })
 }
 

@@ -15,7 +15,7 @@ class UserList extends React.Component<UserListChildProps> {
 
   private _renderContent() {
     const {
-      data: { oss, search, loading, error, fetchMore, variables }
+      data: { oss, search, loading, error, fetchMore, variables },
     } = this.props
 
     if (error) {

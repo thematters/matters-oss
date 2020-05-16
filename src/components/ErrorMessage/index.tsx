@@ -21,7 +21,7 @@ class ErrorMessage extends React.Component<ErrorMessageProps> {
         description={
           <pre
             dangerouslySetInnerHTML={{
-              __html: JSON.stringify(error, null, 4)
+              __html: JSON.stringify(error, null, 4),
             }}
           />
         }

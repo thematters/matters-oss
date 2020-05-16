@@ -35,7 +35,7 @@ class CommentDigestList extends React.Component<
 > {
   state = {
     selectedRowKeys: [],
-    selectedRows: []
+    selectedRows: [],
   }
 
   private _renderContentCell(_: any, record: CommentDigest): React.ReactNode {
@@ -91,7 +91,7 @@ class CommentDigestList extends React.Component<
           loading={loading}
           rowSelection={{
             selectedRowKeys,
-            onChange: this._onSelectChange
+            onChange: this._onSelectChange,
           }}
           dataSource={_compact(data)}
           scroll={{ x: 1200, y: '70vh' }}
@@ -101,13 +101,13 @@ class CommentDigestList extends React.Component<
                   defaultCurrent: currentPagination && currentPagination.page,
                   pageSize: pagination.pageSize || PAGE_SIZE,
                   total: pagination.totalCount,
-                  onChange: page => onPaginationChange({ pagination, page }),
-                  showTotal: t => `共 ${t} 項`,
-                  position: 'both'
+                  onChange: (page) => onPaginationChange({ pagination, page }),
+                  showTotal: (t) => `共 ${t} 項`,
+                  position: 'both',
                 }
               : false
           }
-          rowKey={record => record.id}
+          rowKey={(record) => record.id}
         >
           <Table.Column<CommentDigest>
             dataIndex="title"
@@ -118,7 +118,7 @@ class CommentDigestList extends React.Component<
             dataIndex="author"
             title="作者"
             width={150}
-            render={author => (
+            render={(author) => (
               <UserLink
                 id={author.id}
                 userName={author.userName}
@@ -145,7 +145,7 @@ class CommentDigestList extends React.Component<
             dataIndex="pinned"
             title="置頂"
             width={150}
-            render={pinned => <Switch disabled checked={pinned} />}
+            render={(pinned) => <Switch disabled checked={pinned} />}
           />
           <Table.Column<CommentDigest>
             dataIndex="upvotes"
@@ -161,7 +161,7 @@ class CommentDigestList extends React.Component<
             dataIndex="createdAt"
             title="時間"
             width={150}
-            render={createdAt => <DateTime date={createdAt} />}
+            render={(createdAt) => <DateTime date={createdAt} />}
           />
         </Table>
       </>

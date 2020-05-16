@@ -57,13 +57,13 @@ class UserDigestList extends React.Component<UserDigestListProps> {
                 defaultCurrent: currentPagination && currentPagination.page,
                 pageSize: pagination.pageSize || PAGE_SIZE,
                 total: pagination.totalCount,
-                onChange: page => onPaginationChange({ pagination, page }),
-                showTotal: t => `共 ${t} 項`,
-                position: 'both'
+                onChange: (page) => onPaginationChange({ pagination, page }),
+                showTotal: (t) => `共 ${t} 項`,
+                position: 'both',
               }
             : false
         }
-        rowKey={record => record.id}
+        rowKey={(record) => record.id}
       >
         <Table.Column<UserDigest>
           dataIndex="info.id"
@@ -80,7 +80,7 @@ class UserDigestList extends React.Component<UserDigestListProps> {
           dataIndex="status.state"
           title="狀態"
           width={100}
-          render={state => <UserStateTag state={state} />}
+          render={(state) => <UserStateTag state={state} />}
         />
         <Table.Column<UserDigest>
           dataIndex="status.articleCount"

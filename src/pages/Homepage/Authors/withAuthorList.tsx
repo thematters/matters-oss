@@ -5,7 +5,7 @@ import { PAGE_SIZE } from '../../../constants'
 import { UserDigest, GQLConnectionArgs, Connection } from '../../../definitions'
 import { getSearchKey, getCurrentPaginationFromUrl } from '../../../utils'
 import searchUsers, {
-  SearchUsersChildProps
+  SearchUsersChildProps,
 } from '../../../hocs/withSearchUsers'
 import QueryRecommendAuthors from '../../../gql/queries/recommendAuthors.gql'
 
@@ -35,7 +35,7 @@ const authors = graphql<
   AuthorsChildProps
 >(QueryRecommendAuthors, {
   // name: 'authors',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
@@ -43,15 +43,12 @@ const authors = graphql<
         input: {
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
-          oss: true
-        }
-      }
+          oss: true,
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
-export default compose(
-  authors,
-  searchUsers
-)
+export default compose(authors, searchUsers)

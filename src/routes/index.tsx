@@ -20,15 +20,15 @@ const routes = [
     component: (props: RouteConfigComponentProps) => (
       <Redirect
         to={{
-          pathname: PATH.HOMEPAGE_MATTERS_TODAY
+          pathname: PATH.HOMEPAGE_HOTTEST,
         }}
       />
-    )
+    ),
   },
 
   {
     path: PATH.LOGIN,
-    component: () => <Login />
+    component: () => <Login />,
   },
 
   ...homepageRoutes,
@@ -37,7 +37,7 @@ const routes = [
   ...commentRoutes,
   ...reportRoutes,
   ...oauthClientRoutes,
-  ...blockListRoutes
+  ...blockListRoutes,
 ]
 
 export default routes

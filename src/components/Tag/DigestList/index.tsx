@@ -8,7 +8,7 @@ import SetBoost from '../../SetBoost'
 import TagLink from '../../Tag/Link'
 import TagStateTag from '../../Tag/StateTag'
 import withTagMutaitons, {
-  TagMutationsChildProps
+  TagMutationsChildProps,
 } from '../../../hocs/withTagMutations'
 
 import { PAGE_SIZE } from '../../../constants'
@@ -17,7 +17,7 @@ import {
   onPaginationChange,
   getCurrentPaginationFromUrl,
   setQS,
-  getSortKey
+  getSortKey,
 } from '../../../utils'
 
 type TagDigestListProps = TagMutationsChildProps & {
@@ -53,7 +53,7 @@ class TagDigestList extends React.Component<
     selectedRows: [],
     mutationLoading: false,
     renameNewTagContent: '',
-    mergeNewTagContent: ''
+    mergeNewTagContent: '',
   }
 
   _onSelectChange = (
@@ -68,7 +68,7 @@ class TagDigestList extends React.Component<
     if (this.props.pagination) {
       onPaginationChange({
         pagination: this.props.pagination,
-        page: currentPagination ? currentPagination.page : 1
+        page: currentPagination ? currentPagination.page : 1,
       })
     }
   }
@@ -83,7 +83,7 @@ class TagDigestList extends React.Component<
         <Input
           style={{ marginTop: 16 }}
           placeholder="標籤名"
-          onChange={e => {
+          onChange={(e) => {
             this.setState({ renameNewTagContent: e.target.value })
           }}
         />
@@ -92,7 +92,7 @@ class TagDigestList extends React.Component<
       okText: '確認',
       onOk: () => {
         this._onConfirmRenameTags()
-      }
+      },
     })
   }
 
@@ -135,9 +135,9 @@ class TagDigestList extends React.Component<
             variables: {
               input: {
                 id: selectedRowKeys[0],
-                content: renameNewTagContent
-              }
-            }
+                content: renameNewTagContent,
+              },
+            },
           })
           this.setState(
             { mutationLoading: false, selectedRowKeys: [], selectedRows: [] },
@@ -151,7 +151,7 @@ class TagDigestList extends React.Component<
             message.error('修改失敗')
           })
         }
-      }
+      },
     })
   }
 
@@ -182,9 +182,9 @@ class TagDigestList extends React.Component<
           await deleteTags({
             variables: {
               input: {
-                ids: selectedRowKeys
-              }
-            }
+                ids: selectedRowKeys,
+              },
+            },
           })
           this.setState(
             { mutationLoading: false, selectedRowKeys: [], selectedRows: [] },
@@ -198,7 +198,7 @@ class TagDigestList extends React.Component<
             message.error('刪除失敗')
           })
         }
-      }
+      },
     })
   }
 
@@ -212,7 +212,7 @@ class TagDigestList extends React.Component<
         <Input
           style={{ marginTop: 16 }}
           placeholder="標籤名"
-          onChange={e => {
+          onChange={(e) => {
             this.setState({ mergeNewTagContent: e.target.value })
           }}
         />
@@ -221,7 +221,7 @@ class TagDigestList extends React.Component<
       okText: '確認',
       onOk: () => {
         this._onConfirmMergeTags()
-      }
+      },
     })
   }
 
@@ -265,9 +265,9 @@ class TagDigestList extends React.Component<
             variables: {
               input: {
                 ids: selectedRowKeys,
-                content: mergeNewTagContent
-              }
-            }
+                content: mergeNewTagContent,
+              },
+            },
           })
           this.setState(
             { mutationLoading: false, selectedRowKeys: [], selectedRows: [] },
@@ -281,7 +281,7 @@ class TagDigestList extends React.Component<
             message.error('合併失敗')
           })
         }
-      }
+      },
     })
   }
 
@@ -338,13 +338,13 @@ class TagDigestList extends React.Component<
       recommend,
       pagination,
       hasSorter,
-      inRecommendedTagsPage
+      inRecommendedTagsPage,
     } = this.props
 
     const { selectedRowKeys } = this.state
     const rowSelection = {
       selectedRowKeys,
-      onChange: this._onSelectChange
+      onChange: this._onSelectChange,
     }
     const currentPagination = getCurrentPaginationFromUrl()
     return (
@@ -362,9 +362,9 @@ class TagDigestList extends React.Component<
                   defaultCurrent: currentPagination && currentPagination.page,
                   pageSize: pagination.pageSize || PAGE_SIZE,
                   total: pagination.totalCount,
-                  onChange: page => onPaginationChange({ pagination, page }),
-                  showTotal: t => `共 ${t} 項`,
-                  position: 'both'
+                  onChange: (page) => onPaginationChange({ pagination, page }),
+                  showTotal: (t) => `共 ${t} 項`,
+                  position: 'both',
                 }
               : false
           }
@@ -387,7 +387,7 @@ class TagDigestList extends React.Component<
               }
             }
           }}
-          rowKey={record => record.id}
+          rowKey={(record) => record.id}
         >
           <Table.Column<TagDigest>
             dataIndex="content"
@@ -420,7 +420,7 @@ class TagDigestList extends React.Component<
               ? {
                   defaultSortOrder: getSortKey() as any,
                   sorter: true,
-                  sortDirections: ['descend']
+                  sortDirections: ['descend'],
                 }
               : {})}
           />
@@ -428,7 +428,7 @@ class TagDigestList extends React.Component<
             dataIndex="createdAt"
             title="時間"
             width={300}
-            render={createdAt => <DateTime date={createdAt} />}
+            render={(createdAt) => <DateTime date={createdAt} />}
           />
           {recommend && recommend.tag && (
             <Table.Column<TagDigest>

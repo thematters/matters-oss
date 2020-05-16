@@ -23,14 +23,14 @@ const COMMENT_STATES: {
   { key: 'active', text: '正常' },
   { key: 'archived', text: '刪除', disabled: true },
   { key: 'banned', text: '強制隱藏' },
-  { key: 'collapsed', text: '折疊' }
+  { key: 'collapsed', text: '折疊' },
 ]
 
 class SetState extends React.Component<ChildProps, SetStateState> {
   state: Readonly<SetStateState> = {
     commentState: this.props.state,
     loading: false,
-    error: null
+    error: null,
   }
 
   private _onSelectCommentState = (
@@ -62,15 +62,15 @@ class SetState extends React.Component<ChildProps, SetStateState> {
         variables: {
           input: {
             ids,
-            state: commentState
-          }
-        }
+            state: commentState,
+          },
+        },
       })
       const newCommentState = _get(result, 'data.updateCommentsState.0.state')
       this.setState({
         commentState: newCommentState,
         loading: false,
-        error: null
+        error: null,
       })
       message.success('修改成功', 1, () => {
         if (onSuccess) {
@@ -102,7 +102,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
       onOk: () => {
         this._onConfirmChange()
       },
-      onCancel: this.revertChange
+      onCancel: this.revertChange,
     })
   }
 

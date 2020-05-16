@@ -30,16 +30,16 @@ type FileUploadState = {
 }
 
 const spinStyle = {
-  marginRight: '8px'
+  marginRight: '8px',
 }
 
 const warningStyle = {
-  marginTop: '8px'
+  marginTop: '8px',
 }
 
 const avatarContainerStyle = {
   borderRadius: '50%',
-  marginTop: '16px'
+  marginTop: '16px',
 }
 
 class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
@@ -47,7 +47,7 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
     avatar: this.props.avatar,
     loading: false,
     warning: null,
-    error: null
+    error: null,
   }
 
   private action = async (params: any, upload: any): Promise<any> => {
@@ -57,15 +57,15 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
       return
     }
     if (file && file.size > UPLOAD_FILE_SIZE_LIMIT) {
-      this.setState(prev => ({ ...prev, warning: '檔案超過 5MB' }))
+      this.setState((prev) => ({ ...prev, warning: '檔案超過 5MB' }))
       return
     }
 
-    this.setState(prev => ({
+    this.setState((prev) => ({
       ...prev,
       error: null,
       loading: true,
-      warning: null
+      warning: null,
     }))
 
     try {
@@ -74,26 +74,26 @@ class FileUpload extends React.Component<FileUploadProps, FileUploadState> {
           input: {
             file,
             type: 'oauthClientAvatar',
-            entityType: 'user'
-          }
-        }
+            entityType: 'user',
+          },
+        },
       })
 
       const {
         data: {
-          singleFileUpload: { id, path }
-        }
+          singleFileUpload: { id, path },
+        },
       } = res
 
-      this.setState(prev => ({
+      this.setState((prev) => ({
         ...prev,
         loading: false,
         avatar: path,
-        error: null
+        error: null,
       }))
       this.props.onSuccess({ id, path })
     } catch (error) {
-      this.setState(prev => ({ ...prev, error, loading: false }))
+      this.setState((prev) => ({ ...prev, error, loading: false }))
     }
   }
 

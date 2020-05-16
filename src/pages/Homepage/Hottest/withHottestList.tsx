@@ -4,14 +4,14 @@ import { RouteComponentProps } from 'react-router-dom'
 import { getSearchKey, getCurrentPaginationFromUrl } from '../../../utils'
 import { PAGE_SIZE } from '../../../constants'
 import searchArticles, {
-  SearchArticlesChildProps
+  SearchArticlesChildProps,
 } from '../../../hocs/withSearchArticles'
 import QueryRecommendHottest from '../../../gql/queries/recommendHottest.gql'
 
 import {
   ArticleDigest,
   GQLConnectionArgs,
-  Connection
+  Connection,
 } from '../../../definitions'
 
 type HottestResponse = {
@@ -39,7 +39,7 @@ const hottest = graphql<
   HottestChildProps
 >(QueryRecommendHottest, {
   // name: 'hottest',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
@@ -47,15 +47,12 @@ const hottest = graphql<
         input: {
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
-          oss: true
-        }
-      }
+          oss: true,
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
-export default compose(
-  hottest,
-  searchArticles
-)
+export default compose(hottest, searchArticles)

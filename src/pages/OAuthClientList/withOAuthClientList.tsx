@@ -5,7 +5,7 @@ import { PAGE_SIZE } from '../../constants'
 import {
   OAuthClientDigest,
   GQLConnectionArgs,
-  Connection
+  Connection,
 } from '../../definitions'
 import { getSearchKey, getCurrentPaginationFromUrl } from '../../utils'
 import QueryOAuthClientList from '../../gql/queries/oauthClientList.gql'
@@ -34,19 +34,19 @@ const allOAuthClients = graphql<
   AllOAuthClientsChildProps
 >(QueryOAuthClientList, {
   // name: 'allOAuthClients',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
       variables: {
         input: {
           first: PAGE_SIZE,
-          after: currentPagination && currentPagination.after
-        }
-      }
+          after: currentPagination && currentPagination.after,
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
 export default compose(allOAuthClients)

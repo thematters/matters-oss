@@ -20,11 +20,7 @@ type Response = {
   }
 }
 
-export type UserState =
-  | 'active'
-  | 'onboarding'
-  | 'banned'
-  | 'archived'
+export type UserState = 'active' | 'onboarding' | 'banned' | 'archived'
 
 type InputProps = {
   id: string

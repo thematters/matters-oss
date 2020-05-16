@@ -5,11 +5,11 @@ import { PAGE_SIZE } from '../../../constants'
 import {
   ArticleDigest,
   GQLConnectionArgs,
-  Connection
+  Connection,
 } from '../../../definitions'
 import { getSearchKey, getCurrentPaginationFromUrl } from '../../../utils'
 import searchArticles, {
-  SearchArticlesChildProps
+  SearchArticlesChildProps,
 } from '../../../hocs/withSearchArticles'
 import QueryRecommendNewest from '../../../gql/queries/recommendNewest.gql'
 
@@ -37,7 +37,7 @@ const newest = graphql<
   NewestVariables,
   NewestChildProps
 >(QueryRecommendNewest, {
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
@@ -45,15 +45,12 @@ const newest = graphql<
         input: {
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
-          oss: true
-        }
-      }
+          oss: true,
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
-export default compose(
-  newest,
-  searchArticles
-)
+export default compose(newest, searchArticles)

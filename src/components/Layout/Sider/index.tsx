@@ -43,11 +43,6 @@ const Sider: React.FunctionComponent<RouteComponentProps> = ({ location }) => {
           key="homepage"
           title={<strong>{PAGE_TITLE[PATH.HOMEPAGE]}</strong>}
         >
-          <Menu.Item key={PATH.HOMEPAGE_MATTERS_TODAY}>
-            <Link to={PATH.HOMEPAGE_MATTERS_TODAY}>
-              {PAGE_TITLE[PATH.HOMEPAGE_MATTERS_TODAY]}
-            </Link>
-          </Menu.Item>
           <Menu.Item key={PATH.HOMEPAGE_HOTTEST}>
             <Link to={PATH.HOMEPAGE_HOTTEST}>
               {PAGE_TITLE[PATH.HOMEPAGE_HOTTEST]}

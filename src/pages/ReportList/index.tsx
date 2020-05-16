@@ -17,7 +17,7 @@ class ReportsList extends React.Component<ReportListChildProps> {
 
   private _renderContent() {
     const {
-      data: { oss, loading, error, fetchMore, variables }
+      data: { oss, loading, error, fetchMore, variables },
     } = this.props
 
     if (error) {

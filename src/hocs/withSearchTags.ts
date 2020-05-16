@@ -29,7 +29,7 @@ export default graphql<
   SearchTagsChildProps
 >(QuerySearchTags, {
   // name: 'searchTags',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
@@ -38,10 +38,10 @@ export default graphql<
           key: getSearchKey(),
           type: 'Tag',
           first: PAGE_SIZE,
-          after: currentPagination && currentPagination.after
-        }
-      }
+          after: currentPagination && currentPagination.after,
+        },
+      },
     }
   },
-  skip: () => !getSearchKey()
+  skip: () => !getSearchKey(),
 })

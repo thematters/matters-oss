@@ -5,14 +5,14 @@ import _get from 'lodash/get'
 import ErrorMessage from '../../components/ErrorMessage'
 
 import withOAuthClientDetail, {
-  OAuthClientDetailChildProps
+  OAuthClientDetailChildProps,
 } from './withOAuthClientDetail'
 import Form from './Form'
 
 class OAuthClientDetail extends React.Component<OAuthClientDetailChildProps> {
   public render() {
     const {
-      data: { oauthClient, loading, error }
+      data: { oauthClient, loading, error },
     } = this.props
 
     if (error) {

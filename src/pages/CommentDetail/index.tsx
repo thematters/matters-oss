@@ -19,7 +19,7 @@ const { Description } = DescriptionList
 class CommentDetail extends React.Component<CommentDetailChildProps> {
   public render() {
     const {
-      data: { comment, loading, error }
+      data: { comment, loading, error },
     } = this.props
 
     if (error) {

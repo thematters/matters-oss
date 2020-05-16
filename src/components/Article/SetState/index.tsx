@@ -20,14 +20,14 @@ const ARTICLE_STATES: {
 }[] = [
   { key: 'active', text: '正常' },
   { key: 'archived', text: '隱藏', disabled: true },
-  { key: 'banned', text: '強制隱藏' }
+  { key: 'banned', text: '強制隱藏' },
 ]
 
 class SetState extends React.Component<ChildProps, SetStateState> {
   state: Readonly<SetStateState> = {
     articleState: this.props.state,
     loading: false,
-    error: null
+    error: null,
   }
 
   private _onSelectArticleState = (value: ArticleState) => {
@@ -49,15 +49,15 @@ class SetState extends React.Component<ChildProps, SetStateState> {
         variables: {
           input: {
             id,
-            state: articleState
-          }
-        }
+            state: articleState,
+          },
+        },
       })
       const newArticleState = _get(result, 'data.updateArticleState.state')
       this.setState({
         articleState: newArticleState,
         loading: false,
-        error: null
+        error: null,
       })
     } catch (error) {
       this.setState({ loading: false, error })
@@ -82,7 +82,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
       onOk: () => {
         this._onConfirmChange()
       },
-      onCancel: this.revertChange
+      onCancel: this.revertChange,
     })
   }
 

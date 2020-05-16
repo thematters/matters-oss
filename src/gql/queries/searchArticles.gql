@@ -11,7 +11,6 @@ query OSSSearchArticles($input: SearchInput!) {
           oss {
             boost
             score
-            inRecommendToday
             inRecommendIcymi
             inRecommendHottest
             inRecommendNewest

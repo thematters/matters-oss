@@ -20,7 +20,7 @@ const formatter = (
     day: '日',
     week: '週',
     month: '月',
-    year: '年'
+    year: '年',
   }[unit]
 
   return `${value} ${formattedUnit}${suffix === 'ago' ? '前' : '後'}`

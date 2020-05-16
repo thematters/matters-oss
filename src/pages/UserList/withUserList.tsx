@@ -31,22 +31,19 @@ const allUsers = graphql<
   AllUsersChildProps
 >(QueryUserList, {
   // name: 'allUsers',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
       variables: {
         input: {
           first: PAGE_SIZE,
-          after: currentPagination && currentPagination.after
-        }
-      }
+          after: currentPagination && currentPagination.after,
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
-export default compose(
-  allUsers,
-  searchUsers
-)
+export default compose(allUsers, searchUsers)

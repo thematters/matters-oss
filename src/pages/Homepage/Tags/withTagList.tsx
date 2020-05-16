@@ -32,7 +32,7 @@ const tags = graphql<
   TagsChildProps
 >(QueryRecommendTags, {
   // name: 'Tags',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
@@ -40,15 +40,12 @@ const tags = graphql<
         input: {
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
-          oss: true
-        }
-      }
+          oss: true,
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
-export default compose(
-  tags,
-  searchTags
-)
+export default compose(tags, searchTags)

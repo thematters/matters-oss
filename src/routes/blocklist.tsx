@@ -18,9 +18,8 @@ const blockListRoutes = [
           <BlockList {...props} />
         </Layout.Content>
       </Private>
-    )
+    ),
   },
-
 ]
 
 export default blockListRoutes

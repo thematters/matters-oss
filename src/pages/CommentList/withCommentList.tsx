@@ -30,19 +30,19 @@ const allComments = graphql<
   AllCommentsChildProps
 >(QueryCommentList, {
   // name: 'allComments',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
       variables: {
         input: {
           first: PAGE_SIZE,
-          after: currentPagination && currentPagination.after
-        }
-      }
+          after: currentPagination && currentPagination.after,
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
 export default compose(allComments)

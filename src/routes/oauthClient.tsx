@@ -19,7 +19,7 @@ const commentRoutes = [
           <OAuthClientList {...props} />
         </Layout.Content>
       </Private>
-    )
+    ),
   },
   {
     path: PATH.OAUTH_CLIENT_DETAIL,
@@ -31,8 +31,8 @@ const commentRoutes = [
           <OAuthClientDetail {...props} />
         </Layout.Content>
       </Private>
-    )
-  }
+    ),
+  },
 ]
 
 export default commentRoutes

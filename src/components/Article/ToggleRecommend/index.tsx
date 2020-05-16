@@ -19,7 +19,7 @@ class ToggleRecommend extends React.Component<
   state: Readonly<ToggleRecommendState> = {
     checked: this.props.checked,
     loading: false,
-    error: null
+    error: null,
   }
 
   private _onChange = async () => {
@@ -33,9 +33,9 @@ class ToggleRecommend extends React.Component<
           input: {
             id: articleId,
             enabled: !this.state.checked,
-            type
-          }
-        }
+            type,
+          },
+        },
       })
       const inRecommendType = _get(
         result,
@@ -44,7 +44,7 @@ class ToggleRecommend extends React.Component<
       this.setState({
         checked: inRecommendType,
         loading: false,
-        error: null
+        error: null,
       })
     } catch (error) {
       this.setState({ loading: false, error })
