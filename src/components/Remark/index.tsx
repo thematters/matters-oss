@@ -17,7 +17,7 @@ class SetBoost extends React.Component<ChildProps, RemarkState> {
     _remark: this.props.remark,
     remark: this.props.remark,
     loading: false,
-    error: null
+    error: null,
   }
 
   private _onSubmit = async () => {
@@ -31,16 +31,16 @@ class SetBoost extends React.Component<ChildProps, RemarkState> {
           input: {
             id,
             remark: this.state.remark,
-            type
-          }
-        }
+            type,
+          },
+        },
       })
       const newRemark = _get(result, 'data.putRemark')
       this.setState({
         remark: newRemark,
         _remark: newRemark,
         loading: false,
-        error: null
+        error: null,
       })
     } catch (error) {
       this.setState({ loading: false, error })
@@ -77,7 +77,7 @@ class SetBoost extends React.Component<ChildProps, RemarkState> {
             style={{
               margin: '4px',
               verticalAlign: 'middle',
-              opacity: remarkChanged ? 1 : 0
+              opacity: remarkChanged ? 1 : 0,
             }}
           >
             保存

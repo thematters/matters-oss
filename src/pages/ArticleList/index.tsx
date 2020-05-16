@@ -15,7 +15,7 @@ class ArticleList extends React.Component<ArticleListChildProps> {
 
   private _renderContent() {
     const {
-      data: { oss, search, loading, error, fetchMore, variables }
+      data: { oss, search, loading, error, fetchMore, variables },
     } = this.props
 
     if (error) {

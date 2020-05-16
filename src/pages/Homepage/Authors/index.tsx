@@ -15,7 +15,7 @@ class AuthorList extends React.Component<AuthorListChildProps> {
 
   private _renderContent() {
     const {
-      data: { viewer, search, loading, error, fetchMore, variables }
+      data: { viewer, search, loading, error, fetchMore, variables },
     } = this.props
 
     if (error) {

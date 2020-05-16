@@ -31,7 +31,7 @@ const Reports = graphql<
   ReportsChildProps
 >(QueryReportList, {
   // name: 'reports',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
@@ -40,12 +40,12 @@ const Reports = graphql<
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
           article: props.type === 'article',
-          comment: props.type === 'comment'
-        }
-      }
+          comment: props.type === 'comment',
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
 export default compose(Reports)

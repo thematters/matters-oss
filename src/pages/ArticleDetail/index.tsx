@@ -14,7 +14,6 @@ import TogglePublic from '../../components/Article/TogglePublic'
 import ArticleDigestList from '../../components/Article/DigestList'
 import ArticleStateTag from '../../components/Article/StateTag'
 import ArticleSetState from '../../components/Article/SetState'
-import FileUpload from '../../components/Article/FileUpload'
 
 import withArticleDetail, { ArticleDetailChildProps } from './withArticleDetail'
 import { SITE_DOMIAN } from '../../constants'
@@ -27,7 +26,7 @@ const { Description } = DescriptionList
 class ArticleDetail extends React.Component<ArticleDetailChildProps> {
   public render() {
     const {
-      data: { article, loading, error }
+      data: { article, loading, error },
     } = this.props
 
     if (error) {
@@ -62,7 +61,7 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           </Description>
           <Description term="字數">{article.wordCount}</Description>
           <Description term="標籤">
-            {article.tags.map(tag => (
+            {article.tags.map((tag) => (
               <TagLink key={tag.id} id={tag.id} content={tag.content} />
             ))}
           </Description>
@@ -93,14 +92,6 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           </Description> */}
           <Description term="LIVE">
             <ToggleLive checked={article.live} articleId={article.id} />
-          </Description>
-
-          <Description term="在 Matters Today 顯示">
-            <ToggleRecommend
-              checked={article.oss.inRecommendToday}
-              articleId={article.id}
-              type="today"
-            />
           </Description>
 
           <Description term="在「不要錯過」顯示">
@@ -142,20 +133,6 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
           </Description>
         </DescriptionList>
         <Divider size="large" />
-
-        {article.oss && article.oss.inRecommendToday && (
-          <>
-            <DescriptionList size="large" title="進階設定">
-              <Description term="指定封面">
-                <FileUpload
-                  articleId={article.id}
-                  cover={article.oss.todayCover}
-                />
-              </Description>
-            </DescriptionList>
-            <Divider size="large" />
-          </>
-        )}
 
         <DescriptionList size="large" title="備註">
           <Col span={24} lg={12} style={{ marginBottom: 16 }}>

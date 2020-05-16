@@ -5,12 +5,12 @@ import LevelTag, { LevelEnum } from '../../../components/LevelTag'
 const RoleMap = {
   user: {
     level: LevelEnum.SUCCESS,
-    text: '用戶'
+    text: '用戶',
   },
   admin: {
     level: LevelEnum.WARNING,
-    text: '管理員'
-  }
+    text: '管理員',
+  },
 }
 
 const RoleTag = ({ role }: { role: 'user' | 'admin' }) => {

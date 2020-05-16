@@ -29,10 +29,10 @@ const withPagination = <P extends object>(
         variables: {
           input: {
             ...pagination.variables.input,
-            after: cursor
-          }
+            after: cursor,
+          },
         },
-        updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult
+        updateQuery: (_: any, { fetchMoreResult }: any) => fetchMoreResult,
       })
     }
 
@@ -48,7 +48,7 @@ const withPagination = <P extends object>(
               ? {
                   total: pagination.totalCount,
                   pageSize: pagination.pageSize || PAGE_SIZE,
-                  onChange: this._fetchMore
+                  onChange: this._fetchMore,
                 }
               : false
           }

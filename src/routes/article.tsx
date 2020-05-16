@@ -21,7 +21,7 @@ const articleRoutes = [
           <ArticleList {...props} />
         </Layout.Content>
       </Private>
-    )
+    ),
   },
   {
     path: PATH.ARTICLE_DETAIL,
@@ -33,7 +33,7 @@ const articleRoutes = [
           <ArticleDetail {...props} />
         </Layout.Content>
       </Private>
-    )
+    ),
   },
   {
     path: PATH.TAG_LIST,
@@ -45,7 +45,7 @@ const articleRoutes = [
           <TagList {...props} />
         </Layout.Content>
       </Private>
-    )
+    ),
   },
   {
     path: PATH.TAG_DETAIL,
@@ -57,8 +57,8 @@ const articleRoutes = [
           <TagDetail {...props} />
         </Layout.Content>
       </Private>
-    )
-  }
+    ),
+  },
 ]
 
 export default articleRoutes

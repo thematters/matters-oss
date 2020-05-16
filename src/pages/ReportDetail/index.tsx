@@ -18,7 +18,7 @@ const { Description } = DescriptionList
 class ReportDetail extends React.Component<ReportDetailChildProps> {
   public render() {
     const {
-      data: { report, loading, error }
+      data: { report, loading, error },
     } = this.props
 
     if (error) {
@@ -43,7 +43,7 @@ class ReportDetail extends React.Component<ReportDetailChildProps> {
       category,
       assets,
       createdAt,
-      remark
+      remark,
     } = report.report
 
     return (
@@ -81,7 +81,7 @@ class ReportDetail extends React.Component<ReportDetailChildProps> {
         <Divider size="large" />
 
         <DescriptionList size="large" title="附件">
-          {assets.map(asset => (
+          {assets.map((asset) => (
             <Col span={4} style={{ marginBottom: 16 }}>
               <a href={asset} target="_blank">
                 <img src={asset} style={{ maxWidth: '100%' }} />

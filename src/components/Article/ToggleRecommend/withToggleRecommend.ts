@@ -6,7 +6,6 @@ const TOGGLE_RECOMMEND = gql`
     toggleArticleRecommend(input: $input) {
       id
       oss {
-        inRecommendToday
         inRecommendIcymi
         inRecommendHottest
         inRecommendNewest
@@ -18,7 +17,6 @@ const TOGGLE_RECOMMEND = gql`
 type Response = {
   toggleArticleRecommend: {
     oss: {
-      inRecommendToday: boolean
       inRecommendIcymi: boolean
       inRecommendHottest: boolean
       inRecommendNewest: boolean
@@ -26,7 +24,7 @@ type Response = {
   }
 }
 
-export type RecommendTypes = 'today' | 'icymi' | 'hottest' | 'newest'
+export type RecommendTypes = 'icymi' | 'hottest' | 'newest'
 
 type InputProps = {
   checked: boolean

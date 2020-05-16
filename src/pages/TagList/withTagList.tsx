@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router-dom'
 import {
   getSearchKey,
   getSortKey,
-  getCurrentPaginationFromUrl
+  getCurrentPaginationFromUrl,
 } from '../../utils'
 import { PAGE_SIZE } from '../../constants'
 import { TagDigest, GQLConnectionArgs, Connection } from '../../definitions'
@@ -34,7 +34,7 @@ const allTags = graphql<
   AllTagsChildProps
 >(QueryTagList, {
   // name: 'allTags',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
@@ -42,15 +42,12 @@ const allTags = graphql<
         input: {
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
-          sort: getSortKey() === 'descend' ? 'hottest' : undefined
-        }
-      }
+          sort: getSortKey() === 'descend' ? 'hottest' : undefined,
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
-export default compose(
-  allTags,
-  searchTags
-)
+export default compose(allTags, searchTags)

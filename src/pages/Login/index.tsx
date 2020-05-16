@@ -17,7 +17,7 @@ type LoginState = {
 
 class Login extends React.Component<ChildProps, LoginState> {
   state = {
-    loading: false
+    loading: false,
   }
 
   private _renderFormItems() {
@@ -28,7 +28,7 @@ class Login extends React.Component<ChildProps, LoginState> {
       <>
         <Form.Item>
           {getFieldDecorator('email', {
-            rules: [{ required: true, type: 'email', message: '請輸入郵箱' }]
+            rules: [{ required: true, type: 'email', message: '請輸入郵箱' }],
           })(
             <Input
               size="large"
@@ -40,7 +40,7 @@ class Login extends React.Component<ChildProps, LoginState> {
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('password', {
-            rules: [{ required: true, message: '請輸入密碼' }]
+            rules: [{ required: true, message: '請輸入密碼' }],
           })(
             <Input
               size="large"
@@ -72,7 +72,7 @@ class Login extends React.Component<ChildProps, LoginState> {
     const { form, mutate } = this.props
     const { getFieldValue, validateFields, setFields } = form
     const {
-      query: { next }
+      query: { next },
     } = queryString.parseUrl(window.location.href)
 
     validateFields(async (err, values) => {
@@ -87,9 +87,9 @@ class Login extends React.Component<ChildProps, LoginState> {
           variables: {
             input: {
               email,
-              password
-            }
-          }
+              password,
+            },
+          },
         })
         const token = _get(result, 'data.userLogin.token')
         if (token) {
@@ -99,8 +99,8 @@ class Login extends React.Component<ChildProps, LoginState> {
           setFields({
             email: {
               value: email,
-              errors: [new Error('郵箱或密碼有誤')]
-            }
+              errors: [new Error('郵箱或密碼有誤')],
+            },
           })
         }
         this.setState({ loading: false })
@@ -113,22 +113,22 @@ class Login extends React.Component<ChildProps, LoginState> {
               case ERROR_CODE.USER_EMAIL_NOT_FOUND:
                 setFields({
                   email: {
-                    errors: [new Error('郵箱不存在')]
-                  }
+                    errors: [new Error('郵箱不存在')],
+                  },
                 })
                 break
               case ERROR_CODE.USER_PASSWORD_INVALID:
                 setFields({
                   email: {
-                    errors: [new Error('密碼有誤')]
-                  }
+                    errors: [new Error('密碼有誤')],
+                  },
                 })
                 break
               default:
                 setFields({
                   email: {
-                    errors: [new Error('登入失敗')]
-                  }
+                    errors: [new Error('登入失敗')],
+                  },
                 })
                 break
             }
@@ -136,8 +136,8 @@ class Login extends React.Component<ChildProps, LoginState> {
         } else {
           setFields({
             email: {
-              errors: [new Error('登入失敗')]
-            }
+              errors: [new Error('登入失敗')],
+            },
           })
         }
         this.setState({ loading: false })
@@ -174,7 +174,4 @@ class Login extends React.Component<ChildProps, LoginState> {
   }
 }
 
-export default compose(
-  withUserLogin,
-  Form.create()
-)(Login)
+export default compose(withUserLogin, Form.create())(Login)

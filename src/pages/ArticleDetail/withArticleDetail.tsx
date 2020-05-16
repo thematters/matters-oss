@@ -27,16 +27,16 @@ const articleDetail = graphql<
   ArticleDetailVariables,
   ArticleDetailChildProps
 >(QueryArticleDetail, {
-  options: props => {
+  options: (props) => {
     const id = _get(props, 'match.params.id')
     return {
       variables: {
         input: {
-          id
-        }
-      }
+          id,
+        },
+      },
     }
-  }
+  },
 })
 
 export default articleDetail

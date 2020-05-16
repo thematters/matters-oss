@@ -31,7 +31,7 @@ const deleteTags = graphql<
   DeleteTagsVariables,
   DeleteTagsChildProps
 >(MutationDeleteTags, {
-  name: 'deleteTags'
+  name: 'deleteTags',
 })
 
 /**
@@ -62,7 +62,7 @@ const renameTag = graphql<
   RenameTagVariables,
   RenameTagChildProps
 >(MutationRenameTag, {
-  name: 'renameTag'
+  name: 'renameTag',
 })
 
 /**
@@ -93,15 +93,11 @@ const mergeTags = graphql<
   MergeTagsVariables,
   MergeTagsChildProps
 >(MutationMergeTags, {
-  name: 'mergeTags'
+  name: 'mergeTags',
 })
 
 // exports
-export default compose(
-  deleteTags,
-  renameTag,
-  mergeTags
-)
+export default compose(deleteTags, renameTag, mergeTags)
 
 export type TagMutationsChildProps = DeleteTagsChildProps &
   RenameTagChildProps &

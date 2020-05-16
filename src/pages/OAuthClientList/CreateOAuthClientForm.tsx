@@ -45,15 +45,15 @@ class CreateOAuthClientForm extends React.Component<
       const res = await create({
         variables: {
           input: {
-            name: this.state.name
-          }
-        }
+            name: this.state.name,
+          },
+        },
       })
 
       const {
         data: {
-          putOAuthClient: { id }
-        }
+          putOAuthClient: { id },
+        },
       } = res
 
       await this.setState({ loading: false, error: false })
@@ -78,7 +78,7 @@ class CreateOAuthClientForm extends React.Component<
     return (
       <Mutation mutation={CREATE_OAUTH_CLIENT}>
         {(create: any) => (
-          <form onSubmit={e => this.handleSubmit(e, create)}>
+          <form onSubmit={(e) => this.handleSubmit(e, create)}>
             <Col offset={0} span={16} md={{ span: 12 }} lg={{ span: 8 }}>
               <Input
                 name="name"

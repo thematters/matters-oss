@@ -5,24 +5,24 @@ import LevelTag, { LevelEnum } from '../../../components/LevelTag'
 const StateMap = {
   active: {
     level: LevelEnum.SUCCESS,
-    text: '正常'
+    text: '正常',
   },
   archived: {
     level: LevelEnum.WARNING,
-    text: '註銷'
+    text: '註銷',
   },
   banned: {
     level: LevelEnum.ERROR,
-    text: '禁言'
+    text: '禁言',
   },
   onboarding: {
     level: LevelEnum.INFO,
-    text: '未激活'
-  }
+    text: '未激活',
+  },
 }
 
 const StateTag = ({
-  state
+  state,
 }: {
   state: 'active' | 'archived' | 'banned' | 'onboarding'
 }) => {

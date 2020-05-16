@@ -5,7 +5,7 @@ import { PAGE_SIZE } from '../../constants'
 import { ArticleDigest, GQLConnectionArgs, Connection } from '../../definitions'
 import { getSearchKey, getCurrentPaginationFromUrl } from '../../utils'
 import searchArticles, {
-  SearchArticlesChildProps
+  SearchArticlesChildProps,
 } from '../../hocs/withSearchArticles'
 import QueryArticleList from '../../gql/queries/articleList.gql'
 
@@ -34,22 +34,19 @@ const allArticles = graphql<
   AllArticlesChildProps
 >(QueryArticleList, {
   // name: 'allArticles',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
       variables: {
         input: {
           first: PAGE_SIZE,
-          after: currentPagination && currentPagination.after
-        }
-      }
+          after: currentPagination && currentPagination.after,
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
-export default compose(
-  allArticles,
-  searchArticles
-)
+export default compose(allArticles, searchArticles)

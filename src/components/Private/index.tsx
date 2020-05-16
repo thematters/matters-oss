@@ -16,7 +16,7 @@ class Private extends React.PureComponent {
       <Redirect
         to={{
           pathname: PATH.LOGIN,
-          search: `?next=${window.location.href}`
+          search: `?next=${window.location.href}`,
         }}
       />
     )

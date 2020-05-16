@@ -41,13 +41,13 @@ class OAuthClientDigestList extends React.Component<
                 defaultCurrent: currentPagination && currentPagination.page,
                 pageSize: pagination.pageSize || PAGE_SIZE,
                 total: pagination.totalCount,
-                onChange: page => onPaginationChange({ pagination, page }),
-                showTotal: t => `共 ${t} 項`,
-                position: 'both'
+                onChange: (page) => onPaginationChange({ pagination, page }),
+                showTotal: (t) => `共 ${t} 項`,
+                position: 'both',
               }
             : false
         }
-        rowKey={record => record.id}
+        rowKey={(record) => record.id}
       >
         <Table.Column<OAuthClientDigest>
           dataIndex="name"
@@ -69,7 +69,7 @@ class OAuthClientDigestList extends React.Component<
           dataIndex="scope"
           title="Scopes"
           width={300}
-          render={scope =>
+          render={(scope) =>
             scope ? (
               <ul>
                 {scope.map((s: string) => (
@@ -84,7 +84,7 @@ class OAuthClientDigestList extends React.Component<
           dataIndex="user"
           title="Developer"
           width={150}
-          render={user =>
+          render={(user) =>
             user ? (
               <UserLink
                 id={user.id}
@@ -99,7 +99,7 @@ class OAuthClientDigestList extends React.Component<
           dataIndex="website"
           title="Website"
           width={150}
-          render={link => (
+          render={(link) => (
             <a href={link} target="_blank">
               {link}
             </a>
@@ -110,7 +110,7 @@ class OAuthClientDigestList extends React.Component<
           dataIndex="createdAt"
           title="Created At"
           width={150}
-          render={createdAt => <DateTime date={createdAt} />}
+          render={(createdAt) => <DateTime date={createdAt} />}
         />
       </Table>
     )

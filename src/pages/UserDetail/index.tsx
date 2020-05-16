@@ -22,13 +22,13 @@ const { Description } = DescriptionList
 const LanguageMap = {
   en: 'English',
   zh_hant: '繁體中文',
-  zh_hans: '簡體中文'
+  zh_hans: '簡體中文',
 }
 
 class UserDetail extends React.Component<UserDetailChildProps> {
   public render() {
     const {
-      data: { user, loading, error }
+      data: { user, loading, error },
     } = this.props
 
     if (error) {

@@ -7,7 +7,7 @@ import {
   GQLUserInfo,
   GQLUserSettings,
   GQLUserStatus,
-  GQLLiker
+  GQLLiker,
 } from './schema'
 
 export * from './schema'
@@ -87,11 +87,9 @@ export type ArticleDigest = {
   oss: {
     boost: number
     score: number
-    inRecommendToday: boolean
     inRecommendIcymi: boolean
     inRecommendHottest: boolean
     inRecommendNewest: boolean
-    todayCover: string
   }
 }
 

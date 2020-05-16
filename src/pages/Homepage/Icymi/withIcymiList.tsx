@@ -6,10 +6,10 @@ import { PAGE_SIZE } from '../../../constants'
 import {
   ArticleDigest,
   GQLConnectionArgs,
-  Connection
+  Connection,
 } from '../../../definitions'
 import searchArticles, {
-  SearchArticlesChildProps
+  SearchArticlesChildProps,
 } from '../../../hocs/withSearchArticles'
 import QueryRecommendIcymi from '../../../gql/queries/recommendIcymi.gql'
 
@@ -38,7 +38,7 @@ const icymi = graphql<
   IcymiChildProps
 >(QueryRecommendIcymi, {
   // name: 'MattersChoice',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
@@ -46,15 +46,12 @@ const icymi = graphql<
         input: {
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
-          oss: true
-        }
-      }
+          oss: true,
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
-export default compose(
-  icymi,
-  searchArticles
-)
+export default compose(icymi, searchArticles)

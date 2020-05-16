@@ -15,7 +15,7 @@ class TagList extends React.Component<TagListChildProps> {
 
   private _renderContent() {
     const {
-      data: { viewer, search, loading, error, fetchMore, variables }
+      data: { viewer, search, loading, error, fetchMore, variables },
     } = this.props
 
     if (error) {

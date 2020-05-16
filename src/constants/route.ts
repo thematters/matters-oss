@@ -1,6 +1,5 @@
 export const PATH = {
   HOMEPAGE: '/',
-  HOMEPAGE_MATTERS_TODAY: '/homepage/matters-today',
   HOMEPAGE_HOTTEST: '/homepage/hottest',
   HOMEPAGE_NEWEST: '/homepage/newest',
   HOMEPAGE_TOPICS: '/homepage/topics',
@@ -31,12 +30,11 @@ export const PATH = {
 
   LOGIN: '/auth/login/',
 
-  BLOCK_LIST: '/blocklist'
+  BLOCK_LIST: '/blocklist',
 }
 
 export const PAGE_TITLE = {
   [PATH.HOMEPAGE]: '首頁',
-  [PATH.HOMEPAGE_MATTERS_TODAY]: 'Matters Today',
   [PATH.HOMEPAGE_HOTTEST]: '熱門文章',
   [PATH.HOMEPAGE_NEWEST]: '最新發布',
   [PATH.HOMEPAGE_TOPICS]: '熱議話題',
@@ -67,10 +65,10 @@ export const PAGE_TITLE = {
 
   [PATH.LOGIN]: '登入',
 
-  [PATH.BLOCK_LIST]: '自動封鎖清單'
+  [PATH.BLOCK_LIST]: '自動封鎖清單',
 }
 
 export const PATH_REGEXP = {
   articleDetail: /^\/@([^@\/]+?)\/.*-([^-\/]+?)(?:\/)?$/i,
-  user: /^\/@([^@\/]+?)(?:\/)?$/i
+  user: /^\/@([^@\/]+?)(?:\/)?$/i,
 }
