@@ -18,7 +18,7 @@ const { Description } = DescriptionList
 class TagDetail extends React.Component<TagDetailChildProps> {
   public render() {
     const {
-      data: { tag, loading, error }
+      data: { tag, loading, error },
     } = this.props
 
     if (error) {

@@ -19,7 +19,7 @@ const userRoutes = [
           <UserList {...props} />
         </Layout.Content>
       </Private>
-    )
+    ),
   },
   {
     path: PATH.USER_DETAIL,
@@ -31,8 +31,8 @@ const userRoutes = [
           <UserDetail {...props} />
         </Layout.Content>
       </Private>
-    )
-  }
+    ),
+  },
 ]
 
 export default userRoutes

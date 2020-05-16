@@ -5,11 +5,11 @@ import { PAGE_SIZE } from '../../../constants'
 import {
   ArticleDigest,
   GQLConnectionArgs,
-  Connection
+  Connection,
 } from '../../../definitions'
 import { getSearchKey, getCurrentPaginationFromUrl } from '../../../utils'
 import searchArticles, {
-  SearchArticlesChildProps
+  SearchArticlesChildProps,
 } from '../../../hocs/withSearchArticles'
 import QueryRecommendTopics from '../../../gql/queries/recommendTopics.gql'
 
@@ -38,7 +38,7 @@ const topics = graphql<
   TopicsChildProps
 >(QueryRecommendTopics, {
   // name: 'topics',
-  options: props => {
+  options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
     return {
       notifyOnNetworkStatusChange: true,
@@ -46,15 +46,12 @@ const topics = graphql<
         input: {
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
-          oss: true
-        }
-      }
+          oss: true,
+        },
+      },
     }
   },
-  skip: () => !!getSearchKey()
+  skip: () => !!getSearchKey(),
 })
 
-export default compose(
-  topics,
-  searchArticles
-)
+export default compose(topics, searchArticles)

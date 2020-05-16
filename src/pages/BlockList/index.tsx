@@ -11,7 +11,7 @@ import { BlockListItemDigest } from '../../definitions'
 class BlockList extends React.Component<AllBlockListItemsChildProps> {
   private _renderContent() {
     const {
-      data: { oss, loading, error, fetchMore, variables }
+      data: { oss, loading, error, fetchMore, variables },
     } = this.props
 
     if (error) {
@@ -35,11 +35,7 @@ class BlockList extends React.Component<AllBlockListItemsChildProps> {
   }
 
   public render() {
-    return (
-      <>
-        {this._renderContent()}
-      </>
-    )
+    return <>{this._renderContent()}</>
   }
 }
 

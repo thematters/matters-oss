@@ -19,7 +19,7 @@ const commentRoutes = [
           <CommentList {...props} />
         </Layout.Content>
       </Private>
-    )
+    ),
   },
   {
     path: PATH.COMMENT_DETAIL,
@@ -31,8 +31,8 @@ const commentRoutes = [
           <CommentDetail {...props} />
         </Layout.Content>
       </Private>
-    )
-  }
+    ),
+  },
 ]
 
 export default commentRoutes

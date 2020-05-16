@@ -25,7 +25,6 @@ type ArticleDigestListProps = {
     variables?: any
   }
   recommend?: {
-    today?: boolean
     icymi?: boolean
     hottest?: boolean
     newest?: boolean
@@ -54,13 +53,13 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
                 defaultCurrent: currentPagination && currentPagination.page,
                 pageSize: pagination.pageSize || PAGE_SIZE,
                 total: pagination.totalCount,
-                onChange: page => onPaginationChange({ pagination, page }),
-                showTotal: t => `共 ${t} 項`,
-                position: 'both'
+                onChange: (page) => onPaginationChange({ pagination, page }),
+                showTotal: (t) => `共 ${t} 項`,
+                position: 'both',
               }
             : false
         }
-        rowKey={record => record.id}
+        rowKey={(record) => record.id}
       >
         <Table.Column<ArticleDigest>
           dataIndex="title"
@@ -78,20 +77,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             )}
           />
         )}
-        {recommend && recommend.today && (
-          <Table.Column<ArticleDigest>
-            dataIndex="oss.inRecommendToday"
-            title="在 Matters Today 顯示"
-            width={100}
-            render={(inRecommendToday, record) => (
-              <ToggleRecommend
-                checked={inRecommendToday}
-                articleId={record.id}
-                type="today"
-              />
-            )}
-          />
-        )}
+
         {recommend && recommend.icymi && (
           <Table.Column<ArticleDigest>
             dataIndex="oss.inRecommendIcymi"
@@ -139,7 +125,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           dataIndex="author"
           title="作者"
           width={200}
-          render={author => (
+          render={(author) => (
             <UserLink
               id={author.id}
               userName={author.userName}
@@ -151,7 +137,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           dataIndex="state"
           title="狀態"
           width={100}
-          render={state => <ArticleStateTag state={state} />}
+          render={(state) => <ArticleStateTag state={state} />}
         />
         <Table.Column<ArticleDigest>
           dataIndex="commentCount"
@@ -162,7 +148,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           dataIndex="createdAt"
           title="時間"
           width={200}
-          render={createdAt => <DateTime date={createdAt} />}
+          render={(createdAt) => <DateTime date={createdAt} />}
         />
         {recommend && recommend.topic && (
           <Table.Column<ArticleDigest>

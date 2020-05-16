@@ -5,7 +5,7 @@ export enum LevelEnum {
   SUCCESS,
   INFO,
   WARNING,
-  ERROR
+  ERROR,
 }
 type LevelTagProps = {
   level: LevelEnum
@@ -16,7 +16,7 @@ const LevelColorMap = {
   [LevelEnum.SUCCESS]: '#4e8764',
   [LevelEnum.INFO]: undefined,
   [LevelEnum.WARNING]: 'orange',
-  [LevelEnum.ERROR]: 'red'
+  [LevelEnum.ERROR]: 'red',
 }
 
 export default ({ level, children }: LevelTagProps) => (

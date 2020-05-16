@@ -49,7 +49,7 @@ class SearchBar extends React.Component<
 
   private async _handleRedirect({
     value,
-    client
+    client,
   }: {
     value: string
     client: ApolloClient<any>
@@ -59,13 +59,10 @@ class SearchBar extends React.Component<
 
     const isUserLink = PATH_REGEXP.user.test(path)
     if (isUserLink) {
-      const userName = path
-        .split('#')[0]
-        .split('?')[0]
-        .split('@')[1]
+      const userName = path.split('#')[0].split('?')[0].split('@')[1]
       const { data } = await client.query({
         query: QUERY_USER,
-        variables: { input: { userName } }
+        variables: { input: { userName } },
       })
       const userId = _get(data, 'user.id')
 
@@ -78,14 +75,10 @@ class SearchBar extends React.Component<
 
     const isArticleLink = PATH_REGEXP.articleDetail.test(path)
     if (isArticleLink) {
-      const mediaHash = path
-        .split('#')[0]
-        .split('?')[0]
-        .split('-')
-        .pop()
+      const mediaHash = path.split('#')[0].split('?')[0].split('-').pop()
       const { data } = await client.query({
         query: QUERY_ARTICLE,
-        variables: { input: { mediaHash } }
+        variables: { input: { mediaHash } },
       })
       const articleId = _get(data, 'article.id')
 
@@ -99,7 +92,7 @@ class SearchBar extends React.Component<
 
   private _onSearch = async ({
     value,
-    client
+    client,
   }: {
     value: string
     client: ApolloClient<any>
@@ -111,7 +104,7 @@ class SearchBar extends React.Component<
     const { history } = this.props
     const search = queryString.stringify(
       Object.assign(getParsedQS(), {
-        q: value
+        q: value,
       })
     )
 
@@ -133,7 +126,7 @@ class SearchBar extends React.Component<
 
     return (
       <ApolloConsumer>
-        {client => (
+        {(client) => (
           <>
             <Row>
               <Col offset={0} span={24} md={{ span: 12 }} lg={{ span: 8 }}>
@@ -144,7 +137,7 @@ class SearchBar extends React.Component<
                     value={value}
                     enterButton="搜尋"
                     onChange={this._onChange}
-                    onSearch={value => this._onSearch({ value, client })}
+                    onSearch={(value) => this._onSearch({ value, client })}
                   />
                   <Button onClick={this._onResetSearch}>重置</Button>
                 </section>

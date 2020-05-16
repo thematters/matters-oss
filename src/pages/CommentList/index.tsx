@@ -11,7 +11,7 @@ import { CommentDigest } from '../../definitions'
 
 class CommentList extends React.Component<CommentListChildProps> {
   state: Readonly<{ inputCommentId: string }> = {
-    inputCommentId: ''
+    inputCommentId: '',
   }
 
   private _renderHeader() {
@@ -56,7 +56,7 @@ class CommentList extends React.Component<CommentListChildProps> {
 
   private _renderContent() {
     const {
-      data: { oss, loading, error, fetchMore, variables }
+      data: { oss, loading, error, fetchMore, variables },
     } = this.props
 
     if (error) {

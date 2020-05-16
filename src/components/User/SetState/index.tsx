@@ -21,21 +21,23 @@ const USER_STATES: { key: UserState; text: string; disabled?: boolean }[] = [
   { key: 'active', text: '正常' },
   { key: 'archived', text: '註銷' },
   { key: 'banned', text: '禁言' },
-  { key: 'onboarding', text: '未激活' }
+  { key: 'onboarding', text: '未激活' },
 ]
 const BAN_DAYS: { key: string; text: string }[] = [
   { key: '1', text: '1 天' },
   { key: '7', text: '7 天' },
   { key: '30', text: '30 天' },
   { key: '90', text: '90 天' },
-  { key: '180', text: '180 天' }
+  { key: '180', text: '180 天' },
 ]
 
 interface BanSelectorState {
   banDays: string
 }
 
-type BanSelectorProps = BanSelectorState & { callback: (banDays: string) => void }
+type BanSelectorProps = BanSelectorState & {
+  callback: (banDays: string) => void
+}
 
 class BanSelector extends React.Component<BanSelectorProps, BanSelectorState> {
   state: Readonly<{ banDays: string }> = {
@@ -50,7 +52,7 @@ class BanSelector extends React.Component<BanSelectorProps, BanSelectorState> {
     })
   }
 
-  public render () {
+  public render() {
     return (
       <div style={{ marginTop: 16 }}>
         <Select
@@ -59,9 +61,7 @@ class BanSelector extends React.Component<BanSelectorProps, BanSelectorState> {
           style={{ marginRight: 8, minWidth: 80 }}
         >
           {BAN_DAYS.map(({ key, text }) => (
-            <Select.Option key={key}>
-              {text}
-            </Select.Option>
+            <Select.Option key={key}>{text}</Select.Option>
           ))}
         </Select>
       </div>
@@ -75,7 +75,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
     banDays: BAN_DAYS[0].key,
     password: '',
     loading: false,
-    error: null
+    error: null,
   }
 
   private _onSelectUserState = (value: UserState) => {
@@ -109,9 +109,9 @@ class SetState extends React.Component<ChildProps, SetStateState> {
             state: userState,
             banDays:
               userState === 'banned' && banDays > 0 ? banDays : undefined,
-            password
-          }
-        }
+            password,
+          },
+        },
       })
       const newUserState = _get(result, 'data.updateUserState.status.state')
       this.setState({ userState: newUserState, loading: false, error: null })
@@ -150,13 +150,10 @@ class SetState extends React.Component<ChildProps, SetStateState> {
           </div>
 
           {isBanned && (
-            <BanSelector
-              banDays={banDays}
-              callback={this._onSelectBanDays}
-            />
+            <BanSelector banDays={banDays} callback={this._onSelectBanDays} />
           )}
         </>
-      )
+      ),
     }
 
     if (isArchived) {
@@ -178,7 +175,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
               ></Input.Password>
             </div>
           </>
-        )
+        ),
       }
     }
 
@@ -189,7 +186,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
       onOk: () => {
         this._onConfirmhange()
       },
-      onCancel: this.revertChange
+      onCancel: this.revertChange,
     })
   }
 

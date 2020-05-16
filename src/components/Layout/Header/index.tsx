@@ -6,7 +6,7 @@ import { RouteConfigComponentProps } from 'react-router-config'
 import { PAGE_TITLE } from '../../../constants'
 
 const Header: React.FunctionComponent<RouteConfigComponentProps> = ({
-  match
+  match,
 }) => {
   const pageTitle = PAGE_TITLE[match.path]
   return (

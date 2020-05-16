@@ -16,7 +16,7 @@ class ToggleArchive extends React.Component<ChildProps, ToggleArchiveState> {
   state: Readonly<ToggleArchiveState> = {
     checked: this.props.checked,
     loading: false,
-    error: null
+    error: null,
   }
 
   private _onChange = async () => {
@@ -33,8 +33,7 @@ class ToggleArchive extends React.Component<ChildProps, ToggleArchiveState> {
           <span>
             {archived
               ? '封鎖郵箱時，會一併封鎖其相應的指紋。'
-              : '解除郵箱封鎖時，會一併解除其相應的指紋封鎖。'
-            }
+              : '解除郵箱封鎖時，會一併解除其相應的指紋封鎖。'}
           </span>
         </div>
       ),
@@ -43,7 +42,7 @@ class ToggleArchive extends React.Component<ChildProps, ToggleArchiveState> {
       onOk: () => {
         this._onConfirmChange()
       },
-      onCancel: () => {}
+      onCancel: () => {},
     })
   }
 
@@ -58,21 +57,29 @@ class ToggleArchive extends React.Component<ChildProps, ToggleArchiveState> {
         variables: {
           input: {
             id,
-            archived
-          }
+            archived,
+          },
         },
         update: (cache, { data }) => {
           const variables = { input: { first: 20 } }
-          const ids = (_get(data, 'putSkippedListItem', [])).map((item: any) => item.id)
-          const cacheData = cache.readQuery<any>({ query: QueryBlockList, variables })
+          const ids = _get(data, 'putSkippedListItem', []).map(
+            (item: any) => item.id
+          )
+          const cacheData = cache.readQuery<any>({
+            query: QueryBlockList,
+            variables,
+          })
 
-          const newEdges = (_get(cacheData, 'oss.skippedListItems.edges', []))
-            .map((item: any) => {
-              if (ids.includes(item.id)) {
-                return { ...item, archived }
-              }
-              return item
-            })
+          const newEdges = _get(
+            cacheData,
+            'oss.skippedListItems.edges',
+            []
+          ).map((item: any) => {
+            if (ids.includes(item.id)) {
+              return { ...item, archived }
+            }
+            return item
+          })
 
           cache.writeQuery({
             query: QueryBlockList,
@@ -82,12 +89,12 @@ class ToggleArchive extends React.Component<ChildProps, ToggleArchiveState> {
                 ...cacheData.oss,
                 skippedListItems: {
                   ...cacheData.oss.skippedListItems,
-                  edges: newEdges
-                }
-              }
-            }
+                  edges: newEdges,
+                },
+              },
+            },
           })
-        }
+        },
       })
 
       this.setState({ loading: false, error: null })
@@ -101,7 +108,7 @@ class ToggleArchive extends React.Component<ChildProps, ToggleArchiveState> {
       return {
         checked: props.checked,
         loading: false,
-        error: null
+        error: null,
       }
     }
     return null

@@ -19,7 +19,7 @@ const articleRoutes = [
           <ReportList {...props} type="article" />
         </Layout.Content>
       </Private>
-    )
+    ),
   },
   {
     path: PATH.REPORT_LIST_COMMENT,
@@ -31,7 +31,7 @@ const articleRoutes = [
           <ReportList {...props} type="comment" />
         </Layout.Content>
       </Private>
-    )
+    ),
   },
   {
     path: PATH.REPORT_DETAIL,
@@ -43,8 +43,8 @@ const articleRoutes = [
           <ReportDetail {...props} />
         </Layout.Content>
       </Private>
-    )
-  }
+    ),
+  },
 ]
 
 export default articleRoutes

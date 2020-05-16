@@ -15,7 +15,7 @@ class ToggleLive extends React.Component<ChildProps, ToggleLiveState> {
   state: Readonly<ToggleLiveState> = {
     checked: this.props.checked,
     loading: false,
-    error: null
+    error: null,
   }
 
   private _onChange = async () => {
@@ -28,9 +28,9 @@ class ToggleLive extends React.Component<ChildProps, ToggleLiveState> {
         variables: {
           input: {
             id: articleId,
-            enabled: !this.state.checked
-          }
-        }
+            enabled: !this.state.checked,
+          },
+        },
       })
       const live = _get(result, 'data.toggleArticleLive.live')
       this.setState({ checked: live, loading: false, error: null })

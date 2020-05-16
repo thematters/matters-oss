@@ -15,7 +15,7 @@ class TogglePublic extends React.Component<ChildProps, TogglePublicState> {
   state: Readonly<TogglePublicState> = {
     checked: this.props.checked,
     loading: false,
-    error: null
+    error: null,
   }
 
   private _onChange = async () => {
@@ -28,9 +28,9 @@ class TogglePublic extends React.Component<ChildProps, TogglePublicState> {
         variables: {
           input: {
             id: articleId,
-            enabled: !this.state.checked
-          }
-        }
+            enabled: !this.state.checked,
+          },
+        },
       })
       const isPublic = _get(result, 'data.toggleArticlePublic.public')
       this.setState({ checked: isPublic, loading: false, error: null })

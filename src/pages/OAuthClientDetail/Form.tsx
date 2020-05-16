@@ -55,8 +55,8 @@ class OAuthClientForm extends React.Component<
     if (toArray) {
       return value
         .split('\n')
-        .map(v => v.trim())
-        .filter(v => !!v)
+        .map((v) => v.trim())
+        .filter((v) => !!v)
     }
 
     return value
@@ -83,9 +83,9 @@ class OAuthClientForm extends React.Component<
             user: this.normalizeValue(values.user),
             scope: this.normalizeValue(values.scope, true),
             redirectURIs: this.normalizeValue(values.redirectURIs, true),
-            grantTypes: this.normalizeValue(values.grantTypes, true)
-          }
-        }
+            grantTypes: this.normalizeValue(values.grantTypes, true),
+          },
+        },
       })
       await this.setState({ loading: false, error: false })
       message.success('Updated')
@@ -106,10 +106,10 @@ class OAuthClientForm extends React.Component<
     return (
       <Mutation mutation={UPDATE_OAUTH_CLIENT}>
         {(update: any) => (
-          <Form onSubmit={e => this.handleSubmit(e, update)}>
+          <Form onSubmit={(e) => this.handleSubmit(e, update)}>
             <Form.Item label="Client ID">
               {getFieldDecorator('id', {
-                initialValue: data.id
+                initialValue: data.id,
               })(<Input disabled />)}
             </Form.Item>
 
@@ -119,9 +119,9 @@ class OAuthClientForm extends React.Component<
                 rules: [
                   {
                     required: true,
-                    message: 'required'
-                  }
-                ]
+                    message: 'required',
+                  },
+                ],
               })(<Input />)}
             </Form.Item>
 
@@ -131,27 +131,27 @@ class OAuthClientForm extends React.Component<
                 rules: [
                   {
                     required: true,
-                    message: 'required'
-                  }
-                ]
+                    message: 'required',
+                  },
+                ],
               })(<Input />)}
             </Form.Item>
 
             <Form.Item label="Description" hasFeedback>
               {getFieldDecorator('description', {
-                initialValue: data.description
+                initialValue: data.description,
               })(<Input />)}
             </Form.Item>
 
             <Form.Item label="Website URL" hasFeedback>
               {getFieldDecorator('website', {
-                initialValue: data.website
+                initialValue: data.website,
               })(<Input />)}
             </Form.Item>
 
             <Form.Item label="Scopes" hasFeedback>
               {getFieldDecorator('scope', {
-                initialValue: data.scope ? data.scope.join('\n') : null
+                initialValue: data.scope ? data.scope.join('\n') : null,
               })(<Input.TextArea autosize />)}
             </Form.Item>
 
@@ -159,7 +159,7 @@ class OAuthClientForm extends React.Component<
               {getFieldDecorator('redirectURIs', {
                 initialValue: data.redirectURIs
                   ? data.redirectURIs.join('\n')
-                  : null
+                  : null,
               })(<Input.TextArea autosize />)}
             </Form.Item>
 
@@ -167,19 +167,19 @@ class OAuthClientForm extends React.Component<
               {getFieldDecorator('grantTypes', {
                 initialValue: data.grantTypes
                   ? data.grantTypes.join('\n')
-                  : null
+                  : null,
               })(<Input.TextArea autosize />)}
             </Form.Item>
 
             <Form.Item label="User" hasFeedback>
               {getFieldDecorator('user', {
-                initialValue: data.user && data.user.id
+                initialValue: data.user && data.user.id,
               })(<Input />)}
             </Form.Item>
 
             <Form.Item label="Avatar" hasFeedback>
               {getFieldDecorator('avatar', {
-                initialValue: data.avatar
+                initialValue: data.avatar,
               })(
                 <UploadAvatar
                   avatar={data.avatar}
@@ -203,5 +203,5 @@ class OAuthClientForm extends React.Component<
 }
 
 export default Form.create<OAuthClientFormProps>({
-  name: 'oauth-client'
+  name: 'oauth-client',
 })(OAuthClientForm)

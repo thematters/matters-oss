@@ -12,7 +12,7 @@ type CommentLinkProps = {
 
 const CommentLink: React.FunctionComponent<CommentLinkProps> = ({
   id,
-  content
+  content,
 }) => {
   return (
     <Link to={PATH.COMMENT_DETAIL.replace(':id', id)}>

@@ -15,7 +15,7 @@ class SetBoost extends React.Component<ChildProps, SetBoostState> {
   state: Readonly<SetBoostState> = {
     boost: this.props.boost,
     loading: false,
-    error: null
+    error: null,
   }
 
   private _onSubmit = async () => {
@@ -29,9 +29,9 @@ class SetBoost extends React.Component<ChildProps, SetBoostState> {
           input: {
             id,
             boost: this.state.boost,
-            type
-          }
-        }
+            type,
+          },
+        },
       })
       // const newBoost = _get(result, 'data.SetArticleBoost.oss.boost')
       this.setState({ loading: false, error: null })
@@ -76,7 +76,7 @@ class SetBoost extends React.Component<ChildProps, SetBoostState> {
             margin: '4px',
             verticalAlign: 'middle',
             fontSize: 12,
-            opacity: boostChanged ? 1 : 0
+            opacity: boostChanged ? 1 : 0,
           }}
         >
           確認

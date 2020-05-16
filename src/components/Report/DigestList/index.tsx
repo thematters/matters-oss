@@ -12,7 +12,7 @@ import { Report } from '../../../definitions'
 import {
   pageToCursor,
   onPaginationChange,
-  getCurrentPaginationFromUrl
+  getCurrentPaginationFromUrl,
 } from '../../../utils'
 
 type ReportDigestListProps = {
@@ -52,7 +52,7 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
       isArticle,
       isComment,
       loading = false,
-      pagination
+      pagination,
     } = this.props
     const currentPagination = getCurrentPaginationFromUrl()
 
@@ -68,13 +68,13 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
                 defaultCurrent: currentPagination && currentPagination.page,
                 pageSize: pagination.pageSize || PAGE_SIZE,
                 total: pagination.totalCount,
-                onChange: page => onPaginationChange({ pagination, page }),
-                showTotal: t => `共 ${t} 項`,
-                position: 'both'
+                onChange: (page) => onPaginationChange({ pagination, page }),
+                showTotal: (t) => `共 ${t} 項`,
+                position: 'both',
               }
             : false
         }
-        rowKey={record => record.id}
+        rowKey={(record) => record.id}
       >
         {isArticle && (
           <Table.Column<Report>
@@ -100,7 +100,7 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
           dataIndex={isArticle ? 'article.author' : 'comment.author'}
           title={isArticle ? '文章作者' : '評論作者'}
           width={150}
-          render={author => (
+          render={(author) => (
             <UserLink
               id={author.id}
               userName={author.userName}
@@ -112,7 +112,7 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
           dataIndex="user"
           title="舉報人"
           width={150}
-          render={user => {
+          render={(user) => {
             if (!user) {
               return
             }
@@ -129,7 +129,7 @@ class ReportDigestList extends React.Component<ReportDigestListProps> {
           dataIndex="createdAt"
           title="時間"
           width={150}
-          render={createdAt => <DateTime date={createdAt} />}
+          render={(createdAt) => <DateTime date={createdAt} />}
         />
       </Table>
     )

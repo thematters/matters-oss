@@ -20,8 +20,9 @@ type BlockListItemDigestListProps = {
   }
 }
 
-class BlockListItemDigestList extends React.Component<BlockListItemDigestListProps> {
-
+class BlockListItemDigestList extends React.Component<
+  BlockListItemDigestListProps
+> {
   public render() {
     const { data, loading = false, pagination } = this.props
     const currentPagination = getCurrentPaginationFromUrl()
@@ -38,13 +39,13 @@ class BlockListItemDigestList extends React.Component<BlockListItemDigestListPro
                 defaultCurrent: currentPagination && currentPagination.page,
                 pageSize: pagination.pageSize || PAGE_SIZE,
                 total: pagination.totalCount,
-                onChange: page => onPaginationChange({ pagination, page }),
-                showTotal: t => `共 ${t} 項`,
-                position: 'both'
+                onChange: (page) => onPaginationChange({ pagination, page }),
+                showTotal: (t) => `共 ${t} 項`,
+                position: 'both',
               }
             : false
         }
-        rowKey={record => record.id}
+        rowKey={(record) => record.id}
       >
         <Table.Column<BlockListItemDigest>
           dataIndex="uuid"
@@ -55,31 +56,28 @@ class BlockListItemDigestList extends React.Component<BlockListItemDigestListPro
           dataIndex="type"
           title="封鎖類型"
           width={100}
-          render={type => (
-            <>{ type === 'email' ? '✉️ 郵箱' : '🖐🏻 指紋' }</>
-          )}
+          render={(type) => <>{type === 'email' ? '✉️ 郵箱' : '🖐🏻 指紋'}</>}
         />
-        <Table.Column<BlockListItemDigest>
-          dataIndex="value"
-          title="封鎖資料"
-        />
+        <Table.Column<BlockListItemDigest> dataIndex="value" title="封鎖資料" />
         <Table.Column<BlockListItemDigest>
           dataIndex="archived"
           title="解除封鎖"
           width={100}
-          render={(archived, record) => (<ToggleArchive checked={archived} id={record.id} />)}
+          render={(archived, record) => (
+            <ToggleArchive checked={archived} id={record.id} />
+          )}
         />
         <Table.Column<BlockListItemDigest>
           dataIndex="createdAt"
           title="建立時間"
           width={260}
-          render={createdAt => <DateTime date={createdAt} />}
+          render={(createdAt) => <DateTime date={createdAt} />}
         />
         <Table.Column<BlockListItemDigest>
           dataIndex="updatedAt"
           title="更新時間"
           width={260}
-          render={updatedAt => <DateTime date={updatedAt} />}
+          render={(updatedAt) => <DateTime date={updatedAt} />}
         />
       </Table>
     )

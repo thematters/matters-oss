@@ -10,7 +10,7 @@ type ArticleLinkProps = {
 
 const ArticleLink: React.FunctionComponent<ArticleLinkProps> = ({
   id,
-  title
+  title,
 }) => {
   return <Link to={PATH.ARTICLE_DETAIL.replace(':id', id)}>{title}</Link>
 }

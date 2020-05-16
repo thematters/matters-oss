@@ -15,14 +15,14 @@ type SetRoleState = {
 
 const USER_ROLES: { key: UserRole; text: string; disabled?: boolean }[] = [
   { key: 'user', text: '用戶' },
-  { key: 'admin', text: '管理員' }
+  { key: 'admin', text: '管理員' },
 ]
 
 class SetState extends React.Component<ChildProps, SetRoleState> {
   state: Readonly<SetRoleState> = {
     userRole: this.props.role,
     loading: false,
-    error: null
+    error: null,
   }
 
   private _onSelectUserRole = (value: UserRole) => {
@@ -44,9 +44,9 @@ class SetState extends React.Component<ChildProps, SetRoleState> {
         variables: {
           input: {
             id,
-            role: userRole
-          }
-        }
+            role: userRole,
+          },
+        },
       })
       const newUserRole = _get(result, 'data.updateUserRole.status.role')
       this.setState({ userRole: newUserRole, loading: false, error: null })
@@ -73,7 +73,7 @@ class SetState extends React.Component<ChildProps, SetRoleState> {
       onOk: () => {
         this._onConfirmhange()
       },
-      onCancel: this.revertChange
+      onCancel: this.revertChange,
     })
   }
 

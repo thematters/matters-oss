@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser'
 import { ApolloClient } from 'apollo-client'
 import {
   InMemoryCache,
-  IntrospectionFragmentMatcher
+  IntrospectionFragmentMatcher,
 } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
 import { HttpLink } from 'apollo-link-http'
@@ -16,7 +16,7 @@ import introspectionQueryResultData from './gql/fragmentTypes.json'
 import { genSentryActionId } from './utils'
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData
+  introspectionQueryResultData,
 })
 const token = localStorage.getItem(STORE_JWT_TOKEN)
 
@@ -30,8 +30,8 @@ const sentryLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      'x-sentry-action-id': actionId
-    }
+      'x-sentry-action-id': actionId,
+    },
   }
 })
 
@@ -55,11 +55,11 @@ const client = new ApolloClient({
       uri: API_ENDPOINT,
       credentials: 'same-origin',
       headers: token && {
-        'x-access-token': token
-      }
-    })
+        'x-access-token': token,
+      },
+    }),
   ]),
-  cache: new InMemoryCache({ fragmentMatcher })
+  cache: new InMemoryCache({ fragmentMatcher }),
 })
 
 export default client
