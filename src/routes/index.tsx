@@ -12,6 +12,7 @@ import commentRoutes from './comment'
 import reportRoutes from './report'
 import oauthClientRoutes from './oauthClient'
 import blockListRoutes from './blocklist'
+import domainBlockListRoutes from './domainBlockList'
 
 const routes = [
   {
@@ -38,6 +39,7 @@ const routes = [
   ...reportRoutes,
   ...oauthClientRoutes,
   ...blockListRoutes,
+  ...domainBlockListRoutes,
 ]
 
 export default routes

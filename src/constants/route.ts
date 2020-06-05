@@ -31,6 +31,7 @@ export const PATH = {
   LOGIN: '/auth/login/',
 
   BLOCK_LIST: '/blocklist',
+  BLOCK_LIST_DOMAIN: '/blocklist_domain',
 }
 
 export const PAGE_TITLE = {
@@ -66,6 +67,7 @@ export const PAGE_TITLE = {
   [PATH.LOGIN]: '登入',
 
   [PATH.BLOCK_LIST]: '自動封鎖清單',
+  [PATH.BLOCK_LIST_DOMAIN]: '網域封鎖清單',
 }
 
 export const PATH_REGEXP = {
