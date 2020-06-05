@@ -56,7 +56,15 @@ class BlockListItemDigestList extends React.Component<
           dataIndex="type"
           title="封鎖類型"
           width={100}
-          render={(type) => <>{type === 'email' ? '✉️ 郵箱' : '🖐🏻 指紋'}</>}
+          render={(type) => (
+            <>
+              {type === 'email'
+                ? '✉️ 郵箱'
+                : type === 'email'
+                ? '🖐🏻 指紋'
+                : '🌍 網域'}
+            </>
+          )}
         />
         <Table.Column<BlockListItemDigest> dataIndex="value" title="封鎖資料" />
         <Table.Column<BlockListItemDigest>
