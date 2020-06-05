@@ -88,31 +88,37 @@ const Sider: React.FunctionComponent<RouteComponentProps> = ({ location }) => {
           <Menu.Item key={PATH.TAG_LIST}>
             <Link to={PATH.TAG_LIST}>{PAGE_TITLE[PATH.TAG_LIST]}</Link>
           </Menu.Item>
-          <Menu.Item key={PATH.REPORT_LIST_ARTICLE}>
+          {/* <Menu.Item key={PATH.REPORT_LIST_ARTICLE}>
             <Link to={PATH.REPORT_LIST_ARTICLE}>
               {PAGE_TITLE[PATH.REPORT_LIST_ARTICLE]}
             </Link>
-          </Menu.Item>
+          </Menu.Item> */}
         </SubMenu>
 
         <SubMenu key="comment" title={<strong>評論</strong>}>
           <Menu.Item key={PATH.COMMENT_LIST}>
             <Link to={PATH.COMMENT_LIST}>評論清單</Link>
           </Menu.Item>
-          <Menu.Item key={PATH.REPORT_LIST_COMMENT}>
+          {/* <Menu.Item key={PATH.REPORT_LIST_COMMENT}>
             <Link to={PATH.REPORT_LIST_COMMENT}>
               {PAGE_TITLE[PATH.REPORT_LIST_COMMENT]}
             </Link>
-          </Menu.Item>
+          </Menu.Item> */}
         </SubMenu>
-
-        <Menu.Item key={PATH.FEEDBACK}>
-          <Link to={PATH.FEEDBACK}>{PAGE_TITLE[PATH.FEEDBACK]}</Link>
-        </Menu.Item>
 
         <Menu.Item key={PATH.BLOCK_LIST}>
           <Link to={PATH.BLOCK_LIST}>{PAGE_TITLE[PATH.BLOCK_LIST]}</Link>
         </Menu.Item>
+
+        <Menu.Item key={PATH.BLOCK_LIST_DOMAIN}>
+          <Link to={PATH.BLOCK_LIST_DOMAIN}>
+            {PAGE_TITLE[PATH.BLOCK_LIST_DOMAIN]}
+          </Link>
+        </Menu.Item>
+
+        {/* <Menu.Item key={PATH.FEEDBACK}>
+          <Link to={PATH.FEEDBACK}>{PAGE_TITLE[PATH.FEEDBACK]}</Link>
+        </Menu.Item> */}
       </Menu>
     </AntLayout.Sider>
   )
