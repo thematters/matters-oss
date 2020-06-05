@@ -15,6 +15,7 @@ import { GraphQLResolveInfo, GraphQLScalarType } from 'graphql'
 export interface GQLQuery {
   article?: GQLArticle
   node?: GQLNode
+  nodes?: Array<GQLNode>
   frequentSearch?: Array<string>
   search: GQLSearchResultConnection
   official: GQLOfficial
@@ -115,6 +116,11 @@ export interface GQLArticle extends GQLNode {
    * Content of this article.
    */
   content: string
+
+  /**
+   * Original language of content
+   */
+  language?: string
 
   /**
    * List of articles which added this article into their collections.
@@ -540,6 +546,11 @@ export interface GQLRecommendation {
    * 'In case you missed it' recommendation.
    */
   icymi: GQLArticleConnection
+
+  /**
+   * Global articles sort by appreciate, donation and subscription.
+   */
+  valued: GQLArticleConnection
 
   /**
    * Global tag list, sort by activities in recent 14 days.
@@ -1290,6 +1301,7 @@ export interface GQLNoticeNameMap {
 export interface GQLWallet {
   balance: GQLBalance
   transactions: GQLTransactionConnection
+  stripeAccount?: GQLStripeAccount
 }
 
 export interface GQLBalance {
@@ -1354,6 +1366,7 @@ export const enum GQLTransactionPurpose {
   donation = 'donation',
   addCredit = 'addCredit',
   refund = 'refund',
+  payout = 'payout',
 }
 
 export const enum GQLTransactionCurrency {
@@ -1372,10 +1385,26 @@ export interface GQLTransactionTargetNameMap {
   Transaction: GQLTransaction
 }
 
+/**
+ * Stripe Account
+ */
+export interface GQLStripeAccount {
+  id: string
+  loginUrl: GQLURL
+}
+
+export interface GQLTranslationArgs {
+  language: GQLUserLanguage
+}
+
 export interface GQLArticleTranslation {
+  /**
+   *
+   * @deprecated Use `Article.language` instead
+   */
   originalLanguage: string
-  title: string
-  content: string
+  title?: string
+  content?: string
 }
 
 export interface GQLTransactionsReceivedByArgs {
@@ -1416,6 +1445,10 @@ export interface GQLCommentsFilter {
 
 export interface GQLNodeInput {
   id: string
+}
+
+export interface GQLNodesInput {
+  ids: Array<string>
 }
 
 export interface GQLFrequentSearchInput {
@@ -1539,6 +1572,7 @@ export const enum GQLFeatureName {
   add_credit = 'add_credit',
   payment = 'payment',
   payout = 'payout',
+  verify_appreciate = 'verify_appreciate',
 }
 
 export interface GQLOSS {
@@ -1683,6 +1717,18 @@ export const enum GQLGrantType {
 
 export type GQLDate = any
 
+export interface GQLSkippedListItemsInput {
+  after?: string
+  first?: number
+  type?: GQLSkippedListItemType
+}
+
+export const enum GQLSkippedListItemType {
+  agent_hash = 'agent_hash',
+  email = 'email',
+  domain = 'domain',
+}
+
 export interface GQLSkippedListItemsConnection extends GQLConnection {
   totalCount: number
   pageInfo: GQLPageInfo
@@ -1702,11 +1748,6 @@ export interface GQLSkippedListItem {
   archived: boolean
   createdAt: GQLDateTime
   updatedAt: GQLDateTime
-}
-
-export const enum GQLSkippedListItemType {
-  agent_hash = 'agent_hash',
-  email = 'email',
 }
 
 export interface GQLUserInput {
@@ -1889,7 +1930,7 @@ export interface GQLMutation {
   setBoost: GQLNode
   putRemark?: string
   putSkippedListItem?: Array<GQLSkippedListItem>
-  toggleFeature: GQLFeature
+  setFeature: GQLFeature
 
   /**
    * Send verification code for email.
@@ -2021,6 +2062,16 @@ export interface GQLMutation {
   payTo: GQLPayToResult
 
   /**
+   * Payout to user
+   */
+  payout: GQLTransaction
+
+  /**
+   * Create Stripe Connect account for Payout
+   */
+  connectStripeAccount: GQLConnectStripeAccountResult
+
+  /**
    * Create or Update an OAuth Client, used in OSS.
    */
   putOAuthClient?: GQLOAuthClient
@@ -2054,6 +2105,7 @@ export interface GQLToggleItemInput {
 export interface GQLAppreciateArticleInput {
   id: string
   amount: number
+  token?: string
 }
 
 export interface GQLReadArticleInput {
@@ -2257,12 +2309,21 @@ export const enum GQLRemarkTypes {
 }
 
 export interface GQLPutSkippedListItemInput {
-  id: string
-  archived: boolean
+  id?: string
+  type?: GQLSkippedListItemType
+  value?: string
+  archived?: boolean
 }
 
-export interface GQLToggleFeatureInput {
+export interface GQLSetFeatureInput {
   name: GQLFeatureName
+  flag: GQLFeatureFlag
+}
+
+export const enum GQLFeatureFlag {
+  on = 'on',
+  off = 'off',
+  admin = 'admin',
 }
 
 export interface GQLSendVerificationCodeInput {
@@ -2412,9 +2473,6 @@ export interface GQLAddCreditResult {
   client_secret: string
 }
 
-/**
- * Pay To
- */
 export interface GQLPayToInput {
   amount: GQLPositiveFloat
   currency: GQLTransactionCurrency
@@ -2431,6 +2489,15 @@ export interface GQLPayToResult {
    * Only available when paying with LIKE.
    */
   redirectUrl?: GQLURL
+}
+
+export interface GQLPayoutInput {
+  amount: GQLPositiveFloat
+  password: string
+}
+
+export interface GQLConnectStripeAccountResult {
+  redirectUrl: GQLURL
 }
 
 export interface GQLPutOAuthClientInput {
@@ -3115,6 +3182,7 @@ export interface GQLResolver {
     __resolveType: GQLTransactionTargetTypeResolver
   }
 
+  StripeAccount?: GQLStripeAccountTypeResolver
   ArticleTranslation?: GQLArticleTranslationTypeResolver
   ArticleOSS?: GQLArticleOSSTypeResolver
   SearchResultConnection?: GQLSearchResultConnectionTypeResolver
@@ -3144,6 +3212,7 @@ export interface GQLResolver {
   PositiveFloat?: GraphQLScalarType
   AddCreditResult?: GQLAddCreditResultTypeResolver
   PayToResult?: GQLPayToResultTypeResolver
+  ConnectStripeAccountResult?: GQLConnectStripeAccountResultTypeResolver
   Subscription?: GQLSubscriptionTypeResolver
   ArticleMentionedYouNotice?: GQLArticleMentionedYouNoticeTypeResolver
   ArticleNewAppreciationNotice?: GQLArticleNewAppreciationNoticeTypeResolver
@@ -3176,6 +3245,7 @@ export interface GQLResolver {
 export interface GQLQueryTypeResolver<TParent = any> {
   article?: QueryToArticleResolver<TParent>
   node?: QueryToNodeResolver<TParent>
+  nodes?: QueryToNodesResolver<TParent>
   frequentSearch?: QueryToFrequentSearchResolver<TParent>
   search?: QueryToSearchResolver<TParent>
   official?: QueryToOfficialResolver<TParent>
@@ -3204,6 +3274,18 @@ export interface QueryToNodeResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: QueryToNodeArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface QueryToNodesArgs {
+  input: GQLNodesInput
+}
+export interface QueryToNodesResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: QueryToNodesArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -3301,6 +3383,7 @@ export interface GQLArticleTypeResolver<TParent = any> {
   dataHash?: ArticleToDataHashResolver<TParent>
   mediaHash?: ArticleToMediaHashResolver<TParent>
   content?: ArticleToContentResolver<TParent>
+  language?: ArticleToLanguageResolver<TParent>
   collectedBy?: ArticleToCollectedByResolver<TParent>
   collection?: ArticleToCollectionResolver<TParent>
   relatedArticles?: ArticleToRelatedArticlesResolver<TParent>
@@ -3472,6 +3555,15 @@ export interface ArticleToContentResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface ArticleToLanguageResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface ArticleToCollectedByArgs {
   input: GQLConnectionArgs
 }
@@ -3598,10 +3690,13 @@ export interface ArticleToStickyResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface ArticleToTranslationArgs {
+  input?: GQLTranslationArgs
+}
 export interface ArticleToTranslationResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
-    args: {},
+    args: ArticleToTranslationArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -4393,6 +4488,7 @@ export interface GQLRecommendationTypeResolver<TParent = any> {
   newest?: RecommendationToNewestResolver<TParent>
   hottest?: RecommendationToHottestResolver<TParent>
   icymi?: RecommendationToIcymiResolver<TParent>
+  valued?: RecommendationToValuedResolver<TParent>
   tags?: RecommendationToTagsResolver<TParent>
   topics?: RecommendationToTopicsResolver<TParent>
   authors?: RecommendationToAuthorsResolver<TParent>
@@ -4460,6 +4556,18 @@ export interface RecommendationToIcymiResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: RecommendationToIcymiArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface RecommendationToValuedArgs {
+  input: GQLConnectionArgs
+}
+export interface RecommendationToValuedResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: RecommendationToValuedArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -6097,6 +6205,7 @@ export interface GQLNoticeTypeResolver<TParent = any> {
 export interface GQLWalletTypeResolver<TParent = any> {
   balance?: WalletToBalanceResolver<TParent>
   transactions?: WalletToTransactionsResolver<TParent>
+  stripeAccount?: WalletToStripeAccountResolver<TParent>
 }
 
 export interface WalletToBalanceResolver<TParent = any, TResult = any> {
@@ -6115,6 +6224,15 @@ export interface WalletToTransactionsResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: WalletToTransactionsArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface WalletToStripeAccountResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -6306,6 +6424,29 @@ export interface GQLTransactionTargetTypeResolver<TParent = any> {
     | 'Article'
     | 'Transaction'
 }
+export interface GQLStripeAccountTypeResolver<TParent = any> {
+  id?: StripeAccountToIdResolver<TParent>
+  loginUrl?: StripeAccountToLoginUrlResolver<TParent>
+}
+
+export interface StripeAccountToIdResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface StripeAccountToLoginUrlResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface GQLArticleTranslationTypeResolver<TParent = any> {
   originalLanguage?: ArticleTranslationToOriginalLanguageResolver<TParent>
   title?: ArticleTranslationToTitleResolver<TParent>
@@ -6972,7 +7113,7 @@ export interface OSSToOauthClientsResolver<TParent = any, TResult = any> {
 }
 
 export interface OSSToSkippedListItemsArgs {
-  input: GQLConnectionArgs
+  input: GQLSkippedListItemsInput
 }
 export interface OSSToSkippedListItemsResolver<TParent = any, TResult = any> {
   (
@@ -7526,7 +7667,7 @@ export interface GQLMutationTypeResolver<TParent = any> {
   setBoost?: MutationToSetBoostResolver<TParent>
   putRemark?: MutationToPutRemarkResolver<TParent>
   putSkippedListItem?: MutationToPutSkippedListItemResolver<TParent>
-  toggleFeature?: MutationToToggleFeatureResolver<TParent>
+  setFeature?: MutationToSetFeatureResolver<TParent>
   sendVerificationCode?: MutationToSendVerificationCodeResolver<TParent>
   confirmVerificationCode?: MutationToConfirmVerificationCodeResolver<TParent>
   resetPassword?: MutationToResetPasswordResolver<TParent>
@@ -7554,6 +7695,8 @@ export interface GQLMutationTypeResolver<TParent = any> {
   unfollowUser?: MutationToUnfollowUserResolver<TParent>
   addCredit?: MutationToAddCreditResolver<TParent>
   payTo?: MutationToPayToResolver<TParent>
+  payout?: MutationToPayoutResolver<TParent>
+  connectStripeAccount?: MutationToConnectStripeAccountResolver<TParent>
   putOAuthClient?: MutationToPutOAuthClientResolver<TParent>
 }
 
@@ -8091,13 +8234,13 @@ export interface MutationToPutSkippedListItemResolver<
   ): TResult
 }
 
-export interface MutationToToggleFeatureArgs {
-  input: GQLToggleFeatureInput
+export interface MutationToSetFeatureArgs {
+  input: GQLSetFeatureInput
 }
-export interface MutationToToggleFeatureResolver<TParent = any, TResult = any> {
+export interface MutationToSetFeatureResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
-    args: MutationToToggleFeatureArgs,
+    args: MutationToSetFeatureArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -8430,6 +8573,30 @@ export interface MutationToPayToResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface MutationToPayoutArgs {
+  input: GQLPayoutInput
+}
+export interface MutationToPayoutResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: MutationToPayoutArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface MutationToConnectStripeAccountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface MutationToPutOAuthClientArgs {
   input: GQLPutOAuthClientInput
 }
@@ -8515,6 +8682,22 @@ export interface PayToResultToTransactionResolver<
 }
 
 export interface PayToResultToRedirectUrlResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLConnectStripeAccountResultTypeResolver<TParent = any> {
+  redirectUrl?: ConnectStripeAccountResultToRedirectUrlResolver<TParent>
+}
+
+export interface ConnectStripeAccountResultToRedirectUrlResolver<
   TParent = any,
   TResult = any
 > {
