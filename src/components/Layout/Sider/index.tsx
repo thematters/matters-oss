@@ -106,15 +106,21 @@ const Sider: React.FunctionComponent<RouteComponentProps> = ({ location }) => {
           </Menu.Item> */}
         </SubMenu>
 
-        <Menu.Item key={PATH.BLOCK_LIST}>
-          <Link to={PATH.BLOCK_LIST}>{PAGE_TITLE[PATH.BLOCK_LIST]}</Link>
-        </Menu.Item>
+        <SubMenu key="system" title={<strong>系統設定</strong>}>
+          <Menu.Item key={PATH.BLOCK_LIST}>
+            <Link to={PATH.BLOCK_LIST}>{PAGE_TITLE[PATH.BLOCK_LIST]}</Link>
+          </Menu.Item>
 
-        <Menu.Item key={PATH.BLOCK_LIST_DOMAIN}>
-          <Link to={PATH.BLOCK_LIST_DOMAIN}>
-            {PAGE_TITLE[PATH.BLOCK_LIST_DOMAIN]}
-          </Link>
-        </Menu.Item>
+          <Menu.Item key={PATH.BLOCK_LIST_DOMAIN}>
+            <Link to={PATH.BLOCK_LIST_DOMAIN}>
+              {PAGE_TITLE[PATH.BLOCK_LIST_DOMAIN]}
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item key={PATH.FEATURE_FLAG}>
+            <Link to={PATH.FEATURE_FLAG}>{PAGE_TITLE[PATH.FEATURE_FLAG]}</Link>
+          </Menu.Item>
+        </SubMenu>
 
         {/* <Menu.Item key={PATH.FEEDBACK}>
           <Link to={PATH.FEEDBACK}>{PAGE_TITLE[PATH.FEEDBACK]}</Link>
