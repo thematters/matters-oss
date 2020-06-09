@@ -13,7 +13,7 @@ type FeatureFlagResponse = {
 export type FeatureFlagChildProps = ChildDataProps<
   RouteComponentProps,
   FeatureFlagResponse,
-  undefined
+  {}
 >
 
 const withFeatureFlag = graphql<

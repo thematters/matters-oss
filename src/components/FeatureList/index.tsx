@@ -5,10 +5,10 @@ import _compact from 'lodash/compact'
 import { FeatureFlagItem, FeatureName } from '../../definitions'
 import SetFeature from './SetFeature'
 import { FlagTag } from './FlagTag'
+import { LevelColorMap, LevelEnum } from '../LevelTag'
 
 type FeatureListProps = {
   data: FeatureFlagItem[]
-  refetch: () => void
   loading?: boolean
 }
 
@@ -61,7 +61,11 @@ class FeatureList extends React.Component<FeatureListProps> {
             width={54}
             render={(enabled) => ({
               props: {
-                style: { background: enabled ? 'green' : 'red' },
+                style: {
+                  background: enabled
+                    ? LevelColorMap[LevelEnum.SUCCESS]
+                    : LevelColorMap[LevelEnum.ERROR],
+                },
               },
             })}
           />

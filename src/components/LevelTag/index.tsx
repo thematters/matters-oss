@@ -12,7 +12,7 @@ type LevelTagProps = {
   children?: React.ReactNode
 }
 
-const LevelColorMap = {
+export const LevelColorMap = {
   [LevelEnum.SUCCESS]: '#4e8764',
   [LevelEnum.INFO]: undefined,
   [LevelEnum.WARNING]: 'orange',
