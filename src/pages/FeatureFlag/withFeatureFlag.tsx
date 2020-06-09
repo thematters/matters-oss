@@ -1,21 +1,12 @@
-import { graphql, ChildDataProps, compose } from 'react-apollo'
+import { graphql, ChildDataProps } from 'react-apollo'
 import { RouteComponentProps } from 'react-router-dom'
 
-import { PAGE_SIZE } from '../../constants'
-import {
-  BlockListItemDigest,
-  GQLConnectionArgs,
-  Connection
-} from '../../definitions'
-import { getCurrentPaginationFromUrl } from '../../utils'
 import QueryFeatureFlag from '../../gql/queries/featureFlag.gql'
+import { FeatureFlagItem } from '../../definitions'
 
 type FeatureFlagResponse = {
   official: {
-    features: Array<{
-      name: string
-      enabled: boolean
-    }>
+    features: FeatureFlagItem[]
   }
 }
 
@@ -28,7 +19,7 @@ export type FeatureFlagChildProps = ChildDataProps<
 const withFeatureFlag = graphql<
   RouteComponentProps,
   FeatureFlagResponse,
-  undefined,
+  {},
   FeatureFlagChildProps
 >(QueryFeatureFlag)
 
