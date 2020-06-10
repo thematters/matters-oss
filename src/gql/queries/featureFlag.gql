@@ -1,0 +1,8 @@
+query FeatureFlag {
+  official {
+    features {
+      name
+      enabled
+    }
+  }
+}
