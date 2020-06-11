@@ -13,6 +13,7 @@ import reportRoutes from './report'
 import oauthClientRoutes from './oauthClient'
 import blockListRoutes from './blocklist'
 import domainBlockListRoutes from './domainBlockList'
+import featureFlag from './featureFlag'
 
 const routes = [
   {
@@ -21,15 +22,15 @@ const routes = [
     component: (props: RouteConfigComponentProps) => (
       <Redirect
         to={{
-          pathname: PATH.HOMEPAGE_HOTTEST,
+          pathname: PATH.HOMEPAGE_HOTTEST
         }}
       />
-    ),
+    )
   },
 
   {
     path: PATH.LOGIN,
-    component: () => <Login />,
+    component: () => <Login />
   },
 
   ...homepageRoutes,
@@ -40,6 +41,7 @@ const routes = [
   ...oauthClientRoutes,
   ...blockListRoutes,
   ...domainBlockListRoutes,
+  ...featureFlag
 ]
 
 export default routes

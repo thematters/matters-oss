@@ -7,7 +7,7 @@ import {
   GQLUserInfo,
   GQLUserSettings,
   GQLUserStatus,
-  GQLLiker,
+  GQLLiker
 } from './schema'
 
 export * from './schema'
@@ -187,4 +187,15 @@ export interface BlockListItemDigest {
   value: string
   createdAt: Date
   updatedAt: Date
+}
+
+export type FeatureName =
+  | 'verify_appreciate'
+  | 'payout'
+  | 'add_credit'
+  | 'payment'
+
+export interface FeatureFlagItem {
+  name: FeatureName
+  enabled: boolean
 }
