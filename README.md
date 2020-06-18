@@ -1,6 +1,6 @@
 # Matters OSS
 
-![](https://github.com/thematters/matters-oss/workflows/deployment/badge.svg)
+![](https://github.com/thematters/matters-oss/workflows/Deployment/badge.svg)
 
 ## Deployment with CloudFront
 
