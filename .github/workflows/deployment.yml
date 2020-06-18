@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - develop
+      - feature/github-actions
   pull_request:
     branches:
       - '*'
@@ -44,12 +45,12 @@ jobs:
       # === `develop` branch ===
       - name: Build (develop)
         # if: github.ref == 'refs/heads/develop'
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/feature/github-actions'
+        if: github.ref == 'refs/heads/feature/github-actions'
         run: npm run build:develop
 
       - name: Upload to S3 (devlop)
         # if: github.ref == 'refs/heads/develop'
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/feature/github-actions'
+        if: github.ref == 'refs/heads/feature/github-actions'
         run: |
           aws s3 sync ./build s3://oss-develop.matters.news
 
