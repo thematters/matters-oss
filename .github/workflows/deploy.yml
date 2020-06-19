@@ -35,7 +35,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Setup AWS
         if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
@@ -47,7 +47,7 @@ jobs:
 
       # === `develop` branch ===
       - name: Build (develop)
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/develop' || github.base_ref == 'refs/heads/develop'
         run: npm run build:develop
 
       - name: Upload to S3 (devlop)
@@ -57,7 +57,7 @@ jobs:
 
       # === `master` branch ===
       - name: Build (production)
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/master' || github.base_ref == 'refs/heads/master'
         run: npm run build:production
 
       - name: Upload to S3 (production)
