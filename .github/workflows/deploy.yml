@@ -47,7 +47,7 @@ jobs:
 
       # === `develop` branch ===
       - name: Build (develop)
-        if: github.ref == 'refs/heads/develop' || github.base_ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/develop' || github.base_ref == 'develop'
         run: npm run build:develop
 
       - name: Upload to S3 (devlop)
@@ -57,7 +57,7 @@ jobs:
 
       # === `master` branch ===
       - name: Build (production)
-        if: github.ref == 'refs/heads/master' || github.base_ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' || github.base_ref == 'master'
         run: npm run build:production
 
       - name: Upload to S3 (production)
