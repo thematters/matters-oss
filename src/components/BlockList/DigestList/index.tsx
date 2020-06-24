@@ -60,7 +60,7 @@ class BlockListItemDigestList extends React.Component<
             <>
               {type === 'email'
                 ? '✉️ 郵箱'
-                : type === 'email'
+                : type === 'agent_hash'
                 ? '🖐🏻 指紋'
                 : '🌍 網域'}
             </>
