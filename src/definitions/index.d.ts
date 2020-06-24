@@ -7,7 +7,7 @@ import {
   GQLUserInfo,
   GQLUserSettings,
   GQLUserStatus,
-  GQLLiker
+  GQLLiker,
 } from './schema'
 
 export * from './schema'
