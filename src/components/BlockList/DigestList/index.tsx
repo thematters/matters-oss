@@ -39,13 +39,13 @@ class BlockListItemDigestList extends React.Component<
                 defaultCurrent: currentPagination && currentPagination.page,
                 pageSize: pagination.pageSize || PAGE_SIZE,
                 total: pagination.totalCount,
-                onChange: page => onPaginationChange({ pagination, page }),
-                showTotal: t => `共 ${t} 項`,
-                position: 'both'
+                onChange: (page) => onPaginationChange({ pagination, page }),
+                showTotal: (t) => `共 ${t} 項`,
+                position: 'both',
               }
             : false
         }
-        rowKey={record => record.id}
+        rowKey={(record) => record.id}
       >
         <Table.Column<BlockListItemDigest>
           dataIndex="uuid"
@@ -56,11 +56,11 @@ class BlockListItemDigestList extends React.Component<
           dataIndex="type"
           title="封鎖類型"
           width={100}
-          render={type => (
+          render={(type) => (
             <>
               {type === 'email'
                 ? '✉️ 郵箱'
-                : type === 'email'
+                : type === 'agent_hash'
                 ? '🖐🏻 指紋'
                 : '🌍 網域'}
             </>
@@ -79,13 +79,13 @@ class BlockListItemDigestList extends React.Component<
           dataIndex="createdAt"
           title="建立時間"
           width={260}
-          render={createdAt => <DateTime date={createdAt} />}
+          render={(createdAt) => <DateTime date={createdAt} />}
         />
         <Table.Column<BlockListItemDigest>
           dataIndex="updatedAt"
           title="更新時間"
           width={260}
-          render={updatedAt => <DateTime date={updatedAt} />}
+          render={(updatedAt) => <DateTime date={updatedAt} />}
         />
       </Table>
     )

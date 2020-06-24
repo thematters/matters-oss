@@ -6,16 +6,16 @@ import { FeatureFlag } from './withSetFeature'
 const FlagMap = {
   on: {
     level: LevelEnum.SUCCESS,
-    text: '打開'
+    text: '打開',
   },
   admin: {
     level: LevelEnum.WARNING,
-    text: '管理員可見'
+    text: '管理員可見',
   },
   off: {
     level: LevelEnum.ERROR,
-    text: '關閉'
-  }
+    text: '關閉',
+  },
 }
 
 export const FlagTag = ({ flag }: { flag: FeatureFlag }) => {
