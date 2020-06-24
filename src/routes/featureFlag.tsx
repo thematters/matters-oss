@@ -18,8 +18,8 @@ const FeatureFlagRoutes = [
           <FeatureFlag {...props} />
         </Layout.Content>
       </Private>
-    )
-  }
+    ),
+  },
 ]
 
 export default FeatureFlagRoutes
