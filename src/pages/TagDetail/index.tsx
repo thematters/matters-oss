@@ -9,6 +9,7 @@ import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
 import ArticleDigestList from '../../components/Article/DigestList'
 import TagStateTag from '../../components/Tag/StateTag'
+import UserLink from '../../components/User/Link'
 
 import withTagDetail, { TagDetailChildProps } from './withTagDetail'
 import SetBoost from '../../components/SetBoost'
@@ -46,6 +47,30 @@ class TagDetail extends React.Component<TagDetailChildProps> {
           <Description term="文章數">{tag.articles.totalCount}</Description>
           <Description term="時間">
             <DateTime date={tag.createdAt} />
+          </Description>
+        </DescriptionList>
+        <Divider size="large" />
+
+        <DescriptionList size="large" title="權限">
+          <Description term="創建者">
+            <UserLink
+              id={tag.creator.id}
+              userName={tag.creator.userName}
+              displayName={tag.creator.displayName}
+            />
+          </Description>
+          <Description term="編輯者">
+            <ul>
+              {tag.editors.map((editor) => (
+                <li>
+                  <UserLink
+                    id={editor.id}
+                    userName={editor.userName}
+                    displayName={editor.displayName}
+                  />
+                </li>
+              ))}
+            </ul>
           </Description>
         </DescriptionList>
         <Divider size="large" />
