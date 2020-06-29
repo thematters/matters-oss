@@ -20,4 +20,14 @@ fragment TagDetail on Tag {
   }
   remark
   deleted
+  creator {
+    id
+    userName
+    displayName
+  }
+  editors {
+    id
+    userName
+    displayName
+  }
 }
