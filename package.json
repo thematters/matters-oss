@@ -38,7 +38,7 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "file-loader": "6.0.0",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
-    "fs-extra": "9.0.0",
+    "fs-extra": "9.0.1",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "html-webpack-plugin": "4.0.2",
