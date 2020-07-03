@@ -68,6 +68,16 @@ export type TagDigest = {
 export type TagDetail = TagDigest & {
   articles: Connection<ArticleDigest>
   remark: string
+  creator: {
+    id: string
+    userName: string
+    displayName: string
+  }
+  editors: Array<{
+    id: string
+    userName: string
+    displayName: string
+  }>
 }
 
 /**
