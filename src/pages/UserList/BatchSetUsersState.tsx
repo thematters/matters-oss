@@ -73,8 +73,6 @@ class BatchSetUsersState extends React.Component<
       .map((e) => e.trim())
       .filter((e) => !!e && isEmail(e))
 
-    console.log(emails)
-
     if (error) {
       return <ErrorMessage error={error} />
     }

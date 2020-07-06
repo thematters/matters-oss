@@ -115,7 +115,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
           },
         },
       })
-      const newUserState = _get(result, 'data.updateUserState.status.state')
+      const newUserState = _get(result, 'data.updateUserState.0.status.state')
       this.setState({ userState: newUserState, loading: false, error: null })
     } catch (error) {
       const errorCodes = getErrorCodes(error)
