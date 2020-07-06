@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Select, Button, Modal, Alert, Input, message } from 'antd'
+import { Select, Modal, Alert, Input, message } from 'antd'
 import _get from 'lodash/get'
 import { ModalFuncProps } from 'antd/lib/modal'
 
@@ -98,7 +98,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   private _onConfirmhange = async () => {
     this.setState({ loading: true, error: null })
 
-    const { mutate, id } = this.props
+    const { mutate, id, emails } = this.props
     const { userState, password } = this.state
     const banDays = parseInt(this.state.banDays, 10)
 
@@ -111,6 +111,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
             banDays:
               userState === 'banned' && banDays > 0 ? banDays : undefined,
             password,
+            emails,
           },
         },
       })
@@ -132,7 +133,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private preConfirm = () => {
-    const { state, userName } = this.props
+    const { state, userName, emails } = this.props
     const { userState, password, banDays } = this.state
     const isBanned = userState === 'banned'
     const isArchived = userState === 'archived'
@@ -142,6 +143,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
       content: (
         <>
           <div style={{ marginTop: 16 }}>
+            {emails && <pre>{emails.join('\n')}</pre>}
             <span>
               修改後，用戶狀態將從&nbsp;&nbsp;
               <UserStateTag state={state} />
@@ -196,6 +198,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   public render() {
+    const { disabled, batch } = this.props
     const { userState, error } = this.state
 
     if (error) {
@@ -205,15 +208,18 @@ class SetState extends React.Component<ChildProps, SetStateState> {
     return (
       <span>
         <Select
+          disabled={disabled}
           value={userState}
           onSelect={this._onSelectUserState}
           style={{ marginRight: 8 }}
         >
-          {USER_STATES.map(({ key, text, disabled }) => (
-            <Select.Option key={key} disabled={disabled}>
-              {text}
-            </Select.Option>
-          ))}
+          {USER_STATES.filter((s) => (batch ? s.key !== 'archived' : true)).map(
+            ({ key, text, disabled }) => (
+              <Select.Option key={key} disabled={disabled}>
+                {text}
+              </Select.Option>
+            )
+          )}
         </Select>
       </span>
     )

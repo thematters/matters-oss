@@ -28,17 +28,21 @@ export type UserState =
   | 'archived'
 
 type InputProps = {
-  id: string
+  id?: string
   state: UserState
-  userName: string
+  userName?: string
+  emails?: string[]
+  disabled?: boolean
+  batch?: boolean
 }
 
 type Variables = {
   input: {
-    id: string
+    id?: string
     state: UserState
     banDays?: number
     password?: string
+    emails?: string[]
   }
 }
 

@@ -7,10 +7,18 @@ import UserDigestList from '../../components/User/DigestList'
 import withUserList, { UserListChildProps } from './withUserList'
 
 import { UserDigest } from '../../definitions'
+import BatchSetUsersState from './BatchSetUsersState'
 
 class UserList extends React.Component<UserListChildProps> {
   private _renderHeader() {
-    return <SearchBar placeholder="請輸入 Matters ID 或用戶姓名" />
+    return (
+      <>
+        <h4>批量修改</h4>
+        <BatchSetUsersState />
+        <h4>搜尋</h4>
+        <SearchBar placeholder="請輸入 Matters ID 或用戶姓名" />
+      </>
+    )
   }
 
   private _renderContent() {
