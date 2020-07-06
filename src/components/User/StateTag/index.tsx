@@ -15,6 +15,10 @@ const StateMap = {
     level: LevelEnum.ERROR,
     text: '禁言',
   },
+  frozen: {
+    level: LevelEnum.ERROR,
+    text: '凍結',
+  },
   onboarding: {
     level: LevelEnum.INFO,
     text: '未激活',
@@ -24,7 +28,7 @@ const StateMap = {
 const StateTag = ({
   state,
 }: {
-  state: 'active' | 'archived' | 'banned' | 'onboarding'
+  state: 'active' | 'archived' | 'banned' | 'frozen' | 'onboarding'
 }) => {
   const { level, text } = StateMap[state]
   return <LevelTag level={level}>{text}</LevelTag>
