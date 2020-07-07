@@ -26,6 +26,7 @@ export type UserState =
   | 'banned'
   | 'frozen'
   | 'archived'
+  | 'null'
 
 type InputProps = {
   id?: string

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Select, Modal, Alert, Input, message } from 'antd'
+import { Select, Modal, Input, message } from 'antd'
 import _get from 'lodash/get'
 import { ModalFuncProps } from 'antd/lib/modal'
 
@@ -18,6 +18,7 @@ type SetStateState = {
 }
 
 const USER_STATES: { key: UserState; text: string; disabled?: boolean }[] = [
+  { key: 'null', text: '無' },
   { key: 'active', text: '正常' },
   { key: 'archived', text: '註銷' },
   { key: 'banned', text: '禁言' },
@@ -80,6 +81,10 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private _onSelectUserState = (value: UserState) => {
+    if (value === 'null') {
+      return
+    }
+
     this.setState({ userState: value }, () => {
       if (this.props.state !== value) {
         this.preConfirm()
@@ -198,28 +203,31 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   public render() {
-    const { disabled, batch } = this.props
+    const { disabled, batch, state } = this.props
     const { userState, error } = this.state
 
     if (error) {
       return <ErrorMessage error={error} />
     }
 
+    let states = USER_STATES
+    if (batch) {
+      states = states.filter((s) => s.key !== 'archived')
+    }
+
     return (
       <span>
         <Select
-          disabled={disabled}
+          disabled={disabled || state === 'archived'}
           value={userState}
           onSelect={this._onSelectUserState}
           style={{ marginRight: 8 }}
         >
-          {USER_STATES.filter((s) => (batch ? s.key !== 'archived' : true)).map(
-            ({ key, text, disabled }) => (
-              <Select.Option key={key} disabled={disabled}>
-                {text}
-              </Select.Option>
-            )
-          )}
+          {states.map(({ key, text, disabled }) => (
+            <Select.Option key={key} disabled={disabled}>
+              {text}
+            </Select.Option>
+          ))}
         </Select>
       </span>
     )

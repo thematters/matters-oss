@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Tag } from 'antd'
 
 export enum LevelEnum {
+  NULL,
   SUCCESS,
   INFO,
   WARNING,
@@ -13,6 +14,7 @@ type LevelTagProps = {
 }
 
 export const LevelColorMap = {
+  [LevelEnum.NULL]: 'grey',
   [LevelEnum.SUCCESS]: '#4e8764',
   [LevelEnum.INFO]: undefined,
   [LevelEnum.WARNING]: 'orange',
