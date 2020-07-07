@@ -100,7 +100,7 @@ class BatchSetUsersState extends React.Component<
               <Col offset={0} span={8} md={{ span: 4 }} lg={{ span: 2 }}>
                 <UserSetState
                   emails={emails}
-                  state="active"
+                  state="null"
                   disabled={emails.length <= 0}
                   batch
                 />
