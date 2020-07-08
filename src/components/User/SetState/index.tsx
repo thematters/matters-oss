@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Select, Button, Modal, Alert, Input, message } from 'antd'
+import { Select, Modal, Input, message } from 'antd'
 import _get from 'lodash/get'
 import { ModalFuncProps } from 'antd/lib/modal'
 
@@ -18,9 +18,11 @@ type SetStateState = {
 }
 
 const USER_STATES: { key: UserState; text: string; disabled?: boolean }[] = [
+  { key: 'null', text: '無' },
   { key: 'active', text: '正常' },
   { key: 'archived', text: '註銷' },
   { key: 'banned', text: '禁言' },
+  { key: 'frozen', text: '凍結' },
   { key: 'onboarding', text: '未激活' },
 ]
 const BAN_DAYS: { key: string; text: string }[] = [
@@ -79,6 +81,10 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private _onSelectUserState = (value: UserState) => {
+    if (value === 'null') {
+      return
+    }
+
     this.setState({ userState: value }, () => {
       if (this.props.state !== value) {
         this.preConfirm()
@@ -97,7 +103,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   private _onConfirmhange = async () => {
     this.setState({ loading: true, error: null })
 
-    const { mutate, id } = this.props
+    const { mutate, id, emails } = this.props
     const { userState, password } = this.state
     const banDays = parseInt(this.state.banDays, 10)
 
@@ -110,10 +116,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
             banDays:
               userState === 'banned' && banDays > 0 ? banDays : undefined,
             password,
+            emails,
           },
         },
       })
-      const newUserState = _get(result, 'data.updateUserState.status.state')
+      const newUserState = _get(result, 'data.updateUserState.0.status.state')
       this.setState({ userState: newUserState, loading: false, error: null })
     } catch (error) {
       const errorCodes = getErrorCodes(error)
@@ -131,7 +138,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private preConfirm = () => {
-    const { state, userName } = this.props
+    const { state, userName, emails } = this.props
     const { userState, password, banDays } = this.state
     const isBanned = userState === 'banned'
     const isArchived = userState === 'archived'
@@ -141,6 +148,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
       content: (
         <>
           <div style={{ marginTop: 16 }}>
+            {emails && <pre>{emails.join('\n')}</pre>}
             <span>
               修改後，用戶狀態將從&nbsp;&nbsp;
               <UserStateTag state={state} />
@@ -195,20 +203,27 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   public render() {
+    const { disabled, batch, state } = this.props
     const { userState, error } = this.state
 
     if (error) {
       return <ErrorMessage error={error} />
     }
 
+    let states = USER_STATES
+    if (batch) {
+      states = states.filter((s) => s.key !== 'archived')
+    }
+
     return (
       <span>
         <Select
+          disabled={disabled || state === 'archived'}
           value={userState}
           onSelect={this._onSelectUserState}
           style={{ marginRight: 8 }}
         >
-          {USER_STATES.map(({ key, text, disabled }) => (
+          {states.map(({ key, text, disabled }) => (
             <Select.Option key={key} disabled={disabled}>
               {text}
             </Select.Option>
