@@ -3,6 +3,7 @@
 
 query OSSRecommendNewest($input: ConnectionArgs!) {
   viewer {
+    id
     recommendation {
       newest(input: $input) {
         ...ConnectionInfo

@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 
 import Layout from './components/Layout'
-import { SENTRY_DSN } from './constants'
+import { SENTRY_DSN, STORE_JWT_TOKEN } from './constants'
 
 import routes from './routes'
 import client from './client'
@@ -20,6 +20,8 @@ Sentry.init({ dsn: SENTRY_DSN || '' })
 Sentry.configureScope((scope: any) => {
   scope.setTag('source', 'oss')
 })
+
+window.localStorage.removeItem(STORE_JWT_TOKEN)
 
 class App extends React.Component {
   public render() {
