@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
-    "@babel/core": "7.10.4",
+    "@babel/core": "7.10.5",
     "@sentry/browser": "^5.19.2",
     "@svgr/webpack": "^5.4.0",
     "antd": "^3.26.7",
