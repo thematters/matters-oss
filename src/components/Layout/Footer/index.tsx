@@ -1,29 +1,41 @@
 import * as React from 'react'
 import { Layout as AntLayout } from 'antd'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
 
-import { STORE_JWT_TOKEN } from '../../../constants'
+import { ViewerContext } from '../ViewerProvider'
 
-const Footer: React.FunctionComponent = () => {
-  const isAuthenticated = window.localStorage.getItem(STORE_JWT_TOKEN)
+const ADMIN_LOGOUT = gql`
+  mutation UserLogout {
+    userLogout
+  }
+`
+
+const Footer: React.FC = () => {
+  const viewer = React.useContext(ViewerContext)
 
   return (
-    <AntLayout.Footer style={{ textAlign: 'right' }}>
-      © The Matters
-      {isAuthenticated && (
-        <span style={{ marginLeft: 16, float: 'right' }}>
-          <button
-            style={{ fontSize: 12 }}
-            type="button"
-            onClick={() => {
-              window.localStorage.removeItem(STORE_JWT_TOKEN)
-              window.location.reload()
-            }}
-          >
-            登出
-          </button>
-        </span>
+    <Mutation mutation={ADMIN_LOGOUT}>
+      {(logout: any) => (
+        <AntLayout.Footer style={{ textAlign: 'right' }}>
+          © The Matters
+          {viewer.isAuthed && (
+            <span style={{ marginLeft: 16, float: 'right' }}>
+              <button
+                style={{ fontSize: 12 }}
+                type="button"
+                onClick={async () => {
+                  await logout()
+                  window.location.reload()
+                }}
+              >
+                登出
+              </button>
+            </span>
+          )}
+        </AntLayout.Footer>
       )}
-    </AntLayout.Footer>
+    </Mutation>
   )
 }
 

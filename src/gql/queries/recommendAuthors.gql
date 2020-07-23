@@ -3,6 +3,7 @@
 
 query OSSRecommendAuthors($input: AuthorsInput!) {
   viewer {
+    id
     recommendation {
       authors(input: $input) {
         ...ConnectionInfo

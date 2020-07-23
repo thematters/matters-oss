@@ -3,6 +3,7 @@
 
 query OSSRecommendIcymi($input: ConnectionArgs!) {
   viewer {
+    id
     recommendation {
       icymi(input: $input) {
         ...ConnectionInfo

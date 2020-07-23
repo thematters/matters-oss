@@ -1,26 +1,24 @@
 import * as React from 'react'
 import { Redirect } from 'react-router-dom'
 
-import { PATH, STORE_JWT_TOKEN } from '../../constants'
+import { PATH } from '../../constants'
+import { ViewerContext } from '../Layout/ViewerProvider'
 
-class Private extends React.PureComponent {
-  render() {
-    const isAuthenticated = localStorage.getItem(STORE_JWT_TOKEN)
-    const { children } = this.props
+const Private: React.FC = ({ children }) => {
+  const viewer = React.useContext(ViewerContext)
 
-    if (isAuthenticated) {
-      return children
-    }
-
-    return (
-      <Redirect
-        to={{
-          pathname: PATH.LOGIN,
-          search: `?next=${window.location.href}`,
-        }}
-      />
-    )
+  if (viewer.isAuthed) {
+    return <>{children}</>
   }
+
+  return (
+    <Redirect
+      to={{
+        pathname: PATH.LOGIN,
+        search: `?next=${window.location.href}`,
+      }}
+    />
+  )
 }
 
 export default Private

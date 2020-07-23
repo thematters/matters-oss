@@ -3,6 +3,7 @@
 
 query OSSRecommendHottest($input: ConnectionArgs!) {
   viewer {
+    id
     recommendation {
       hottest(input: $input) {
         ...ConnectionInfo

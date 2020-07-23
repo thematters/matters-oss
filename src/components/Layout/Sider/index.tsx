@@ -6,13 +6,14 @@ import Divider from '../../../components/Divider'
 
 import { PATH, PAGE_TITLE, STORE_JWT_TOKEN } from '../../../constants'
 import LOGO_URL from '../../../assets/logo.svg'
+import { ViewerContext } from '../ViewerProvider'
 
 const { SubMenu } = Menu
 
-const Sider: React.FunctionComponent<RouteComponentProps> = ({ location }) => {
-  const isAuthenticated = window.localStorage.getItem(STORE_JWT_TOKEN)
+export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
+  const viewer = React.useContext(ViewerContext)
 
-  if (!isAuthenticated) {
+  if (!viewer.isAuthed) {
     return null
   }
 
