@@ -93,7 +93,6 @@ class Login extends React.Component<ChildProps, LoginState> {
         })
         const token = _get(result, 'data.userLogin.token')
         if (token) {
-          localStorage.setItem(STORE_JWT_TOKEN, token)
           window.location.replace((next as string) || '/')
         } else {
           setFields({

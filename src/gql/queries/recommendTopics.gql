@@ -3,6 +3,7 @@
 
 query OSSRecommendTopics($input: ConnectionArgs!) {
   viewer {
+    id
     recommendation {
       topics(input: $input) {
         ...ConnectionInfo
