@@ -9,7 +9,7 @@ export const API_ENDPOINT = __LOCAL__
   : __TEST__
   ? 'https://server-stage.matters.news/graphql'
   : __DEVELOP__
-  ? 'https://server-stage.matters.news/graphql'
+  ? 'https://server-develop.matters.news/graphql'
   : __PROD__
   ? 'https://server.matters.news/graphql'
   : ''
