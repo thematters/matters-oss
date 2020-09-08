@@ -50,10 +50,7 @@ class TagDetail extends React.Component<TagDetailChildProps> {
             <DateTime date={tag.createdAt} />
           </Description>
           <Description term="站內連結">
-            <a
-              href={`${SITE_DOMIAN}/tags/${tag.id}`}
-              target="_blank"
-            >
+            <a href={`${SITE_DOMIAN}/tags/${tag.id}`} target="_blank">
               {tag.id}
             </a>
           </Description>
