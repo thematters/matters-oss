@@ -1,7 +1,7 @@
 #import "../fragments/connection.gql"
 #import "../fragments/tag/digest.gql"
 
-query OSSRecommendTags($input: ConnectionArgs!) {
+query OSSRecommendTags($input: RecommendationTagsInput!) {
   viewer {
     id
     recommendation {
