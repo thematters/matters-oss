@@ -13,6 +13,7 @@ import UserLink from '../../components/User/Link'
 
 import withTagDetail, { TagDetailChildProps } from './withTagDetail'
 import SetBoost from '../../components/SetBoost'
+import { SITE_DOMIAN } from '../../constants'
 
 const { Description } = DescriptionList
 
@@ -47,6 +48,11 @@ class TagDetail extends React.Component<TagDetailChildProps> {
           <Description term="文章數">{tag.articles.totalCount}</Description>
           <Description term="時間">
             <DateTime date={tag.createdAt} />
+          </Description>
+          <Description term="站內連結">
+            <a href={`${SITE_DOMIAN}/tags/${tag.id}`} target="_blank">
+              {tag.id}
+            </a>
           </Description>
         </DescriptionList>
         <Divider size="large" />
