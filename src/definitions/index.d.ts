@@ -204,6 +204,7 @@ export type FeatureName =
   | 'payout'
   | 'add_credit'
   | 'payment'
+  | 'tag_adoption'
 
 export interface FeatureFlagItem {
   name: FeatureName
