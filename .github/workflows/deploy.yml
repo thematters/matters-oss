@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - develop
+      - stage
   pull_request:
     branches:
       - '*'
@@ -38,7 +39,7 @@ jobs:
         run: npm ci
 
       - name: Setup AWS
-        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/stage' || github.ref == 'refs/heads/master'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -54,6 +55,16 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         run: |
           aws s3 sync ./build s3://oss-develop.matters.news
+
+      # === `stage` branch ===
+      - name: Build (stage)
+        if: github.ref == 'refs/heads/stage' || github.base_ref == 'stage'
+        run: npm run build:stage
+
+      - name: Upload to S3 (stage)
+        if: github.ref == 'refs/heads/stage'
+        run: |
+          aws s3 sync ./build s3://oss-stage.matters.news
 
       # === `master` branch ===
       - name: Build (production)
