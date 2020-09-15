@@ -1,12 +1,12 @@
 export const __LOCAL__ =
   !process.env.REACT_APP_ENV || process.env.REACT_APP_ENV === 'local'
-export const __TEST__ = process.env.REACT_APP_ENV === 'test'
 export const __DEVELOP__ = process.env.REACT_APP_ENV === 'develop'
+export const __STAGE__ = process.env.REACT_APP_ENV === 'stage'
 export const __PROD__ = process.env.REACT_APP_ENV === 'production'
 
 export const API_ENDPOINT = __LOCAL__
   ? 'https://server-stage.matters.news/graphql'
-  : __TEST__
+  : __STAGE__
   ? 'https://server-stage.matters.news/graphql'
   : __DEVELOP__
   ? 'https://server-develop.matters.news/graphql'
@@ -16,6 +16,8 @@ export const API_ENDPOINT = __LOCAL__
 
 export const SITE_DOMIAN = __PROD__
   ? 'https://matters.news'
+  : __STAGE__
+  ? 'https://web-stage.matters.news'
   : 'https://web-develop.matters.news'
 
 export const SENTRY_DSN = __LOCAL__
