@@ -1,11 +1,9 @@
 {
   "__schema": {
-    "types": [
-      {
+    "types": [{
         "kind": "INTERFACE",
         "name": "Node",
-        "possibleTypes": [
-          {
+        "possibleTypes": [{
             "name": "Article"
           },
           {
@@ -25,8 +23,7 @@
       {
         "kind": "INTERFACE",
         "name": "Connection",
-        "possibleTypes": [
-          {
+        "possibleTypes": [{
             "name": "ArticleConnection"
           },
           {
@@ -63,9 +60,6 @@
             "name": "SearchResultConnection"
           },
           {
-            "name": "ReportConnection"
-          },
-          {
             "name": "OAuthClientConnection"
           },
           {
@@ -76,8 +70,7 @@
       {
         "kind": "UNION",
         "name": "Response",
-        "possibleTypes": [
-          {
+        "possibleTypes": [{
             "name": "Article"
           },
           {
@@ -88,8 +81,7 @@
       {
         "kind": "INTERFACE",
         "name": "Notice",
-        "possibleTypes": [
-          {
+        "possibleTypes": [{
             "name": "UserNewFollowerNotice"
           },
           {
@@ -154,8 +146,7 @@
       {
         "kind": "UNION",
         "name": "TransactionTarget",
-        "possibleTypes": [
-          {
+        "possibleTypes": [{
             "name": "Article"
           },
           {

@@ -22,10 +22,6 @@ export const PATH = {
   OAUTH_CLIENT_LIST: '/oauth-clients',
   OAUTH_CLIENT_DETAIL: '/oauth-clients/:id',
 
-  REPORT_LIST_ARTICLE: '/reports/article',
-  REPORT_LIST_COMMENT: '/reports/comment',
-  REPORT_DETAIL: '/reports/:id',
-
   FEEDBACK: '/feedback',
 
   LOGIN: '/auth/login/',
@@ -59,10 +55,6 @@ export const PAGE_TITLE = {
 
   [PATH.OAUTH_CLIENT_LIST]: 'OAuth Client 清單',
   [PATH.OAUTH_CLIENT_DETAIL]: 'OAuth Client 詳情',
-
-  [PATH.REPORT_LIST_ARTICLE]: '舉報文章清單',
-  [PATH.REPORT_LIST_COMMENT]: '舉報評論清單',
-  [PATH.REPORT_DETAIL]: '舉報詳情',
 
   [PATH.FEEDBACK]: '反饋',
 
