@@ -1,9 +1,11 @@
 {
   "__schema": {
-    "types": [{
+    "types": [
+      {
         "kind": "INTERFACE",
         "name": "Node",
-        "possibleTypes": [{
+        "possibleTypes": [
+          {
             "name": "Article"
           },
           {
@@ -23,14 +25,15 @@
       {
         "kind": "INTERFACE",
         "name": "Connection",
-        "possibleTypes": [{
+        "possibleTypes": [
+          {
             "name": "ArticleConnection"
           },
           {
-            "name": "ResponseConnection"
+            "name": "CommentConnection"
           },
           {
-            "name": "CommentConnection"
+            "name": "FolloweeDonatedArticleConnection"
           },
           {
             "name": "TagConnection"
@@ -57,6 +60,9 @@
             "name": "TransactionConnection"
           },
           {
+            "name": "ResponseConnection"
+          },
+          {
             "name": "SearchResultConnection"
           },
           {
@@ -68,20 +74,10 @@
         ]
       },
       {
-        "kind": "UNION",
-        "name": "Response",
-        "possibleTypes": [{
-            "name": "Article"
-          },
-          {
-            "name": "Comment"
-          }
-        ]
-      },
-      {
         "kind": "INTERFACE",
         "name": "Notice",
-        "possibleTypes": [{
+        "possibleTypes": [
+          {
             "name": "UserNewFollowerNotice"
           },
           {
@@ -146,11 +142,24 @@
       {
         "kind": "UNION",
         "name": "TransactionTarget",
-        "possibleTypes": [{
+        "possibleTypes": [
+          {
             "name": "Article"
           },
           {
             "name": "Transaction"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "Response",
+        "possibleTypes": [
+          {
+            "name": "Article"
+          },
+          {
+            "name": "Comment"
           }
         ]
       }
