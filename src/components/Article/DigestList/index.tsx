@@ -160,13 +160,6 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
             )}
           />
         )}
-        {recommend && recommend.topic && (
-          <Table.Column<ArticleDigest>
-            dataIndex="oss.score"
-            title="Score"
-            width={100}
-          />
-        )}
       </Table>
     )
   }
