@@ -30,10 +30,10 @@
             "name": "ArticleConnection"
           },
           {
-            "name": "ResponseConnection"
+            "name": "CommentConnection"
           },
           {
-            "name": "CommentConnection"
+            "name": "FolloweeDonatedArticleConnection"
           },
           {
             "name": "TagConnection"
@@ -60,28 +60,16 @@
             "name": "TransactionConnection"
           },
           {
-            "name": "SearchResultConnection"
+            "name": "ResponseConnection"
           },
           {
-            "name": "ReportConnection"
+            "name": "SearchResultConnection"
           },
           {
             "name": "OAuthClientConnection"
           },
           {
             "name": "SkippedListItemsConnection"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "Response",
-        "possibleTypes": [
-          {
-            "name": "Article"
-          },
-          {
-            "name": "Comment"
           }
         ]
       },
@@ -160,6 +148,18 @@
           },
           {
             "name": "Transaction"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "Response",
+        "possibleTypes": [
+          {
+            "name": "Article"
+          },
+          {
+            "name": "Comment"
           }
         ]
       }
