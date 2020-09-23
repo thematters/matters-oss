@@ -5,7 +5,7 @@ export const __STAGE__ = process.env.REACT_APP_ENV === 'stage'
 export const __PROD__ = process.env.REACT_APP_ENV === 'production'
 
 export const API_ENDPOINT = __LOCAL__
-  ? 'https://server-stage.matters.news/graphql'
+  ? 'https://server-develop.matters.news/graphql'
   : __STAGE__
   ? 'https://server-stage.matters.news/graphql'
   : __DEVELOP__
