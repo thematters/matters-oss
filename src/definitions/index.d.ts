@@ -31,7 +31,6 @@ export type UserDigest = {
   }
   oss: {
     boost: number
-    score: number
   }
 }
 

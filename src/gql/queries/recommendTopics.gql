@@ -12,7 +12,6 @@ query OSSRecommendTopics($input: ConnectionArgs!) {
             ...ArticleDigest
             oss {
               boost
-              score
             }
           }
         }
