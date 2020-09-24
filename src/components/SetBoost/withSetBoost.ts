@@ -14,7 +14,6 @@ const SET_BOOST = gql`
       ... on User {
         oss {
           boost
-          score
         }
       }
       ... on Tag {
@@ -31,7 +30,6 @@ type Response = {
   setBoost: {
     oss: {
       boost: number
-      score: number
     }
   }
 }

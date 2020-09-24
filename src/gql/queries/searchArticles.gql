@@ -10,7 +10,6 @@ query OSSSearchArticles($input: SearchInput!) {
           ...ArticleDigest
           oss {
             boost
-            score
             inRecommendIcymi
             inRecommendHottest
             inRecommendNewest

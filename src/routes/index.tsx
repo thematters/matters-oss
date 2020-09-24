@@ -9,7 +9,6 @@ import homepageRoutes from './homepage'
 import userRoutes from './user'
 import articleRoutes from './article'
 import commentRoutes from './comment'
-import reportRoutes from './report'
 import oauthClientRoutes from './oauthClient'
 import blockListRoutes from './blocklist'
 import domainBlockListRoutes from './domainBlockList'
@@ -37,7 +36,6 @@ const routes = [
   ...userRoutes,
   ...articleRoutes,
   ...commentRoutes,
-  ...reportRoutes,
   ...oauthClientRoutes,
   ...blockListRoutes,
   ...domainBlockListRoutes,

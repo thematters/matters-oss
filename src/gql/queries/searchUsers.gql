@@ -10,7 +10,6 @@ query OSSSearchUsers($input: SearchInput!) {
           ...UserDigest
           oss {
             boost
-            score
           }
         }
       }

@@ -12,7 +12,6 @@ query OSSRecommendAuthors($input: AuthorsInput!) {
             ...UserDigest
             oss {
               boost
-              score
             }
           }
         }

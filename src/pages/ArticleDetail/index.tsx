@@ -10,7 +10,6 @@ import TagLink from '../../components/Tag/Link'
 import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
 import ToggleLive from '../../components/Article/ToggleLive'
-import TogglePublic from '../../components/Article/TogglePublic'
 import ArticleDigestList from '../../components/Article/DigestList'
 import ArticleStateTag from '../../components/Article/StateTag'
 import ArticleSetState from '../../components/Article/SetState'
@@ -87,9 +86,6 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
         <Divider size="large" />
 
         <DescriptionList size="large" title="設定" col={4}>
-          {/* <Description term="白名單">
-            <TogglePublic checked={article.public} articleId={article.id} />
-          </Description> */}
           <Description term="LIVE">
             <ToggleLive checked={article.live} articleId={article.id} />
           </Description>

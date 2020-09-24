@@ -31,7 +31,6 @@ export type UserDigest = {
   }
   oss: {
     boost: number
-    score: number
   }
 }
 
@@ -90,7 +89,6 @@ export type ArticleDigest = {
   createdAt: Date
   state: GQLArticleState
   live: boolean
-  public: boolean
   author: UserDigest
   title: string
   tags: TagDigest[]
@@ -136,22 +134,6 @@ export type CommentDigest = {
 }
 
 export type CommentDetail = CommentDigest
-
-/**
- * Report
- */
-export type Report = {
-  id: string
-  user: UserDigest
-  article: ArticleDigest
-  comment: CommentDigest
-  assets: string[]
-  category: string
-  description: string
-  contact: string
-  createdAt: Date
-  remark: string
-}
 
 /**
  * Pagination
