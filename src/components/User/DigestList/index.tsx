@@ -102,13 +102,6 @@ class UserDigestList extends React.Component<UserDigestListProps> {
             )}
           />
         )}
-        {recommend && recommend.author && (
-          <Table.Column<UserDigest>
-            dataIndex="oss.score"
-            title="Score"
-            width={100}
-          />
-        )}
       </Table>
     )
   }
