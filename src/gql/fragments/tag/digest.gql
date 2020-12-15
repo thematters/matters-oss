@@ -7,4 +7,7 @@ fragment TagDigest on Tag {
   articles(input: { first: 0 }) {
     ...ConnectionInfo
   }
+  oss {
+    selected
+  }
 }

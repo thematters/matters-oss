@@ -7,6 +7,7 @@ import DateTime from '../../DateTime'
 import SetBoost from '../../SetBoost'
 import TagLink from '../../Tag/Link'
 import TagStateTag from '../../Tag/StateTag'
+import ToggleSelected from '../ToggleSelected'
 import withTagMutaitons, {
   TagMutationsChildProps,
 } from '../../../hocs/withTagMutations'
@@ -445,6 +446,16 @@ class TagDigestList extends React.Component<
               dataIndex="oss.score"
               title="Score"
               width={100}
+            />
+          )}
+          {inRecommendedTagsPage && (
+            <Table.Column<TagDigest>
+              dataIndex="oss.selected"
+              title="推薦精選"
+              width={100}
+              render={(selected, record) => (
+                <ToggleSelected checked={selected} tagId={record.id} />
+              )}
             />
           )}
         </Table>

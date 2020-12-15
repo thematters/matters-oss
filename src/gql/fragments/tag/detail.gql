@@ -17,6 +17,7 @@ fragment TagDetail on Tag {
   oss {
     boost
     score
+    selected
   }
   remark
   deleted
