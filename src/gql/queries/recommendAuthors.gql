@@ -1,7 +1,7 @@
 #import "../fragments/connection.gql"
 #import "../fragments/user/digest.gql"
 
-query OSSRecommendAuthors($input: AuthorsInput!) {
+query OSSRecommendAuthors($input: RecommendInput!) {
   viewer {
     id
     recommendation {
