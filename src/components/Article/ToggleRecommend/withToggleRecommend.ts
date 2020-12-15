@@ -2,7 +2,7 @@ import { graphql, ChildMutateProps } from 'react-apollo'
 import gql from 'graphql-tag'
 
 const TOGGLE_RECOMMEND = gql`
-  mutation ToggleRecommend($input: ToggleArticleRecommendInput!) {
+  mutation ToggleRecommend($input: ToggleRecommendInput!) {
     toggleArticleRecommend(input: $input) {
       id
       oss {
