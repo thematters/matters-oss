@@ -9,6 +9,7 @@ import Remark from '../../components/Remark'
 import DescriptionList from '../../components/DescriptionList'
 import ArticleDigestList from '../../components/Article/DigestList'
 import TagStateTag from '../../components/Tag/StateTag'
+import ToggleSelected from '../../components/Tag/ToggleSelected'
 import UserLink from '../../components/User/Link'
 
 import withTagDetail, { TagDetailChildProps } from './withTagDetail'
@@ -87,6 +88,10 @@ class TagDetail extends React.Component<TagDetailChildProps> {
           </Description>
 
           <Description term="Score">{tag.oss.score}</Description>
+
+          <Description term="推薦精選">
+            <ToggleSelected checked={tag.oss.selected} tagId={tag.id} />
+          </Description>
         </DescriptionList>
         <Divider size="large" />
 

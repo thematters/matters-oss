@@ -60,6 +60,7 @@ export type TagDigest = {
   oss: {
     boost: number
     score: number
+    selected: boolean
   }
   deleted: boolean
 }
