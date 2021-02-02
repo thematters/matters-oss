@@ -13,6 +13,7 @@ import oauthClientRoutes from './oauthClient'
 import blockListRoutes from './blocklist'
 import domainBlockListRoutes from './domainBlockList'
 import featureFlag from './featureFlag'
+import seedingUserListRoutes from './seedingUserList'
 
 const routes = [
   {
@@ -40,6 +41,7 @@ const routes = [
   ...blockListRoutes,
   ...domainBlockListRoutes,
   ...featureFlag,
+  ...seedingUserListRoutes,
 ]
 
 export default routes

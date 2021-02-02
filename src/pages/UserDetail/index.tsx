@@ -16,6 +16,7 @@ import withUserDetail, { UserDetailChildProps } from './withUserDetail'
 import ArticleDigestList from '../../components/Article/DigestList'
 import { SITE_DOMIAN } from '../../constants'
 import CommentDigestList from '../../components/Comment/DigestList'
+import ToggleSeedingUsersButton from '../../components/SeedingUser/ToggleButton'
 import SetBoost from '../../components/SetBoost'
 
 const { Description } = DescriptionList
@@ -105,6 +106,10 @@ class UserDetail extends React.Component<UserDetailChildProps> {
 
           <Description term="權限" col={1}>
             <UserSetRole role={user.status.role} id={user.id} />
+          </Description>
+
+          <Description term="添加至種子用戶" col={1}>
+            <ToggleSeedingUsersButton users={[user]} enabled={true} />
           </Description>
         </DescriptionList>
         <Divider size="large" />
