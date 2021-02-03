@@ -1,0 +1,3 @@
+mutation OSSToggleSeedingUsers($input: ToggleSeedingUsersInput!) {
+  toggleSeedingUsers(input: $input)
+}

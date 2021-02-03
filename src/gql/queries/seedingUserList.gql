@@ -1,0 +1,15 @@
+#import "../fragments/connection.gql"
+#import "../fragments/user/digest.gql"
+
+query OSSSeedingUserList($input: ConnectionArgs!) {
+  oss {
+    seedingUsers(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          ...UserDigest
+        }
+      }
+    }
+  }
+}
