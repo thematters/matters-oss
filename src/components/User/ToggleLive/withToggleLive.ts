@@ -1,14 +1,6 @@
 import { graphql, ChildMutateProps } from 'react-apollo'
-import gql from 'graphql-tag'
 
-const TOGGLE_ARTICLE_LIVE = gql`
-  mutation ToggleArticleLive($input: ToggleItemInput!) {
-    toggleArticleLive(input: $input) {
-      id
-      live
-    }
-  }
-`
+import TOGGLE_ARTICLE_LIVE from '../../gql/mutations/toggleArticleLive.gql'
 
 type Response = {
   toggleArticleLive: {
