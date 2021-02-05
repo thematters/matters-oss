@@ -2,10 +2,10 @@ import * as React from 'react'
 import { Col, Input, Button, message } from 'antd'
 import _get from 'lodash/get'
 import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
 
 import ErrorMessage from '../../components/ErrorMessage'
 import { PATH } from '../../constants'
+import BLOCK_DOMAIN from '../../gql/mutations/blockDomain.gql'
 
 type BlockDomainFormProps = {}
 
@@ -14,14 +14,6 @@ type BlockDomainFormStates = {
   loading: boolean
   error: any
 }
-
-const BLOCK_DOMAIN = gql`
-  mutation BlockDomain($input: PutSkippedListItemInput!) {
-    putSkippedListItem(input: $input) {
-      id
-    }
-  }
-`
 
 class BlockDomainForm extends React.Component<
   BlockDomainFormProps,

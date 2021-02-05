@@ -2,11 +2,11 @@ import * as React from 'react'
 import { Col, Input, Row, message } from 'antd'
 import _get from 'lodash/get'
 import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
 import isEmail from 'validator/lib/isEmail'
 
 import ErrorMessage from '../../components/ErrorMessage'
 import UserSetState from '../../components/User/SetState'
+import BLOCK_DOMAIN from '../../gql/mutations/blockDomain.gql'
 
 type BatchSetUsersStateProps = {}
 
@@ -15,14 +15,6 @@ type BatchSetUsersStateStates = {
   loading: boolean
   error: any
 }
-
-const BLOCK_DOMAIN = gql`
-  mutation BlockDomain($input: PutSkippedListItemInput!) {
-    putSkippedListItem(input: $input) {
-      id
-    }
-  }
-`
 
 class BatchSetUsersState extends React.Component<
   BatchSetUsersStateProps,
