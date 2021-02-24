@@ -43,7 +43,7 @@ class CommentDigestList extends React.Component<
   }
 
   private _renderTitleCell(_: any, record: CommentDigest): React.ReactNode {
-    return <ArticleLink id={record.article.id} title={record.article.title} />
+    return <ArticleLink id={record.node.id} title={record.node.title} />
   }
 
   private _renderStateCell(_: any, record: CommentDigest): React.ReactNode {
