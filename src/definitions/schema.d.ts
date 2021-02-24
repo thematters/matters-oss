@@ -785,11 +785,6 @@ export interface GQLComment extends GQLNode {
   createdAt: GQLDateTime
 
   /**
-   * Article that the comment is belonged to.
-   */
-  article: GQLArticle
-
-  /**
    * Content of this comment.
    */
   content?: string
@@ -1148,6 +1143,11 @@ export interface GQLCircle extends GQLNode {
    * Comments broadcasted by Circle owner.
    */
   broadcast: GQLCommentConnection
+
+  /**
+   * Pinned comments broadcasted by Circle owner.
+   */
+  pinnedBroadcast?: Array<GQLComment>
 
   /**
    * Comments made by Circle member.
@@ -1714,16 +1714,21 @@ export const enum GQLTransactionPurpose {
   addCredit = 'addCredit',
   refund = 'refund',
   payout = 'payout',
+  subscriptionSplit = 'subscriptionSplit',
 }
 
-export type GQLTransactionTarget = GQLArticle | GQLTransaction
+export type GQLTransactionTarget = GQLArticle | GQLCircle | GQLTransaction
 
 /** Use this to resolve union type TransactionTarget */
-export type GQLPossibleTransactionTargetTypeNames = 'Article' | 'Transaction'
+export type GQLPossibleTransactionTargetTypeNames =
+  | 'Article'
+  | 'Circle'
+  | 'Transaction'
 
 export interface GQLTransactionTargetNameMap {
   TransactionTarget: GQLTransactionTarget
   Article: GQLArticle
+  Circle: GQLCircle
   Transaction: GQLTransaction
 }
 
@@ -2541,15 +2546,31 @@ export const enum GQLPutCircleArticlesType {
 
 export interface GQLPutCommentInput {
   comment: GQLCommentInput
+
+  /**
+   * edit comment if id is provided
+   */
   id?: string
 }
 
 export interface GQLCommentInput {
   content: string
   replyTo?: string
-  articleId: string
   parentId?: string
   mentions?: Array<string>
+  type: GQLCommentType
+
+  /**
+   * one of the following ids is required
+   */
+  articleId?: string
+  circleId?: string
+}
+
+export const enum GQLCommentType {
+  article = 'article',
+  circleDiscussion = 'circleDiscussion',
+  circleBroadcast = 'circleBroadcast',
 }
 
 export interface GQLDeleteCommentInput {
@@ -5235,7 +5256,6 @@ export interface GQLCommentTypeResolver<TParent = any> {
   id?: CommentToIdResolver<TParent>
   state?: CommentToStateResolver<TParent>
   createdAt?: CommentToCreatedAtResolver<TParent>
-  article?: CommentToArticleResolver<TParent>
   content?: CommentToContentResolver<TParent>
   author?: CommentToAuthorResolver<TParent>
   pinned?: CommentToPinnedResolver<TParent>
@@ -5269,15 +5289,6 @@ export interface CommentToStateResolver<TParent = any, TResult = any> {
 }
 
 export interface CommentToCreatedAtResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface CommentToArticleResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
@@ -5912,6 +5923,7 @@ export interface GQLCircleTypeResolver<TParent = any> {
   isMember?: CircleToIsMemberResolver<TParent>
   setting?: CircleToSettingResolver<TParent>
   broadcast?: CircleToBroadcastResolver<TParent>
+  pinnedBroadcast?: CircleToPinnedBroadcastResolver<TParent>
   discussion?: CircleToDiscussionResolver<TParent>
 }
 
@@ -6084,6 +6096,15 @@ export interface CircleToBroadcastResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: CircleToBroadcastArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CircleToPinnedBroadcastResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -7435,6 +7456,7 @@ export interface TransactionToMessageResolver<TParent = any, TResult = any> {
 export interface GQLTransactionTargetTypeResolver<TParent = any> {
   (parent: TParent, context: Context, info: GraphQLResolveInfo):
     | 'Article'
+    | 'Circle'
     | 'Transaction'
 }
 export interface GQLStripeAccountTypeResolver<TParent = any> {
