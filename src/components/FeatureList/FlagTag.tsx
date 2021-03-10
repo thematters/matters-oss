@@ -8,6 +8,10 @@ const FlagMap = {
     level: LevelEnum.SUCCESS,
     text: '打開',
   },
+  seeding: {
+    level: LevelEnum.WARNING,
+    text: '種子用戶可見',
+  },
   admin: {
     level: LevelEnum.WARNING,
     text: '管理員可見',

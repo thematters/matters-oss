@@ -111,6 +111,12 @@ export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
           <Menu.Item key={PATH.FEATURE_FLAG}>
             <Link to={PATH.FEATURE_FLAG}>{PAGE_TITLE[PATH.FEATURE_FLAG]}</Link>
           </Menu.Item>
+
+          <Menu.Item key={PATH.SEEDING_USER_LIST}>
+            <Link to={PATH.SEEDING_USER_LIST}>
+              {PAGE_TITLE[PATH.SEEDING_USER_LIST]}
+            </Link>
+          </Menu.Item>
         </SubMenu>
       </Menu>
     </AntLayout.Sider>

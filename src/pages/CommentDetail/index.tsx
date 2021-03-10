@@ -53,17 +53,14 @@ class CommentDetail extends React.Component<CommentDetailChildProps> {
           <Description term="讚數">{comment.upvotes}</Description>
           <Description term="踩數">{comment.downvotes}</Description>
           <Description term="文章">
-            <ArticleLink
-              id={comment.article.id}
-              title={comment.article.title}
-            />
+            <ArticleLink id={comment.node.id} title={comment.node.title} />
           </Description>
           <Description term="站內連結">
             <a
-              href={`${SITE_DOMIAN}/@${comment.article.author.userName}/${comment.article.slug}-${comment.article.mediaHash}#${comment.id}`}
+              href={`${SITE_DOMIAN}/@${comment.node.author.userName}/${comment.node.slug}-${comment.node.mediaHash}#${comment.id}`}
               target="_blank"
             >
-              {comment.article.mediaHash}#{comment.id}
+              {comment.node.mediaHash}#{comment.id}
             </a>
           </Description>
         </DescriptionList>

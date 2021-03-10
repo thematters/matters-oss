@@ -1,0 +1,6 @@
+mutation ToggleArticleLive($input: ToggleItemInput!) {
+  toggleArticleLive(input: $input) {
+    id
+    live
+  }
+}

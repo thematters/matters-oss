@@ -30,6 +30,8 @@ export const PATH = {
   BLOCK_LIST_DOMAIN: '/blocklist_domain',
 
   FEATURE_FLAG: '/feature_flag',
+
+  SEEDING_USER_LIST: '/seeding_user_list',
 }
 
 export const PAGE_TITLE = {
@@ -63,6 +65,7 @@ export const PAGE_TITLE = {
   [PATH.BLOCK_LIST]: '自動封鎖清單',
   [PATH.BLOCK_LIST_DOMAIN]: '網域封鎖清單',
   [PATH.FEATURE_FLAG]: '功能開關',
+  [PATH.SEEDING_USER_LIST]: '種子用戶清單',
 }
 
 export const PATH_REGEXP = {
