@@ -126,7 +126,7 @@ export type CommentDigest = {
   id: string
   state: GQLCommentState
   createdAt: Date
-  article: ArticleDigest
+  node: ArticleDigest
   content: string
   author: UserDigest
   pinned: boolean

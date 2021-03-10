@@ -1,0 +1,5 @@
+mutation BlockDomain($input: PutSkippedListItemInput!) {
+  putSkippedListItem(input: $input) {
+    id
+  }
+}

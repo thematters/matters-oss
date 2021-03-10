@@ -18,7 +18,7 @@ type Response = {
   }
 }
 
-export type FeatureFlag = 'on' | 'off' | 'admin'
+export type FeatureFlag = 'on' | 'off' | 'admin' | 'seeding'
 
 type InputProps = {
   name: FeatureName

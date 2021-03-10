@@ -6,8 +6,11 @@ fragment CommentDigest on Comment {
   content
   state
   createdAt
-  article {
-    ...ArticleDigest
+  node {
+    id
+    ... on Article {
+      ...ArticleDigest
+    }
   }
   author {
     ...UserId
