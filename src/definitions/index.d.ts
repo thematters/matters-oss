@@ -15,6 +15,8 @@ export * from './schema'
 /**
  * User
  */
+export type USER_BADGE_TYPES = 'seed' | 'golden_motor' | 'architect'
+
 export type UserDigest = {
   id: string
   uuid: GQLUUID
@@ -23,6 +25,9 @@ export type UserDigest = {
   info: {
     createdAt: Date
     description: string
+    badges: {
+      type: USER_BADGE_TYPES
+    }[]
   }
   status: {
     state: GQLUserState

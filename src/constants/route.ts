@@ -11,6 +11,7 @@ export const PATH = {
   TAG_DETAIL: '/tags/:id',
 
   USER_LIST: '/users',
+  BADGED_USER_LIST: '/badged_users',
   USER_DETAIL: '/users/:id',
 
   ARTICLE_LIST: '/articles',
@@ -31,7 +32,7 @@ export const PATH = {
 
   FEATURE_FLAG: '/feature_flag',
 
-  SEEDING_USER_LIST: '/seeding_user_list',
+  SEEDING_USER_LIST: '/seeding_users',
 }
 
 export const PAGE_TITLE = {
@@ -47,6 +48,7 @@ export const PAGE_TITLE = {
   [PATH.TAG_DETAIL]: '標籤詳情',
 
   [PATH.USER_LIST]: '用戶清單',
+  [PATH.BADGED_USER_LIST]: '徽章清單',
   [PATH.USER_DETAIL]: '用戶詳情',
 
   [PATH.ARTICLE_LIST]: '文章清單',

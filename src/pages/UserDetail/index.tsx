@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Skeleton, Empty } from 'antd'
+import { Col, Skeleton, Empty, Tag } from 'antd'
 import _get from 'lodash/get'
 
 import ErrorMessage from '../../components/ErrorMessage'
@@ -17,7 +17,10 @@ import ArticleDigestList from '../../components/Article/DigestList'
 import { SITE_DOMIAN } from '../../constants'
 import CommentDigestList from '../../components/Comment/DigestList'
 import ToggleSeedingUsersButton from '../../components/SeedingUser/ToggleButton'
+import ToggleUsersBadgeButton from '../../components/BadgedUser/ToggleButton'
 import SetBoost from '../../components/SetBoost'
+import { USER_BADGES } from '../../components/BadgedUser/enums'
+import { USER_BADGE_TYPES } from '../../definitions'
 
 const { Description } = DescriptionList
 const LanguageMap = {
@@ -88,6 +91,22 @@ class UserDetail extends React.Component<UserDetailChildProps> {
           <Col span={24} style={{ marginBottom: 16 }}>
             {user.info.description}
           </Col>
+        </DescriptionList>
+        <Divider size="large" />
+
+        <DescriptionList size="large" title="徽章">
+          {(Object.keys(USER_BADGES) as USER_BADGE_TYPES[]).map((type) => (
+            <Col span={24} style={{ marginBottom: 16 }}>
+              <Tag color={USER_BADGES[type].color}>
+                {USER_BADGES[type].text}
+              </Tag>
+              <ToggleUsersBadgeButton
+                users={[user]}
+                type={type}
+                enabled={!user.info.badges.some((badge) => badge.type === type)}
+              />
+            </Col>
+          ))}
         </DescriptionList>
         <Divider size="large" />
 
