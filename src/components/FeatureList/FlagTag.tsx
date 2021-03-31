@@ -10,7 +10,7 @@ const FlagMap = {
   },
   seeding: {
     level: LevelEnum.WARNING,
-    text: '種子用戶可見',
+    text: '內測種子用戶可見',
   },
   admin: {
     level: LevelEnum.WARNING,

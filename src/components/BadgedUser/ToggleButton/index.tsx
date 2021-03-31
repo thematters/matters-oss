@@ -25,7 +25,7 @@ class ToggleUsersBadgeButton extends React.Component<Props, State> {
 
   _onDelete = () => {
     const { callback, enabled, type, mutate, users } = this.props
-    const text = enabled ? '新增' : '刪除'
+    const text = enabled ? '添加' : '移除'
 
     if (!users || users.length === 0) {
       return
@@ -83,7 +83,7 @@ class ToggleUsersBadgeButton extends React.Component<Props, State> {
         onClick={this._onDelete}
         disabled={!hasSelected || mutationLoading}
       >
-        {enabled ? '新增' : '刪除'}
+        {enabled ? '添加' : '移除'}
       </Button>
     )
   }

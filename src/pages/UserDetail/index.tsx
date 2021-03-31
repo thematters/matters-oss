@@ -127,7 +127,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
             <UserSetRole role={user.status.role} id={user.id} />
           </Description>
 
-          <Description term="添加至種子用戶" col={1}>
+          <Description term="添加至內測種子用戶" col={1}>
             <ToggleSeedingUsersButton users={[user]} enabled={true} />
           </Description>
         </DescriptionList>

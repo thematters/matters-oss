@@ -48,7 +48,7 @@ export const PAGE_TITLE = {
   [PATH.TAG_DETAIL]: '標籤詳情',
 
   [PATH.USER_LIST]: '用戶清單',
-  [PATH.BADGED_USER_LIST]: '徽章清單',
+  [PATH.BADGED_USER_LIST]: '徽章用戶清單',
   [PATH.USER_DETAIL]: '用戶詳情',
 
   [PATH.ARTICLE_LIST]: '文章清單',
@@ -67,7 +67,7 @@ export const PAGE_TITLE = {
   [PATH.BLOCK_LIST]: '自動封鎖清單',
   [PATH.BLOCK_LIST_DOMAIN]: '網域封鎖清單',
   [PATH.FEATURE_FLAG]: '功能開關',
-  [PATH.SEEDING_USER_LIST]: '種子用戶清單',
+  [PATH.SEEDING_USER_LIST]: '內測種子用戶清單',
 }
 
 export const PATH_REGEXP = {

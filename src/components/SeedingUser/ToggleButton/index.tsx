@@ -23,7 +23,7 @@ class ToggleSeedingUsersButton extends React.Component<Props, State> {
 
   _onDelete = () => {
     const { callback, enabled, mutate, users } = this.props
-    const text = enabled ? '新增' : '刪除'
+    const text = enabled ? '添加' : '刪除'
 
     if (!users || users.length === 0) {
       return
@@ -32,7 +32,7 @@ class ToggleSeedingUsersButton extends React.Component<Props, State> {
     const ids = users.map(({ id }) => id)
 
     Modal.confirm({
-      title: `確認${text}以下種子用戶？`,
+      title: `確認${text}以下內測種子用戶？`,
       content: (
         <div style={{ marginTop: 16 }}>
           {users.map(({ displayName, userName }) => (
@@ -79,7 +79,7 @@ class ToggleSeedingUsersButton extends React.Component<Props, State> {
         onClick={this._onDelete}
         disabled={!hasSelected || mutationLoading}
       >
-        {enabled ? '新增' : '刪除'}
+        {enabled ? '添加' : '刪除'}
       </Button>
     )
   }
