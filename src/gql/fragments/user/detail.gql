@@ -16,6 +16,9 @@ fragment UserDetail on User {
     createdAt
     userNameEditable
     description
+    badges {
+      type
+    }
   }
   settings {
     language

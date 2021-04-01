@@ -6,6 +6,9 @@ fragment UserDigest on User {
   info {
     createdAt
     description
+    badges {
+      type
+    }
   }
   status {
     state
