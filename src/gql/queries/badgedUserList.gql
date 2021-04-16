@@ -1,0 +1,15 @@
+#import "../fragments/connection.gql"
+#import "../fragments/user/digest.gql"
+
+query OSSBadgedUserList($input: BadgedUsersInput!) {
+  oss {
+    badgedUsers(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          ...UserDigest
+        }
+      }
+    }
+  }
+}

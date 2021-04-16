@@ -21,7 +21,7 @@ type SetFeatureState = {
 
 const FEATURE_FLAGS: { flag: FeatureFlag; text: string }[] = [
   { flag: 'on', text: '打開' },
-  { flag: 'seeding', text: '種子用戶可用' },
+  { flag: 'seeding', text: '內測種子用戶可用' },
   { flag: 'admin', text: '管理員可用' },
   { flag: 'off', text: '關閉' },
 ]

@@ -1,3 +1,7 @@
+#import "../fragments/user/digest.gql"
+
 mutation OSSToggleSeedingUsers($input: ToggleSeedingUsersInput!) {
-  toggleSeedingUsers(input: $input)
+  toggleSeedingUsers(input: $input) {
+    ...UserDigest
+  }
 }

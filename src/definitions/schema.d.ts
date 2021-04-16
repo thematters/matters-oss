@@ -402,8 +402,14 @@ export interface GQLUser extends GQLNode {
 
   /**
    * Users that this user follows.
+   * @deprecated Move to a new field
    */
   followees: GQLUserConnection
+
+  /**
+   * Following contents of this user.
+   */
+  following: GQLFollowing
 
   /**
    * Whether current user is following viewer.
@@ -551,6 +557,8 @@ export interface GQLBadge {
 
 export const enum GQLBadgeType {
   seed = 'seed',
+  golden_motor = 'golden_motor',
+  architect = 'architect',
 }
 
 export const enum GQLUserGroup {
@@ -580,16 +588,14 @@ export interface GQLNotificationSetting {
   enable: boolean
   email: boolean
   mention: boolean
-  follow: boolean
-  comment: boolean
-  appreciation: boolean
-  articleSubscription: boolean
-  commentSubscribed: boolean
-  downstream: boolean
-  commentPinned: boolean
-  commentVoted: boolean
-  officialNotice: boolean
-  reportFeedback: boolean
+  userNewFollower: boolean
+  articleNewComment: boolean
+  articleNewAppreciation: boolean
+  articleNewSubscription: boolean
+  articleSubscribedNewComment: boolean
+  articleCommentPinned: boolean
+  circleNewFollower: boolean
+  circleNewDiscussion: boolean
 }
 
 export interface GQLRecommendation {
@@ -610,6 +616,7 @@ export interface GQLRecommendation {
 
   /**
    * Tags that user followed.
+   * @deprecated Move to a new field
    */
   followingTags: GQLTagConnection
 
@@ -710,6 +717,7 @@ export type GQLPossibleConnectionTypeNames =
   | 'UserConnection'
   | 'CircleConnection'
   | 'MemberConnection'
+  | 'InvitationConnection'
   | 'DraftConnection'
   | 'ReadHistoryConnection'
   | 'RecentSearchConnection'
@@ -730,6 +738,7 @@ export interface GQLConnectionNameMap {
   UserConnection: GQLUserConnection
   CircleConnection: GQLCircleConnection
   MemberConnection: GQLMemberConnection
+  InvitationConnection: GQLInvitationConnection
   DraftConnection: GQLDraftConnection
   ReadHistoryConnection: GQLReadHistoryConnection
   RecentSearchConnection: GQLRecentSearchConnection
@@ -1140,6 +1149,16 @@ export interface GQLCircle extends GQLNode {
   setting: GQLCircleSetting
 
   /**
+   * Invitations belonged to this Circle.
+   */
+  invitations: GQLInvitationConnection
+
+  /**
+   * Invitation used by current viewer.
+   */
+  invitedBy?: GQLInvitation
+
+  /**
    * Comments broadcasted by Circle owner.
    */
   broadcast: GQLCommentConnection
@@ -1153,6 +1172,16 @@ export interface GQLCircle extends GQLNode {
    * Comments made by Circle member.
    */
   discussion: GQLCommentConnection
+
+  /**
+   * Discussion (exclude replies) count of this circle.
+   */
+  discussionThreadCount: number
+
+  /**
+   * Discussion (include replies) count of this circle.
+   */
+  discussionCount: number
 }
 
 export interface GQLPrice {
@@ -1241,6 +1270,79 @@ export interface GQLCircleSetting {
    */
   enableDiscussion: boolean
 }
+
+export interface GQLInvitationConnection extends GQLConnection {
+  totalCount: number
+  pageInfo: GQLPageInfo
+  edges?: Array<GQLInvitationEdge>
+}
+
+export interface GQLInvitationEdge {
+  cursor: string
+  node: GQLInvitation
+}
+
+export interface GQLInvitation {
+  /**
+   * Unique ID.
+   */
+  id: string
+
+  /**
+   * Target person of this invitation.
+   */
+  invitee: GQLInvitee
+
+  /**
+   * Creator of this invitation.
+   */
+  inviter: GQLUser
+
+  /**
+   * Invitation of current Circle.
+   */
+  circle: GQLCircle
+
+  /**
+   * Free period of this invitation.
+   */
+  freePeriod: GQLPositiveInt
+
+  /**
+   * Created time.
+   */
+  createdAt: GQLDateTime
+
+  /**
+   * Sent time.
+   */
+  sentAt: GQLDateTime
+
+  /**
+   * Determine it is accepted or not.
+   */
+  accepted: boolean
+}
+
+export type GQLInvitee = GQLPerson | GQLUser
+
+/** Use this to resolve union type Invitee */
+export type GQLPossibleInviteeTypeNames = 'Person' | 'User'
+
+export interface GQLInviteeNameMap {
+  Invitee: GQLInvitee
+  Person: GQLPerson
+  User: GQLUser
+}
+
+export interface GQLPerson {
+  email: GQLEmailAddress
+}
+
+/**
+ * Integers that will have a value greater than 0.
+ */
+export type GQLPositiveInt = any
 
 export interface GQLDraftConnection extends GQLConnection {
   totalCount: number
@@ -1500,6 +1602,12 @@ export const enum GQLAppreciationPurpose {
   systemSubsidy = 'systemSubsidy',
 }
 
+export interface GQLFollowing {
+  circles: GQLCircleConnection
+  tags: GQLTagConnection
+  users: GQLUserConnection
+}
+
 export interface GQLUserStatus {
   /**
    * User state.
@@ -1606,6 +1714,7 @@ export type GQLPossibleNoticeTypeNames =
   | 'ArticleArticleNotice'
   | 'ArticleNotice'
   | 'ArticleTagNotice'
+  | 'CircleNotice'
   | 'CommentCommentNotice'
   | 'CommentNotice'
   | 'OfficialAnnouncementNotice'
@@ -1618,6 +1727,7 @@ export interface GQLNoticeNameMap {
   ArticleArticleNotice: GQLArticleArticleNotice
   ArticleNotice: GQLArticleNotice
   ArticleTagNotice: GQLArticleTagNotice
+  CircleNotice: GQLCircleNotice
   CommentCommentNotice: GQLCommentCommentNotice
   CommentNotice: GQLCommentNotice
   OfficialAnnouncementNotice: GQLOfficialAnnouncementNotice
@@ -1925,6 +2035,7 @@ export interface GQLOSS {
   oauthClients: GQLOAuthClientConnection
   skippedListItems: GQLSkippedListItemsConnection
   seedingUsers: GQLUserConnection
+  badgedUsers: GQLUserConnection
 }
 
 export interface GQLTagsInput {
@@ -2055,6 +2166,12 @@ export interface GQLSkippedListItem {
   updatedAt: GQLDateTime
 }
 
+export interface GQLBadgedUsersInput {
+  after?: string
+  first?: number
+  type?: GQLBadgeType
+}
+
 export interface GQLUserInput {
   userName: string
 }
@@ -2159,6 +2276,11 @@ export interface GQLMutation {
   putCircleArticles: GQLCircle
 
   /**
+   * Invite others to join circle
+   */
+  invite?: Array<GQLInvitation>
+
+  /**
    * Publish or update a comment.
    */
   putComment: GQLComment
@@ -2232,7 +2354,7 @@ export interface GQLMutation {
   putRemark?: string
   putSkippedListItem?: Array<GQLSkippedListItem>
   setFeature: GQLFeature
-  toggleSeedingUsers: boolean
+  toggleSeedingUsers: Array<GQLUser | null>
 
   /**
    * Send verification code for email.
@@ -2323,6 +2445,7 @@ export interface GQLMutation {
    * Update state of a user, used in OSS.
    */
   updateUserRole: GQLUser
+  toggleUsersBadge: Array<GQLUser | null>
 
   /**
    * Add Credit to User Wallet
@@ -2542,6 +2665,17 @@ export interface GQLPutCircleArticlesInput {
 export const enum GQLPutCircleArticlesType {
   add = 'add',
   remove = 'remove',
+}
+
+export interface GQLInviteCircleInput {
+  invitees: Array<GQLInviteCircleInvitee>
+  freePeriod: GQLPositiveInt
+  circleId: string
+}
+
+export interface GQLInviteCircleInvitee {
+  id?: string
+  email?: string
 }
 
 export interface GQLPutCommentInput {
@@ -2776,16 +2910,14 @@ export const enum GQLNotificationSettingType {
   enable = 'enable',
   email = 'email',
   mention = 'mention',
-  follow = 'follow',
-  comment = 'comment',
-  appreciation = 'appreciation',
-  articleSubscription = 'articleSubscription',
-  commentSubscribed = 'commentSubscribed',
-  downstream = 'downstream',
-  commentPinned = 'commentPinned',
-  commentVoted = 'commentVoted',
-  officialNotice = 'officialNotice',
-  reportFeedback = 'reportFeedback',
+  userNewFollower = 'userNewFollower',
+  articleNewComment = 'articleNewComment',
+  articleNewAppreciation = 'articleNewAppreciation',
+  articleNewSubscription = 'articleNewSubscription',
+  articleSubscribedNewComment = 'articleSubscribedNewComment',
+  articleCommentPinned = 'articleCommentPinned',
+  circleNewFollower = 'circleNewFollower',
+  circleNewDiscussion = 'circleNewDiscussion',
 }
 
 export interface GQLClearReadHistoryInput {
@@ -2809,14 +2941,15 @@ export interface GQLUpdateUserStateInput {
   password?: string
 }
 
-/**
- * Integers that will have a value greater than 0.
- */
-export type GQLPositiveInt = any
-
 export interface GQLUpdateUserRoleInput {
   id: string
   role: GQLUserRole
+}
+
+export interface GQLToggleUsersBadgeInput {
+  ids?: Array<string>
+  type: GQLBadgeType
+  enabled: boolean
 }
 
 /**
@@ -3001,6 +3134,44 @@ export const enum GQLCacheScope {
   PRIVATE = 'PRIVATE',
 }
 
+/**
+ * ################################
+ *                                #
+ *             Circle             #
+ *                                #
+ * ################################
+ */
+export interface GQLCircleNotice extends GQLNotice {
+  /**
+   * Unique ID of this notice.
+   */
+  id: string
+
+  /**
+   * The value determines if the notice is unread or not.
+   */
+  unread: boolean
+
+  /**
+   * Time of this notice was created.
+   */
+  createdAt: GQLDateTime
+
+  /**
+   * List of notice actors.
+   */
+  actors?: Array<GQLUser>
+  type: GQLCircleNoticeType
+  target: GQLCircle
+}
+
+export const enum GQLCircleNoticeType {
+  CircleNewFollower = 'CircleNewFollower',
+  CircleNewSubscriber = 'CircleNewSubscriber',
+  CircleNewUnsubscriber = 'CircleNewUnsubscriber',
+  CircleInvitation = 'CircleInvitation',
+}
+
 export interface GQLCommentCommentNotice extends GQLNotice {
   /**
    * Unique ID of this notice.
@@ -3062,12 +3233,11 @@ export interface GQLCommentNotice extends GQLNotice {
 }
 
 export const enum GQLCommentNoticeType {
-  ArticleCommentPinned = 'ArticleCommentPinned',
-  ArticleCommentMentionedYou = 'ArticleCommentMentionedYou',
+  CommentPinned = 'CommentPinned',
+  CommentMentionedYou = 'CommentMentionedYou',
   ArticleNewComment = 'ArticleNewComment',
   SubscribedArticleNewComment = 'SubscribedArticleNewComment',
-  CircleNewDiscussion = 'CircleNewDiscussion',
-  CircleNewBoardcast = 'CircleNewBoardcast',
+  CircleNewBroadcast = 'CircleNewBroadcast',
 }
 
 export interface GQLCostComplexity {
@@ -3341,6 +3511,15 @@ export interface GQLResolver {
   MemberEdge?: GQLMemberEdgeTypeResolver
   Member?: GQLMemberTypeResolver
   CircleSetting?: GQLCircleSettingTypeResolver
+  InvitationConnection?: GQLInvitationConnectionTypeResolver
+  InvitationEdge?: GQLInvitationEdgeTypeResolver
+  Invitation?: GQLInvitationTypeResolver
+  Invitee?: {
+    __resolveType: GQLInviteeTypeResolver
+  }
+
+  Person?: GQLPersonTypeResolver
+  PositiveInt?: GraphQLScalarType
   DraftConnection?: GQLDraftConnectionTypeResolver
   DraftEdge?: GQLDraftEdgeTypeResolver
   Draft?: GQLDraftTypeResolver
@@ -3354,6 +3533,7 @@ export interface GQLResolver {
   AppreciationConnection?: GQLAppreciationConnectionTypeResolver
   AppreciationEdge?: GQLAppreciationEdgeTypeResolver
   Appreciation?: GQLAppreciationTypeResolver
+  Following?: GQLFollowingTypeResolver
   UserStatus?: GQLUserStatusTypeResolver
   UserOSS?: GQLUserOSSTypeResolver
   NoticeConnection?: GQLNoticeConnectionTypeResolver
@@ -3396,7 +3576,6 @@ export interface GQLResolver {
   SubscribeCircleResult?: GQLSubscribeCircleResultTypeResolver
   Upload?: GraphQLScalarType
   AuthResult?: GQLAuthResultTypeResolver
-  PositiveInt?: GraphQLScalarType
   PositiveFloat?: GraphQLScalarType
   AddCreditResult?: GQLAddCreditResultTypeResolver
   PayToResult?: GQLPayToResultTypeResolver
@@ -3405,6 +3584,7 @@ export interface GQLResolver {
   ArticleArticleNotice?: GQLArticleArticleNoticeTypeResolver
   ArticleNotice?: GQLArticleNoticeTypeResolver
   ArticleTagNotice?: GQLArticleTagNoticeTypeResolver
+  CircleNotice?: GQLCircleNoticeTypeResolver
   CommentCommentNotice?: GQLCommentCommentNoticeTypeResolver
   CommentNotice?: GQLCommentNoticeTypeResolver
   JSON?: GraphQLScalarType
@@ -4098,6 +4278,7 @@ export interface GQLNodeTypeResolver<TParent = any> {
     | 'Tag'
     | 'Circle'
     | 'Draft'
+    | Promise<'Article' | 'User' | 'Comment' | 'Tag' | 'Circle' | 'Draft'>
 }
 export interface GQLUserTypeResolver<TParent = any> {
   id?: UserToIdResolver<TParent>
@@ -4118,6 +4299,7 @@ export interface GQLUserTypeResolver<TParent = any> {
   activity?: UserToActivityResolver<TParent>
   followers?: UserToFollowersResolver<TParent>
   followees?: UserToFolloweesResolver<TParent>
+  following?: UserToFollowingResolver<TParent>
   isFollower?: UserToIsFollowerResolver<TParent>
   isFollowee?: UserToIsFolloweeResolver<TParent>
   blockList?: UserToBlockListResolver<TParent>
@@ -4311,6 +4493,15 @@ export interface UserToFolloweesResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: UserToFolloweesArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface UserToFollowingResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -4614,18 +4805,24 @@ export interface GQLNotificationSettingTypeResolver<TParent = any> {
   enable?: NotificationSettingToEnableResolver<TParent>
   email?: NotificationSettingToEmailResolver<TParent>
   mention?: NotificationSettingToMentionResolver<TParent>
-  follow?: NotificationSettingToFollowResolver<TParent>
-  comment?: NotificationSettingToCommentResolver<TParent>
-  appreciation?: NotificationSettingToAppreciationResolver<TParent>
-  articleSubscription?: NotificationSettingToArticleSubscriptionResolver<
+  userNewFollower?: NotificationSettingToUserNewFollowerResolver<TParent>
+  articleNewComment?: NotificationSettingToArticleNewCommentResolver<TParent>
+  articleNewAppreciation?: NotificationSettingToArticleNewAppreciationResolver<
     TParent
   >
-  commentSubscribed?: NotificationSettingToCommentSubscribedResolver<TParent>
-  downstream?: NotificationSettingToDownstreamResolver<TParent>
-  commentPinned?: NotificationSettingToCommentPinnedResolver<TParent>
-  commentVoted?: NotificationSettingToCommentVotedResolver<TParent>
-  officialNotice?: NotificationSettingToOfficialNoticeResolver<TParent>
-  reportFeedback?: NotificationSettingToReportFeedbackResolver<TParent>
+  articleNewSubscription?: NotificationSettingToArticleNewSubscriptionResolver<
+    TParent
+  >
+  articleSubscribedNewComment?: NotificationSettingToArticleSubscribedNewCommentResolver<
+    TParent
+  >
+  articleCommentPinned?: NotificationSettingToArticleCommentPinnedResolver<
+    TParent
+  >
+  circleNewFollower?: NotificationSettingToCircleNewFollowerResolver<TParent>
+  circleNewDiscussion?: NotificationSettingToCircleNewDiscussionResolver<
+    TParent
+  >
 }
 
 export interface NotificationSettingToEnableResolver<
@@ -4664,7 +4861,7 @@ export interface NotificationSettingToMentionResolver<
   ): TResult
 }
 
-export interface NotificationSettingToFollowResolver<
+export interface NotificationSettingToUserNewFollowerResolver<
   TParent = any,
   TResult = any
 > {
@@ -4676,7 +4873,7 @@ export interface NotificationSettingToFollowResolver<
   ): TResult
 }
 
-export interface NotificationSettingToCommentResolver<
+export interface NotificationSettingToArticleNewCommentResolver<
   TParent = any,
   TResult = any
 > {
@@ -4688,7 +4885,7 @@ export interface NotificationSettingToCommentResolver<
   ): TResult
 }
 
-export interface NotificationSettingToAppreciationResolver<
+export interface NotificationSettingToArticleNewAppreciationResolver<
   TParent = any,
   TResult = any
 > {
@@ -4700,7 +4897,7 @@ export interface NotificationSettingToAppreciationResolver<
   ): TResult
 }
 
-export interface NotificationSettingToArticleSubscriptionResolver<
+export interface NotificationSettingToArticleNewSubscriptionResolver<
   TParent = any,
   TResult = any
 > {
@@ -4712,7 +4909,7 @@ export interface NotificationSettingToArticleSubscriptionResolver<
   ): TResult
 }
 
-export interface NotificationSettingToCommentSubscribedResolver<
+export interface NotificationSettingToArticleSubscribedNewCommentResolver<
   TParent = any,
   TResult = any
 > {
@@ -4724,7 +4921,7 @@ export interface NotificationSettingToCommentSubscribedResolver<
   ): TResult
 }
 
-export interface NotificationSettingToDownstreamResolver<
+export interface NotificationSettingToArticleCommentPinnedResolver<
   TParent = any,
   TResult = any
 > {
@@ -4736,7 +4933,7 @@ export interface NotificationSettingToDownstreamResolver<
   ): TResult
 }
 
-export interface NotificationSettingToCommentPinnedResolver<
+export interface NotificationSettingToCircleNewFollowerResolver<
   TParent = any,
   TResult = any
 > {
@@ -4748,31 +4945,7 @@ export interface NotificationSettingToCommentPinnedResolver<
   ): TResult
 }
 
-export interface NotificationSettingToCommentVotedResolver<
-  TParent = any,
-  TResult = any
-> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface NotificationSettingToOfficialNoticeResolver<
-  TParent = any,
-  TResult = any
-> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface NotificationSettingToReportFeedbackResolver<
+export interface NotificationSettingToCircleNewDiscussionResolver<
   TParent = any,
   TResult = any
 > {
@@ -5107,6 +5280,7 @@ export interface GQLConnectionTypeResolver<TParent = any> {
     | 'UserConnection'
     | 'CircleConnection'
     | 'MemberConnection'
+    | 'InvitationConnection'
     | 'DraftConnection'
     | 'ReadHistoryConnection'
     | 'RecentSearchConnection'
@@ -5117,6 +5291,26 @@ export interface GQLConnectionTypeResolver<TParent = any> {
     | 'SearchResultConnection'
     | 'OAuthClientConnection'
     | 'SkippedListItemsConnection'
+    | Promise<
+        | 'ArticleConnection'
+        | 'CommentConnection'
+        | 'FolloweeDonatedArticleConnection'
+        | 'TagConnection'
+        | 'UserConnection'
+        | 'CircleConnection'
+        | 'MemberConnection'
+        | 'InvitationConnection'
+        | 'DraftConnection'
+        | 'ReadHistoryConnection'
+        | 'RecentSearchConnection'
+        | 'AppreciationConnection'
+        | 'NoticeConnection'
+        | 'TransactionConnection'
+        | 'ResponseConnection'
+        | 'SearchResultConnection'
+        | 'OAuthClientConnection'
+        | 'SkippedListItemsConnection'
+      >
 }
 export interface GQLPageInfoTypeResolver<TParent = any> {
   startCursor?: PageInfoToStartCursorResolver<TParent>
@@ -5922,9 +6116,13 @@ export interface GQLCircleTypeResolver<TParent = any> {
   isFollower?: CircleToIsFollowerResolver<TParent>
   isMember?: CircleToIsMemberResolver<TParent>
   setting?: CircleToSettingResolver<TParent>
+  invitations?: CircleToInvitationsResolver<TParent>
+  invitedBy?: CircleToInvitedByResolver<TParent>
   broadcast?: CircleToBroadcastResolver<TParent>
   pinnedBroadcast?: CircleToPinnedBroadcastResolver<TParent>
   discussion?: CircleToDiscussionResolver<TParent>
+  discussionThreadCount?: CircleToDiscussionThreadCountResolver<TParent>
+  discussionCount?: CircleToDiscussionCountResolver<TParent>
 }
 
 export interface CircleToIdResolver<TParent = any, TResult = any> {
@@ -6089,6 +6287,27 @@ export interface CircleToSettingResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface CircleToInvitationsArgs {
+  input: GQLConnectionArgs
+}
+export interface CircleToInvitationsResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: CircleToInvitationsArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CircleToInvitedByResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface CircleToBroadcastArgs {
   input: GQLConnectionArgs
 }
@@ -6117,6 +6336,27 @@ export interface CircleToDiscussionResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: CircleToDiscussionArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CircleToDiscussionThreadCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CircleToDiscussionCountResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -6301,6 +6541,173 @@ export interface CircleSettingToEnableDiscussionResolver<
   TParent = any,
   TResult = any
 > {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLInvitationConnectionTypeResolver<TParent = any> {
+  totalCount?: InvitationConnectionToTotalCountResolver<TParent>
+  pageInfo?: InvitationConnectionToPageInfoResolver<TParent>
+  edges?: InvitationConnectionToEdgesResolver<TParent>
+}
+
+export interface InvitationConnectionToTotalCountResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface InvitationConnectionToPageInfoResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface InvitationConnectionToEdgesResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLInvitationEdgeTypeResolver<TParent = any> {
+  cursor?: InvitationEdgeToCursorResolver<TParent>
+  node?: InvitationEdgeToNodeResolver<TParent>
+}
+
+export interface InvitationEdgeToCursorResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface InvitationEdgeToNodeResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLInvitationTypeResolver<TParent = any> {
+  id?: InvitationToIdResolver<TParent>
+  invitee?: InvitationToInviteeResolver<TParent>
+  inviter?: InvitationToInviterResolver<TParent>
+  circle?: InvitationToCircleResolver<TParent>
+  freePeriod?: InvitationToFreePeriodResolver<TParent>
+  createdAt?: InvitationToCreatedAtResolver<TParent>
+  sentAt?: InvitationToSentAtResolver<TParent>
+  accepted?: InvitationToAcceptedResolver<TParent>
+}
+
+export interface InvitationToIdResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface InvitationToInviteeResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface InvitationToInviterResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface InvitationToCircleResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface InvitationToFreePeriodResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface InvitationToCreatedAtResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface InvitationToSentAtResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface InvitationToAcceptedResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLInviteeTypeResolver<TParent = any> {
+  (parent: TParent, context: Context, info: GraphQLResolveInfo):
+    | 'Person'
+    | 'User'
+    | Promise<'Person' | 'User'>
+}
+export interface GQLPersonTypeResolver<TParent = any> {
+  email?: PersonToEmailResolver<TParent>
+}
+
+export interface PersonToEmailResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
@@ -6982,6 +7389,48 @@ export interface AppreciationToTargetResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface GQLFollowingTypeResolver<TParent = any> {
+  circles?: FollowingToCirclesResolver<TParent>
+  tags?: FollowingToTagsResolver<TParent>
+  users?: FollowingToUsersResolver<TParent>
+}
+
+export interface FollowingToCirclesArgs {
+  input: GQLConnectionArgs
+}
+export interface FollowingToCirclesResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: FollowingToCirclesArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface FollowingToTagsArgs {
+  input: GQLConnectionArgs
+}
+export interface FollowingToTagsResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: FollowingToTagsArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface FollowingToUsersArgs {
+  input: GQLConnectionArgs
+}
+export interface FollowingToUsersResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: FollowingToUsersArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface GQLUserStatusTypeResolver<TParent = any> {
   state?: UserStatusToStateResolver<TParent>
   role?: UserStatusToRoleResolver<TParent>
@@ -7199,12 +7648,25 @@ export interface GQLNoticeTypeResolver<TParent = any> {
     | 'ArticleArticleNotice'
     | 'ArticleNotice'
     | 'ArticleTagNotice'
+    | 'CircleNotice'
     | 'CommentCommentNotice'
     | 'CommentNotice'
     | 'OfficialAnnouncementNotice'
     | 'TagNotice'
     | 'TransactionNotice'
     | 'UserNotice'
+    | Promise<
+        | 'ArticleArticleNotice'
+        | 'ArticleNotice'
+        | 'ArticleTagNotice'
+        | 'CircleNotice'
+        | 'CommentCommentNotice'
+        | 'CommentNotice'
+        | 'OfficialAnnouncementNotice'
+        | 'TagNotice'
+        | 'TransactionNotice'
+        | 'UserNotice'
+      >
 }
 export interface GQLWalletTypeResolver<TParent = any> {
   balance?: WalletToBalanceResolver<TParent>
@@ -7458,6 +7920,7 @@ export interface GQLTransactionTargetTypeResolver<TParent = any> {
     | 'Article'
     | 'Circle'
     | 'Transaction'
+    | Promise<'Article' | 'Circle' | 'Transaction'>
 }
 export interface GQLStripeAccountTypeResolver<TParent = any> {
   id?: StripeAccountToIdResolver<TParent>
@@ -7642,6 +8105,7 @@ export interface GQLResponseTypeResolver<TParent = any> {
   (parent: TParent, context: Context, info: GraphQLResolveInfo):
     | 'Article'
     | 'Comment'
+    | Promise<'Article' | 'Comment'>
 }
 export interface GQLSearchResultConnectionTypeResolver<TParent = any> {
   totalCount?: SearchResultConnectionToTotalCountResolver<TParent>
@@ -7755,6 +8219,7 @@ export interface GQLOSSTypeResolver<TParent = any> {
   oauthClients?: OSSToOauthClientsResolver<TParent>
   skippedListItems?: OSSToSkippedListItemsResolver<TParent>
   seedingUsers?: OSSToSeedingUsersResolver<TParent>
+  badgedUsers?: OSSToBadgedUsersResolver<TParent>
 }
 
 export interface OSSToUsersArgs {
@@ -7836,6 +8301,18 @@ export interface OSSToSeedingUsersResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: OSSToSeedingUsersArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface OSSToBadgedUsersArgs {
+  input: GQLBadgedUsersInput
+}
+export interface OSSToBadgedUsersResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: OSSToBadgedUsersArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -8202,6 +8679,7 @@ export interface GQLMutationTypeResolver<TParent = any> {
   subscribeCircle?: MutationToSubscribeCircleResolver<TParent>
   unsubscribeCircle?: MutationToUnsubscribeCircleResolver<TParent>
   putCircleArticles?: MutationToPutCircleArticlesResolver<TParent>
+  invite?: MutationToInviteResolver<TParent>
   putComment?: MutationToPutCommentResolver<TParent>
   deleteComment?: MutationToDeleteCommentResolver<TParent>
   togglePinComment?: MutationToTogglePinCommentResolver<TParent>
@@ -8240,6 +8718,7 @@ export interface GQLMutationTypeResolver<TParent = any> {
   migration?: MutationToMigrationResolver<TParent>
   updateUserState?: MutationToUpdateUserStateResolver<TParent>
   updateUserRole?: MutationToUpdateUserRoleResolver<TParent>
+  toggleUsersBadge?: MutationToToggleUsersBadgeResolver<TParent>
   addCredit?: MutationToAddCreditResolver<TParent>
   payTo?: MutationToPayToResolver<TParent>
   payout?: MutationToPayoutResolver<TParent>
@@ -8566,6 +9045,18 @@ export interface MutationToPutCircleArticlesResolver<
   (
     parent: TParent,
     args: MutationToPutCircleArticlesArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface MutationToInviteArgs {
+  input: GQLInviteCircleInput
+}
+export interface MutationToInviteResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: MutationToInviteArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -9045,6 +9536,21 @@ export interface MutationToUpdateUserRoleResolver<
   ): TResult
 }
 
+export interface MutationToToggleUsersBadgeArgs {
+  input: GQLToggleUsersBadgeInput
+}
+export interface MutationToToggleUsersBadgeResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: MutationToToggleUsersBadgeArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface MutationToAddCreditArgs {
   input: GQLAddCreditInput
 }
@@ -9496,6 +10002,69 @@ export interface ArticleTagNoticeToTargetResolver<
 }
 
 export interface ArticleTagNoticeToTagResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface GQLCircleNoticeTypeResolver<TParent = any> {
+  id?: CircleNoticeToIdResolver<TParent>
+  unread?: CircleNoticeToUnreadResolver<TParent>
+  createdAt?: CircleNoticeToCreatedAtResolver<TParent>
+  actors?: CircleNoticeToActorsResolver<TParent>
+  type?: CircleNoticeToTypeResolver<TParent>
+  target?: CircleNoticeToTargetResolver<TParent>
+}
+
+export interface CircleNoticeToIdResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CircleNoticeToUnreadResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CircleNoticeToCreatedAtResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CircleNoticeToActorsResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CircleNoticeToTypeResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CircleNoticeToTargetResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
