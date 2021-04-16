@@ -2,10 +2,12 @@ import * as React from 'react'
 import { Button, Modal, message, Tag } from 'antd'
 
 import { UserDigest } from '../../../definitions'
-import withToggleSeedingUsers, { ChildProps } from './withToggleSeedingUsers'
+import withToggleUsersBadge, { ChildProps } from './withToggleUsersBadge'
+import { USER_BADGES } from '../enums'
 
 interface BaseProps {
   users: UserDigest[]
+  type: string
   enabled: boolean
   callback?: () => void
 }
@@ -16,14 +18,14 @@ interface State {
   mutationLoading: boolean
 }
 
-class ToggleSeedingUsersButton extends React.Component<Props, State> {
+class ToggleUsersBadgeButton extends React.Component<Props, State> {
   state = {
     mutationLoading: false,
   }
 
   _onDelete = () => {
-    const { callback, enabled, mutate, users } = this.props
-    const text = enabled ? '添加' : '刪除'
+    const { callback, enabled, type, mutate, users } = this.props
+    const text = enabled ? '添加' : '移除'
 
     if (!users || users.length === 0) {
       return
@@ -32,7 +34,7 @@ class ToggleSeedingUsersButton extends React.Component<Props, State> {
     const ids = users.map(({ id }) => id)
 
     Modal.confirm({
-      title: `確認${text}以下內測種子用戶？`,
+      title: `確認${text}${USER_BADGES[type].text}徽章？`,
       content: (
         <div style={{ marginTop: 16 }}>
           {users.map(({ displayName, userName }) => (
@@ -50,6 +52,7 @@ class ToggleSeedingUsersButton extends React.Component<Props, State> {
             variables: {
               input: {
                 ids,
+                type,
                 enabled,
               },
             },
@@ -75,14 +78,15 @@ class ToggleSeedingUsersButton extends React.Component<Props, State> {
     const hasSelected = (users || []).length > 0
     return (
       <Button
-        type="primary"
+        type={enabled ? 'primary' : 'danger'}
+        size="small"
         onClick={this._onDelete}
         disabled={!hasSelected || mutationLoading}
       >
-        {enabled ? '添加' : '刪除'}
+        {enabled ? '添加' : '移除'}
       </Button>
     )
   }
 }
 
-export default withToggleSeedingUsers(ToggleSeedingUsersButton)
+export default withToggleUsersBadge(ToggleUsersBadgeButton)

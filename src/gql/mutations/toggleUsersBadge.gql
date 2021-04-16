@@ -1,0 +1,7 @@
+#import "../fragments/user/digest.gql"
+
+mutation OSSToggleUsersBadge($input: ToggleUsersBadgeInput!) {
+  toggleUsersBadge(input: $input) {
+    ...UserDigest
+  }
+}
