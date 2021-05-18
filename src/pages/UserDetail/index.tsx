@@ -12,6 +12,7 @@ import UserSetState from '../../components/User/SetState'
 import UserRoleTag from '../../components/User/RoleTag'
 import UserSetRole from '../../components/User/SetRole'
 
+import UserComments from './Comments'
 import withUserDetail, { UserDetailChildProps } from './withUserDetail'
 import ArticleDigestList from '../../components/Article/DigestList'
 import { SITE_DOMIAN } from '../../constants'
@@ -46,12 +47,6 @@ class UserDetail extends React.Component<UserDetailChildProps> {
     if (!user) {
       return <Empty />
     }
-
-    const userComments = user.commentedArticles.edges
-      .map(({ node }) => {
-        return node.comments.edges.map(({ node: comment }) => comment)
-      })
-      .flat()
 
     return (
       <>
@@ -160,7 +155,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
 
         <DescriptionList size="large" title="評論">
           <Col span={24} style={{ marginBottom: 16 }}>
-            <CommentDigestList data={userComments} />
+            <UserComments id={user.id} />
           </Col>
         </DescriptionList>
         <Divider size="large" />
