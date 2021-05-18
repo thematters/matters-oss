@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Col, Skeleton, Empty, Tag } from 'antd'
-import _get from 'lodash/get'
+import { Waypoint } from 'react-waypoint'
 
 import ErrorMessage from '../../components/ErrorMessage'
 import Divider from '../../components/Divider'
@@ -30,7 +30,16 @@ const LanguageMap = {
   zh_hans: '簡體中文',
 }
 
-class UserDetail extends React.Component<UserDetailChildProps> {
+interface UserDetailState {
+  showComments: boolean
+}
+
+class UserDetail extends React.Component<UserDetailChildProps, UserDetailState> {
+
+  state = {
+    showComments: false,
+  }
+
   public render() {
     const {
       data: { user, loading, error },
@@ -47,6 +56,8 @@ class UserDetail extends React.Component<UserDetailChildProps> {
     if (!user) {
       return <Empty />
     }
+
+    const { showComments } = this.state
 
     return (
       <>
@@ -153,9 +164,17 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         </DescriptionList>
         <Divider size="large" /> */}
 
+        <Waypoint
+          onEnter={() => {
+            if (!showComments) {
+              this.setState({ showComments: true })
+            }
+          }}
+        />
+
         <DescriptionList size="large" title="評論">
           <Col span={24} style={{ marginBottom: 16 }}>
-            <UserComments id={user.id} />
+            {showComments && <UserComments id={user.id} />}
           </Col>
         </DescriptionList>
         <Divider size="large" />
