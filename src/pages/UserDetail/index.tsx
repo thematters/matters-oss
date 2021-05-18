@@ -34,8 +34,10 @@ interface UserDetailState {
   showComments: boolean
 }
 
-class UserDetail extends React.Component<UserDetailChildProps, UserDetailState> {
-
+class UserDetail extends React.Component<
+  UserDetailChildProps,
+  UserDetailState
+> {
   state = {
     showComments: false,
   }
