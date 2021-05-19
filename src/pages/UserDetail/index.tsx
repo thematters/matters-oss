@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Col, Skeleton, Empty, Tag } from 'antd'
-import _get from 'lodash/get'
+import { Waypoint } from 'react-waypoint'
 
 import ErrorMessage from '../../components/ErrorMessage'
 import Divider from '../../components/Divider'
@@ -12,6 +12,7 @@ import UserSetState from '../../components/User/SetState'
 import UserRoleTag from '../../components/User/RoleTag'
 import UserSetRole from '../../components/User/SetRole'
 
+import UserComments from './Comments'
 import withUserDetail, { UserDetailChildProps } from './withUserDetail'
 import ArticleDigestList from '../../components/Article/DigestList'
 import { SITE_DOMIAN } from '../../constants'
@@ -29,7 +30,18 @@ const LanguageMap = {
   zh_hans: '簡體中文',
 }
 
-class UserDetail extends React.Component<UserDetailChildProps> {
+interface UserDetailState {
+  showComments: boolean
+}
+
+class UserDetail extends React.Component<
+  UserDetailChildProps,
+  UserDetailState
+> {
+  state = {
+    showComments: false,
+  }
+
   public render() {
     const {
       data: { user, loading, error },
@@ -47,11 +59,7 @@ class UserDetail extends React.Component<UserDetailChildProps> {
       return <Empty />
     }
 
-    const userComments = user.commentedArticles.edges
-      .map(({ node }) => {
-        return node.comments.edges.map(({ node: comment }) => comment)
-      })
-      .flat()
+    const { showComments } = this.state
 
     return (
       <>
@@ -158,9 +166,17 @@ class UserDetail extends React.Component<UserDetailChildProps> {
         </DescriptionList>
         <Divider size="large" /> */}
 
+        <Waypoint
+          onEnter={() => {
+            if (!showComments) {
+              this.setState({ showComments: true })
+            }
+          }}
+        />
+
         <DescriptionList size="large" title="評論">
           <Col span={24} style={{ marginBottom: 16 }}>
-            <CommentDigestList data={userComments} />
+            {showComments && <UserComments id={user.id} />}
           </Col>
         </DescriptionList>
         <Divider size="large" />

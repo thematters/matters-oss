@@ -1,0 +1,24 @@
+#import "../connection.gql"
+#import "../article/digest.gql"
+#import "../comment/digest.gql"
+
+fragment UserComments on User {
+  id
+  commentedArticles(input: { first: null }) {
+    ...ConnectionInfo
+    edges {
+      cursor
+      node {
+        ...ArticleDigest
+        comments(input: { filter: { author: $author }, first: null }) {
+          edges {
+            cursor
+            node {
+              ...CommentDigest
+            }
+          }
+        }
+      }
+    }
+  }
+}
