@@ -1,0 +1,9 @@
+#import "../fragments/user/comments.gql"
+
+query OSSUserComments($input: NodeInput!, $author: ID!) {
+  user: node(input: $input) {
+    ... on User {
+      ...UserComments
+    }
+  }
+}
