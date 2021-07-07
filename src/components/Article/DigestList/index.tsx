@@ -6,7 +6,6 @@ import _compact from 'lodash/compact'
 import DateTime from '../../DateTime'
 import UserLink from '../../User/Link'
 import ArticleLink from '../Link'
-import ToggleLive from '../ToggleLive'
 import SetBoost from '../../SetBoost'
 import ToggleRecommend from '../ToggleRecommend'
 import ArticleStateTag from '../StateTag'
@@ -66,17 +65,6 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
           title="標題"
           render={this._renderTitleCell}
         />
-
-        {!recommend && (
-          <Table.Column<ArticleDigest>
-            dataIndex="live"
-            title="LIVE"
-            width={100}
-            render={(live, record) => (
-              <ToggleLive checked={live} articleId={record.id} />
-            )}
-          />
-        )}
 
         {recommend && recommend.icymi && (
           <Table.Column<ArticleDigest>
