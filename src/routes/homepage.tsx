@@ -7,7 +7,6 @@ import { PATH } from '../constants'
 import Icymi from '../pages/Homepage/Icymi'
 import Hottest from '../pages/Homepage/Hottest'
 import Newest from '../pages/Homepage/Newest'
-import Topics from '../pages/Homepage/Topics'
 import Authors from '../pages/Homepage/Authors'
 import Tags from '../pages/Homepage/Tags'
 
@@ -41,17 +40,6 @@ const homepageRoutes = [
         <Layout.Header />
         <Layout.Content>
           <Newest {...props} />
-        </Layout.Content>
-      </Private>
-    ),
-  },
-  {
-    path: PATH.HOMEPAGE_TOPICS,
-    component: (props: RouteConfigComponentProps) => (
-      <Private>
-        <Layout.Header />
-        <Layout.Content>
-          <Topics {...props} />
         </Layout.Content>
       </Private>
     ),
