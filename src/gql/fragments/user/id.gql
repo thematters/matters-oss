@@ -1,6 +1,5 @@
 fragment UserId on User {
   id
-  uuid
   userName
   displayName
 }

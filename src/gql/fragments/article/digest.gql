@@ -8,7 +8,6 @@ fragment ArticleDigest on Article {
   title
   createdAt
   state
-  live
   commentCount
   author {
     ...UserId
