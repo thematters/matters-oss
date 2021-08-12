@@ -45,7 +45,9 @@ export type UserDetail = UserDigest & {
   settings: GQLUserSettings
   articles: Connection<ArticleDigest>
   followers: Connection<UserDigest>
-  followees: Connection<UserDigest>
+  following: {
+    users: Connection<UserDigest>
+  }
   commentedArticles: Connection<
     ArticleDigest & { comments: Connection<CommentDigest> }
   >
@@ -197,4 +199,17 @@ export type FeatureName =
 export interface FeatureFlagItem {
   name: FeatureName
   enabled: boolean
+}
+
+/**
+ * Announcement
+ */
+export type AnnouncementType = 'community' | 'product' | 'seminar'
+
+export interface Announcement {
+  id: string
+  cover: string
+  link?: string
+  type: AnnouncementType
+  order: int
 }
