@@ -30,11 +30,13 @@ fragment UserDetail on User {
   oss {
     boost
   }
-  followees(input: { first: 0 }) {
-    ...ConnectionInfo
-  }
   followers(input: { first: 0 }) {
     ...ConnectionInfo
+  }
+  following {
+    users(input: { first: 0 }) {
+      ...ConnectionInfo
+    }
   }
   articles(input: { first: 20 }) {
     ...ConnectionInfo
