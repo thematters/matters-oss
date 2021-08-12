@@ -86,7 +86,9 @@ class UserDetail extends React.Component<
             <DateTime date={user.info.createdAt} />
           </Description>
           <Description term="被追蹤數">{user.followers.totalCount}</Description>
-          <Description term="追蹤數">{user.followees.totalCount}</Description>
+          <Description term="追蹤數">
+            {user.following.users.totalCount}
+          </Description>
           <Description term="文章數">{user.status.articleCount}</Description>
           <Description term="評論數">{user.status.commentCount}</Description>
           <Description term="語言">
