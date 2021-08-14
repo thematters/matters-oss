@@ -1,0 +1,3 @@
+mutation OSSPutAnnouncement($input: PutAnnouncementInput!) {
+  putAnnouncement(input: $input)
+}

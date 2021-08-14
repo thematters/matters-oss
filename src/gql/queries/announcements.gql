@@ -1,0 +1,14 @@
+query Announcements {
+  official {
+    announcements(input: {}) {
+      id
+      cover
+      link
+      type
+      visible
+      order
+      createdAt
+      updatedAt
+    }
+  }
+}

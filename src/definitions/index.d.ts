@@ -211,5 +211,6 @@ export interface Announcement {
   cover: string
   link?: string
   type: AnnouncementType
+  visible: boolean
   order: int
 }

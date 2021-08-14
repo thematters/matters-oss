@@ -4,6 +4,7 @@ import { Redirect } from 'react-router'
 
 import Login from '../pages/Login'
 
+import announcementRoutes from './announcement'
 import { PATH } from '../constants'
 import homepageRoutes from './homepage'
 import userRoutes from './user'
@@ -42,6 +43,7 @@ const routes = [
   ...domainBlockListRoutes,
   ...featureFlag,
   ...seedingUserListRoutes,
+  ...announcementRoutes,
 ]
 
 export default routes

@@ -1,0 +1,3 @@
+mutation OSSDeleteAnnouncements($input: DeleteAnnouncementsInput!) {
+  deleteAnnouncements(input: $input)
+}
