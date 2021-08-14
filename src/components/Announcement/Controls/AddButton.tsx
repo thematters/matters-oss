@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
@@ -15,7 +15,7 @@ const PUT_ANNOUNCEMENT = gql`
   }
 `
 
-type Props = RouteComponentProps
+type Props = RouteComponentProps & { onSuccess: any }
 
 type State = {
   loading: boolean
@@ -60,10 +60,18 @@ class AddButton extends React.Component<Props, State> {
 
       this.setState(
         (prev) => ({ ...prev, loading: false, error: null }),
-        () => history.push(`/announcement/${announcementId}`)
+        async () => {
+          if (this.props.onSuccess) {
+            await this.props.onSuccess()
+          }
+          history.push(`/announcement/${announcementId}`)
+        }
       )
     } catch (error) {
-      this.setState((prev) => ({ ...prev, loading: false, error }))
+      this.setState(
+        (prev) => ({ ...prev, loading: false, error }),
+        () => message.error('新增失敗')
+      )
     }
   }
 

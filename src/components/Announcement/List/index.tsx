@@ -15,6 +15,7 @@ import { Announcement, AnnouncementType } from '../../../definitions'
 
 type ListProps = AnnouncementMutationsChildProps & {
   data: Announcement[]
+  refetch: any
   loading?: boolean
 }
 
@@ -110,7 +111,11 @@ class List extends React.Component<ListProps, ListState> {
     mutationLoading: false,
   }
 
-  _sync = () => {}
+  _sync = () => {
+    if (this.props.refetch) {
+      this.props.refetch()
+    }
+  }
 
   _onSelectChange = (
     selectedRowKeys: string[] | number[],
@@ -149,6 +154,7 @@ class List extends React.Component<ListProps, ListState> {
             { mutationLoading: false, selectedRowKeys: [], selectedRows: [] },
             () => {
               message.success('刪除成功')
+              this._sync()
             }
           )
         } catch (error) {
@@ -166,7 +172,7 @@ class List extends React.Component<ListProps, ListState> {
     return (
       <>
         <section className="c-table__operators">
-          <AddButton />
+          <AddButton onSuccess={this.props.refetch}/>
           <Button
             type="primary"
             onClick={this._onDelete}
