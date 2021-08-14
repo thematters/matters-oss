@@ -36,7 +36,7 @@ const sharedStyles = {
   color: '#ccc',
 }
 
-const IdLink = (_:any, record: Announcement) => {
+const IdLink = (_: any, record: Announcement) => {
   const to = PATH.ANNOUNCEMENT_DETAIL.replace(':id', record.id)
   return <Link to={to}>{record.id}</Link>
 }
@@ -59,9 +59,13 @@ const CoverCell = (_: any, record: Announcement) => {
 }
 
 const ContentCell = (_: any, record: Announcement) => {
-  return record.link
-    ? <a href={record.link} target="_blank">{record.link}</a>
-    : <p style={{ color: '#ccc' }}>尚未添加</p>
+  return record.link ? (
+    <a href={record.link} target="_blank">
+      {record.link}
+    </a>
+  ) : (
+    <p style={{ color: '#ccc' }}>尚未添加</p>
+  )
 }
 
 const TypeCell = ({ type }: any) => {
@@ -82,11 +86,18 @@ const DeleteCell = (record: Announcement) => {
         margin: '0.5rem 0',
       }}
     >
-      <div style={{ width: '30%', color: '#999', fontSize: '0.75rem', paddingRight: '8px' }}>
+      <div
+        style={{
+          width: '30%',
+          color: '#999',
+          fontSize: '0.75rem',
+          paddingRight: '8px',
+        }}
+      >
         {id}
       </div>
       <div style={{ width: '70%' }}>
-        <Cover cover={cover} styles={{ height: '60px' }}/>
+        <Cover cover={cover} styles={{ height: '60px' }} />
       </div>
     </div>
   )
@@ -99,8 +110,7 @@ class List extends React.Component<ListProps, ListState> {
     mutationLoading: false,
   }
 
-  _sync = () => {
-  }
+  _sync = () => {}
 
   _onSelectChange = (
     selectedRowKeys: string[] | number[],
@@ -120,9 +130,7 @@ class List extends React.Component<ListProps, ListState> {
     Modal.confirm({
       title: '確認刪除以下公告？',
       content: (
-        <div style={{ marginTop: 16 }}>
-          {selectedRows.map(DeleteCell)}
-        </div>
+        <div style={{ marginTop: 16 }}>{selectedRows.map(DeleteCell)}</div>
       ),
       cancelText: '取消',
       okText: '確認',
@@ -213,14 +221,16 @@ class List extends React.Component<ListProps, ListState> {
             width={70}
             dataIndex="type"
             title="類別"
-            render={(type) => <TypeCell type={type}/>}
+            render={(type) => <TypeCell type={type} />}
           />
           <Table.Column<Announcement>
             width={60}
             dataIndex="visible"
             title="顯示"
             render={(visible) => (
-              <p style={{ fontSize: '21px' }}>{visible === true ? '✅' : '❌'}</p>
+              <p style={{ fontSize: '21px' }}>
+                {visible === true ? '✅' : '❌'}
+              </p>
             )}
           />
           <Table.Column<Announcement>

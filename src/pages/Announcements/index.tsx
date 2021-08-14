@@ -14,12 +14,7 @@ class AnnouncementList extends React.Component<AnnouncementsChildProps> {
       return <ErrorMessage error={error} />
     }
 
-    return (
-      <List
-        data={official?.announcements || []}
-        loading={loading}
-      />
-    )
+    return <List data={official?.announcements || []} loading={loading} />
   }
 }
 

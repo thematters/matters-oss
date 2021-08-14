@@ -29,10 +29,10 @@ type DetailProps = {
 }
 
 type DetailState = {
-  coverId?: string | null,
+  coverId?: string | null
   loading: boolean
-  warning: string | null,
-  error: any,
+  warning: string | null
+  error: any
 } & Announcement
 
 class Detail extends React.Component<DetailProps, DetailState> {
@@ -66,12 +66,14 @@ class Detail extends React.Component<DetailProps, DetailState> {
             link,
             type,
             visible,
-          }
-        }
+          },
+        },
       })
       this.setState(
         (prev) => ({ ...prev, loading: false, error: null }),
-        () => { message.success('儲存成功') }
+        () => {
+          message.success('儲存成功')
+        }
       )
     } catch (error) {
       this.setState((prev) => ({ ...prev, loading: false, error }))
@@ -103,7 +105,7 @@ class Detail extends React.Component<DetailProps, DetailState> {
                 <Input
                   value={link}
                   onChange={(e) => {
-                    this.setState({ link: e.target.value})
+                    this.setState({ link: e.target.value })
                   }}
                 />
               </Section.Description>

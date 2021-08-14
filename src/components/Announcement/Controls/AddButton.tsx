@@ -62,7 +62,6 @@ class AddButton extends React.Component<Props, State> {
         (prev) => ({ ...prev, loading: false, error: null }),
         () => history.push(`/announcement/${announcementId}`)
       )
-
     } catch (error) {
       this.setState((prev) => ({ ...prev, loading: false, error }))
     }

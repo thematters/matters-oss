@@ -35,10 +35,10 @@ const announcementDetail = graphql<
     const id = _get(props, 'match.params.id')
     return {
       variables: {
-        input: { id }
-      }
+        input: { id },
+      },
     }
-  }
+  },
 })
 
 export default announcementDetail

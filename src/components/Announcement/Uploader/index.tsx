@@ -137,7 +137,12 @@ class Uploader extends React.Component<Props, State> {
             )}
             {cover && (
               <div style={coverContainerStyle}>
-                <img style={{ borderRadius: '1rem' }} src={cover} width="100%" height="100" />
+                <img
+                  style={{ borderRadius: '1rem' }}
+                  src={cover}
+                  width="100%"
+                  height="100"
+                />
               </div>
             )}
           </>
