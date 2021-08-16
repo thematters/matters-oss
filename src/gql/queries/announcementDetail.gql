@@ -2,7 +2,9 @@ query AnnouncementDetail($input: AnnouncementsInput!) {
   official {
     announcements(input: $input) {
       id
+      title
       cover
+      content
       link
       type
       visible

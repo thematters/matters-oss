@@ -208,7 +208,9 @@ export type AnnouncementType = 'community' | 'product' | 'seminar'
 
 export interface Announcement {
   id: string
+  title: string
   cover: string
+  content: string
   link?: string
   type: AnnouncementType
   visible: boolean

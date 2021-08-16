@@ -13,7 +13,9 @@ const PUT_ANNOUNCEMENT = gql`
   mutation PutAnnouncement($input: PutAnnouncementInput!) {
     putAnnouncement(input: $input) {
       id
+      title
       cover
+      content
       link
       type
       visible
@@ -57,12 +59,14 @@ class Detail extends React.Component<DetailProps, DetailState> {
     }))
 
     try {
-      const { id, cover, coverId, link, type, visible } = this.state
+      const { id, title, cover, content, coverId, link, type, visible } = this.state
       const result = await putAnnouncement({
         variables: {
           input: {
             id,
+            title,
             cover: coverId,
+            content,
             link,
             type,
             visible,
@@ -81,13 +85,13 @@ class Detail extends React.Component<DetailProps, DetailState> {
   }
 
   public render() {
-    const { id, cover, link, type, visible, order, loading } = this.state
+    const { id, title, cover, content, link, type, visible, order, loading } = this.state
 
     return (
       <Mutation mutation={PUT_ANNOUNCEMENT}>
         {(putAnnouncement: any) => (
           <>
-            <Section size="large" title="公吿圖片">
+            <Section size="large" title="公吿內容">
               <Section.Description term="圖片" style={{ width: '50%' }}>
                 <Uploader
                   announcementId={id}
@@ -98,9 +102,32 @@ class Detail extends React.Component<DetailProps, DetailState> {
                 />
               </Section.Description>
             </Section>
-            <Divider size="large" />
 
-            <Section size="large" title="公告內容">
+            <Section title="">
+              <Section.Description term="標題">
+                <Input
+                  value={title}
+                  onChange={(e) => {
+                    this.setState({ title: e.target.value })
+                  }}
+                />
+              </Section.Description>
+            </Section>
+
+            <Section title="">
+              <Section.Description term="內容">
+                <Input.TextArea
+                  value={content}
+                  autoSize={{ minRows: 3 }}
+                  style={{ verticalAlign: 'middle' }}
+                  onChange={(e) => {
+                    this.setState({ content: e.target.value })
+                  }}
+                />
+              </Section.Description>
+            </Section>
+
+            <Section title="">
               <Section.Description term="連結">
                 <Input
                   value={link}
@@ -109,7 +136,9 @@ class Detail extends React.Component<DetailProps, DetailState> {
                   }}
                 />
               </Section.Description>
+            </Section>
 
+            <Section title="">
               <Section.Description term="類別">
                 <Select
                   value={type}
@@ -122,7 +151,9 @@ class Detail extends React.Component<DetailProps, DetailState> {
                   ))}
                 </Select>
               </Section.Description>
+            </Section>
 
+            <Section title="">
               <Section.Description term="顯示">
                 <Switch
                   checked={visible}

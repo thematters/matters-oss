@@ -31,55 +31,59 @@ const sharedStyles = {
   justifyContent: 'center',
 
   width: '100%',
-  height: '80px',
+  height: '60px',
   borderRadius: '1rem',
   background: 'rgba(0, 0, 0, 0.02)',
   color: '#ccc',
 }
 
-const IdLink = (_: any, record: Announcement) => {
-  const to = PATH.ANNOUNCEMENT_DETAIL.replace(':id', record.id)
-  return <Link to={to}>{record.id}</Link>
+const To = ({ id, children }: { id: string, children: React.ReactNode }) => {
+  const to = PATH.ANNOUNCEMENT_DETAIL.replace(':id', id)
+  return <Link to={to}>{children}</Link>
 }
 
-const Cover = ({ cover, styles }: any) => {
-  const baseStyles = { ...sharedStyles, ...styles }
-  if (!cover) {
-    return <div style={baseStyles}>尚未上傳</div>
-  }
-  return <img src={cover} style={baseStyles} />
+const Cover = ({ cover }: { cover?: string }) => {
+  return cover
+    ? <img src={cover} style={sharedStyles}/>
+    : <div style={sharedStyles}>未上傳</div>
 }
 
-const CoverCell = (_: any, record: Announcement) => {
-  const to = PATH.ANNOUNCEMENT_DETAIL.replace(':id', record.id)
-  return (
-    <Link to={to}>
-      <Cover cover={record.cover} />
-    </Link>
-  )
-}
+const TitleCell = (_: any, record: Announcement) => (
+  <To id={record.id}>{record.title || '無標題'}</To>
+)
 
-const ContentCell = (_: any, record: Announcement) => {
+const CoverCell = (_: any, record: Announcement) => (
+  <To id={record.id}>
+    <Cover cover={record.cover} />
+  </To>
+)
+
+const ContentCell = (_: any, record: Announcement) => (
+  <To id={record.id}>{record.content || '無內容'}</To>
+)
+
+const LinkCell = (_: any, record: Announcement) => {
   return record.link ? (
     <a href={record.link} target="_blank">
       {record.link}
     </a>
   ) : (
-    <p style={{ color: '#ccc' }}>尚未添加</p>
+    <p style={{ color: '#ccc' }}>無連結</p>
   )
 }
 
 const TypeCell = ({ type }: any) => {
   const item = _find(ANNOUNCEMENT_TYPES, ['key', type])
-  return item ? <p>{item.text}</p> : null
+  return <p>{item?.text || ''}</p>
 }
 
 const DeleteCell = (record: Announcement) => {
-  const { id, cover } = record
+  const { title, cover } = record
   return (
     <div
       style={{
         ...sharedStyles,
+        height: 'auto',
         background: '#fff',
         border: '1px solid rgba(0, 0, 0, 0.1)',
         borderRadius: '0.5rem',
@@ -89,16 +93,16 @@ const DeleteCell = (record: Announcement) => {
     >
       <div
         style={{
-          width: '30%',
+          width: '35%',
           color: '#999',
-          fontSize: '0.75rem',
+          fontSize: '0.85rem',
           paddingRight: '8px',
         }}
       >
-        {id}
+        {title || '無標題'}
       </div>
-      <div style={{ width: '70%' }}>
-        <Cover cover={cover} styles={{ height: '60px' }} />
+      <div style={{ width: '65%' }}>
+        <Cover cover={cover}/>
       </div>
     </div>
   )
@@ -172,7 +176,7 @@ class List extends React.Component<ListProps, ListState> {
     return (
       <>
         <section className="c-table__operators">
-          <AddButton onSuccess={this.props.refetch}/>
+          <AddButton onSuccess={this.props.refetch} />
           <Button
             type="primary"
             onClick={this._onDelete}
@@ -206,10 +210,16 @@ class List extends React.Component<ListProps, ListState> {
           pagination={false}
         >
           <Table.Column<Announcement>
-            width={80}
-            dataIndex="id"
-            title="ID"
-            render={IdLink}
+            width={100}
+            dataIndex="title"
+            title="標題"
+            render={TitleCell}
+          />
+          <Table.Column<Announcement>
+            width={200}
+            dataIndex="content"
+            title="內容"
+            render={ContentCell}
           />
           <Table.Column<Announcement>
             width={250}
@@ -218,19 +228,19 @@ class List extends React.Component<ListProps, ListState> {
             render={CoverCell}
           />
           <Table.Column<Announcement>
-            width={220}
+            width={200}
             dataIndex="link"
             title="連結"
-            render={ContentCell}
+            render={LinkCell}
           />
           <Table.Column<Announcement>
-            width={70}
+            width={50}
             dataIndex="type"
             title="類別"
             render={(type) => <TypeCell type={type} />}
           />
           <Table.Column<Announcement>
-            width={60}
+            width={50}
             dataIndex="visible"
             title="顯示"
             render={(visible) => (
