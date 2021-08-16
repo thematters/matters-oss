@@ -59,7 +59,16 @@ class Detail extends React.Component<DetailProps, DetailState> {
     }))
 
     try {
-      const { id, title, cover, content, coverId, link, type, visible } = this.state
+      const {
+        id,
+        title,
+        cover,
+        content,
+        coverId,
+        link,
+        type,
+        visible,
+      } = this.state
       const result = await putAnnouncement({
         variables: {
           input: {
@@ -85,7 +94,17 @@ class Detail extends React.Component<DetailProps, DetailState> {
   }
 
   public render() {
-    const { id, title, cover, content, link, type, visible, order, loading } = this.state
+    const {
+      id,
+      title,
+      cover,
+      content,
+      link,
+      type,
+      visible,
+      order,
+      loading,
+    } = this.state
 
     return (
       <Mutation mutation={PUT_ANNOUNCEMENT}>

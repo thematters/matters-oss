@@ -37,15 +37,17 @@ const sharedStyles = {
   color: '#ccc',
 }
 
-const To = ({ id, children }: { id: string, children: React.ReactNode }) => {
+const To = ({ id, children }: { id: string; children: React.ReactNode }) => {
   const to = PATH.ANNOUNCEMENT_DETAIL.replace(':id', id)
   return <Link to={to}>{children}</Link>
 }
 
 const Cover = ({ cover }: { cover?: string }) => {
-  return cover
-    ? <img src={cover} style={sharedStyles}/>
-    : <div style={sharedStyles}>未上傳</div>
+  return cover ? (
+    <img src={cover} style={sharedStyles} />
+  ) : (
+    <div style={sharedStyles}>未上傳</div>
+  )
 }
 
 const TitleCell = (_: any, record: Announcement) => (
@@ -102,7 +104,7 @@ const DeleteCell = (record: Announcement) => {
         {title || '無標題'}
       </div>
       <div style={{ width: '65%' }}>
-        <Cover cover={cover}/>
+        <Cover cover={cover} />
       </div>
     </div>
   )
