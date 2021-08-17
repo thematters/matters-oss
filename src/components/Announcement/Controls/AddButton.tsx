@@ -7,7 +7,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom'
 import ErrorMessage from '../../../components/ErrorMessage'
 
 const PUT_ANNOUNCEMENT = gql`
-  mutation PutAnnouncement($input: PutAnnouncementInput!) {
+  mutation AddAnnouncement($input: PutAnnouncementInput!) {
     putAnnouncement(input: $input) {
       id
       __typename

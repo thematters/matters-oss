@@ -6,7 +6,7 @@ import { Mutation } from 'react-apollo'
 import ErrorMessage from '../../../components/ErrorMessage'
 
 const UPLOAD_FILE = gql`
-  mutation SingleFileUpload($input: SingleFileUploadInput!) {
+  mutation AnnouncementCoverUpload($input: SingleFileUploadInput!) {
     singleFileUpload(input: $input) {
       ... on Asset {
         id
