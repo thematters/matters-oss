@@ -89,7 +89,12 @@ class Detail extends React.Component<DetailProps, DetailState> {
         }
       )
     } catch (error) {
-      this.setState((prev) => ({ ...prev, loading: false, error }))
+      this.setState(
+        (prev) => ({ ...prev, loading: false, error }),
+        () => {
+          message.error('儲存失敗')
+        }
+      )
     }
   }
 
