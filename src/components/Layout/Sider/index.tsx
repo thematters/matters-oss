@@ -98,6 +98,12 @@ export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
         </SubMenu>
 
         <SubMenu key="system" title={<strong>系統設定</strong>}>
+          <Menu.Item key={PATH.ANNOUNCEMENTS}>
+            <Link to={PATH.ANNOUNCEMENTS}>
+              {PAGE_TITLE[PATH.ANNOUNCEMENTS]}
+            </Link>
+          </Menu.Item>
+
           <Menu.Item key={PATH.BLOCK_LIST}>
             <Link to={PATH.BLOCK_LIST}>{PAGE_TITLE[PATH.BLOCK_LIST]}</Link>
           </Menu.Item>

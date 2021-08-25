@@ -32,6 +32,9 @@ export const PATH = {
   FEATURE_FLAG: '/feature_flag',
 
   SEEDING_USER_LIST: '/seeding_users',
+
+  ANNOUNCEMENTS: '/announcements',
+  ANNOUNCEMENT_DETAIL: '/announcement/:id',
 }
 
 export const PAGE_TITLE = {
@@ -66,6 +69,8 @@ export const PAGE_TITLE = {
   [PATH.BLOCK_LIST_DOMAIN]: '網域封鎖清單',
   [PATH.FEATURE_FLAG]: '功能開關',
   [PATH.SEEDING_USER_LIST]: '內測種子用戶清單',
+  [PATH.ANNOUNCEMENTS]: '公告清單',
+  [PATH.ANNOUNCEMENT_DETAIL]: '公告',
 }
 
 export const PATH_REGEXP = {
