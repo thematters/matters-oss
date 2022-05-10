@@ -31,6 +31,7 @@ const BAN_DAYS: { key: string; text: string }[] = [
   { key: '30', text: '30 天' },
   { key: '90', text: '90 天' },
   { key: '180', text: '180 天' },
+  { key: '36500', text: '永久禁言' },
 ]
 
 interface BanSelectorState {
