@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Col, Skeleton, Empty, Tag } from 'antd'
+import { Button, Col, Modal, Skeleton, Empty, Tag, message } from 'antd'
+import { Mutation } from 'react-apollo'
 import { Waypoint } from 'react-waypoint'
 
 import ErrorMessage from '../../components/ErrorMessage'
@@ -11,6 +12,7 @@ import UserStateTag from '../../components/User/StateTag'
 import UserSetState from '../../components/User/SetState'
 import UserRoleTag from '../../components/User/RoleTag'
 import UserSetRole from '../../components/User/SetRole'
+import UserResetWallet from '../../components/User/ResetWallet'
 
 import UserComments from './Comments'
 import withUserDetail, { UserDetailChildProps } from './withUserDetail'
@@ -94,6 +96,9 @@ class UserDetail extends React.Component<
           <Description term="語言">
             {LanguageMap[user.settings.language]}
           </Description>
+          <Description term="加密錢包地址">
+            {user.info.ethAddress || 'NA'}
+          </Description>
         </DescriptionList>
         <Divider size="large" />
 
@@ -139,6 +144,10 @@ class UserDetail extends React.Component<
 
           <Description term="添加至內測種子用戶" col={1}>
             <ToggleSeedingUsersButton users={[user]} enabled={true} />
+          </Description>
+
+          <Description term="重置加密錢包" col={1}>
+            <UserResetWallet id={user.id} ethAddress={user.info.ethAddress} />
           </Description>
         </DescriptionList>
         <Divider size="large" />
