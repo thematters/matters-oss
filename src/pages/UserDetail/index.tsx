@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Col, Modal, Skeleton, Empty, Tag, message } from 'antd'
+import { Button, Col, Icon, Modal, Skeleton, Empty, Tag, message } from 'antd'
 import { Mutation } from 'react-apollo'
 import { Waypoint } from 'react-waypoint'
 
@@ -63,6 +63,12 @@ class UserDetail extends React.Component<
 
     const { showComments } = this.state
 
+    const maskAddress = (address: string, prefixLen: number = 6) => {
+      return `${address.substring(0, prefixLen)}...${address.substring(
+        address.length - 4
+      )}`
+    }
+
     return (
       <>
         <DescriptionList col={3} size="large" title="簡介">
@@ -97,7 +103,7 @@ class UserDetail extends React.Component<
             {LanguageMap[user.settings.language]}
           </Description>
           <Description term="加密錢包地址">
-            {user.info.ethAddress || 'NA'}
+            { user.info.ethAddress? maskAddress(user.info.ethAddress) : 'N/A'}
           </Description>
         </DescriptionList>
         <Divider size="large" />
