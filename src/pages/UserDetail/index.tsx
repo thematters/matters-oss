@@ -103,7 +103,7 @@ class UserDetail extends React.Component<
             {LanguageMap[user.settings.language]}
           </Description>
           <Description term="加密錢包地址">
-            { user.info.ethAddress? maskAddress(user.info.ethAddress) : 'N/A'}
+            {user.info.ethAddress ? maskAddress(user.info.ethAddress) : 'N/A'}
           </Description>
         </DescriptionList>
         <Divider size="large" />
