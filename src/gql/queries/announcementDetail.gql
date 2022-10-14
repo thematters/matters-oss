@@ -9,6 +9,13 @@ query AnnouncementDetail($input: AnnouncementsInput!) {
       type
       visible
       order
+      translations {
+        title
+        cover
+        content
+        link
+        language
+      }
       createdAt
       updatedAt
     }
