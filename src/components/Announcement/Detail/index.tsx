@@ -27,7 +27,6 @@ const PUT_ANNOUNCEMENT = gql`
         language
         cover
       }
-      __typename
     }
   }
 `
