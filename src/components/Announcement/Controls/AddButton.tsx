@@ -10,7 +10,6 @@ const PUT_ANNOUNCEMENT = gql`
   mutation AddAnnouncement($input: PutAnnouncementInput!) {
     putAnnouncement(input: $input) {
       id
-      __typename
     }
   }
 `

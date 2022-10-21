@@ -206,6 +206,17 @@ export interface FeatureFlagItem {
  */
 export type AnnouncementType = 'community' | 'product' | 'seminar'
 
+export type UserLanguage = 'en' | 'zh_hant'
+
+export type TranslatedAnnouncement = {
+  language: UserLanguage
+  title: string
+  cover: string | null
+  content: string
+  link: string
+}
+
+
 export interface Announcement {
   id: string
   title: string
@@ -215,4 +226,5 @@ export interface Announcement {
   type: AnnouncementType
   visible: boolean
   order: int
+  translations: [TranslatedAnnouncement]
 }

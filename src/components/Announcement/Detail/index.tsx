@@ -20,7 +20,13 @@ const PUT_ANNOUNCEMENT = gql`
       type
       visible
       order
-      __typename
+      translations {
+        title
+        content
+        link
+        language
+        cover
+      }
     }
   }
 `
@@ -68,6 +74,7 @@ class Detail extends React.Component<DetailProps, DetailState> {
         link,
         type,
         visible,
+        translations,
       } = this.state
       const result = await putAnnouncement({
         variables: {
@@ -77,11 +84,13 @@ class Detail extends React.Component<DetailProps, DetailState> {
             cover: coverId,
             content,
             link,
+            translations,
             type,
             visible,
           },
         },
       })
+
       this.setState(
         (prev) => ({ ...prev, loading: false, error: null }),
         () => {
@@ -103,11 +112,13 @@ class Detail extends React.Component<DetailProps, DetailState> {
       id,
       title,
       cover,
+      coverId,
       content,
       link,
       type,
       visible,
       order,
+      translations,
       loading,
     } = this.state
 
@@ -161,7 +172,68 @@ class Detail extends React.Component<DetailProps, DetailState> {
                 />
               </Section.Description>
             </Section>
-
+            <Section title="">
+              <Section.Description term="Title(en)">
+                <Input
+                  value={translations[0]?.title}
+                  onChange={(e) => {
+                    this.setState({
+                      translations: [
+                        {
+                          title: e.target.value,
+                          content: translations[0]?.content,
+                          language: 'en',
+                          cover: coverId,
+                          link: translations[0]?.link,
+                        },
+                      ],
+                    })
+                  }}
+                />
+              </Section.Description>
+            </Section>
+            <Section title="">
+              <Section.Description term="Content(en)">
+                <Input.TextArea
+                  value={translations[0]?.content}
+                  autoSize={{ minRows: 3 }}
+                  style={{ verticalAlign: 'middle' }}
+                  onChange={(e) => {
+                    this.setState({
+                      translations: [
+                        {
+                          content: e.target.value,
+                          language: 'en',
+                          cover: coverId,
+                          link: translations[0]?.link,
+                          title: translations[0]?.title,
+                        },
+                      ],
+                    })
+                  }}
+                />
+              </Section.Description>
+            </Section>
+            <Section title="">
+              <Section.Description term="Link(en)">
+                <Input
+                  value={translations[0]?.link}
+                  onChange={(e) => {
+                    this.setState({
+                      translations: [
+                        {
+                          title: translations[0]?.title,
+                          content: translations[0]?.content,
+                          language: 'en',
+                          cover: coverId,
+                          link: e.target.value,
+                        },
+                      ],
+                    })
+                  }}
+                />
+              </Section.Description>
+            </Section>
             <Section title="">
               <Section.Description term="類別">
                 <Select
