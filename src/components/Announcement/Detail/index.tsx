@@ -90,6 +90,7 @@ class Detail extends React.Component<DetailProps, DetailState> {
           },
         },
       })
+
       this.setState(
         (prev) => ({ ...prev, loading: false, error: null }),
         () => {
@@ -198,7 +199,6 @@ class Detail extends React.Component<DetailProps, DetailState> {
                   autoSize={{ minRows: 3 }}
                   style={{ verticalAlign: 'middle' }}
                   onChange={(e) => {
-                    console.log('coverId', coverId)
                     this.setState({
                       translations: [
                         {
@@ -219,7 +219,6 @@ class Detail extends React.Component<DetailProps, DetailState> {
                 <Input
                   value={translations[0]?.link}
                   onChange={(e) => {
-                    console.log('coverId', coverId)
                     this.setState({
                       translations: [
                         {
