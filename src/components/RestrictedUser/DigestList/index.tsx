@@ -1,11 +1,23 @@
 import * as React from 'react'
 import _compact from 'lodash/compact'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
 import UserLink from '../../User/Link'
 import { onPaginationChange, getCurrentPaginationFromUrl } from '../../../utils'
 import { PAGE_SIZE } from '../../../constants'
 import { UserDigest } from '../../../definitions'
 import DateTime from '../../DateTime'
+
+import RemoveAllRestrictionButton from '../SetRestriction/removeAllRestrictionButton'
+
+const NAME_MAP = {
+  articleNewest: '最新',
+  articleHottest: '熱門',
+}
+
+const ITEM_MAP = {
+  articleNewest: '首頁最新不顯示文章',
+  articleHottest: '首頁熱門不顯示文章',
+}
 
 type RestrictedUserDigestListProps = {
   data: UserDigest[]
@@ -30,12 +42,30 @@ class RestrictedUserDigestList extends React.Component<
       />
     )
   }
-  private _renderUpdateAt(_: any, record: UserDigest): React.ReactNode {
-    const dates = record.oss.restrictions.map(
-      ({ createdAt }) => new Date(createdAt)
+  private _renderRestrictions(_: any, record: UserDigest): React.ReactNode {
+    return (
+      record.oss.restrictions.map(({ type }) => NAME_MAP[type]).join('、') ||
+      '無'
     )
-    const maxDate = new Date(Math.max(...dates.map((d) => d.getTime())))
-    return <DateTime date={maxDate} />
+  }
+  private _renderUpdateAt(_: any, record: UserDigest): React.ReactNode {
+    if (record.oss.restrictions.length > 0) {
+      const dates = record.oss.restrictions.map(
+        ({ createdAt }) => new Date(createdAt)
+      )
+      const maxDate = new Date(Math.max(...dates.map((d) => d.getTime())))
+      return <DateTime date={maxDate} />
+    } else {
+      return '無'
+    }
+  }
+  private _renderButtons(_: any, record: UserDigest): React.ReactNode {
+    return (
+      <>
+        <Button type="primary">修改</Button>
+        <RemoveAllRestrictionButton userId={record.id} restrictions={[]} />
+      </>
+    )
   }
   public render() {
     const { data, loading = false, pagination } = this.props
@@ -65,12 +95,24 @@ class RestrictedUserDigestList extends React.Component<
           dataIndex="info.id"
           title="用戶"
           render={this._renderNameCell}
+          width={200}
         />
         <Table.Column<UserDigest>
-          dataIndex="info.createdAt"
+          dataIndex="oss.restrictions"
+          title="管製項目"
+          render={this._renderRestrictions}
+          width={400}
+        />
+        <Table.Column<UserDigest>
+          dataIndex="oss.restrictions"
           title="設置時間"
           render={this._renderUpdateAt}
-          width={200}
+          width={400}
+        />
+        <Table.Column<UserDigest>
+          dataIndex="info.id"
+          title="操作"
+          render={this._renderButtons}
         />
       </Table>
     )

@@ -35,7 +35,7 @@ class RestrictedUserList extends React.Component<RestrictedUserListChildProps> {
       <RestrictedUserDigestList
         data={listData}
         loading={loading}
-        pagination={{ totalCount }}
+        pagination={{ totalCount, fetchMore, variables }}
       />
     )
   }
