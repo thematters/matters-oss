@@ -14,4 +14,10 @@ fragment UserDigest on User {
     articleCount
     commentCount
   }
+  oss {
+      restrictions {
+      type
+      createdAt
+    }
+  }
 }
