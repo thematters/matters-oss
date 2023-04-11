@@ -1,7 +1,9 @@
 import { Button, Modal, Checkbox, Row, message } from 'antd'
 import * as React from 'react'
 import withSetRestriction, { ChildProps } from './withSetRestriction'
+import { PAGE_SIZE } from '../../../constants'
 import { GQLUserRestrictionType } from '../../../definitions'
+import RestrictedUserList from '../../../gql/queries/restrictedUserList.gql'
 
 type SetRestrictionState = {
   loading: boolean
@@ -30,6 +32,37 @@ class SetRestrictionButton extends React.Component<
       await mutate({
         variables: {
           input: { ids: [userId], restrictions: this.state.restrictions },
+        },
+        update: (cache, { data }) => {
+          const variables = { input: { first: PAGE_SIZE } }
+          const cacheData = cache.readQuery<any>({
+            query: RestrictedUserList,
+            variables,
+          })
+          const newEdge = { node: data?.putRestrictedUsers[0] }
+
+          // updated node already in restrictedUsers list, skip
+          if (
+            cacheData.oss.restrictedUsers.edges.find(
+              (edge: any) => edge.node.id === newEdge?.node?.id
+            )
+          ) {
+            return
+          }
+          cache.writeQuery({
+            query: RestrictedUserList,
+            variables,
+            data: {
+              oss: {
+                ...cacheData.oss,
+                restrictedUsers: {
+                  ...cacheData.oss.restrictedUsers,
+                  totalCount: cacheData.oss.totalCount + 1,
+                  edges: [newEdge, ...cacheData.oss.restrictedUsers.edges],
+                },
+              },
+            },
+          })
         },
       })
       this.setState({ ...this.state, loading: false, modalVisible: false })
