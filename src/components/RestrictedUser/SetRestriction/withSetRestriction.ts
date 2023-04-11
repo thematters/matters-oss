@@ -1,9 +1,5 @@
 import { graphql, ChildMutateProps } from 'react-apollo'
-import {
-  FeatureName,
-  GQLUserRestrictionType,
-  UserDigest,
-} from '../../../definitions'
+import { GQLUserRestrictionType, UserDigest } from '../../../definitions'
 import SET_RESTRICTION from '../../../gql/mutations/setRestriction.gql'
 
 type Response = {

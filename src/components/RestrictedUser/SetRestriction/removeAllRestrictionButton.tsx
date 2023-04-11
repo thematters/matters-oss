@@ -17,9 +17,11 @@ class RemoveAllRestrictionButton extends React.Component<
   }
   private _handleClick = async () => {
     this.setState({ loading: true, error: null })
-    const { mutate, userId, restrictions } = this.props
+    const { mutate, userId } = this.props
     try {
-      await mutate({ variables: { input: { ids: [userId], restrictions } } })
+      await mutate({
+        variables: { input: { ids: [userId], restrictions: [] } },
+      })
       this.setState({ loading: false, error: null })
     } catch (e) {
       message.error(e)

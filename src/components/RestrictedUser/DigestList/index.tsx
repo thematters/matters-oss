@@ -8,15 +8,11 @@ import { UserDigest } from '../../../definitions'
 import DateTime from '../../DateTime'
 
 import RemoveAllRestrictionButton from '../SetRestriction/removeAllRestrictionButton'
+import SetRestrictionButton from '../SetRestriction/setRestrictionButton'
 
 const NAME_MAP = {
   articleNewest: '最新',
   articleHottest: '熱門',
-}
-
-const ITEM_MAP = {
-  articleNewest: '首頁最新不顯示文章',
-  articleHottest: '首頁熱門不顯示文章',
 }
 
 type RestrictedUserDigestListProps = {
@@ -60,9 +56,10 @@ class RestrictedUserDigestList extends React.Component<
     }
   }
   private _renderButtons(_: any, record: UserDigest): React.ReactNode {
+    const restrictions = record.oss.restrictions.map(({ type }) => type)
     return (
       <>
-        <Button type="primary">修改</Button>
+        <SetRestrictionButton userId={record.id} restrictions={restrictions} />
         <RemoveAllRestrictionButton userId={record.id} restrictions={[]} />
       </>
     )
