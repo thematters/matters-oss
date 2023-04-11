@@ -1,0 +1,7 @@
+#import "../fragments/user/digest.gql"
+
+mutation setRestriction($input: PutRestrictedUsersInput!) {
+  putRestrictedUsers(input: $input) {
+    ...UserDigest
+  }
+}

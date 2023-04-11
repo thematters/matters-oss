@@ -8,6 +8,7 @@ import {
   GQLUserSettings,
   GQLUserStatus,
   GQLLiker,
+  GQLUserRestrictionType,
 } from './schema'
 
 export * from './schema'
@@ -36,6 +37,10 @@ export type UserDigest = {
   }
   oss: {
     boost: number
+    restrictions: {
+      type: GQLUserRestrictionType
+      createdAt: Date
+    }[]
   }
 }
 
