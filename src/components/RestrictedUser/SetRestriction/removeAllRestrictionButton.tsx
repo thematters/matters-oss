@@ -30,7 +30,11 @@ class RemoveAllRestrictionButton extends React.Component<
   }
   public render() {
     return (
-      <Button loading={this.state.loading} onClick={this._handleClick}>
+      <Button
+        loading={this.state.loading}
+        onClick={this._handleClick}
+        disabled={this.props.restrictions.length === 0}
+      >
         解除管制
       </Button>
     )

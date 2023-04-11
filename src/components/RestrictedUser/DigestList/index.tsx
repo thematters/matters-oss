@@ -60,7 +60,10 @@ class RestrictedUserDigestList extends React.Component<
     return (
       <>
         <SetRestrictionButton userId={record.id} restrictions={restrictions} />
-        <RemoveAllRestrictionButton userId={record.id} restrictions={[]} />
+        <RemoveAllRestrictionButton
+          userId={record.id}
+          restrictions={restrictions}
+        />
       </>
     )
   }
