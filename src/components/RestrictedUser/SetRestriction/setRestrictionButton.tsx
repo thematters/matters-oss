@@ -1,15 +1,7 @@
-import { Button, Modal, Checkbox, message } from 'antd'
+import { Button, Modal, Checkbox, Row, message } from 'antd'
 import * as React from 'react'
 import withSetRestriction, { ChildProps } from './withSetRestriction'
 import { GQLUserRestrictionType } from '../../../definitions'
-
-const MODAL_CHECKBOX_ITEMS = [
-  {
-    label: '首頁熱門不顯示文章',
-    value: 'articleHottest',
-  },
-  { label: '首頁最新不顯示文章', value: 'articleNewest' },
-]
 
 type SetRestrictionState = {
   loading: boolean
@@ -74,10 +66,16 @@ class SetRestrictionButton extends React.Component<
           }}
         >
           <Checkbox.Group
-            options={MODAL_CHECKBOX_ITEMS}
             defaultValue={this.state.restrictions}
             onChange={this._handlerChange}
-          />
+          >
+            <Row>
+              <Checkbox value="articleHottest">首頁熱門不顯示文章</Checkbox>
+            </Row>
+            <Row>
+              <Checkbox value="articleNewest">首頁最新不顯示文章</Checkbox>
+            </Row>
+          </Checkbox.Group>
         </Modal>
       </>
     )
