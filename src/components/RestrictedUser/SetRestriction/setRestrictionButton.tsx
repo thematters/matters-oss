@@ -40,7 +40,7 @@ class SetRestrictionButton extends React.Component<
           input: { ids: [userId], restrictions: this.state.restrictions },
         },
       })
-      this.setState({ ...this.state, loading: false })
+      this.setState({ ...this.state, loading: false, modalVisible: false })
     } catch (error) {
       message.error(error)
       this.setState({ ...this.state, loading: false, error })
