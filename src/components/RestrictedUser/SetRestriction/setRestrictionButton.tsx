@@ -99,7 +99,7 @@ class SetRestrictionButton extends React.Component<
           }}
         >
           <Checkbox.Group
-            defaultValue={this.state.restrictions}
+            defaultValue={this.props.restrictions}
             onChange={this._handlerChange}
           >
             <Row>
