@@ -9,6 +9,12 @@ query Announcements {
       type
       visible
       order
+      translations {
+        title
+        content
+        link
+        language
+      }
       createdAt
       updatedAt
     }

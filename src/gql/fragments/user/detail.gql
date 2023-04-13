@@ -17,6 +17,10 @@ fragment UserDetail on User {
     badges {
       type
     }
+    ethAddress
+    cryptoWallet {
+      address
+    }
   }
   settings {
     language
