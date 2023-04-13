@@ -1,0 +1,16 @@
+#import "../fragments/connection.gql"
+#import "../fragments/user/digest.gql"
+
+query OSSRestrictedUserList($input: ConnectionArgs!) {
+  oss {
+    restrictedUsers(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          ...UserDigest
+        }
+      }
+    }
+  }
+}
+

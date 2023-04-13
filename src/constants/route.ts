@@ -11,6 +11,7 @@ export const PATH = {
 
   USER_LIST: '/users',
   BADGED_USER_LIST: '/badged_users',
+  RESTRICTED_USER_LIST: '/restricted_users',
   USER_DETAIL: '/users/:id',
 
   ARTICLE_LIST: '/articles',
@@ -49,6 +50,7 @@ export const PAGE_TITLE = {
   [PATH.TAG_DETAIL]: '標籤詳情',
 
   [PATH.USER_LIST]: '用戶清單',
+  [PATH.RESTRICTED_USER_LIST]: '用戶黑名單',
   [PATH.BADGED_USER_LIST]: '徽章用戶清單',
   [PATH.USER_DETAIL]: '用戶詳情',
 

@@ -75,6 +75,11 @@ export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
           <Menu.Item key={PATH.USER_LIST}>
             <Link to={PATH.USER_LIST}>{PAGE_TITLE[PATH.USER_LIST]}</Link>
           </Menu.Item>
+          <Menu.Item key={PATH.RESTRICTED_USER_LIST}>
+            <Link to={PATH.RESTRICTED_USER_LIST}>
+              {PAGE_TITLE[PATH.RESTRICTED_USER_LIST]}
+            </Link>
+          </Menu.Item>
           <Menu.Item key={PATH.BADGED_USER_LIST}>
             <Link to={PATH.BADGED_USER_LIST}>
               {PAGE_TITLE[PATH.BADGED_USER_LIST]}
