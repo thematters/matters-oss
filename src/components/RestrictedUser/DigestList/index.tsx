@@ -99,7 +99,7 @@ class RestrictedUserDigestList extends React.Component<
         />
         <Table.Column<UserDigest>
           dataIndex="oss.restrictions"
-          title="管製項目"
+          title="管制項目"
           render={this._renderRestrictions}
           width={400}
         />
