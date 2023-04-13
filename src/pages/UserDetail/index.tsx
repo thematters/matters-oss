@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Col, Skeleton, Empty, Tag } from 'antd'
+import { Button, Col, Icon, Modal, Skeleton, Empty, Tag, message } from 'antd'
+import { Mutation } from 'react-apollo'
 import { Waypoint } from 'react-waypoint'
 
 import ErrorMessage from '../../components/ErrorMessage'
@@ -11,6 +12,7 @@ import UserStateTag from '../../components/User/StateTag'
 import UserSetState from '../../components/User/SetState'
 import UserRoleTag from '../../components/User/RoleTag'
 import UserSetRole from '../../components/User/SetRole'
+import UserResetWallet from '../../components/User/ResetWallet'
 
 import UserComments from './Comments'
 import withUserDetail, { UserDetailChildProps } from './withUserDetail'
@@ -61,6 +63,12 @@ class UserDetail extends React.Component<
 
     const { showComments } = this.state
 
+    const maskAddress = (address: string, prefixLen: number = 6) => {
+      return `${address.substring(0, prefixLen)}...${address.substring(
+        address.length - 4
+      )}`
+    }
+
     return (
       <>
         <DescriptionList col={3} size="large" title="簡介">
@@ -93,6 +101,9 @@ class UserDetail extends React.Component<
           <Description term="評論數">{user.status.commentCount}</Description>
           <Description term="語言">
             {LanguageMap[user.settings.language]}
+          </Description>
+          <Description term="加密錢包地址">
+            {user.info.ethAddress ? maskAddress(user.info.ethAddress) : 'N/A'}
           </Description>
         </DescriptionList>
         <Divider size="large" />
@@ -139,6 +150,10 @@ class UserDetail extends React.Component<
 
           <Description term="添加至內測種子用戶" col={1}>
             <ToggleSeedingUsersButton users={[user]} enabled={true} />
+          </Description>
+
+          <Description term="重置加密錢包" col={1}>
+            <UserResetWallet id={user.id} ethAddress={user.info.ethAddress} />
           </Description>
         </DescriptionList>
         <Divider size="large" />

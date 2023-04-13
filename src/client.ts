@@ -9,6 +9,7 @@ import { onError } from 'apollo-link-error'
 import { ApolloLink } from 'apollo-link'
 import { createUploadLink } from 'apollo-upload-client'
 import _get from 'lodash/get'
+import cloneDeepWith from 'lodash/cloneDeepWith'
 
 import { API_ENDPOINT } from './constants'
 import introspectionQueryResultData from './gql/fragmentTypes.json'
@@ -33,8 +34,37 @@ const sentryLink = setContext((_, { headers }) => {
   }
 })
 
+const omitTypenameDeep = (
+  variables: Record<string, unknown>
+): Record<string, unknown> =>
+  cloneDeepWith(variables, (value) => {
+    if (value?.__typename) {
+      const { __typename, ...valWithoutTypename } = value
+      return omitTypenameDeep(valWithoutTypename)
+    }
+    return undefined
+  })
+
+const removeTypename = new ApolloLink((operation, forward) => {
+  const newOperation = operation
+  newOperation.variables = omitTypenameDeep(newOperation.variables)
+  return forward(newOperation)
+})
+
+const cleanTypeName = new ApolloLink((operation, forward) => {
+  if (operation.variables) {
+    const omitTypename = (key :any, value: any) => (key === '__typename' ? undefined : value);
+    operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename);
+  }
+  return forward(operation).map((data) => {
+    return data;
+  });
+});
+
+
 const client = new ApolloClient({
   link: ApolloLink.from([
+    removeTypename,
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
         graphQLErrors.map(({ message, locations, path, extensions }) => {
