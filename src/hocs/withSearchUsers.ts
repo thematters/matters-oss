@@ -8,12 +8,16 @@ import QuerySearchUsers from '../gql/queries/searchUsers.gql'
 
 type SearchUsersResponse = {
   search: Connection<UserDigest>
+  user: UserDigest
 }
 type SearchUsersInputProps = RouteComponentProps
 type SearchUsersVariables = {
-  input: GQLConnectionArgs & {
+  input1: GQLConnectionArgs & {
     key: string
     type: 'User'
+  }
+  input2: {
+    userName: string
   }
 }
 export type SearchUsersChildProps = ChildDataProps<
@@ -29,17 +33,21 @@ export default graphql<
   SearchUsersChildProps
 >(QuerySearchUsers, {
   // name: 'searchUsers',
-  options: (props) => {
+  options: (_) => {
     const currentPagination = getCurrentPaginationFromUrl()
+    const key = getSearchKey()
     return {
       notifyOnNetworkStatusChange: true,
       variables: {
-        input: {
-          key: getSearchKey(),
+        input1: {
+          key,
           type: 'User',
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
           version: 'v20230301'
+        },
+        input2: {
+          userName: key,
         },
       },
     }
