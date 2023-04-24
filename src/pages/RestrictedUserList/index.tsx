@@ -13,7 +13,7 @@ class RestrictedUserList extends React.Component<RestrictedUserListChildProps> {
   }
   private _renderContent() {
     const {
-      data: { oss, search, loading, error, fetchMore, variables },
+      data: { oss, search, user, loading, error, fetchMore, variables },
     } = this.props
 
     if (error) {
@@ -25,6 +25,10 @@ class RestrictedUserList extends React.Component<RestrictedUserListChildProps> {
     if (search) {
       listData = search.edges.map(({ node }) => node)
       totalCount = search.totalCount
+      if (totalCount === 0 && user) {
+        listData = [user]
+        totalCount = 1
+      }
     }
     if (oss && oss.restrictedUsers) {
       listData = oss.restrictedUsers.edges.map(({ node }) => node)
