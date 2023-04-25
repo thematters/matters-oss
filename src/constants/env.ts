@@ -5,20 +5,20 @@ export const __STAGE__ = process.env.REACT_APP_ENV === 'stage'
 export const __PROD__ = process.env.REACT_APP_ENV === 'production'
 
 export const API_ENDPOINT = __LOCAL__
-  ? 'https://server-develop.matters.town/graphql'
+  ? 'https://server-develop.matters.news/graphql'
   : __STAGE__
-  ? 'https://server-stage.matters.town/graphql'
+  ? 'https://server-stage.matters.news/graphql'
   : __DEVELOP__
-  ? 'https://server-develop.matters.town/graphql'
+  ? 'https://server-develop.matters.news/graphql'
   : __PROD__
-  ? 'https://server.matters.town/graphql'
+  ? 'https://server.matters.news/graphql'
   : ''
 
 export const SITE_DOMIAN = __PROD__
-  ? 'https://matters.town'
+  ? 'https://matters.news'
   : __STAGE__
-  ? 'https://web-stage.matters.town'
-  : 'https://web-develop.matters.town'
+  ? 'https://web-stage.matters.news'
+  : 'https://web-develop.matters.news'
 
 export const SENTRY_DSN = __LOCAL__
   ? 'http://9ea964b072084db9b96da11ef5fdf7bf@0.0.0.0:9000/2'
