@@ -55,7 +55,7 @@ class SearchBar extends React.Component<
     client: ApolloClient<any>
   }) {
     const { history } = this.props
-    const path = value.split('matters.news')[1]
+    const path = value.split('matters.town')[1]
 
     const isUserLink = PATH_REGEXP.user.test(path)
     if (isUserLink) {
@@ -97,7 +97,7 @@ class SearchBar extends React.Component<
     value: string
     client: ApolloClient<any>
   }) => {
-    if (/http/i.test(value) && /matters\.news/i.test(value)) {
+    if (/http/i.test(value) && /matters\.town/i.test(value)) {
       return await this._handleRedirect({ value, client })
     }
 
