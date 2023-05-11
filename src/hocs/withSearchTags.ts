@@ -39,6 +39,7 @@ export default graphql<
           type: 'Tag',
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
+          version: 'v20230301'
         },
       },
     }
