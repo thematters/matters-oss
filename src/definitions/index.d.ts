@@ -129,6 +129,7 @@ export type ArticleDetail = ArticleDigest & {
   hasAppreciate: boolean
   remark: string
   comments: Connection<CommentDigest>
+  sensitiveByAdmin: boolean
 }
 
 /**
@@ -220,7 +221,6 @@ export type TranslatedAnnouncement = {
   content: string
   link: string
 }
-
 
 export interface Announcement {
   id: string
