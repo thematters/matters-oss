@@ -53,14 +53,17 @@ const removeTypename = new ApolloLink((operation, forward) => {
 
 const cleanTypeName = new ApolloLink((operation, forward) => {
   if (operation.variables) {
-    const omitTypename = (key :any, value: any) => (key === '__typename' ? undefined : value);
-    operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename);
+    const omitTypename = (key: any, value: any) =>
+      key === '__typename' ? undefined : value
+    operation.variables = JSON.parse(
+      JSON.stringify(operation.variables),
+      omitTypename
+    )
   }
   return forward(operation).map((data) => {
-    return data;
-  });
-});
-
+    return data
+  })
+})
 
 const client = new ApolloClient({
   link: ApolloLink.from([
