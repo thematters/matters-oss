@@ -12,6 +12,7 @@ fragment ArticleDetail on Article {
   mediaHash
   content
   appreciationsReceivedTotal
+  sensitiveByAdmin
   collection(input: { first: null }) {
     ...ConnectionInfo
     edges {

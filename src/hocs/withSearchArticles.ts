@@ -39,7 +39,7 @@ export default graphql<
           type: 'Article',
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
-          version: 'v20230301'
+          version: 'v20230301',
         },
       },
     }

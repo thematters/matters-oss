@@ -44,7 +44,7 @@ export default graphql<
           type: 'User',
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
-          version: 'v20230301'
+          version: 'v20230301',
         },
         input2: {
           userName: key,

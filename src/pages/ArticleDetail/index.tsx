@@ -18,6 +18,7 @@ import { SITE_DOMIAN } from '../../constants'
 import CommentDigestList from '../../components/Comment/DigestList'
 import ToggleRecommend from '../../components/Article/ToggleRecommend'
 import SetBoost from '../../components/SetBoost'
+import ToggleSensitive from '../../components/Article/ToggleSensitive'
 
 const { Description } = DescriptionList
 
@@ -106,6 +107,13 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
               checked={article.oss.inRecommendNewest}
               articleId={article.id}
               type="newest"
+            />
+          </Description>
+
+          <Description term="内容敏感「遮罩正文」">
+            <ToggleSensitive
+              checked={article.sensitiveByAdmin}
+              articleId={article.id}
             />
           </Description>
 
