@@ -81,6 +81,9 @@ const client = new ApolloClient({
     createUploadLink({
       uri: API_ENDPOINT,
       credentials: 'include',
+      headers: {
+        'Apollo-Require-Preflight': 'true',
+      },
     }),
   ]),
   cache: new InMemoryCache({ fragmentMatcher }),
