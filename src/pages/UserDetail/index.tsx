@@ -24,6 +24,8 @@ import ToggleUsersBadgeButton from '../../components/BadgedUser/ToggleButton'
 import SetBoost from '../../components/SetBoost'
 import { USER_BADGES } from '../../components/BadgedUser/enums'
 import { USER_BADGE_TYPES } from '../../definitions'
+import SetRestrictionButton from '../../components/RestrictedUser/SetRestriction/setRestrictionButton'
+import RemoveAllRestrictionButton from '../../components/RestrictedUser/SetRestriction/removeAllRestrictionButton'
 
 const { Description } = DescriptionList
 const LanguageMap = {
@@ -62,6 +64,7 @@ class UserDetail extends React.Component<
     }
 
     const { showComments } = this.state
+    const restrictions = user.oss.restrictions.map(({ type }) => type)
 
     const maskAddress = (address: string, prefixLen: number = 6) => {
       return `${address.substring(0, prefixLen)}...${address.substring(
@@ -155,7 +158,20 @@ class UserDetail extends React.Component<
           <Description term="重置加密錢包" col={1}>
             <UserResetWallet id={user.id} ethAddress={user.info.ethAddress} />
           </Description>
+
+          <Description term="黑名單">
+            <SetRestrictionButton
+              userId={user.id}
+              restrictions={restrictions}
+            />
+            &nbsp;&nbsp;
+            <RemoveAllRestrictionButton
+              userId={user.id}
+              restrictions={restrictions}
+            />
+          </Description>
         </DescriptionList>
+
         <Divider size="large" />
 
         <DescriptionList size="large" title="備註">
