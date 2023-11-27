@@ -33,6 +33,10 @@ fragment UserDetail on User {
   }
   oss {
     boost
+    restrictions {
+      type
+      createdAt
+    }
   }
   followers(input: { first: 0 }) {
     ...ConnectionInfo
