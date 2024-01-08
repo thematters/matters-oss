@@ -16,7 +16,14 @@ export * from './schema'
 /**
  * User
  */
-export type USER_BADGE_TYPES = 'seed' | 'golden_motor' | 'architect'
+export type USER_BADGE_TYPES =
+  | 'seed'
+  | 'golden_motor'
+  | 'architect'
+  | 'nomad1'
+  | 'nomad2'
+  | 'nomad3'
+  | 'nomad4'
 
 export type UserDigest = {
   id: string
