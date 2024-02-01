@@ -18,7 +18,6 @@ import UserComments from './Comments'
 import withUserDetail, { UserDetailChildProps } from './withUserDetail'
 import ArticleDigestList from '../../components/Article/DigestList'
 import { SITE_DOMIAN } from '../../constants'
-import CommentDigestList from '../../components/Comment/DigestList'
 import ToggleSeedingUsersButton from '../../components/SeedingUser/ToggleButton'
 import ToggleUsersBadgeButton from '../../components/BadgedUser/ToggleButton'
 import SetBoost from '../../components/SetBoost'
@@ -156,7 +155,10 @@ class UserDetail extends React.Component<
           </Description>
 
           <Description term="重置加密錢包" col={1}>
-            <UserResetWallet id={user.id} ethAddress={user.info.ethAddress} />
+            <UserResetWallet
+              id={user.id}
+              ethAddress={user.info.ethAddress || ''}
+            />
           </Description>
 
           <Description term="黑名單">

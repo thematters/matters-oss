@@ -21,7 +21,7 @@ export type CommentState = 'active' | 'archived' | 'banned' | 'collapsed'
 
 type InputProps = {
   ids: string[]
-  state?: CommentState
+  commentState?: CommentState
   disabled?: boolean
   onSuccess?: () => void
 }

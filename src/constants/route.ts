@@ -20,6 +20,8 @@ export const PATH = {
   COMMENT_LIST: '/comments',
   COMMENT_DETAIL: '/comments/:id',
 
+  REPORT_LIST: '/reports',
+
   OAUTH_CLIENT_LIST: '/oauth-clients',
   OAUTH_CLIENT_DETAIL: '/oauth-clients/:id',
 
@@ -59,6 +61,8 @@ export const PAGE_TITLE = {
 
   [PATH.COMMENT_LIST]: '評論清單',
   [PATH.COMMENT_DETAIL]: '評論詳情',
+
+  [PATH.REPORT_LIST]: '報告清單',
 
   [PATH.OAUTH_CLIENT_LIST]: 'OAuth Client 清單',
   [PATH.OAUTH_CLIENT_DETAIL]: 'OAuth Client 詳情',

@@ -28,7 +28,7 @@ const COMMENT_STATES: {
 
 class SetState extends React.Component<ChildProps, SetStateState> {
   state: Readonly<SetStateState> = {
-    commentState: this.props.state,
+    commentState: this.props.commentState,
     loading: false,
     error: null,
   }
@@ -41,7 +41,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
     }
 
     this.setState({ commentState: value }, () => {
-      if (this.props.state !== value) {
+      if (this.props.commentState !== value) {
         this.preConfirm()
       }
     })
@@ -89,7 +89,9 @@ class SetState extends React.Component<ChildProps, SetStateState> {
         <div style={{ marginTop: 16 }}>
           <span>
             修改後，評論狀態將從&nbsp;&nbsp;
-            {this.props.state && <CommentStateTag state={this.props.state} />}
+            {this.props.commentState && (
+              <CommentStateTag state={this.props.commentState} />
+            )}
             改為&nbsp;&nbsp;
             {this.state.commentState && (
               <CommentStateTag state={this.state.commentState} />
@@ -107,7 +109,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   }
 
   private revertChange = () => {
-    this.setState({ commentState: this.props.state })
+    this.setState({ commentState: this.props.commentState })
   }
 
   public render() {

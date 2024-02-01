@@ -1,0 +1,31 @@
+#import "../fragments/connection.gql"
+#import "../fragments/comment/digest.gql"
+#import "../fragments/article/digest.gql"
+
+query OSSReportList($input: ConnectionArgs!) {
+  oss {
+    reports(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          id
+          reporter {
+            id
+            userName
+            displayName
+          }
+          reason
+          createdAt
+          target {
+            ... on Comment {
+              ...CommentDigest
+            }
+            ... on Article {
+              ...ArticleDigest
+            }
+          }
+        }
+      }
+    }
+  }
+}

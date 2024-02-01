@@ -3,7 +3,7 @@
 
 fragment CommentDetail on Comment {
   id
-  state
+  commentState: state
   createdAt
   node {
     id
