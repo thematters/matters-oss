@@ -6,7 +6,6 @@ import ErrorMessage from '../../components/ErrorMessage'
 
 class AnnouncementList extends React.Component<AnnouncementsChildProps> {
   public render() {
-    console.log(this.props)
     const {
       data: { official, loading, error, refetch },
     } = this.props

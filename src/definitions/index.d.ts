@@ -144,7 +144,7 @@ export type ArticleDetail = ArticleDigest & {
  */
 export type CommentDigest = {
   id: string
-  state: GQLCommentState
+  commentState: GQLCommentState
   createdAt: Date
   node: ArticleDigest
   content: string
@@ -155,6 +155,17 @@ export type CommentDigest = {
 }
 
 export type CommentDetail = CommentDigest
+
+/**
+ * Report
+ */
+export type ReportDigest = {
+  id: string
+  reporter: UserDigest
+  target: ArticleDigest | CommentDigest
+  reason: string
+  createdAt: Date
+}
 
 /**
  * Pagination

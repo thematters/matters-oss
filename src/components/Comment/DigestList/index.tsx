@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Table, Switch } from 'antd'
-import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
@@ -47,7 +46,9 @@ class CommentDigestList extends React.Component<
   }
 
   private _renderStateCell(_: any, record: CommentDigest): React.ReactNode {
-    return <CommentSetState state={record.state} ids={[record.id]} />
+    return (
+      <CommentSetState commentState={record.commentState} ids={[record.id]} />
+    )
   }
 
   _onSelectChange = (

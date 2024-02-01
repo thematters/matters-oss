@@ -4,7 +4,7 @@
 fragment CommentDigest on Comment {
   id
   content
-  state
+  commentState: state
   createdAt
   node {
     id

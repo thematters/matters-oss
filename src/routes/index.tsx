@@ -15,6 +15,7 @@ import blockListRoutes from './blocklist'
 import domainBlockListRoutes from './domainBlockList'
 import featureFlag from './featureFlag'
 import seedingUserListRoutes from './seedingUserList'
+import reportRoutes from './report'
 
 const routes = [
   {
@@ -38,6 +39,7 @@ const routes = [
   ...userRoutes,
   ...articleRoutes,
   ...commentRoutes,
+  ...reportRoutes,
   ...oauthClientRoutes,
   ...blockListRoutes,
   ...domainBlockListRoutes,
