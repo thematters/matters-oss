@@ -91,8 +91,8 @@
     "build:production": "REACT_APP_ENV=production node scripts/build.js",
     "format": "prettier --write \"{,!(build|config|node_modules|scripts)/**/}*.{ts,tsx,json}\"",
     "test": "REACT_APP_ENV=test node scripts/test.js --env=jsdom",
-    "schema:sync:dev": "apollo client:download-schema --endpoint='https://server-develop.matters.news/graphql' schema.gql",
-    "schema:sync:prod": "apollo client:download-schema --endpoint='https://server.matters.news/graphql' schema.gql",
+    "schema:sync:dev": "apollo client:download-schema --endpoint='https://server-develop.matters.town/graphql' schema.gql",
+    "schema:sync:prod": "apollo client:download-schema --endpoint='https://server.matters.town/graphql' schema.gql",
     "schema:build": "node scripts/buildSchemaTypes.js; rm -rf schema.gql"
   },
   "devDependencies": {
