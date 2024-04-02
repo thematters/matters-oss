@@ -2,10 +2,10 @@ import * as React from 'react'
 import _compact from 'lodash/compact'
 import { Table, Tag } from 'antd'
 import { Link } from 'react-router-dom'
-import { onPaginationChange, getCurrentPaginationFromUrl } from '../../utils'
-import { PAGE_SIZE } from '../../constants'
-import { IcymiTopicDigest } from '../../definitions'
-import { PATH } from '../../constants'
+import { onPaginationChange, getCurrentPaginationFromUrl } from '../../../utils'
+import { PAGE_SIZE } from '../../../constants'
+import { IcymiTopicDigest } from '../../../definitions'
+import { PATH } from '../../../constants'
 
 const NAME_MAP = {
   published: '已發佈',

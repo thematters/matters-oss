@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 
-import ErrorMessage from '../../components/ErrorMessage'
+import ErrorMessage from '../../../components/ErrorMessage'
 
 const ADD_ICYMITOPIC = gql`
   mutation AddIcymiTopic($input: PutIcymiTopicInput!) {

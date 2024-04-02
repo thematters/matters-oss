@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ErrorMessage from '../../components/ErrorMessage'
-import AddButton from '../../components/IcymiTopicList/AddButton'
-import DigestList from '../../components/IcymiTopicList'
+import AddButton from '../../components/IcymiTopic/DigestList/AddButton'
+import DigestList from '../../components/IcymiTopic/DigestList'
 import { IcymiTopicDigest } from '../../definitions'
 import withIcymiTopicList, {
   IcymiTopicListChildProps,
