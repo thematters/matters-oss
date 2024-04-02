@@ -59,6 +59,11 @@ export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
               {PAGE_TITLE[PATH.HOMEPAGE_ICYMI]}
             </Link>
           </Menu.Item>
+          <Menu.Item key={PATH.HOMEPAGE_ICYMI_TOPICS}>
+            <Link to={PATH.HOMEPAGE_ICYMI_TOPICS}>
+              {PAGE_TITLE[PATH.HOMEPAGE_ICYMI_TOPICS]}
+            </Link>
+          </Menu.Item>
           <Menu.Item key={PATH.HOMEPAGE_AUTHORS}>
             <Link to={PATH.HOMEPAGE_AUTHORS}>
               {PAGE_TITLE[PATH.HOMEPAGE_AUTHORS]}

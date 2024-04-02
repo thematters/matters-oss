@@ -9,6 +9,8 @@ import Hottest from '../pages/Homepage/Hottest'
 import Newest from '../pages/Homepage/Newest'
 import Authors from '../pages/Homepage/Authors'
 import Tags from '../pages/Homepage/Tags'
+import IcymiTopicList from '../pages/IcymiTopicList'
+import IcymiTopicDetail from '../pages/IcymiTopicDetail'
 
 const homepageRoutes = [
   {
@@ -18,6 +20,28 @@ const homepageRoutes = [
         <Layout.Header />
         <Layout.Content>
           <Icymi {...props} />
+        </Layout.Content>
+      </Private>
+    ),
+  },
+  {
+    path: PATH.HOMEPAGE_ICYMI_TOPICS,
+    component: (props: RouteConfigComponentProps) => (
+      <Private>
+        <Layout.Header />
+        <Layout.Content>
+          <IcymiTopicList {...props} />
+        </Layout.Content>
+      </Private>
+    ),
+  },
+  {
+    path: PATH.HOMEPAGE_ICYMI_TOPIC_DETAIL,
+    component: (props: RouteConfigComponentProps) => (
+      <Private>
+        <Layout.Header />
+        <Layout.Content>
+          <IcymiTopicDetail {...props} />
         </Layout.Content>
       </Private>
     ),
