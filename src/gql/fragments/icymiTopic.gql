@@ -1,0 +1,13 @@
+fragment IcymiTopicDetail on IcymiTopic {
+       id
+       title
+       articles {
+          id
+          title
+       }
+       pinAmount
+       note
+       state
+       publishedAt
+       archivedAt
+}

@@ -1,0 +1,7 @@
+#import "../fragments/icymiTopic.gql"
+
+mutation putIcymiTopic($input: PutIcymiTopicInput!) {
+  putIcymiTopic(input: $input) {
+    ...IcymiTopicDetail
+  }
+}

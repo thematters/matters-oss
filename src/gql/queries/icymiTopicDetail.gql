@@ -1,17 +1,9 @@
+#import "../fragments/icymiTopic.gql"
+
 query OSSIcymiTopicDetail($input: NodeInput!) {
   node(input: $input) {
     ... on IcymiTopic {
-       id
-       title
-       articles {
-          id
-          title
-       }
-       pinAmount
-       note
-       state
-       publishedAt
-       archivedAt
+      ...IcymiTopicDetail
     }
   }
 }
