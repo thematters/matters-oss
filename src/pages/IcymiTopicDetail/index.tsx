@@ -6,14 +6,11 @@ import withIcymiTopicDetail, {
 } from './withIcymiTopic'
 import SetTitle from '../../components/IcymiTopic/SetTitle'
 import SetNote from '../../components/IcymiTopic/SetNote'
+import SetPinAmount from '../../components/IcymiTopic/SetPinAmount'
 import ErrorMessage from '../../components/ErrorMessage'
 import DescriptionList from '../../components/DescriptionList'
 
 class IcymiTopicDetail extends React.Component<IcymiTopicDetailChildProps> {
-  private onChangeNode = (str: string) => {
-    console.log('Content change:', str)
-  }
-
   public render() {
     const {
       data: { node, loading, error },
@@ -26,8 +23,6 @@ class IcymiTopicDetail extends React.Component<IcymiTopicDetailChildProps> {
     if (error) {
       return <ErrorMessage error={error} />
     }
-
-    console.log(node)
 
     return (
       <>
@@ -44,6 +39,11 @@ class IcymiTopicDetail extends React.Component<IcymiTopicDetailChildProps> {
         <DescriptionList size="large" title="編輯按語">
           <Col span={24} lg={12} style={{ marginBottom: 16 }}>
             <SetNote id={node!.id} note={node?.note ?? ''} />
+          </Col>
+        </DescriptionList>
+        <DescriptionList size="large" title="">
+          <Col span={24} lg={12} style={{ marginBottom: 16 }}>
+            <SetPinAmount id={node!.id} pinAmount={node?.pinAmount ?? 3} />
           </Col>
         </DescriptionList>
       </>
