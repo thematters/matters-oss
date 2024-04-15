@@ -24,9 +24,7 @@ type IcymiTopicDigestListProps = {
   }
 }
 
-class IcymiTopicDigestList extends React.Component<
-  IcymiTopicDigestListProps
-> {
+class IcymiTopicDigestList extends React.Component<IcymiTopicDigestListProps> {
   private _renderNameCell(_: any, record: IcymiTopicDigest): React.ReactNode {
     return (
       <Link to={PATH.HOMEPAGE_ICYMI_TOPIC_DETAIL.replace(':id', record.id)}>

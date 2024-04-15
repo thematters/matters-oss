@@ -29,7 +29,6 @@ export default graphql<
 >(QueryIcymiTopicDetail, {
   options: (props) => {
     const id = _get(props, 'match.params.id')
-    console.log(id)
     return {
       variables: {
         input: { id },
