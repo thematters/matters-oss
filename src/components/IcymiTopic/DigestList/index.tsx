@@ -24,7 +24,7 @@ type IcymiTopicDigestListProps = {
   }
 }
 
-class RestrictedUserDigestList extends React.Component<
+class IcymiTopicDigestList extends React.Component<
   IcymiTopicDigestListProps
 > {
   private _renderNameCell(_: any, record: IcymiTopicDigest): React.ReactNode {
@@ -76,4 +76,4 @@ class RestrictedUserDigestList extends React.Component<
   }
 }
 
-export default RestrictedUserDigestList
+export default IcymiTopicDigestList
