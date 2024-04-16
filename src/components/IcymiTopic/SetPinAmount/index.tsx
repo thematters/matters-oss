@@ -52,7 +52,7 @@ class SetPinAmount extends React.Component<ChildProps, SetPinAmountState> {
       <Radio.Group
         onChange={this._onChange}
         value={pinAmount}
-        disabled={loading}
+        disabled={loading || this.props.disabled}
       >
         <Radio value={3}>3 篇顶置</Radio>
         <Radio value={6}>6 篇顶置</Radio>

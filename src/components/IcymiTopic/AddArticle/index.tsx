@@ -94,7 +94,7 @@ class AddArticle extends React.Component<ChildProps, AddArticleState> {
         maxLength={2048}
         size="small"
         enterButton=" 添加"
-        disabled={loading}
+        disabled={loading || this.props.disabled}
       />
     )
   }

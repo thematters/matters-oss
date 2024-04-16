@@ -9,6 +9,7 @@ type Response = {
 type InputProps = {
   id: string
   note: string
+  disabled: boolean
 }
 
 type Variables = {

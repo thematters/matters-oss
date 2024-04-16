@@ -14,6 +14,7 @@ type Article = {
 export type InputProps = {
   id: string
   articles: Article[]
+  disabled: boolean
 }
 
 type Variables = {

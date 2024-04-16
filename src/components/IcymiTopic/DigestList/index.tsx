@@ -7,7 +7,13 @@ import { PAGE_SIZE } from '../../../constants'
 import { IcymiTopicDigest } from '../../../definitions'
 import { PATH } from '../../../constants'
 
-const NAME_MAP = {
+const COLOR = {
+  editing: 'gold',
+  published: 'green',
+  archived: 'grey',
+}
+
+const COPY = {
   published: '已發佈',
   editing: '編輯中',
   archived: '已下架',
@@ -33,7 +39,7 @@ class IcymiTopicDigestList extends React.Component<IcymiTopicDigestListProps> {
     )
   }
   private _renderState(_: any, record: IcymiTopicDigest): React.ReactNode {
-    return <Tag> {NAME_MAP[record.state]}</Tag>
+    return <Tag color={COLOR[record.state]}> {COPY[record.state]}</Tag>
   }
   public render() {
     const { data, loading = false, pagination } = this.props

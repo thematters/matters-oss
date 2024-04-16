@@ -105,7 +105,7 @@ class ArticleList extends React.Component<ChildProps, ArticleListState> {
           <Col span={2}>
             <Button
               onClick={this._onClick(value.id)}
-              disabled={this.state.loading}
+              disabled={this.state.loading || this.props.disabled}
             >
               移除
             </Button>
@@ -116,11 +116,16 @@ class ArticleList extends React.Component<ChildProps, ArticleListState> {
   ))
 
   private SortableList = SortableContainer(
-    ({ items }: { items: Article[] }) => {
+    ({ items, disabled }: { items: Article[]; disabled: boolean }) => {
       return (
         <ul style={{ listStyleType: 'none', paddingInlineStart: 0 }}>
           {items.map((value, index) => (
-            <this.SortableItem key={value.id} index={index} value={value} />
+            <this.SortableItem
+              key={value.id}
+              index={index}
+              value={value}
+              disabled={disabled}
+            />
           ))}
         </ul>
       )
@@ -144,7 +149,13 @@ class ArticleList extends React.Component<ChildProps, ArticleListState> {
       return <ErrorMessage error={error} />
     }
 
-    return <this.SortableList items={articles} onSortEnd={this._onSortEnd} />
+    return (
+      <this.SortableList
+        items={articles}
+        onSortEnd={this._onSortEnd}
+        disabled={this.props.disabled}
+      />
+    )
   }
 }
 

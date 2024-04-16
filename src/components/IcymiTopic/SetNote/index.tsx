@@ -58,6 +58,7 @@ class SetNote extends React.Component<ChildProps, SetNoteState> {
           value={note}
           maxLength={255}
           autosize={{ minRows: 2 }}
+          disabled={this.props.disabled}
           style={{ margin: '4px', verticalAlign: 'middle' }}
         />
         <div style={{ textAlign: 'right' }}>

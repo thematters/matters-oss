@@ -9,6 +9,7 @@ type Response = {
 type InputProps = {
   id: string
   pinAmount: number
+  disabled: boolean
 }
 
 type Variables = {

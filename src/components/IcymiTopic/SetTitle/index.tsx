@@ -58,6 +58,7 @@ class SetTitle extends React.Component<ChildProps, SetTitleState> {
           value={title}
           maxLength={20}
           size="small"
+          disabled={this.props.disabled}
           style={{ margin: '4px', verticalAlign: 'middle' }}
         />
         <div style={{ textAlign: 'right' }}>
