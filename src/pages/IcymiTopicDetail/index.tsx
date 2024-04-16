@@ -9,6 +9,7 @@ import SetNote from '../../components/IcymiTopic/SetNote'
 import SetPinAmount from '../../components/IcymiTopic/SetPinAmount'
 import AddArticle from '../../components/IcymiTopic/AddArticle'
 import ArticleList from '../../components/IcymiTopic/ArticleList'
+import ActionButton from '../../components/IcymiTopic/ActionButton'
 import ErrorMessage from '../../components/ErrorMessage'
 import DescriptionList from '../../components/DescriptionList'
 
@@ -59,6 +60,33 @@ class IcymiTopicDetail extends React.Component<IcymiTopicDetailChildProps> {
         <DescriptionList size="small" title="">
           <Col span={24} lg={12} style={{ marginBottom: 16 }}>
             <ArticleList id={node!.id} articles={node?.articles ?? []} />
+          </Col>
+        </DescriptionList>
+        <DescriptionList size="large" title="">
+          <Col span={12} lg={1} style={{ marginBottom: 16 }}>
+            {node!.state === 'editing' && (
+              <ActionButton
+                id={node!.id}
+                currentState={node!.state as 'editing'}
+                newState={'archived'}
+              />
+            )}
+            {node!.state === 'published' && (
+              <ActionButton
+                id={node!.id}
+                currentState={node!.state as 'published'}
+                newState={'archived'}
+              />
+            )}
+          </Col>
+          <Col span={12} lg={1} style={{ marginBottom: 16 }}>
+            {node!.state === 'editing' && (
+              <ActionButton
+                id={node!.id}
+                currentState={node!.state as 'editing'}
+                newState={'published'}
+              />
+            )}
           </Col>
         </DescriptionList>
       </>
