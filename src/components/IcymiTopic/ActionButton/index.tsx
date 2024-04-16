@@ -63,7 +63,12 @@ class ActionButton extends React.Component<ChildProps, ActionButtonState> {
     }
 
     return (
-      <Button onClick={this._onSubmit} size="large" loading={loading}>
+      <Button
+        onClick={this._onSubmit}
+        size="large"
+        loading={loading}
+        disabled={this.props.disabled ?? false}
+      >
         {this._is_delete && '刪除'}
         {this._is_publish && '發佈'}
         {this._is_archive && '下架'}

@@ -137,6 +137,7 @@ class IcymiTopicDetail extends React.Component<IcymiTopicDetailChildProps> {
                 id={node!.id}
                 currentState={node!.state as 'editing'}
                 newState={'published'}
+                disabled={node!.articles.length < node!.pinAmount}
               />
             )}
           </Col>

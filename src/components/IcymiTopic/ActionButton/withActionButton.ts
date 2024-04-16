@@ -12,6 +12,7 @@ type InputProps = {
   id: string
   currentState: TopicState
   newState: TopicState
+  disabled?: boolean
 }
 
 type Variables = {
