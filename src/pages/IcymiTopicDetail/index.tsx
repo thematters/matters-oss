@@ -7,6 +7,8 @@ import withIcymiTopicDetail, {
 import SetTitle from '../../components/IcymiTopic/SetTitle'
 import SetNote from '../../components/IcymiTopic/SetNote'
 import SetPinAmount from '../../components/IcymiTopic/SetPinAmount'
+import AddArticle from '../../components/IcymiTopic/AddArticle'
+import ArticleList from '../../components/IcymiTopic/ArticleList'
 import ErrorMessage from '../../components/ErrorMessage'
 import DescriptionList from '../../components/DescriptionList'
 
@@ -23,6 +25,8 @@ class IcymiTopicDetail extends React.Component<IcymiTopicDetailChildProps> {
     if (error) {
       return <ErrorMessage error={error} />
     }
+
+    console.log(node)
 
     return (
       <>
@@ -44,6 +48,17 @@ class IcymiTopicDetail extends React.Component<IcymiTopicDetailChildProps> {
         <DescriptionList size="large" title="">
           <Col span={24} lg={12} style={{ marginBottom: 16 }}>
             <SetPinAmount id={node!.id} pinAmount={node?.pinAmount ?? 3} />
+          </Col>
+        </DescriptionList>
+        <DescriptionList size="large" title="文章">
+          <Col span={24} lg={12} style={{ marginBottom: 16 }}>
+            <AddArticle
+              id={node!.id}
+              articleIds={node?.articles.map(({ id }) => id) ?? []}
+            />
+          </Col>
+          <Col span={24} lg={13} style={{ marginBottom: 16 }}>
+            <ArticleList id={node!.id} articles={node?.articles ?? []} />
           </Col>
         </DescriptionList>
       </>
