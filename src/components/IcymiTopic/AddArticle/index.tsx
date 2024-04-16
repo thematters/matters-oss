@@ -21,9 +21,22 @@ class AddArticle extends React.Component<ChildProps, AddArticleState> {
   }
 
   private _getArticleId = (input: string): string | null => {
-    const id = parseInt(input)
+    let _input = input
+    const isLink = input.startsWith('http')
+    if (isLink) {
+      _input =
+        input
+          .split('#')[0]
+          .split('?')[0]
+          .split('/')
+          .slice(-1)[0]
+          .split('-')[0] ?? ''
+    }
+    console.log('isArticleLink:', isLink)
+    console.log('input:', _input)
+    const id = parseInt(_input)
     if (id) {
-      return toGlobalId({ type: 'Article', id: input })
+      return toGlobalId({ type: 'Article', id })
     } else {
       return null
     }
