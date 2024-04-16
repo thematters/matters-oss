@@ -43,11 +43,11 @@ class IcymiTopicDetail extends React.Component<IcymiTopicDetailChildProps> {
     return (
       <>
         <DescriptionList size="small" title="" gutter={32}>
-          <Col span={16} lg={6} style={{ marginBottom: 16 }}>
+          <Col span={4} lg={6} style={{ marginBottom: 16 }}>
             <Tag color={COLOR[node!.state]}>{COPY[node!.state]}</Tag>
           </Col>
           <Col
-            span={8}
+            span={20}
             lg={6}
             style={{
               marginBottom: 16,
