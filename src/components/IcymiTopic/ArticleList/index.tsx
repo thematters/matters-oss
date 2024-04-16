@@ -3,8 +3,8 @@ import { Button, Card, Row, Col } from 'antd'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import { arrayMoveImmutable } from 'array-move'
 
-import { toGlobalId } from '../../../utils'
 import ErrorMessage from '../../ErrorMessage'
+import ArticleLink from '../../Article/Link'
 import withArticleList, { ChildProps } from './withArticleList'
 
 type Article = {
@@ -57,11 +57,11 @@ class ArticleList extends React.Component<ChildProps, ArticleListState> {
   }
 
   private _onClick = (articleId: string) => {
-    return async (event: React.MouseEvent<HTMLElement>) => {
-      this.setState(({ articles }) => ({
+    return async () => {
+      this.setState({
         loading: true,
         error: null,
-      }))
+      })
 
       const { mutate, id } = this.props
       const { articles } = this.state
@@ -92,7 +92,9 @@ class ArticleList extends React.Component<ChildProps, ArticleListState> {
     <li>
       <Row>
         <Card>
-          <Col span={22}>{value.title}</Col>{' '}
+          <Col span={22}>
+            <ArticleLink title={value.title} id={value.id} />
+          </Col>
           <Col span={2}>
             <Button
               onClick={this._onClick(value.id)}
