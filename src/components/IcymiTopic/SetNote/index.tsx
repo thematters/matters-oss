@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { Input, Button } from 'antd'
-import _get from 'lodash/get'
+import { Input, Button, message } from 'antd'
 
 import ErrorMessage from '../../ErrorMessage'
 import withSetNote, { ChildProps } from './withSetNote'
@@ -32,7 +31,9 @@ class SetNote extends React.Component<ChildProps, SetNoteState> {
           },
         },
       })
-      this.setState({ loading: false, error: null })
+      this.setState({ loading: false, error: null }, () => {
+        message.success('編輯按語更新成功')
+      })
     } catch (error) {
       this.setState({ loading: false, error })
     }

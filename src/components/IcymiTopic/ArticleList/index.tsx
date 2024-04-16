@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Card, Row, Col } from 'antd'
+import { Button, Card, Row, Col, message } from 'antd'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import { arrayMoveImmutable } from 'array-move'
 
@@ -50,7 +50,9 @@ class ArticleList extends React.Component<ChildProps, ArticleListState> {
           },
         },
       })
-      this.setState({ loading: false, error: null })
+      this.setState({ loading: false, error: null }, () => {
+        message.success('文章顺序更新成功')
+      })
     } catch (error) {
       this.setState({ loading: false, error })
     }
@@ -77,11 +79,16 @@ class ArticleList extends React.Component<ChildProps, ArticleListState> {
             },
           },
         })
-        this.setState({
-          loading: false,
-          error: null,
-          articles: articles.filter(({ id }) => id !== articleId),
-        })
+        this.setState(
+          {
+            loading: false,
+            error: null,
+            articles: articles.filter(({ id }) => id !== articleId),
+          },
+          () => {
+            message.success('文章移除成功')
+          }
+        )
       } catch (error) {
         this.setState({ loading: false, error })
       }

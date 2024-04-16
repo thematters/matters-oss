@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { Input, Button } from 'antd'
-import _get from 'lodash/get'
+import { Input, Button, message } from 'antd'
 
 import ErrorMessage from '../../ErrorMessage'
 import withSetTitle, { ChildProps } from './withSetTitle'
@@ -32,7 +31,9 @@ class SetTitle extends React.Component<ChildProps, SetTitleState> {
           },
         },
       })
-      this.setState({ loading: false, error: null })
+      this.setState({ loading: false, error: null }, () => {
+        message.success('專題名稱更新成功')
+      })
     } catch (error) {
       this.setState({ loading: false, error })
     }

@@ -1,8 +1,7 @@
 import type { RadioChangeEvent } from 'antd/lib/radio'
 
 import * as React from 'react'
-import { Radio } from 'antd'
-import _get from 'lodash/get'
+import { Radio, message } from 'antd'
 
 import ErrorMessage from '../../ErrorMessage'
 import withSetPinAmount, { ChildProps } from './withSetPinAmount'
@@ -34,7 +33,9 @@ class SetPinAmount extends React.Component<ChildProps, SetPinAmountState> {
           },
         },
       })
-      this.setState({ loading: false, error: null })
+      this.setState({ loading: false, error: null }, () => {
+        message.success('顶置篇数更新成功')
+      })
     } catch (error) {
       this.setState({ loading: false, error })
     }
