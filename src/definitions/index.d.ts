@@ -8,6 +8,7 @@ import {
   GQLUserSettings,
   GQLUserStatus,
   GQLLiker,
+  GQLIcymiTopic,
   GQLUserRestrictionType,
 } from './schema'
 
@@ -251,3 +252,9 @@ export interface Announcement {
   order: int
   translations: [TranslatedAnnouncement]
 }
+
+/**
+ * IcymiTopic
+ */
+
+export type IcymiTopicDigest = Pick<GQLIcymiTopic, 'id' | 'title' | 'state'>

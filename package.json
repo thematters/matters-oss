@@ -15,6 +15,7 @@
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "apollo-upload-client": "^13.0.0",
+    "array-move": "^4.0.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.1.0",
     "babel-jest": "26.1.0",
@@ -68,6 +69,7 @@
     "react-router": "^5.0.1",
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.0.1",
+    "react-sortable-hoc": "^2.0.0",
     "react-timeago": "^4.4.0",
     "react-waypoint": "^10.1.0",
     "resolve": "1.17.0",
@@ -91,8 +93,8 @@
     "build:production": "REACT_APP_ENV=production node scripts/build.js",
     "format": "prettier --write \"{,!(build|config|node_modules|scripts)/**/}*.{ts,tsx,json}\"",
     "test": "REACT_APP_ENV=test node scripts/test.js --env=jsdom",
-    "schema:sync:dev": "apollo client:download-schema --endpoint='https://server-develop.matters.news/graphql' schema.gql",
-    "schema:sync:prod": "apollo client:download-schema --endpoint='https://server.matters.news/graphql' schema.gql",
+    "schema:sync:dev": "apollo client:download-schema --endpoint='https://server-develop.matters.town/graphql' schema.gql",
+    "schema:sync:prod": "apollo client:download-schema --endpoint='https://server.matters.town/graphql' schema.gql",
     "schema:build": "node scripts/buildSchemaTypes.js; rm -rf schema.gql"
   },
   "devDependencies": {

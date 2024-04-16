@@ -5,6 +5,8 @@ export const PATH = {
   HOMEPAGE_ICYMI: '/homepage/icymi',
   HOMEPAGE_AUTHORS: '/homepage/authors',
   HOMEPAGE_TAGS: '/homepage/tags',
+  HOMEPAGE_ICYMI_TOPICS: '/homepage/icymi_topics',
+  HOMEPAGE_ICYMI_TOPIC_DETAIL: '/homepage/icymi_topic/:id',
 
   TAG_LIST: '/tags',
   TAG_DETAIL: '/tags/:id',
@@ -47,6 +49,8 @@ export const PAGE_TITLE = {
   [PATH.HOMEPAGE_ICYMI]: '不要錯過',
   [PATH.HOMEPAGE_AUTHORS]: '活躍作者',
   [PATH.HOMEPAGE_TAGS]: '標籤',
+  [PATH.HOMEPAGE_ICYMI_TOPICS]: '精選',
+  [PATH.HOMEPAGE_ICYMI_TOPIC_DETAIL]: '编辑精選',
 
   [PATH.TAG_LIST]: '標籤清單',
   [PATH.TAG_DETAIL]: '標籤詳情',

@@ -1,0 +1,9 @@
+#import "../fragments/icymiTopic.gql"
+
+query OSSIcymiTopicDetail($input: NodeInput!) {
+  node(input: $input) {
+    ... on IcymiTopic {
+      ...IcymiTopicDetail
+    }
+  }
+}

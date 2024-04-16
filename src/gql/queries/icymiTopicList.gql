@@ -1,0 +1,19 @@
+#import "../fragments/connection.gql"
+
+query OSSIcymiTopicList($input: ConnectionArgs!) {
+  oss {
+    icymiTopics(input: $input) {
+      ...ConnectionInfo
+      edges {
+        node {
+          id
+          title
+          state
+          publishedAt
+          archivedAt
+        }
+      }
+    }
+  }
+}
+
