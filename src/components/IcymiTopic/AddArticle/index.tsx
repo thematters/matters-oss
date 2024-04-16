@@ -92,8 +92,9 @@ class AddArticle extends React.Component<ChildProps, AddArticleState> {
         value={articleInput}
         // url max length
         maxLength={2048}
+        placeholder = "輸入文章ID或連結"
         size="small"
-        enterButton=" 添加"
+        enterButton="添加"
         disabled={loading || this.props.disabled}
       />
     )
