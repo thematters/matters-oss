@@ -57,7 +57,9 @@ class IcymiTopicDetail extends React.Component<IcymiTopicDetailChildProps> {
               articleIds={node?.articles.map(({ id }) => id) ?? []}
             />
           </Col>
-          <Col span={24} lg={13} style={{ marginBottom: 16 }}>
+        </DescriptionList>
+        <DescriptionList size="small" title="">
+          <Col span={24} lg={12} style={{ marginBottom: 16 }}>
             <ArticleList id={node!.id} articles={node?.articles ?? []} />
           </Col>
         </DescriptionList>
