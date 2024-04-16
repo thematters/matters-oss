@@ -26,8 +26,6 @@ class IcymiTopicDetail extends React.Component<IcymiTopicDetailChildProps> {
       return <ErrorMessage error={error} />
     }
 
-    console.log(node)
-
     return (
       <>
         <DescriptionList size="small" title="" gutter={32}>

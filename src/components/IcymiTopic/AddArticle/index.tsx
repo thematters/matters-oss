@@ -32,8 +32,6 @@ class AddArticle extends React.Component<ChildProps, AddArticleState> {
           .slice(-1)[0]
           .split('-')[0] ?? ''
     }
-    console.log('isArticleLink:', isLink)
-    console.log('input:', _input)
     const id = parseInt(_input)
     if (id) {
       return toGlobalId({ type: 'Article', id })
@@ -59,7 +57,9 @@ class AddArticle extends React.Component<ChildProps, AddArticleState> {
             },
           },
         })
-        this.setState({ loading: false, error: null })
+        this.setState({ loading: false, error: null }, async () => {
+          message.success('添加文章成功')
+        })
       } catch (error) {
         this.setState({ loading: false, error })
       }

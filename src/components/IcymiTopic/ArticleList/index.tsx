@@ -5,7 +5,7 @@ import { arrayMoveImmutable } from 'array-move'
 
 import ErrorMessage from '../../ErrorMessage'
 import ArticleLink from '../../Article/Link'
-import withArticleList, { ChildProps } from './withArticleList'
+import withArticleList, { ChildProps, InputProps } from './withArticleList'
 
 type Article = {
   id: string
@@ -119,6 +119,16 @@ class ArticleList extends React.Component<ChildProps, ArticleListState> {
       )
     }
   )
+
+  public componentDidUpdate(prevProps: InputProps) {
+    if (prevProps.articles !== this.props.articles) {
+      this.setState({
+        articles: this.props.articles,
+        loading: false,
+        error: null,
+      })
+    }
+  }
 
   public render() {
     const { articles, loading, error } = this.state

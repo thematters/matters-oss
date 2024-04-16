@@ -11,7 +11,7 @@ type Article = {
   title: string
 }
 
-type InputProps = {
+export type InputProps = {
   id: string
   articles: Article[]
 }
