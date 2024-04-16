@@ -47,7 +47,7 @@ class AddArticle extends React.Component<ChildProps, AddArticleState> {
     const { articleInput } = this.state
     const articleId = this._getArticleId(articleInput)
 
-    if (articleId) {
+    if (articleId && !articleIds.includes(articleId)) {
       try {
         await mutate({
           variables: {
@@ -65,7 +65,11 @@ class AddArticle extends React.Component<ChildProps, AddArticleState> {
       }
     } else {
       this.setState({ loading: false, error: null }, () => {
-        message.error('非法輸入')
+        if (articleIds.includes(articleId ?? '')) {
+          message.error('文章已添加到專題')
+        } else {
+          message.error('非法輸入')
+        }
       })
     }
   }
