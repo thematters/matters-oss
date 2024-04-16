@@ -99,13 +99,14 @@ class ArticleList extends React.Component<ChildProps, ArticleListState> {
     <li>
       <Row>
         <Card>
-          <Col span={22}>
+          <Col span={19} lg={22}>
             <ArticleLink title={value.title} id={value.id} />
           </Col>
-          <Col span={2}>
+          <Col span={5} lg={2}>
             <Button
               onClick={this._onClick(value.id)}
               disabled={this.state.loading || this.props.disabled}
+              style={{ marginLeft: 6 }}
             >
               移除
             </Button>
