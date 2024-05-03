@@ -84,6 +84,7 @@ export const PAGE_TITLE = {
 }
 
 export const PATH_REGEXP = {
-  articleDetail: /^\/@([^@\/]+?)\/.*-([^-\/]+?)(?:\/)?$/i,
-  user: /^\/@([^@\/]+?)(?:\/)?$/i,
+  articleDetail: /^\/@([^@/]+?)\/.*-([^-/]+?)(?:\/)?$/i,
+  articleDetailShortHash: /^\/a\/[a-zA-Z0-9]+$/i,
+  user: /^\/@([^@/]+?)(?:\/)?$/i,
 }
