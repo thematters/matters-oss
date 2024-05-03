@@ -88,6 +88,21 @@ class SearchBar extends React.Component<
         message.error('請輸入正確的文章連結')
       }
     }
+    const isShortHashArticleLink = PATH_REGEXP.articleDetailShortHash.test(path)
+    if (isShortHashArticleLink) {
+      const shortHash = path.split('/a/')[1]
+      const { data } = await client.query({
+        query: QUERY_ARTICLE,
+        variables: { input: { shortHash } },
+      })
+      const articleId = _get(data, 'article.id')
+
+      if (articleId) {
+        history.push(`/articles/${articleId}`)
+      } else {
+        message.error('請輸入正確的文章連結')
+      }
+    }
   }
 
   private _onSearch = async ({
