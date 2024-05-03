@@ -1,3 +1,5 @@
+import type ApolloClient from 'apollo-client'
+
 import * as React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { Row, Col, Input, Button, message } from 'antd'
@@ -11,7 +13,6 @@ import { getSearchKey, getParsedQS } from '../../utils'
 import './style.less'
 import { PATH_REGEXP } from '../../constants'
 import gql from 'graphql-tag'
-import ApolloClient from 'apollo-client'
 
 import QUERY_ARTICLE from '../../gql/queries/articleId.gql'
 
