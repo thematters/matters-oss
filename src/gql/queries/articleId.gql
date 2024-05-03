@@ -1,0 +1,5 @@
+query OSSQueryArticle($input: ArticleInput!) {
+  article(input: $input) {
+    id
+  }
+}

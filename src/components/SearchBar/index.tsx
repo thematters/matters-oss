@@ -13,6 +13,8 @@ import { PATH_REGEXP } from '../../constants'
 import gql from 'graphql-tag'
 import ApolloClient from 'apollo-client'
 
+import QUERY_ARTICLE from '../../gql/queries/articleId.gql'
+
 type SearchBarProps = {
   placeholder: string
 }
@@ -24,14 +26,6 @@ type SearchBarState = {
 const QUERY_USER = gql`
   query OSSQueryUser($input: UserInput!) {
     user(input: $input) {
-      id
-    }
-  }
-`
-
-const QUERY_ARTICLE = gql`
-  query OSSQueryArticle($input: ArticleInput!) {
-    article(input: $input) {
       id
     }
   }
