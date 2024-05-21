@@ -37,6 +37,22 @@ class ReportDigestList extends React.Component<
     selectedRows: [],
   }
 
+  private _renderReasonCell(_: any, record: ReportDigest): React.ReactNode {
+    return (
+      <span>
+        {record.reason === 'tort'
+          ? ' 侵權'
+          : record.reason === 'illegal_advertising'
+          ? '非法廣告'
+          : record.reason === 'discrimination_insult_hatred'
+          ? '歧視、侮辱或仇恨'
+          : record.reason === 'pornography_involving_minors'
+          ? '涉及未成年人的色情'
+          : '其他'}
+      </span>
+    )
+  }
+
   private _renderCommentCell(_: any, record: ReportDigest): React.ReactNode {
     return 'content' in record.target ? (
       <CommentLink id={record.target.id} content={record.target.content} />
@@ -105,6 +121,13 @@ class ReportDigestList extends React.Component<
                 displayName={author.displayName}
               />
             )}
+          />
+
+          <Table.Column<ReportDigest>
+            dataIndex="reason"
+            title="問題類型"
+            width={150}
+            render={this._renderReasonCell}
           />
 
           <Table.Column<ReportDigest>

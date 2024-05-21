@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
-import _get from 'lodash/get'
-import { Row, Col, Input, Button } from 'antd'
+import React from 'react'
 
 import ErrorMessage from '../../components/ErrorMessage'
 import ReportDigestList from './ReportDigestList'
 import withReportList, { ReportListChildProps } from '././withReportList'
 
-import { CommentDigest, ArticleDigest, ReportDigest } from '../../definitions'
+import { ReportDigest } from '../../definitions'
 
 class ReportList extends React.Component<ReportListChildProps> {
   state: Readonly<{ inputCommentId: string }> = {
