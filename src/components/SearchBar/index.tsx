@@ -1,3 +1,5 @@
+import type ApolloClient from 'apollo-client'
+
 import * as React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { Row, Col, Input, Button, message } from 'antd'
@@ -11,7 +13,8 @@ import { getSearchKey, getParsedQS } from '../../utils'
 import './style.less'
 import { PATH_REGEXP } from '../../constants'
 import gql from 'graphql-tag'
-import ApolloClient from 'apollo-client'
+
+import QUERY_ARTICLE from '../../gql/queries/articleId.gql'
 
 type SearchBarProps = {
   placeholder: string
@@ -24,14 +27,6 @@ type SearchBarState = {
 const QUERY_USER = gql`
   query OSSQueryUser($input: UserInput!) {
     user(input: $input) {
-      id
-    }
-  }
-`
-
-const QUERY_ARTICLE = gql`
-  query OSSQueryArticle($input: ArticleInput!) {
-    article(input: $input) {
       id
     }
   }
@@ -79,6 +74,21 @@ class SearchBar extends React.Component<
       const { data } = await client.query({
         query: QUERY_ARTICLE,
         variables: { input: { mediaHash } },
+      })
+      const articleId = _get(data, 'article.id')
+
+      if (articleId) {
+        history.push(`/articles/${articleId}`)
+      } else {
+        message.error('請輸入正確的文章連結')
+      }
+    }
+    const isShortHashArticleLink = PATH_REGEXP.articleDetailShortHash.test(path)
+    if (isShortHashArticleLink) {
+      const shortHash = path.split('/a/')[1]
+      const { data } = await client.query({
+        query: QUERY_ARTICLE,
+        variables: { input: { shortHash } },
       })
       const articleId = _get(data, 'article.id')
 

@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Col, Input, Button, message } from 'antd'
-import _get from 'lodash/get'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 

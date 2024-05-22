@@ -3,6 +3,7 @@ export * from './time'
 export * from './pagination'
 export * from './random'
 export * from './error'
+export * from './globalId'
 
 export const stripHtml = (html: string, replacement = ' ') =>
   (String(html) || '')

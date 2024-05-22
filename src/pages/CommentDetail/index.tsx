@@ -48,7 +48,7 @@ class CommentDetail extends React.Component<CommentDetailChildProps> {
             <DateTime date={comment.createdAt} />
           </Description>
           <Description term="狀態">
-            <CommentStateTag state={comment.state} />
+            <CommentStateTag state={comment.commentState} />
           </Description>
           <Description term="讚數">{comment.upvotes}</Description>
           <Description term="踩數">{comment.downvotes}</Description>
@@ -75,7 +75,10 @@ class CommentDetail extends React.Component<CommentDetailChildProps> {
 
         <DescriptionList size="large" title="設定" col={4}>
           <Description term="狀態">
-            <CommentSetState state={comment.state} ids={[comment.id]} />
+            <CommentSetState
+              commentState={comment.commentState}
+              ids={[comment.id]}
+            />
           </Description>
         </DescriptionList>
         <Divider size="large" />

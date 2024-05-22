@@ -5,6 +5,8 @@ export const PATH = {
   HOMEPAGE_ICYMI: '/homepage/icymi',
   HOMEPAGE_AUTHORS: '/homepage/authors',
   HOMEPAGE_TAGS: '/homepage/tags',
+  HOMEPAGE_ICYMI_TOPICS: '/homepage/icymi_topics',
+  HOMEPAGE_ICYMI_TOPIC_DETAIL: '/homepage/icymi_topic/:id',
 
   TAG_LIST: '/tags',
   TAG_DETAIL: '/tags/:id',
@@ -19,6 +21,8 @@ export const PATH = {
 
   COMMENT_LIST: '/comments',
   COMMENT_DETAIL: '/comments/:id',
+
+  REPORT_LIST: '/reports',
 
   OAUTH_CLIENT_LIST: '/oauth-clients',
   OAUTH_CLIENT_DETAIL: '/oauth-clients/:id',
@@ -45,6 +49,8 @@ export const PAGE_TITLE = {
   [PATH.HOMEPAGE_ICYMI]: '不要錯過',
   [PATH.HOMEPAGE_AUTHORS]: '活躍作者',
   [PATH.HOMEPAGE_TAGS]: '標籤',
+  [PATH.HOMEPAGE_ICYMI_TOPICS]: '精選',
+  [PATH.HOMEPAGE_ICYMI_TOPIC_DETAIL]: '编辑精選',
 
   [PATH.TAG_LIST]: '標籤清單',
   [PATH.TAG_DETAIL]: '標籤詳情',
@@ -59,6 +65,8 @@ export const PAGE_TITLE = {
 
   [PATH.COMMENT_LIST]: '評論清單',
   [PATH.COMMENT_DETAIL]: '評論詳情',
+
+  [PATH.REPORT_LIST]: '報告清單',
 
   [PATH.OAUTH_CLIENT_LIST]: 'OAuth Client 清單',
   [PATH.OAUTH_CLIENT_DETAIL]: 'OAuth Client 詳情',
@@ -76,6 +84,7 @@ export const PAGE_TITLE = {
 }
 
 export const PATH_REGEXP = {
-  articleDetail: /^\/@([^@\/]+?)\/.*-([^-\/]+?)(?:\/)?$/i,
-  user: /^\/@([^@\/]+?)(?:\/)?$/i,
+  articleDetail: /^\/@([^@/]+?)\/.*-([^-/]+?)(?:\/)?$/i,
+  articleDetailShortHash: /^\/a\/[a-zA-Z0-9]+$/i,
+  user: /^\/@([^@/]+?)(?:\/)?$/i,
 }

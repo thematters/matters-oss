@@ -59,6 +59,11 @@ export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
               {PAGE_TITLE[PATH.HOMEPAGE_ICYMI]}
             </Link>
           </Menu.Item>
+          <Menu.Item key={PATH.HOMEPAGE_ICYMI_TOPICS}>
+            <Link to={PATH.HOMEPAGE_ICYMI_TOPICS}>
+              {PAGE_TITLE[PATH.HOMEPAGE_ICYMI_TOPICS]}
+            </Link>
+          </Menu.Item>
           <Menu.Item key={PATH.HOMEPAGE_AUTHORS}>
             <Link to={PATH.HOMEPAGE_AUTHORS}>
               {PAGE_TITLE[PATH.HOMEPAGE_AUTHORS]}
@@ -98,7 +103,15 @@ export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
 
         <SubMenu key="comment" title={<strong>評論</strong>}>
           <Menu.Item key={PATH.COMMENT_LIST}>
-            <Link to={PATH.COMMENT_LIST}>評論清單</Link>
+            <Link to={PATH.COMMENT_LIST}>
+              {PAGE_TITLE[PATH.COMMENT_DETAIL]}
+            </Link>
+          </Menu.Item>
+        </SubMenu>
+
+        <SubMenu key="comment" title={<strong>報告</strong>}>
+          <Menu.Item key={PATH.REPORT_LIST}>
+            <Link to={PATH.REPORT_LIST}>{PAGE_TITLE[PATH.REPORT_LIST]}</Link>
           </Menu.Item>
         </SubMenu>
 
