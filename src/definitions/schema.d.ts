@@ -282,6 +282,11 @@ export interface GQLArticle extends GQLNode, GQLPinnableWork {
   license: GQLArticleLicenseType
 
   /**
+   * whether current viewer has donated to this article
+   */
+  donated: boolean
+
+  /**
    * creator message asking for support
    */
   requestForDonation?: string
@@ -361,8 +366,6 @@ export type GQLPossibleNodeTypeNames =
   | 'Comment'
   | 'Tag'
   | 'IcymiTopic'
-  | 'Topic'
-  | 'Chapter'
   | 'Collection'
   | 'Draft'
   | 'ArticleVersion'
@@ -376,8 +379,6 @@ export interface GQLNodeNameMap {
   Comment: GQLComment
   Tag: GQLTag
   IcymiTopic: GQLIcymiTopic
-  Topic: GQLTopic
-  Chapter: GQLChapter
   Collection: GQLCollection
   Draft: GQLDraft
   ArticleVersion: GQLArticleVersion
@@ -477,11 +478,6 @@ export interface GQLUser extends GQLNode {
    * Articles authored by current user.
    */
   articles: GQLArticleConnection
-
-  /**
-   * Topics created by current user.
-   */
-  topics: GQLTopicConnection
 
   /**
    * collections authored by current user.
@@ -796,11 +792,6 @@ export interface GQLFilterInput {
   followed?: boolean
 
   /**
-   * Used in User.topics
-   */
-  public?: boolean
-
-  /**
    * Used in User Articles filter, by tags or by time range, or both
    */
   tagIds?: Array<string>
@@ -832,7 +823,6 @@ export type GQLPossibleConnectionTypeNames =
   | 'NoticeConnection'
   | 'TagConnection'
   | 'FollowingActivityConnection'
-  | 'TopicConnection'
   | 'CollectionConnection'
   | 'DraftConnection'
   | 'ReadHistoryConnection'
@@ -859,7 +849,6 @@ export interface GQLConnectionNameMap {
   NoticeConnection: GQLNoticeConnection
   TagConnection: GQLTagConnection
   FollowingActivityConnection: GQLFollowingActivityConnection
-  TopicConnection: GQLTopicConnection
   CollectionConnection: GQLCollectionConnection
   DraftConnection: GQLDraftConnection
   ReadHistoryConnection: GQLReadHistoryConnection
@@ -1921,119 +1910,6 @@ export interface GQLUserArticlesFilter {
   state?: GQLArticleState
 }
 
-export interface GQLTopicInput {
-  after?: string
-  first?: GQLfirst_Int_min_0
-  filter?: GQLFilterInput
-}
-
-export interface GQLTopicConnection extends GQLConnection {
-  totalCount: number
-  pageInfo: GQLPageInfo
-  edges?: Array<GQLTopicEdge>
-}
-
-export interface GQLTopicEdge {
-  cursor: string
-  node: GQLTopic
-}
-
-/**
- * This type contains metadata, content and related data of a topic, which is a container for Article and Chapter types.
- */
-export interface GQLTopic extends GQLNode {
-  /**
-   * Unique id of this topic.
-   */
-  id: string
-
-  /**
-   * Title of this topic.
-   */
-  title: string
-
-  /**
-   * Cover of this topic.
-   */
-  cover?: string
-
-  /**
-   * Description of this topic.
-   */
-  description?: string
-
-  /**
-   * Number of chapters included in this topic.
-   */
-  chapterCount: number
-
-  /**
-   * Number articles included in this topic.
-   */
-  articleCount: number
-
-  /**
-   * List of chapters included in this topic.
-   */
-  chapters?: Array<GQLChapter>
-
-  /**
-   * List of articles included in this topic.
-   */
-  articles?: Array<GQLArticle>
-
-  /**
-   * Author of this topic.
-   */
-  author: GQLUser
-
-  /**
-   * Whether this topic is public or not.
-   */
-  public: boolean
-
-  /**
-   * Latest published article on this topic
-   */
-  latestArticle?: GQLArticle
-}
-
-/**
- * This type contains metadata, content and related data of Chapter type, which is
- * a container for Article type. A Chapter belong to a Topic.
- */
-export interface GQLChapter extends GQLNode {
-  /**
-   * Unique id of this chapter.
-   */
-  id: string
-
-  /**
-   * Title of this chapter.
-   */
-  title: string
-
-  /**
-   * Description of this chapter.
-   */
-  description?: string
-
-  /**
-   * Number articles included in this chapter.
-   */
-  articleCount: number
-
-  /**
-   * Articles included in this Chapter
-   */
-  articles?: Array<GQLArticle>
-
-  /**
-   * The topic that this Chapter belongs to.
-   */
-  topic: GQLTopic
-}
-
 export interface GQLCollectionConnection extends GQLConnection {
   totalCount: number
   pageInfo: GQLPageInfo
@@ -2254,7 +2130,6 @@ export const enum GQLAssetType {
   circleCover = 'circleCover',
   collectionCover = 'collectionCover',
   announcementCover = 'announcementCover',
-  topicCover = 'topicCover',
 }
 
 export interface GQLDraftAccess {
@@ -2759,6 +2634,7 @@ export interface GQLArticleOSS {
   inRecommendIcymi: boolean
   inRecommendHottest: boolean
   inRecommendNewest: boolean
+  inSearch: boolean
 }
 
 export interface GQLFeaturedCommentsInput {
@@ -3200,27 +3076,6 @@ export interface GQLMutation {
    * Read an article.
    */
   readArticle: GQLArticle
-
-  /**
-   * Create a Topic when no id is given, update fields when id is given. Throw error if no id & no title.
-   */
-  putTopic: GQLTopic
-
-  /**
-   * Create a Chapter when no id is given, update fields when id is given. Throw
-   * error if no id & no title, or no id & no topic.
-   */
-  putChapter: GQLChapter
-
-  /**
-   * Delete topics
-   */
-  deleteTopics: boolean
-
-  /**
-   * Sort topics
-   */
-  sortTopics: Array<GQLTopic>
 
   /**
    * Follow or unfollow tag.
@@ -3686,32 +3541,6 @@ export interface GQLReadArticleInput {
   id: string
 }
 
-export interface GQLPutTopicInput {
-  id?: string
-  title?: string
-  description?: string
-  cover?: string
-  public?: boolean
-  articles?: Array<string>
-  chapters?: Array<string>
-}
-
-export interface GQLPutChapterInput {
-  id?: string
-  title?: string
-  description?: string
-  topic?: string
-  articles?: Array<string>
-}
-
-export interface GQLDeleteTopicsInput {
-  ids: Array<string>
-}
-
-export interface GQLSortTopicsInput {
-  ids: Array<string>
-}
-
 export interface GQLPutTagInput {
   id?: string
   content?: string
@@ -3763,6 +3592,7 @@ export const enum GQLRecommendTypes {
   icymi = 'icymi',
   hottest = 'hottest',
   newest = 'newest',
+  search = 'search',
 }
 
 export interface GQLUpdateArticleStateInput {
@@ -3988,7 +3818,6 @@ export const enum GQLEntityType {
   user = 'user',
   circle = 'circle',
   announcement = 'announcement',
-  topic = 'topic',
   collection = 'collection',
 }
 
@@ -5029,10 +4858,6 @@ export interface GQLResolver {
   ArticleRecommendationActivity?: GQLArticleRecommendationActivityTypeResolver
   CircleRecommendationActivity?: GQLCircleRecommendationActivityTypeResolver
   IcymiTopic?: GQLIcymiTopicTypeResolver
-  TopicConnection?: GQLTopicConnectionTypeResolver
-  TopicEdge?: GQLTopicEdgeTypeResolver
-  Topic?: GQLTopicTypeResolver
-  Chapter?: GQLChapterTypeResolver
   CollectionConnection?: GQLCollectionConnectionTypeResolver
   CollectionEdge?: GQLCollectionEdgeTypeResolver
   Collection?: GQLCollectionTypeResolver
@@ -5352,6 +5177,7 @@ export interface GQLArticleTypeResolver<TParent = any> {
   sensitiveByAuthor?: ArticleToSensitiveByAuthorResolver<TParent>
   sensitiveByAdmin?: ArticleToSensitiveByAdminResolver<TParent>
   license?: ArticleToLicenseResolver<TParent>
+  donated?: ArticleToDonatedResolver<TParent>
   requestForDonation?: ArticleToRequestForDonationResolver<TParent>
   replyToDonator?: ArticleToReplyToDonatorResolver<TParent>
   iscnId?: ArticleToIscnIdResolver<TParent>
@@ -5873,6 +5699,15 @@ export interface ArticleToLicenseResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
+export interface ArticleToDonatedResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
 export interface ArticleToRequestForDonationResolver<
   TParent = any,
   TResult = any
@@ -6037,8 +5872,6 @@ export interface GQLNodeTypeResolver<TParent = any> {
     | 'Comment'
     | 'Tag'
     | 'IcymiTopic'
-    | 'Topic'
-    | 'Chapter'
     | 'Collection'
     | 'Draft'
     | 'ArticleVersion'
@@ -6050,8 +5883,6 @@ export interface GQLNodeTypeResolver<TParent = any> {
         | 'Comment'
         | 'Tag'
         | 'IcymiTopic'
-        | 'Topic'
-        | 'Chapter'
         | 'Collection'
         | 'Draft'
         | 'ArticleVersion'
@@ -6078,7 +5909,6 @@ export interface GQLUserTypeResolver<TParent = any> {
   settings?: UserToSettingsResolver<TParent>
   recommendation?: UserToRecommendationResolver<TParent>
   articles?: UserToArticlesResolver<TParent>
-  topics?: UserToTopicsResolver<TParent>
   collections?: UserToCollectionsResolver<TParent>
   latestWorks?: UserToLatestWorksResolver<TParent>
   pinnedWorks?: UserToPinnedWorksResolver<TParent>
@@ -6225,18 +6055,6 @@ export interface UserToArticlesResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: UserToArticlesArgs,
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface UserToTopicsArgs {
-  input: GQLTopicInput
-}
-export interface UserToTopicsResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: UserToTopicsArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -6860,7 +6678,6 @@ export interface GQLConnectionTypeResolver<TParent = any> {
     | 'NoticeConnection'
     | 'TagConnection'
     | 'FollowingActivityConnection'
-    | 'TopicConnection'
     | 'CollectionConnection'
     | 'DraftConnection'
     | 'ReadHistoryConnection'
@@ -6885,7 +6702,6 @@ export interface GQLConnectionTypeResolver<TParent = any> {
         | 'NoticeConnection'
         | 'TagConnection'
         | 'FollowingActivityConnection'
-        | 'TopicConnection'
         | 'CollectionConnection'
         | 'DraftConnection'
         | 'ReadHistoryConnection'
@@ -9633,244 +9449,6 @@ export interface IcymiTopicToArchivedAtResolver<TParent = any, TResult = any> {
   ): TResult
 }
 
-export interface GQLTopicConnectionTypeResolver<TParent = any> {
-  totalCount?: TopicConnectionToTotalCountResolver<TParent>
-  pageInfo?: TopicConnectionToPageInfoResolver<TParent>
-  edges?: TopicConnectionToEdgesResolver<TParent>
-}
-
-export interface TopicConnectionToTotalCountResolver<
-  TParent = any,
-  TResult = any
-> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicConnectionToPageInfoResolver<
-  TParent = any,
-  TResult = any
-> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicConnectionToEdgesResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface GQLTopicEdgeTypeResolver<TParent = any> {
-  cursor?: TopicEdgeToCursorResolver<TParent>
-  node?: TopicEdgeToNodeResolver<TParent>
-}
-
-export interface TopicEdgeToCursorResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicEdgeToNodeResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface GQLTopicTypeResolver<TParent = any> {
-  id?: TopicToIdResolver<TParent>
-  title?: TopicToTitleResolver<TParent>
-  cover?: TopicToCoverResolver<TParent>
-  description?: TopicToDescriptionResolver<TParent>
-  chapterCount?: TopicToChapterCountResolver<TParent>
-  articleCount?: TopicToArticleCountResolver<TParent>
-  chapters?: TopicToChaptersResolver<TParent>
-  articles?: TopicToArticlesResolver<TParent>
-  author?: TopicToAuthorResolver<TParent>
-  public?: TopicToPublicResolver<TParent>
-  latestArticle?: TopicToLatestArticleResolver<TParent>
-}
-
-export interface TopicToIdResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicToTitleResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicToCoverResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicToDescriptionResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicToChapterCountResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicToArticleCountResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicToChaptersResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicToArticlesResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicToAuthorResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicToPublicResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface TopicToLatestArticleResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface GQLChapterTypeResolver<TParent = any> {
-  id?: ChapterToIdResolver<TParent>
-  title?: ChapterToTitleResolver<TParent>
-  description?: ChapterToDescriptionResolver<TParent>
-  articleCount?: ChapterToArticleCountResolver<TParent>
-  articles?: ChapterToArticlesResolver<TParent>
-  topic?: ChapterToTopicResolver<TParent>
-}
-
-export interface ChapterToIdResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface ChapterToTitleResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface ChapterToDescriptionResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface ChapterToArticleCountResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface ChapterToArticlesResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface ChapterToTopicResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: {},
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
 export interface GQLCollectionConnectionTypeResolver<TParent = any> {
   totalCount?: CollectionConnectionToTotalCountResolver<TParent>
   pageInfo?: CollectionConnectionToPageInfoResolver<TParent>
@@ -11899,6 +11477,7 @@ export interface GQLArticleOSSTypeResolver<TParent = any> {
   inRecommendIcymi?: ArticleOSSToInRecommendIcymiResolver<TParent>
   inRecommendHottest?: ArticleOSSToInRecommendHottestResolver<TParent>
   inRecommendNewest?: ArticleOSSToInRecommendNewestResolver<TParent>
+  inSearch?: ArticleOSSToInSearchResolver<TParent>
 }
 
 export interface ArticleOSSToBoostResolver<TParent = any, TResult = any> {
@@ -11947,6 +11526,15 @@ export interface ArticleOSSToInRecommendNewestResolver<
   TParent = any,
   TResult = any
 > {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface ArticleOSSToInSearchResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: {},
@@ -13049,10 +12637,6 @@ export interface GQLMutationTypeResolver<TParent = any> {
   toggleSubscribeArticle?: MutationToToggleSubscribeArticleResolver<TParent>
   appreciateArticle?: MutationToAppreciateArticleResolver<TParent>
   readArticle?: MutationToReadArticleResolver<TParent>
-  putTopic?: MutationToPutTopicResolver<TParent>
-  putChapter?: MutationToPutChapterResolver<TParent>
-  deleteTopics?: MutationToDeleteTopicsResolver<TParent>
-  sortTopics?: MutationToSortTopicsResolver<TParent>
   toggleFollowTag?: MutationToToggleFollowTagResolver<TParent>
   togglePinTag?: MutationToTogglePinTagResolver<TParent>
   putTag?: MutationToPutTagResolver<TParent>
@@ -13219,54 +12803,6 @@ export interface MutationToReadArticleResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: MutationToReadArticleArgs,
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface MutationToPutTopicArgs {
-  input: GQLPutTopicInput
-}
-export interface MutationToPutTopicResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: MutationToPutTopicArgs,
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface MutationToPutChapterArgs {
-  input: GQLPutChapterInput
-}
-export interface MutationToPutChapterResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: MutationToPutChapterArgs,
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface MutationToDeleteTopicsArgs {
-  input: GQLDeleteTopicsInput
-}
-export interface MutationToDeleteTopicsResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: MutationToDeleteTopicsArgs,
-    context: Context,
-    info: GraphQLResolveInfo
-  ): TResult
-}
-
-export interface MutationToSortTopicsArgs {
-  input: GQLSortTopicsInput
-}
-export interface MutationToSortTopicsResolver<TParent = any, TResult = any> {
-  (
-    parent: TParent,
-    args: MutationToSortTopicsArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult

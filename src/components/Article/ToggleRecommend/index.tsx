@@ -37,10 +37,16 @@ class ToggleRecommend extends React.Component<
           },
         },
       })
-      const inRecommendType = _get(
-        result,
-        `data.toggleArticleRecommend.oss.inRecommend${_capitalize(type)}`
-      )
+      const inRecommendType =
+        type === 'search'
+          ? _get(
+              result,
+              `data.toggleArticleRecommend.oss.in${_capitalize(type)}`
+            )
+          : _get(
+              result,
+              `data.toggleArticleRecommend.oss.inRecommend${_capitalize(type)}`
+            )
       this.setState({
         checked: inRecommendType,
         loading: false,
