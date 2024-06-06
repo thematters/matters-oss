@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { Col, Tag, Skeleton, Empty } from 'antd'
-import _get from 'lodash/get'
+import { Col, Skeleton, Empty } from 'antd'
 
 import ErrorMessage from '../../components/ErrorMessage'
 import Divider from '../../components/Divider'
@@ -107,6 +106,14 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
               checked={article.oss.inRecommendNewest}
               articleId={article.id}
               type="newest"
+            />
+          </Description>
+
+          <Description term="在「檢索結果」顯示">
+            <ToggleRecommend
+              checked={article.oss.inSearch}
+              articleId={article.id}
+              type="search"
             />
           </Description>
 

@@ -53,5 +53,6 @@ fragment ArticleDetail on Article {
     inRecommendIcymi
     inRecommendHottest
     inRecommendNewest
+    inSearch
   }
 }

@@ -9,6 +9,7 @@ const TOGGLE_RECOMMEND = gql`
         inRecommendIcymi
         inRecommendHottest
         inRecommendNewest
+        inSearch
       }
     }
   }
@@ -20,11 +21,12 @@ type Response = {
       inRecommendIcymi: boolean
       inRecommendHottest: boolean
       inRecommendNewest: boolean
+      inSearch: boolean
     }
   }
 }
 
-export type RecommendTypes = 'icymi' | 'hottest' | 'newest'
+export type RecommendTypes = 'icymi' | 'hottest' | 'newest' | 'search'
 
 type InputProps = {
   checked: boolean
