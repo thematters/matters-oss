@@ -1,0 +1,18 @@
+fragment CampaignDigest on Campaign {
+  id
+  name
+  shortHash
+  state
+  ...on WritingChallenge {
+    applicationPeriod {
+      start
+      end
+    }
+    writingPeriod {
+      start
+      end
+    }
+  }
+}
+
+

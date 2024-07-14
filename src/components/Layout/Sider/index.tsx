@@ -103,8 +103,14 @@ export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
 
         <SubMenu key="comment" title={<strong>評論</strong>}>
           <Menu.Item key={PATH.COMMENT_LIST}>
-            <Link to={PATH.COMMENT_LIST}>
-              {PAGE_TITLE[PATH.COMMENT_DETAIL]}
+            <Link to={PATH.COMMENT_LIST}>{PAGE_TITLE[PATH.COMMENT_LIST]}</Link>
+          </Menu.Item>
+        </SubMenu>
+
+        <SubMenu key="comment" title={<strong>自由寫</strong>}>
+          <Menu.Item key={PATH.CAMPAIGN_LIST}>
+            <Link to={PATH.CAMPAIGN_LIST}>
+              {PAGE_TITLE[PATH.CAMPAIGN_LIST]}
             </Link>
           </Menu.Item>
         </SubMenu>

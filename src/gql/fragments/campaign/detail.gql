@@ -1,0 +1,37 @@
+#import "../article/id.gql"
+#import "../user/id.gql"
+#import "./digest.gql"
+
+fragment CampaignDetail on Campaign {
+  id
+  ...CampaignDigest
+  ...on WritingChallenge {
+    description
+    cover
+    link
+    stages {
+      id
+      name
+      period {
+        start
+        end
+      }
+    }
+    participants(input: { first: null }) {
+      edges {
+        node {
+          ...UserId
+        }
+      }
+    }
+    articles(input: { first: null }) {
+      edges {
+        node {
+          ...ArticleId
+        }
+      }
+    }
+  }
+}
+
+

@@ -10,6 +10,8 @@ import {
   GQLLiker,
   GQLIcymiTopic,
   GQLUserRestrictionType,
+  GQLCampaignState,
+  GQLDatetimeRangeInput,
 } from './schema'
 
 export * from './schema'
@@ -157,6 +159,27 @@ export type CommentDigest = {
 }
 
 export type CommentDetail = CommentDigest
+
+/**
+ * Campaign: Writing Challenge
+ */
+export type CampaignDigest = {
+  id: string
+  shortHash: string
+  name: string
+  state: GQLCampaignState
+  applicationPeriod: GQLDatetimeRangeInput
+  writingPeriod: GQLDatetimeRangeInput
+}
+
+export type CampaignDetail = CampaignDigest & {
+  description: string
+  cover: string
+  link: string
+  stages: Array<GQLCampaignStageInput>
+  participants: Connection<UserDigest>
+  articles: Connection<ArticleDigest>
+}
 
 /**
  * Report
