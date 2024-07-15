@@ -50,7 +50,7 @@ class SetState extends React.Component<ChildProps, SetStateState> {
   private _onConfirmChange = async () => {
     this.setState({ loading: true, error: null })
 
-    const { mutate, ids, onSuccess } = this.props
+    const { mutate, id, onSuccess } = this.props
     const { campaignState } = this.state
 
     if (!campaignState) {
@@ -60,13 +60,11 @@ class SetState extends React.Component<ChildProps, SetStateState> {
     try {
       const result = await mutate({
         variables: {
-          input: {
-            ids,
-            state: campaignState,
-          },
+          id,
+          state: campaignState,
         },
       })
-      const newCampaignState = _get(result, 'data.updateCommentsState.0.state')
+      const newCampaignState = _get(result, 'data.putWritingChallenge.state')
       this.setState({
         campaignState: newCampaignState,
         loading: false,

@@ -1,17 +1,15 @@
-fragment CampaignDigest on Campaign {
+fragment CampaignDigest on WritingChallenge {
   id
   name
   shortHash
   state
-  ...on WritingChallenge {
-    applicationPeriod {
-      start
-      end
-    }
-    writingPeriod {
-      start
-      end
-    }
+  applicationPeriod {
+    start
+    end
+  }
+  writingPeriod {
+    start
+    end
   }
 }
 

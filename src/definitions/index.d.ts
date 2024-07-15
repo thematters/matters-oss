@@ -12,6 +12,7 @@ import {
   GQLUserRestrictionType,
   GQLCampaignState,
   GQLDatetimeRangeInput,
+  GQLCampaignStage,
 } from './schema'
 
 export * from './schema'
@@ -176,7 +177,7 @@ export type CampaignDetail = CampaignDigest & {
   description: string
   cover: string
   link: string
-  stages: Array<GQLCampaignStageInput>
+  stages: Array<GQLCampaignStage>
   participants: Connection<UserDigest>
   articles: Connection<ArticleDigest>
 }

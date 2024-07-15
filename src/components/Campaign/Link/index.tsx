@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom'
 import { PATH } from '../../../constants'
 
 type CampaignLinkProps = {
-  id: string
+  shortHash: string
   name: string
 }
 
 const CampaignLink: React.FunctionComponent<CampaignLinkProps> = ({
-  id,
+  shortHash,
   name,
 }) => {
-  return <Link to={PATH.CAMPAIGN_DETAIL.replace(':id', id)}>{name}</Link>
+  return <Link to={PATH.CAMPAIGN_DETAIL.replace(':id', shortHash)}>{name}</Link>
 }
 
 export default CampaignLink

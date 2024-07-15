@@ -20,17 +20,15 @@ type Response = {
 export type CampaignState = 'active' | 'pending' | 'finished' | 'archived'
 
 type InputProps = {
-  ids: string[]
+  id: string
   campaignState?: CampaignState
   disabled?: boolean
   onSuccess?: () => void
 }
 
 type Variables = {
-  input: {
-    ids: string[]
-    state: CampaignState
-  }
+  id: string
+  state: CampaignState
 }
 
 export type ChildProps = ChildMutateProps<InputProps, Response, Variables>

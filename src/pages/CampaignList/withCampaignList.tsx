@@ -11,9 +11,7 @@ import { getSearchKey, getCurrentPaginationFromUrl } from '../../utils'
 import QueryCampaignList from '../../gql/queries/campaignList.gql'
 
 type AllCampaignsResponse = {
-  oss: {
-    campaigns: Connection<CampaignDigest>
-  }
+  campaigns: Connection<CampaignDigest>
 }
 type AllCampaignsInputProps = RouteComponentProps
 type AllCampaignsVariables = {

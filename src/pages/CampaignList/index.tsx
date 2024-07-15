@@ -9,7 +9,7 @@ import { CampaignDigest } from '../../definitions'
 class CampaignList extends React.Component<CampaignListChildProps> {
   private _renderContent() {
     const {
-      data: { oss, loading, error, fetchMore, variables },
+      data: { campaigns, loading, error, fetchMore, variables },
     } = this.props
 
     if (error) {
@@ -19,9 +19,9 @@ class CampaignList extends React.Component<CampaignListChildProps> {
     let listData: CampaignDigest[] = []
     let totalCount: number = 0
 
-    if (oss) {
-      listData = oss.campaigns.edges.map(({ node }) => node)
-      totalCount = oss.campaigns.totalCount
+    if (campaigns) {
+      listData = campaigns.edges.map(({ node }) => node)
+      totalCount = campaigns.totalCount
     }
 
     return (

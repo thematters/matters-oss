@@ -36,11 +36,11 @@ class CampaignDigestList extends React.Component<
   }
 
   private _renderNameCell(_: any, record: CampaignDigest): React.ReactNode {
-    return <CampaignLink id={record.id} name={record.name} />
+    return <CampaignLink shortHash={record.shortHash} name={record.name} />
   }
 
   private _renderStateCell(_: any, record: CampaignDigest): React.ReactNode {
-    return <CampaignSetState campaignState={record.state} ids={[record.id]} />
+    return <CampaignSetState campaignState={record.state} id={record.id} />
   }
 
   private _renderApplicationPeriod(
@@ -52,6 +52,7 @@ class CampaignDigestList extends React.Component<
       <>
         <DateTime date={start} />
         {' ~ '}
+        <br />
         {end && <DateTime date={end} />}
       </>
     )
@@ -66,6 +67,7 @@ class CampaignDigestList extends React.Component<
       <>
         <DateTime date={start} />
         {' ~ '}
+        <br />
         {end && <DateTime date={end} />}
       </>
     )
@@ -99,20 +101,21 @@ class CampaignDigestList extends React.Component<
           <Table.Column<CampaignDigest>
             dataIndex="name"
             title="標題"
+            width={300}
             render={this._renderNameCell}
           />
 
           <Table.Column<CampaignDigest>
             dataIndex="applicationPeriod"
             title="報名期"
-            width={300}
+            width={250}
             render={this._renderApplicationPeriod}
           />
 
           <Table.Column<CampaignDigest>
             dataIndex="writingPeriod"
             title="活動期"
-            width={300}
+            width={250}
             render={this._renderWritingPeriod}
           />
 

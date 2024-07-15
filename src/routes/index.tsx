@@ -16,6 +16,7 @@ import domainBlockListRoutes from './domainBlockList'
 import featureFlag from './featureFlag'
 import seedingUserListRoutes from './seedingUserList'
 import reportRoutes from './report'
+import campaignRoutes from './campaign'
 
 const routes = [
   {
@@ -46,6 +47,7 @@ const routes = [
   ...featureFlag,
   ...seedingUserListRoutes,
   ...announcementRoutes,
+  ...campaignRoutes,
 ]
 
 export default routes

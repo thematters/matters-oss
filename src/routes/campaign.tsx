@@ -4,7 +4,7 @@ import { RouteConfigComponentProps } from 'react-router-config'
 import Layout from '../components/Layout'
 import Private from '../components/Private'
 import CampaignList from '../pages/CampaignList'
-// import CampaignDetail from '../pages/CampaignDetail'
+import CampaignDetail from '../pages/CampaignDetail'
 
 import { PATH } from '../constants'
 
@@ -27,7 +27,9 @@ const campaignRoutes = [
     component: (props: RouteConfigComponentProps) => (
       <Private>
         <Layout.Header />
-        <Layout.Content>{/* <CampaignDetail {...props} /> */}</Layout.Content>
+        <Layout.Content>
+          <CampaignDetail {...props} />
+        </Layout.Content>
       </Private>
     ),
   },
