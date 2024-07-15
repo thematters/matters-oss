@@ -5,8 +5,13 @@ import CampaignDigestList from '../../components/Campaign/DigestList'
 import withCampaignList, { CampaignListChildProps } from './withCampaignList'
 
 import { CampaignDigest } from '../../definitions'
+import AddButton from '../../components/Campaign/AddButton'
 
 class CampaignList extends React.Component<CampaignListChildProps> {
+  private _renderHeader() {
+    return <AddButton onSuccess={this.props.data.refetch} />
+  }
+
   private _renderContent() {
     const {
       data: { campaigns, loading, error, fetchMore, variables },
@@ -34,7 +39,12 @@ class CampaignList extends React.Component<CampaignListChildProps> {
   }
 
   public render() {
-    return <>{this._renderContent()}</>
+    return (
+      <>
+        {this._renderHeader()}
+        {this._renderContent()}
+      </>
+    )
   }
 }
 

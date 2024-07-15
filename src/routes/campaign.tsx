@@ -7,6 +7,7 @@ import CampaignList from '../pages/CampaignList'
 import CampaignDetail from '../pages/CampaignDetail'
 
 import { PATH } from '../constants'
+import CampaignEdit from '../pages/CampaignEdit'
 
 const campaignRoutes = [
   {
@@ -29,6 +30,18 @@ const campaignRoutes = [
         <Layout.Header />
         <Layout.Content>
           <CampaignDetail {...props} />
+        </Layout.Content>
+      </Private>
+    ),
+  },
+  {
+    path: PATH.CAMPAIGN_EDIT,
+    exact: true,
+    component: (props: RouteConfigComponentProps) => (
+      <Private>
+        <Layout.Header />
+        <Layout.Content>
+          <CampaignEdit {...props} />
         </Layout.Content>
       </Private>
     ),

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Skeleton, Empty } from 'antd'
+import { Col, Skeleton, Empty, Button } from 'antd'
 
 import ErrorMessage from '../../components/ErrorMessage'
 import Divider from '../../components/Divider'
@@ -11,7 +11,7 @@ import CampaignSetState from '../../components/Campaign/SetState'
 import withCampaignDetail, {
   CampaignDetailChildProps,
 } from './withCampaignDetail'
-import { SITE_DOMIAN } from '../../constants'
+import { PATH, SITE_DOMIAN } from '../../constants'
 import UserDigestList from '../../components/User/DigestList'
 import ArticleDigestList from '../../components/Article/DigestList'
 import LevelTag, { LevelEnum } from '../../components/LevelTag'
@@ -60,11 +60,11 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
       <>
         <DescriptionList size="large" title="簡介" col={2}>
           <Description term="報名期">
-            <DateTime date={campaign.applicationPeriod.start} /> ~
+            <DateTime date={campaign.applicationPeriod.start} /> ~{' '}
             <DateTime date={campaign.applicationPeriod.end} />
           </Description>
           <Description term="活動期">
-            <DateTime date={campaign.writingPeriod.start} /> ~
+            <DateTime date={campaign.writingPeriod.start} /> ~{' '}
             <DateTime date={campaign.writingPeriod.end} />
           </Description>
 
@@ -96,8 +96,8 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
               <LevelTag level={LevelEnum.NULL}>{s.name}</LevelTag>
               {s.period ? (
                 <>
-                  (<DateTime date={s.period?.start} /> ~{' '}
-                  {s.period?.end && <DateTime date={s.period?.end} />})
+                  <DateTime date={s.period?.start} /> ~{' '}
+                  {s.period?.end && <DateTime date={s.period?.end} />}
                 </>
               ) : null}
             </Description>
@@ -117,6 +117,14 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
         <DescriptionList size="large" title="設定" col={4}>
           <Description term="狀態">
             <CampaignSetState campaignState={campaign.state} id={campaign.id} />
+          </Description>
+
+          <Description term="活動">
+            <Button
+              href={PATH.CAMPAIGN_EDIT.replace(':id', campaign.shortHash)}
+            >
+              編輯活動
+            </Button>
           </Description>
         </DescriptionList>
         <Divider size="large" />
