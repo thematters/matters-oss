@@ -58,6 +58,12 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
 
     return (
       <>
+        <DescriptionList size="large" title="基本資訊" col={3}>
+          <Description term="標題（繁體）">{campaign.nameEn}</Description>
+          <Description term="標題（英文）">{campaign.nameEn}</Description>
+          <Description term="標題（簡體）">{campaign.nameZhHans}</Description>
+        </DescriptionList>
+
         <DescriptionList size="large" title="簡介" col={2}>
           <Description term="報名期">
             <DateTime date={campaign.applicationPeriod.start} /> ~{' '}
@@ -93,7 +99,9 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
         <DescriptionList size="large" title="投稿選項" col={1}>
           {campaign.stages.map((s) => (
             <Description term="" key={s.id}>
-              <LevelTag level={LevelEnum.NULL}>{s.name}</LevelTag>
+              <LevelTag level={LevelEnum.NULL}>{s.name}（繁）</LevelTag>
+              <LevelTag level={LevelEnum.NULL}>{s.nameEn} (英)</LevelTag>
+              <LevelTag level={LevelEnum.NULL}>{s.nameZhHans}（簡）</LevelTag>
               {s.period ? (
                 <>
                   <DateTime date={s.period?.start} /> ~{' '}
@@ -105,12 +113,24 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
         </DescriptionList>
         <Divider size="large" />
 
-        <DescriptionList size="large" title="簡介">
-          <Col span={24} style={{ marginBottom: 16 }}>
+        <DescriptionList size="large" title="簡介" col={1}>
+          <Description term="繁體">
             <section
               dangerouslySetInnerHTML={{ __html: campaign.description }}
             />
-          </Col>
+          </Description>
+
+          <Description term="英文">
+            <section
+              dangerouslySetInnerHTML={{ __html: campaign.descriptionEn }}
+            />
+          </Description>
+
+          <Description term="簡體">
+            <section
+              dangerouslySetInnerHTML={{ __html: campaign.descriptionZhHans }}
+            />
+          </Description>
         </DescriptionList>
         <Divider size="large" />
 

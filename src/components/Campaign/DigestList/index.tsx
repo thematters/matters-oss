@@ -36,7 +36,12 @@ class CampaignDigestList extends React.Component<
   }
 
   private _renderNameCell(_: any, record: CampaignDigest): React.ReactNode {
-    return <CampaignLink shortHash={record.shortHash} name={record.name} />
+    return (
+      <CampaignLink
+        shortHash={record.shortHash}
+        name={record.name || '未命名'}
+      />
+    )
   }
 
   private _renderStateCell(_: any, record: CampaignDigest): React.ReactNode {

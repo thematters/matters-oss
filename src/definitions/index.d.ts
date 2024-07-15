@@ -11,7 +11,7 @@ import {
   GQLIcymiTopic,
   GQLUserRestrictionType,
   GQLCampaignState,
-  GQLDatetimeRangeInput,
+  GQLDatetimeRange,
   GQLCampaignStage,
 } from './schema'
 
@@ -168,16 +168,28 @@ export type CampaignDigest = {
   id: string
   shortHash: string
   name: string
+  nameEn: string
+  nameZhHans: string
   state: GQLCampaignState
-  applicationPeriod: GQLDatetimeRangeInput
-  writingPeriod: GQLDatetimeRangeInput
+  applicationPeriod: GQLDatetimeRange
+  writingPeriod: GQLDatetimeRange
+}
+
+type CampaignStage = {
+  id: string
+  name: string
+  nameEn: string
+  nameZhHans: string
+  period?: GQLDatetimeRange
 }
 
 export type CampaignDetail = CampaignDigest & {
   description: string
+  descriptionEn: string
+  descriptionZhHans: string
   cover: string
   link: string
-  stages: Array<GQLCampaignStage>
+  stages: Array<CampaignStage>
   participants: Connection<UserDigest>
   articles: Connection<ArticleDigest>
 }

@@ -725,6 +725,13 @@ export type GQLCampaignInput = {
   shortHash: Scalars['String']['input']
 }
 
+export type GQLCampaignParticipantsInput = {
+  after?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  /** return all state participants */
+  oss?: InputMaybe<Scalars['Boolean']['input']>
+}
+
 export type GQLCampaignStage = {
   __typename?: 'CampaignStage'
   id: Scalars['ID']['output']
@@ -1392,6 +1399,7 @@ export type GQLEmailLoginInput = {
 export type GQLEntityType =
   | 'announcement'
   | 'article'
+  | 'campaign'
   | 'circle'
   | 'collection'
   | 'draft'
@@ -4193,7 +4201,7 @@ export type GQLWriting = GQLArticle | GQLMoment
 export type GQLWritingChallenge = GQLCampaign &
   GQLNode & {
     __typename?: 'WritingChallenge'
-    applicationPeriod: GQLDatetimeRange
+    applicationPeriod?: Maybe<GQLDatetimeRange>
     applicationState?: Maybe<GQLCampaignApplicationState>
     articles: GQLArticleConnection
     cover?: Maybe<Scalars['String']['output']>
@@ -4205,15 +4213,23 @@ export type GQLWritingChallenge = GQLCampaign &
     shortHash: Scalars['String']['output']
     stages: Array<GQLCampaignStage>
     state: GQLCampaignState
-    writingPeriod: GQLDatetimeRange
+    writingPeriod?: Maybe<GQLDatetimeRange>
   }
 
 export type GQLWritingChallengeArticlesArgs = {
   input: GQLCampaignArticlesInput
 }
 
+export type GQLWritingChallengeDescriptionArgs = {
+  input?: InputMaybe<GQLTranslationArgs>
+}
+
+export type GQLWritingChallengeNameArgs = {
+  input?: InputMaybe<GQLTranslationArgs>
+}
+
 export type GQLWritingChallengeParticipantsArgs = {
-  input: GQLConnectionArgs
+  input: GQLCampaignParticipantsInput
 }
 
 export type GQLWritingConnection = GQLConnection & {
@@ -4599,6 +4615,7 @@ export type GQLResolversTypes = ResolversObject<{
     Omit<GQLCampaignEdge, 'node'> & { node: GQLResolversTypes['Campaign'] }
   >
   CampaignInput: GQLCampaignInput
+  CampaignParticipantsInput: GQLCampaignParticipantsInput
   CampaignStage: ResolverTypeWrapper<CampaignStageModel>
   CampaignStageInput: GQLCampaignStageInput
   CampaignState: GQLCampaignState
@@ -5200,6 +5217,7 @@ export type GQLResolversParentTypes = ResolversObject<{
     node: GQLResolversParentTypes['Campaign']
   }
   CampaignInput: GQLCampaignInput
+  CampaignParticipantsInput: GQLCampaignParticipantsInput
   CampaignStage: CampaignStageModel
   CampaignStageInput: GQLCampaignStageInput
   CampaignsInput: GQLCampaignsInput
@@ -9597,7 +9615,7 @@ export type GQLWritingChallengeResolvers<
   ParentType extends GQLResolversParentTypes['WritingChallenge'] = GQLResolversParentTypes['WritingChallenge']
 > = ResolversObject<{
   applicationPeriod?: Resolver<
-    GQLResolversTypes['DatetimeRange'],
+    Maybe<GQLResolversTypes['DatetimeRange']>,
     ParentType,
     ContextType
   >
@@ -9613,10 +9631,20 @@ export type GQLWritingChallengeResolvers<
     RequireFields<GQLWritingChallengeArticlesArgs, 'input'>
   >
   cover?: Resolver<Maybe<GQLResolversTypes['String']>, ParentType, ContextType>
-  description?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>
+  description?: Resolver<
+    GQLResolversTypes['String'],
+    ParentType,
+    ContextType,
+    Partial<GQLWritingChallengeDescriptionArgs>
+  >
   id?: Resolver<GQLResolversTypes['ID'], ParentType, ContextType>
   link?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>
+  name?: Resolver<
+    GQLResolversTypes['String'],
+    ParentType,
+    ContextType,
+    Partial<GQLWritingChallengeNameArgs>
+  >
   participants?: Resolver<
     GQLResolversTypes['UserConnection'],
     ParentType,
@@ -9631,7 +9659,7 @@ export type GQLWritingChallengeResolvers<
   >
   state?: Resolver<GQLResolversTypes['CampaignState'], ParentType, ContextType>
   writingPeriod?: Resolver<
-    GQLResolversTypes['DatetimeRange'],
+    Maybe<GQLResolversTypes['DatetimeRange']>,
     ParentType,
     ContextType
   >

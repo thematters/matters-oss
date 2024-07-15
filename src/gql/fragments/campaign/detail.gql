@@ -5,12 +5,16 @@
 fragment CampaignDetail on WritingChallenge {
   id
   ...CampaignDigest
-  description
+  description(input: { language: zh_hant })
+  descriptionEn: description(input: { language: en })
+  descriptionZhHans: description(input: { language: zh_hans })
   cover
   link
   stages {
     id
-    name
+    name(input: { language: zh_hant })
+    nameEn: name(input: { language: en })
+    nameZhHans: name(input: { language: zh_hans })
     period {
       start
       end
