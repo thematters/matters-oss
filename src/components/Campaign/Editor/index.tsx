@@ -2,11 +2,13 @@ import * as React from 'react'
 import { Mutation } from 'react-apollo'
 import { Button, DatePicker, Input, message } from 'antd'
 import gql from 'graphql-tag'
+import moment from 'moment'
 
 import Uploader from './Uploader'
 import Section from '../../../components/DescriptionList'
 import Divider from '../../../components/Divider'
 import { CampaignDetail } from '../../../definitions'
+import { PATH } from '../../../constants'
 
 const PUT_CAMPAIGN = gql`
   mutation PutWritingChallenge($input: PutWritingChallengeInput!) {
@@ -27,6 +29,37 @@ type DetailState = {
   warning: string | null
   error: any
 } & CampaignDetail
+
+const normalizeDescription = (description: string) => {
+  // remove leading and trailing <p></p>
+  description = description.replace(/^(<p>(<br class=\"smart\">)?<\/p>)+/, '')
+  description = description.replace(/(<p>(<br class=\"smart\">)?<\/p>)+$/, '')
+
+  // replace </p><p> or <br class=\"smart\"> with \n
+  description = description.replace(/<\/p>/g, '\n')
+  description = description.replace(/<p><br class=\"smart\"><\/p>/g, '\n')
+
+  // remove HTML tags
+  description = description.replace(/<[^>]*>/g, '')
+
+  // remove trailing \n
+  description = description.replace(/\n+$/, '')
+
+  return description
+}
+
+const serializeDescription = (description: string) => {
+  description = description
+    .trim()
+    .split('\n')
+    .map((line) => `<p>${line.trim()}</p>`)
+    .join('')
+
+  // replace <p></p> with <br>
+  description = description.replace(/<p><\/p>/g, '<p><br class="smart"></p>')
+
+  return description
+}
 
 class CampaignEditor extends React.Component<DetailProps, DetailState> {
   state = {
@@ -53,20 +86,54 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
       const {
         id,
         name,
-        cover,
+        nameEn,
+        nameZhHans,
         description,
+        descriptionEn,
+        descriptionZhHans,
         writingPeriod,
         applicationPeriod,
         coverId,
         link,
       } = this.state
-      const result = await putCampaign({
+
+      await putCampaign({
         variables: {
           input: {
             id,
-            name,
+            name: [
+              {
+                language: 'zh_hant',
+                text: name,
+              },
+              {
+                language: 'en',
+                text: nameEn,
+              },
+              {
+                language: 'zh_hans',
+                text: nameZhHans,
+              },
+            ],
             cover: coverId,
-            description,
+            applicationPeriod,
+            writingPeriod,
+            description: [
+              {
+                language: 'zh_hant',
+                text: serializeDescription(normalizeDescription(description)),
+              },
+              {
+                language: 'en',
+                text: serializeDescription(normalizeDescription(descriptionEn)),
+              },
+              {
+                language: 'zh_hans',
+                text: serializeDescription(
+                  normalizeDescription(descriptionZhHans)
+                ),
+              },
+            ],
             link,
           },
         },
@@ -76,6 +143,10 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
         (prev) => ({ ...prev, loading: false, error: null }),
         () => {
           message.success('儲存成功')
+          window.location.href = PATH.CAMPAIGN_DETAIL.replace(
+            ':id',
+            this.state.shortHash
+          )
         }
       )
     } catch (error) {
@@ -92,9 +163,12 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
     const {
       id,
       name,
+      nameEn,
+      nameZhHans,
       cover,
-      coverId,
       description,
+      descriptionEn,
+      descriptionZhHans,
       link,
       applicationPeriod,
       writingPeriod,
@@ -117,17 +191,17 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
               </Section.Description>
               <Section.Description term="英文">
                 <Input
-                  value={name}
+                  value={nameEn}
                   onChange={(e) => {
-                    this.setState({ name: e.target.value })
+                    this.setState({ nameEn: e.target.value })
                   }}
                 />
               </Section.Description>
               <Section.Description term="簡體">
                 <Input
-                  value={name}
+                  value={nameZhHans}
                   onChange={(e) => {
-                    this.setState({ name: e.target.value })
+                    this.setState({ nameZhHans: e.target.value })
                   }}
                 />
               </Section.Description>
@@ -137,34 +211,37 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             <Section title="簡介" col={1}>
               <Section.Description term="繁體">
                 <Input.TextArea
-                  value={description}
+                  value={normalizeDescription(description)}
                   autoSize={{ minRows: 5 }}
                   style={{ verticalAlign: 'middle' }}
                   onChange={(e) => {
-                    // TODO: replace /n to <br>
-                    this.setState({ description: e.target.value })
+                    this.setState({
+                      description: e.target.value,
+                    })
                   }}
                 />
               </Section.Description>
               <Section.Description term="英文">
                 <Input.TextArea
-                  value={description}
+                  value={normalizeDescription(descriptionEn)}
                   autoSize={{ minRows: 5 }}
                   style={{ verticalAlign: 'middle' }}
                   onChange={(e) => {
-                    // TODO: replace /n to <br>
-                    this.setState({ description: e.target.value })
+                    this.setState({
+                      descriptionEn: e.target.value,
+                    })
                   }}
                 />
               </Section.Description>
               <Section.Description term="簡體">
                 <Input.TextArea
-                  value={description}
+                  value={normalizeDescription(descriptionZhHans)}
                   autoSize={{ minRows: 5 }}
                   style={{ verticalAlign: 'middle' }}
                   onChange={(e) => {
-                    // TODO: replace /n to <br>
-                    this.setState({ description: e.target.value })
+                    this.setState({
+                      descriptionZhHans: e.target.value,
+                    })
                   }}
                 />
               </Section.Description>
@@ -199,7 +276,9 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             <Section title="報名期" col={2}>
               <Section.Description term="開始">
                 <DatePicker
-                  value={applicationPeriod?.start}
+                  value={
+                    moment(applicationPeriod?.start, 'YYYY-MM-DD') || undefined
+                  }
                   onChange={(date, dateStr) => {
                     this.setState({
                       applicationPeriod: {
@@ -212,7 +291,9 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
               </Section.Description>
               <Section.Description term="結束">
                 <DatePicker
-                  value={applicationPeriod?.end}
+                  value={
+                    moment(applicationPeriod?.end, 'YYYY-MM-DD') || undefined
+                  }
                   onChange={(date, dateStr) => {
                     this.setState({
                       applicationPeriod: {
@@ -229,7 +310,9 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             <Section title="活動期" col={2}>
               <Section.Description term="開始">
                 <DatePicker
-                  value={writingPeriod?.start}
+                  value={
+                    moment(writingPeriod?.start, 'YYYY-MM-DD') || undefined
+                  }
                   onChange={(date, dateStr) => {
                     this.setState({
                       writingPeriod: {
@@ -243,7 +326,9 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
 
               <Section.Description term="結束">
                 <DatePicker
-                  value={writingPeriod?.end}
+                  value={
+                    moment(applicationPeriod?.end, 'YYYY-MM-DD') || undefined
+                  }
                   onChange={(date, dateStr) => {
                     this.setState({
                       writingPeriod: {

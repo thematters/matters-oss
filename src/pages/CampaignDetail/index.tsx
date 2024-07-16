@@ -31,11 +31,7 @@ const sharedStyles = {
 }
 
 const Cover = ({ cover }: { cover?: string }) => {
-  return cover ? (
-    <img src={cover} style={sharedStyles} />
-  ) : (
-    <div style={sharedStyles}>未上傳</div>
-  )
+  return cover ? <img src={cover} style={sharedStyles} /> : <div>無</div>
 }
 
 class CampaignDetail extends React.Component<CampaignDetailChildProps> {
@@ -66,12 +62,12 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
 
         <DescriptionList size="large" title="簡介" col={2}>
           <Description term="報名期">
-            <DateTime date={campaign.applicationPeriod.start} /> ~{' '}
-            <DateTime date={campaign.applicationPeriod.end} />
+            <DateTime date={campaign.applicationPeriod?.start} /> ~{' '}
+            <DateTime date={campaign.applicationPeriod?.end} />
           </Description>
           <Description term="活動期">
-            <DateTime date={campaign.writingPeriod.start} /> ~{' '}
-            <DateTime date={campaign.writingPeriod.end} />
+            <DateTime date={campaign.writingPeriod?.start} /> ~{' '}
+            <DateTime date={campaign.writingPeriod?.end} />
           </Description>
 
           <Description term="活動公告">
