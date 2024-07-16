@@ -93,8 +93,8 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
         <Divider size="large" />
 
         <DescriptionList size="large" title="投稿選項" col={1}>
-          {campaign.stages.map((s) => (
-            <Description term="" key={s.id}>
+          {campaign.stages.map((s, index) => (
+            <Description term="" key={index}>
               <LevelTag level={LevelEnum.NULL}>{s.name}（繁）</LevelTag>
               <LevelTag level={LevelEnum.NULL}>{s.nameEn} (英)</LevelTag>
               <LevelTag level={LevelEnum.NULL}>{s.nameZhHans}（簡）</LevelTag>

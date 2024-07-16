@@ -177,7 +177,6 @@ export type CampaignDigest = {
 }
 
 type CampaignStage = {
-  id: string
   name: string
   nameEn: string
   nameZhHans: string

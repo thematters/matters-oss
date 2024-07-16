@@ -129,6 +129,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
         applicationPeriod,
         coverId,
         link,
+        stages,
       } = this.state
 
       await putCampaign({
@@ -148,10 +149,24 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                 language: 'zh_hans',
                 text: nameZhHans,
               },
-            ],
+            ].filter(({ text }) => !!text),
             cover: coverId,
-            applicationPeriod,
-            writingPeriod,
+            ...(applicationPeriod?.start
+              ? {
+                  applicationPeriod: {
+                    start: applicationPeriod.start,
+                    end: applicationPeriod.end || null,
+                  },
+                }
+              : {}),
+            ...(writingPeriod?.start
+              ? {
+                  writingPeriod: {
+                    start: writingPeriod.start,
+                    end: writingPeriod.end || null,
+                  },
+                }
+              : {}),
             description: [
               {
                 language: 'zh_hant',
@@ -167,8 +182,23 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                   normalizeDescription(descriptionZhHans)
                 ),
               },
-            ],
+            ].filter(({ text }) => !!text),
             link,
+            stages: stages.map((stage) => ({
+              name: [
+                { language: 'zh_hant', text: stage.name },
+                { language: 'en', text: stage.nameEn },
+                { language: 'zh_hans', text: stage.nameZhHans },
+              ].filter(({ text }) => !!text),
+              ...(stage.period?.start
+                ? {
+                    period: {
+                      start: stage.period.start,
+                      end: stage.period.end || null,
+                    },
+                  }
+                : {}),
+            })),
           },
         },
       })
@@ -184,6 +214,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
         }
       )
     } catch (error) {
+      console.error(error)
       this.setState(
         (prev) => ({ ...prev, loading: false, error }),
         () => {
@@ -217,7 +248,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             <Section title="標題" col={1}>
               <Section.Description term="繁體">
                 <Input
-                  value={name}
+                  defaultValue={name}
                   onChange={(e) => {
                     this.setState({ name: e.target.value })
                   }}
@@ -225,7 +256,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
               </Section.Description>
               <Section.Description term="英文">
                 <Input
-                  value={nameEn}
+                  defaultValue={nameEn}
                   onChange={(e) => {
                     this.setState({ nameEn: e.target.value })
                   }}
@@ -233,7 +264,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
               </Section.Description>
               <Section.Description term="簡體">
                 <Input
-                  value={nameZhHans}
+                  defaultValue={nameZhHans}
                   onChange={(e) => {
                     this.setState({ nameZhHans: e.target.value })
                   }}
@@ -245,7 +276,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             <Section title="簡介" col={1}>
               <Section.Description term="繁體">
                 <Input.TextArea
-                  value={normalizeDescription(description)}
+                  defaultValue={normalizeDescription(description)}
                   autoSize={{ minRows: 5 }}
                   style={{ verticalAlign: 'middle' }}
                   onChange={(e) => {
@@ -257,7 +288,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
               </Section.Description>
               <Section.Description term="英文">
                 <Input.TextArea
-                  value={normalizeDescription(descriptionEn)}
+                  defaultValue={normalizeDescription(descriptionEn)}
                   autoSize={{ minRows: 5 }}
                   style={{ verticalAlign: 'middle' }}
                   onChange={(e) => {
@@ -269,7 +300,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
               </Section.Description>
               <Section.Description term="簡體">
                 <Input.TextArea
-                  value={normalizeDescription(descriptionZhHans)}
+                  defaultValue={normalizeDescription(descriptionZhHans)}
                   autoSize={{ minRows: 5 }}
                   style={{ verticalAlign: 'middle' }}
                   onChange={(e) => {
@@ -298,7 +329,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             <Section title="活動公告連結" col={2}>
               <Section.Description term="">
                 <Input
-                  value={link}
+                  defaultValue={link}
                   onChange={(e) => {
                     this.setState({ link: e.target.value })
                   }}
@@ -393,6 +424,161 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                   }}
                 />
               </Section.Description>
+            </Section>
+            <Divider size="large" />
+
+            <Section title="投稿選項" col={1}>
+              {stages.map((stage, index) => (
+                <section>
+                  <Section.Description term="名稱">
+                    <Input
+                      defaultValue={stage.name}
+                      onChange={(e) => {
+                        this.setState({
+                          stages: [
+                            ...stages.slice(0, index),
+                            {
+                              ...stage,
+                              name: e.target.value,
+                            },
+                            ...stages.slice(index + 1),
+                          ],
+                        })
+                      }}
+                    />
+                  </Section.Description>
+
+                  <Section.Description term="名稱（英文）">
+                    <Input
+                      defaultValue={stage.nameEn}
+                      onChange={(e) => {
+                        this.setState({
+                          stages: [
+                            ...stages.slice(0, index),
+                            {
+                              ...stage,
+                              nameEn: e.target.value,
+                            },
+                            ...stages.slice(index + 1),
+                          ],
+                        })
+                      }}
+                    />
+                  </Section.Description>
+
+                  <Section.Description term="名稱（簡體）">
+                    <Input
+                      defaultValue={stage.nameZhHans}
+                      onChange={(e) => {
+                        this.setState({
+                          stages: [
+                            ...stages.slice(0, index),
+                            {
+                              ...stage,
+                              nameZhHans: e.target.value,
+                            },
+                            ...stages.slice(index + 1),
+                          ],
+                        })
+                      }}
+                    />
+                  </Section.Description>
+
+                  <Section.Description term="開始">
+                    <Input
+                      defaultValue={
+                        stage?.period?.start
+                          ? getUTC8Date(stage.period.start)
+                          : ''
+                      }
+                      onChange={(e) => {
+                        try {
+                          this.setState({
+                            stages: [
+                              ...stages.slice(0, index),
+                              {
+                                ...stage,
+                                period: {
+                                  ...stage.period,
+                                  start: convertToUTC8(e.target.value),
+                                },
+                              },
+                              ...stages.slice(index + 1),
+                            ],
+                          })
+                        } catch (e) {
+                          message.error('日期格式錯誤')
+                        }
+                      }}
+                    />
+                  </Section.Description>
+
+                  <Section.Description term="結束">
+                    <Input
+                      defaultValue={
+                        stage?.period?.end ? getUTC8Date(stage.period.end) : ''
+                      }
+                      onChange={(e) => {
+                        try {
+                          this.setState({
+                            stages: [
+                              ...stages.slice(0, index),
+                              {
+                                ...stage,
+                                period: {
+                                  ...stage.period,
+                                  start: stage.period?.start,
+                                  end: convertToUTC8(e.target.value),
+                                },
+                              },
+                              ...stages.slice(index + 1),
+                            ],
+                          })
+                        } catch (e) {
+                          message.error('日期格式錯誤')
+                        }
+                      }}
+                    />
+                  </Section.Description>
+
+                  <Section.Description term="">
+                    <Button
+                      type="danger"
+                      onClick={() => {
+                        this.setState({
+                          stages: stages.filter((_, i) => i !== index),
+                        })
+                      }}
+                    >
+                      刪除
+                    </Button>
+                  </Section.Description>
+
+                  <Divider size="default" />
+                </section>
+              ))}
+
+              <section>
+                <Section.Description term="">
+                  <Button
+                    onClick={() => {
+                      this.setState({
+                        stages: stages.concat({
+                          name: '',
+                          nameEn: '',
+                          nameZhHans: '',
+                          period: {
+                            start: '',
+                            end: '',
+                          },
+                        }),
+                      })
+                    }}
+                  >
+                    新增
+                  </Button>
+                </Section.Description>
+              </section>
             </Section>
             <Divider size="large" />
 
