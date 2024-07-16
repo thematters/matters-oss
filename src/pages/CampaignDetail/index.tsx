@@ -7,12 +7,12 @@ import DateTime from '../../components/DateTime'
 import DescriptionList from '../../components/DescriptionList'
 import CampaignStateTag from '../../components/Campaign/StateTag'
 import CampaignSetState from '../../components/Campaign/SetState'
+import CampaignUserDigestList from '../../components/Campaign/UserDigestList'
 
 import withCampaignDetail, {
   CampaignDetailChildProps,
 } from './withCampaignDetail'
 import { PATH, SITE_DOMIAN } from '../../constants'
-import UserDigestList from '../../components/User/DigestList'
 import ArticleDigestList from '../../components/Article/DigestList'
 import LevelTag, { LevelEnum } from '../../components/LevelTag'
 
@@ -147,8 +147,11 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
 
         <DescriptionList size="large" title="參與者">
           <Col span={24} style={{ marginBottom: 16 }}>
-            <UserDigestList
-              data={campaign.participants.edges.map(({ node }) => node)}
+            <CampaignUserDigestList
+              campaignId={campaign.id}
+              data={campaign.participants.edges.map(
+                ({ node, applicationState }) => ({ node, applicationState })
+              )}
             />
           </Col>
         </DescriptionList>

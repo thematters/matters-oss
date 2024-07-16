@@ -1,5 +1,6 @@
 #import "../article/digest.gql"
 #import "../user/digest.gql"
+#import "../user/digest.gql"
 #import "./digest.gql"
 
 fragment CampaignDetail on WritingChallenge {
@@ -20,8 +21,9 @@ fragment CampaignDetail on WritingChallenge {
       end
     }
   }
-  participants(input: { first: null }) {
+  participants(input: { first: null, oss: true }) {
     edges {
+      applicationState
       node {
         ...UserDigest
       }

@@ -725,6 +725,20 @@ export type GQLCampaignInput = {
   shortHash: Scalars['String']['input']
 }
 
+export type GQLCampaignParticipantConnection = GQLConnection & {
+  __typename?: 'CampaignParticipantConnection'
+  edges?: Maybe<Array<GQLCampaignParticipantEdge>>
+  pageInfo: GQLPageInfo
+  totalCount: Scalars['Int']['output']
+}
+
+export type GQLCampaignParticipantEdge = {
+  __typename?: 'CampaignParticipantEdge'
+  applicationState?: Maybe<GQLCampaignApplicationState>
+  cursor: Scalars['String']['output']
+  node: GQLUser
+}
+
 export type GQLCampaignParticipantsInput = {
   after?: InputMaybe<Scalars['String']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
@@ -737,6 +751,10 @@ export type GQLCampaignStage = {
   id: Scalars['ID']['output']
   name: Scalars['String']['output']
   period?: Maybe<GQLDatetimeRange>
+}
+
+export type GQLCampaignStageNameArgs = {
+  input?: InputMaybe<GQLTranslationArgs>
 }
 
 export type GQLCampaignStageInput = {
@@ -4209,7 +4227,7 @@ export type GQLWritingChallenge = GQLCampaign &
     id: Scalars['ID']['output']
     link: Scalars['String']['output']
     name: Scalars['String']['output']
-    participants: GQLUserConnection
+    participants: GQLCampaignParticipantConnection
     shortHash: Scalars['String']['output']
     stages: Array<GQLCampaignStage>
     state: GQLCampaignState
@@ -4419,6 +4437,9 @@ export type GQLResolversInterfaceTypes<
     | (Omit<GQLCampaignConnection, 'edges'> & {
         edges?: Maybe<Array<RefType['CampaignEdge']>>
       })
+    | (Omit<GQLCampaignParticipantConnection, 'edges'> & {
+        edges?: Maybe<Array<RefType['CampaignParticipantEdge']>>
+      })
     | (Omit<GQLCircleConnection, 'edges'> & {
         edges?: Maybe<Array<RefType['CircleEdge']>>
       })
@@ -4615,6 +4636,16 @@ export type GQLResolversTypes = ResolversObject<{
     Omit<GQLCampaignEdge, 'node'> & { node: GQLResolversTypes['Campaign'] }
   >
   CampaignInput: GQLCampaignInput
+  CampaignParticipantConnection: ResolverTypeWrapper<
+    Omit<GQLCampaignParticipantConnection, 'edges'> & {
+      edges?: Maybe<Array<GQLResolversTypes['CampaignParticipantEdge']>>
+    }
+  >
+  CampaignParticipantEdge: ResolverTypeWrapper<
+    Omit<GQLCampaignParticipantEdge, 'node'> & {
+      node: GQLResolversTypes['User']
+    }
+  >
   CampaignParticipantsInput: GQLCampaignParticipantsInput
   CampaignStage: ResolverTypeWrapper<CampaignStageModel>
   CampaignStageInput: GQLCampaignStageInput
@@ -5217,6 +5248,15 @@ export type GQLResolversParentTypes = ResolversObject<{
     node: GQLResolversParentTypes['Campaign']
   }
   CampaignInput: GQLCampaignInput
+  CampaignParticipantConnection: Omit<
+    GQLCampaignParticipantConnection,
+    'edges'
+  > & {
+    edges?: Maybe<Array<GQLResolversParentTypes['CampaignParticipantEdge']>>
+  }
+  CampaignParticipantEdge: Omit<GQLCampaignParticipantEdge, 'node'> & {
+    node: GQLResolversParentTypes['User']
+  }
   CampaignParticipantsInput: GQLCampaignParticipantsInput
   CampaignStage: CampaignStageModel
   CampaignStageInput: GQLCampaignStageInput
@@ -6400,12 +6440,45 @@ export type GQLCampaignEdgeResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }>
 
+export type GQLCampaignParticipantConnectionResolvers<
+  ContextType = Context,
+  ParentType extends GQLResolversParentTypes['CampaignParticipantConnection'] = GQLResolversParentTypes['CampaignParticipantConnection']
+> = ResolversObject<{
+  edges?: Resolver<
+    Maybe<Array<GQLResolversTypes['CampaignParticipantEdge']>>,
+    ParentType,
+    ContextType
+  >
+  pageInfo?: Resolver<GQLResolversTypes['PageInfo'], ParentType, ContextType>
+  totalCount?: Resolver<GQLResolversTypes['Int'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}>
+
+export type GQLCampaignParticipantEdgeResolvers<
+  ContextType = Context,
+  ParentType extends GQLResolversParentTypes['CampaignParticipantEdge'] = GQLResolversParentTypes['CampaignParticipantEdge']
+> = ResolversObject<{
+  applicationState?: Resolver<
+    Maybe<GQLResolversTypes['CampaignApplicationState']>,
+    ParentType,
+    ContextType
+  >
+  cursor?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>
+  node?: Resolver<GQLResolversTypes['User'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}>
+
 export type GQLCampaignStageResolvers<
   ContextType = Context,
   ParentType extends GQLResolversParentTypes['CampaignStage'] = GQLResolversParentTypes['CampaignStage']
 > = ResolversObject<{
   id?: Resolver<GQLResolversTypes['ID'], ParentType, ContextType>
-  name?: Resolver<GQLResolversTypes['String'], ParentType, ContextType>
+  name?: Resolver<
+    GQLResolversTypes['String'],
+    ParentType,
+    ContextType,
+    Partial<GQLCampaignStageNameArgs>
+  >
   period?: Resolver<
     Maybe<GQLResolversTypes['DatetimeRange']>,
     ParentType,
@@ -6864,6 +6937,7 @@ export type GQLConnectionResolvers<
     | 'ArticleConnection'
     | 'ArticleVersionsConnection'
     | 'CampaignConnection'
+    | 'CampaignParticipantConnection'
     | 'CircleConnection'
     | 'CollectionConnection'
     | 'CommentConnection'
@@ -9646,7 +9720,7 @@ export type GQLWritingChallengeResolvers<
     Partial<GQLWritingChallengeNameArgs>
   >
   participants?: Resolver<
-    GQLResolversTypes['UserConnection'],
+    GQLResolversTypes['CampaignParticipantConnection'],
     ParentType,
     ContextType,
     RequireFields<GQLWritingChallengeParticipantsArgs, 'input'>
@@ -9723,6 +9797,10 @@ export type GQLResolvers<ContextType = Context> = ResolversObject<{
   Campaign?: GQLCampaignResolvers<ContextType>
   CampaignConnection?: GQLCampaignConnectionResolvers<ContextType>
   CampaignEdge?: GQLCampaignEdgeResolvers<ContextType>
+  CampaignParticipantConnection?: GQLCampaignParticipantConnectionResolvers<
+    ContextType
+  >
+  CampaignParticipantEdge?: GQLCampaignParticipantEdgeResolvers<ContextType>
   CampaignStage?: GQLCampaignStageResolvers<ContextType>
   Circle?: GQLCircleResolvers<ContextType>
   CircleAnalytics?: GQLCircleAnalyticsResolvers<ContextType>

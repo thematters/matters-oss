@@ -13,6 +13,7 @@ import {
   GQLCampaignState,
   GQLDatetimeRange,
   GQLCampaignStage,
+  GQLCampaignApplicationState,
 } from './schema'
 
 export * from './schema'
@@ -190,7 +191,15 @@ export type CampaignDetail = CampaignDigest & {
   cover: string
   link: string
   stages: Array<CampaignStage>
-  participants: Connection<UserDigest>
+  participants: {
+    totalCount: number
+    pageInfo: GQLPageInfo
+    edges: {
+      cursor: string
+      node: UserDigest
+      applicationState: GQLCampaignApplicationState
+    }[]
+  }
   articles: Connection<ArticleDigest>
 }
 
