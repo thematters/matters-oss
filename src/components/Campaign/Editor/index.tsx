@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { Mutation } from 'react-apollo'
-import { Button, DatePicker, Input, message } from 'antd'
+import { Button, Input, message } from 'antd'
 import gql from 'graphql-tag'
-import moment from 'moment'
 
 import Uploader from './Uploader'
 import Section from '../../../components/DescriptionList'
@@ -59,6 +58,41 @@ const serializeDescription = (description: string) => {
   description = description.replace(/<p><\/p>/g, '<p><br class="smart"></p>')
 
   return description
+}
+
+function convertToUTC8(dateString: string) {
+  if (!dateString) {
+    return null
+  }
+
+  // Parse the date string and create a Date object in local time
+  const date = new Date(dateString)
+
+  // Get the time in UTC+8 by subtracting 8 hours (8 * 60 * 60 * 1000 milliseconds)
+  const utc8Date = new Date(date.getTime() - 8 * 60 * 60 * 1000)
+
+  // Convert the date to ISO 8601 format
+  const isoString = utc8Date.toISOString()
+
+  return isoString
+}
+
+function getUTC8Date(dateString: string) {
+  // Parse the input date string to a Date object
+  let date = new Date(dateString)
+
+  // Convert the date to UTC time by adding the timezone offset and UTC+8 hours
+  let utc8Offset = 8 * 60 // UTC+8 in minutes
+  let localOffset = date.getTimezoneOffset() // Local timezone offset in minutes
+  let offsetDifference = utc8Offset - localOffset
+  date.setMinutes(date.getMinutes() + offsetDifference)
+
+  // Get the day, month, and year from the adjusted date
+  let day = (date.getUTCDate() + '').padStart(2, '0')
+  let month = (date.getUTCMonth() + 1 + '').padStart(2, '0')
+  let year = date.getUTCFullYear()
+
+  return `${year}-${month}-${day}`
 }
 
 class CampaignEditor extends React.Component<DetailProps, DetailState> {
@@ -261,7 +295,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             </Section>
             <Divider size="large" />
 
-            <Section title="活動公告連結">
+            <Section title="活動公告連結" col={2}>
               <Section.Description term="">
                 <Input
                   value={link}
@@ -273,69 +307,89 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             </Section>
             <Divider size="large" />
 
-            <Section title="報名期" col={2}>
+            <Section title="報名期（東八區）" col={2}>
               <Section.Description term="開始">
-                <DatePicker
-                  value={
-                    moment(applicationPeriod?.start, 'YYYY-MM-DD') || undefined
+                <Input
+                  defaultValue={
+                    applicationPeriod?.start
+                      ? getUTC8Date(applicationPeriod.start)
+                      : ''
                   }
-                  onChange={(date, dateStr) => {
-                    this.setState({
-                      applicationPeriod: {
-                        ...applicationPeriod,
-                        start: dateStr,
-                      },
-                    })
+                  onChange={(e) => {
+                    try {
+                      this.setState({
+                        applicationPeriod: {
+                          ...applicationPeriod,
+                          start: convertToUTC8(e.target.value),
+                        },
+                      })
+                    } catch (e) {
+                      message.error('日期格式錯誤')
+                    }
                   }}
                 />
               </Section.Description>
               <Section.Description term="結束">
-                <DatePicker
-                  value={
-                    moment(applicationPeriod?.end, 'YYYY-MM-DD') || undefined
+                <Input
+                  defaultValue={
+                    applicationPeriod?.end
+                      ? getUTC8Date(applicationPeriod.end)
+                      : ''
                   }
-                  onChange={(date, dateStr) => {
-                    this.setState({
-                      applicationPeriod: {
-                        ...applicationPeriod,
-                        end: dateStr,
-                      },
-                    })
+                  onChange={(e) => {
+                    try {
+                      this.setState({
+                        applicationPeriod: {
+                          ...applicationPeriod,
+                          end: convertToUTC8(e.target.value),
+                        },
+                      })
+                    } catch (e) {
+                      message.error('日期格式錯誤')
+                    }
                   }}
                 />
               </Section.Description>
             </Section>
             <Divider size="large" />
 
-            <Section title="活動期" col={2}>
+            <Section title="活動期（東八區）" col={2}>
               <Section.Description term="開始">
-                <DatePicker
-                  value={
-                    moment(writingPeriod?.start, 'YYYY-MM-DD') || undefined
+                <Input
+                  defaultValue={
+                    writingPeriod?.start ? getUTC8Date(writingPeriod.start) : ''
                   }
-                  onChange={(date, dateStr) => {
-                    this.setState({
-                      writingPeriod: {
-                        ...writingPeriod,
-                        start: dateStr,
-                      },
-                    })
+                  onChange={(e) => {
+                    try {
+                      this.setState({
+                        writingPeriod: {
+                          ...writingPeriod,
+                          start: convertToUTC8(e.target.value),
+                        },
+                      })
+                    } catch (e) {
+                      message.error('日期格式錯誤')
+                    }
                   }}
                 />
               </Section.Description>
 
               <Section.Description term="結束">
-                <DatePicker
-                  value={
-                    moment(applicationPeriod?.end, 'YYYY-MM-DD') || undefined
+                <Input
+                  defaultValue={
+                    writingPeriod?.end ? getUTC8Date(writingPeriod.end) : ''
                   }
-                  onChange={(date, dateStr) => {
-                    this.setState({
-                      writingPeriod: {
-                        ...writingPeriod,
-                        end: dateStr,
-                      },
-                    })
+                  onChange={(e) => {
+                    try {
+                      this.setState({
+                        writingPeriod: {
+                          ...writingPeriod,
+                          end: convertToUTC8(e.target.value),
+                        },
+                      })
+                    } catch (e) {
+                      message.error('日期格式錯誤')
+                    }
                   }}
                 />
               </Section.Description>

@@ -15,6 +15,7 @@ import withCampaignDetail, {
 import { PATH, SITE_DOMIAN } from '../../constants'
 import ArticleDigestList from '../../components/Article/DigestList'
 import LevelTag, { LevelEnum } from '../../components/LevelTag'
+import { Link } from 'react-router-dom'
 
 const { Description } = DescriptionList
 
@@ -23,7 +24,6 @@ const sharedStyles = {
   alignItems: 'center',
   justifyContent: 'center',
 
-  width: '100%',
   height: '60px',
   borderRadius: '1rem',
   background: 'rgba(0, 0, 0, 0.02)',
@@ -136,10 +136,10 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
           </Description>
 
           <Description term="活動">
-            <Button
-              href={PATH.CAMPAIGN_EDIT.replace(':id', campaign.shortHash)}
-            >
-              編輯活動
+            <Button>
+              <Link to={PATH.CAMPAIGN_EDIT.replace(':id', campaign.shortHash)}>
+                編輯活動
+              </Link>
             </Button>
           </Description>
         </DescriptionList>
