@@ -10,6 +10,10 @@ import {
   GQLLiker,
   GQLIcymiTopic,
   GQLUserRestrictionType,
+  GQLCampaignState,
+  GQLDatetimeRange,
+  GQLCampaignStage,
+  GQLCampaignApplicationState,
 } from './schema'
 
 export * from './schema'
@@ -157,6 +161,46 @@ export type CommentDigest = {
 }
 
 export type CommentDetail = CommentDigest
+
+/**
+ * Campaign: Writing Challenge
+ */
+export type CampaignDigest = {
+  id: string
+  shortHash: string
+  name: string
+  nameEn: string
+  nameZhHans: string
+  state: GQLCampaignState
+  applicationPeriod: GQLDatetimeRange
+  writingPeriod: GQLDatetimeRange
+}
+
+type CampaignStage = {
+  name: string
+  nameEn: string
+  nameZhHans: string
+  period?: GQLDatetimeRange
+}
+
+export type CampaignDetail = CampaignDigest & {
+  description: string
+  descriptionEn: string
+  descriptionZhHans: string
+  cover: string
+  link: string
+  stages: Array<CampaignStage>
+  participants: {
+    totalCount: number
+    pageInfo: GQLPageInfo
+    edges: {
+      cursor: string
+      node: UserDigest
+      applicationState: GQLCampaignApplicationState
+    }[]
+  }
+  articles: Connection<ArticleDigest>
+}
 
 /**
  * Report

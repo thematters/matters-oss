@@ -66,8 +66,6 @@ class ReportDigestList extends React.Component<
   }
 
   private _renderStateCell(_: any, record: ReportDigest): React.ReactNode {
-    console.log(record.target, 'title' in record.target)
-
     return 'title' in record.target ? (
       <ArticleSetState state={record.target.state} id={record.target.id} />
     ) : (

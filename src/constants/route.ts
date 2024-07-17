@@ -22,6 +22,10 @@ export const PATH = {
   COMMENT_LIST: '/comments',
   COMMENT_DETAIL: '/comments/:id',
 
+  CAMPAIGN_LIST: '/campaigns',
+  CAMPAIGN_DETAIL: '/campaigns/:id',
+  CAMPAIGN_EDIT: '/campaigns/:id/edit',
+
   REPORT_LIST: '/reports',
 
   OAUTH_CLIENT_LIST: '/oauth-clients',
@@ -65,6 +69,10 @@ export const PAGE_TITLE = {
 
   [PATH.COMMENT_LIST]: '評論清單',
   [PATH.COMMENT_DETAIL]: '評論詳情',
+
+  [PATH.CAMPAIGN_LIST]: '自由寫清單',
+  [PATH.CAMPAIGN_DETAIL]: '自由寫詳情',
+  [PATH.CAMPAIGN_EDIT]: '編輯自由寫',
 
   [PATH.REPORT_LIST]: '報告清單',
 

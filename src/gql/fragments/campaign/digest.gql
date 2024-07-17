@@ -1,0 +1,18 @@
+fragment CampaignDigest on WritingChallenge {
+  id
+  name(input: { language: zh_hant })
+  nameEn: name(input: { language: en })
+  nameZhHans: name(input: { language: zh_hans })
+  shortHash
+  state
+  applicationPeriod {
+    start
+    end
+  }
+  writingPeriod {
+    start
+    end
+  }
+}
+
+

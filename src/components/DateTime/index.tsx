@@ -30,6 +30,10 @@ class DateTime extends React.Component<DateTimeProps> {
   render() {
     const { date, ...props } = this.props
 
+    if (!date) {
+      return <span>無</span>
+    }
+
     return (
       <span>
         {timeFormat.en.render(new Date(date))} (
