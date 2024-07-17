@@ -127,10 +127,13 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
         descriptionZhHans,
         writingPeriod,
         applicationPeriod,
+        state,
         coverId,
         link,
         stages,
       } = this.state
+
+      const isPending = state === 'pending'
 
       await putCampaign({
         variables: {
@@ -184,21 +187,25 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
               },
             ].filter(({ text }) => !!text),
             link,
-            stages: stages.map((stage) => ({
-              name: [
-                { language: 'zh_hant', text: stage.name },
-                { language: 'en', text: stage.nameEn },
-                { language: 'zh_hans', text: stage.nameZhHans },
-              ].filter(({ text }) => !!text),
-              ...(stage.period?.start
-                ? {
-                    period: {
-                      start: stage.period.start,
-                      end: stage.period.end || null,
-                    },
-                  }
-                : {}),
-            })),
+            ...(isPending
+              ? {
+                  stages: stages.map((stage) => ({
+                    name: [
+                      { language: 'zh_hant', text: stage.name },
+                      { language: 'en', text: stage.nameEn },
+                      { language: 'zh_hans', text: stage.nameZhHans },
+                    ].filter(({ text }) => !!text),
+                    ...(stage.period?.start
+                      ? {
+                          period: {
+                            start: stage.period.start,
+                            end: stage.period.end || null,
+                          },
+                        }
+                      : {}),
+                  })),
+                }
+              : {}),
           },
         },
       })
@@ -238,8 +245,11 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
       applicationPeriod,
       writingPeriod,
       stages,
+      state,
       loading,
     } = this.state
+
+    const isPending = state === 'pending'
 
     return (
       <Mutation mutation={PUT_CAMPAIGN}>
@@ -427,11 +437,12 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             </Section>
             <Divider size="large" />
 
-            <Section title="投稿選項" col={1}>
+            <Section title="投稿選項（上线活動後，投稿選項無法修改）" col={1}>
               {stages.map((stage, index) => (
                 <section>
                   <Section.Description term="名稱">
                     <Input
+                      disabled={!isPending}
                       defaultValue={stage.name}
                       onChange={(e) => {
                         this.setState({
@@ -450,6 +461,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
 
                   <Section.Description term="名稱（英文）">
                     <Input
+                      disabled={!isPending}
                       defaultValue={stage.nameEn}
                       onChange={(e) => {
                         this.setState({
@@ -468,6 +480,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
 
                   <Section.Description term="名稱（簡體）">
                     <Input
+                      disabled={!isPending}
                       defaultValue={stage.nameZhHans}
                       onChange={(e) => {
                         this.setState({
@@ -486,6 +499,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
 
                   <Section.Description term="開始">
                     <Input
+                      disabled={!isPending}
                       defaultValue={
                         stage?.period?.start
                           ? getUTC8Date(stage.period.start)
@@ -515,6 +529,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
 
                   <Section.Description term="結束">
                     <Input
+                      disabled={!isPending}
                       defaultValue={
                         stage?.period?.end ? getUTC8Date(stage.period.end) : ''
                       }
@@ -543,6 +558,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
 
                   <Section.Description term="">
                     <Button
+                      disabled={!isPending}
                       type="danger"
                       onClick={() => {
                         this.setState({
@@ -561,6 +577,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
               <section>
                 <Section.Description term="">
                   <Button
+                    disabled={!isPending}
                     onClick={() => {
                       this.setState({
                         stages: stages.concat({
