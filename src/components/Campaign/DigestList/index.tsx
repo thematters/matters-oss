@@ -111,24 +111,24 @@ class CampaignDigestList extends React.Component<
           />
 
           <Table.Column<CampaignDigest>
+            dataIndex="state"
+            title="狀態"
+            width={150}
+            render={this._renderStateCell}
+          />
+
+          <Table.Column<CampaignDigest>
             dataIndex="applicationPeriod"
             title="報名期"
-            width={250}
+            width={200}
             render={this._renderApplicationPeriod}
           />
 
           <Table.Column<CampaignDigest>
             dataIndex="writingPeriod"
             title="活動期"
-            width={250}
+            width={200}
             render={this._renderWritingPeriod}
-          />
-
-          <Table.Column<CampaignDigest>
-            dataIndex="state"
-            title="狀態"
-            width={150}
-            render={this._renderStateCell}
           />
         </Table>
       </>
