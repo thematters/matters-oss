@@ -62,12 +62,12 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
 
         <DescriptionList size="large" title="簡介" col={2}>
           <Description term="報名期">
-            <DateTime date={campaign.applicationPeriod?.start} /> ~{' '}
-            <DateTime date={campaign.applicationPeriod?.end} />
+            <DateTime date={campaign.applicationPeriod?.start} dateOnly /> ~{' '}
+            <DateTime date={campaign.applicationPeriod?.end} dateOnly />
           </Description>
           <Description term="活動期">
-            <DateTime date={campaign.writingPeriod?.start} /> ~{' '}
-            <DateTime date={campaign.writingPeriod?.end} />
+            <DateTime date={campaign.writingPeriod?.start} dateOnly /> ~{' '}
+            <DateTime date={campaign.writingPeriod?.end} dateOnly />
           </Description>
 
           <Description term="活動公告">
@@ -100,8 +100,8 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
               <LevelTag level={LevelEnum.NULL}>{s.nameZhHans}（簡）</LevelTag>
               {s.period ? (
                 <>
-                  <DateTime date={s.period?.start} /> ~{' '}
-                  {s.period?.end && <DateTime date={s.period?.end} />}
+                  <DateTime date={s.period?.start} dateOnly /> ~{' '}
+                  {s.period?.end && <DateTime date={s.period?.end} dateOnly />}
                 </>
               ) : null}
             </Description>

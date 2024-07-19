@@ -1,52 +1,35 @@
 import * as React from 'react'
-import TimeAgo from 'react-timeago'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 
-import { timeFormat } from '../../utils'
+dayjs.extend(utc)
+dayjs.extend(timezone)
+const tz = 'Asia/Hong_Kong'
 
 type DateTimeProps = {
   date: Date
+  dateOnly?: boolean
 }
 
-const formatter = (
-  value: number,
-  unit: 'second' | 'minute' | 'hour' | 'day' | 'week' | 'month' | 'year',
-  suffix: string
-) => {
-  if (unit === 'second') return '剛剛'
-
-  const formattedUnit = {
-    minute: '分鐘',
-    hour: '小時',
-    day: '日',
-    week: '週',
-    month: '月',
-    year: '年',
-  }[unit]
-
-  return `${value} ${formattedUnit}${suffix === 'ago' ? '前' : '後'}`
-}
-
-class DateTime extends React.Component<DateTimeProps> {
-  render() {
-    const { date, ...props } = this.props
-
-    if (!date) {
-      return <span>無</span>
-    }
-
-    return (
-      <span>
-        {timeFormat.en.render(new Date(date))} (
-        <TimeAgo
-          date={date}
-          formatter={formatter}
-          title={timeFormat.zh.render(new Date(date))}
-          {...props}
-        />
-        )
-      </span>
-    )
+const DateTime: React.FC<DateTimeProps> = ({ date, dateOnly }) => {
+  if (!date) {
+    return <span>無</span>
   }
+
+  const isThisYear = dayjs(date).isSame(new Date(), 'year')
+
+  if (isThisYear) {
+    if (dateOnly) {
+      return <span>{dayjs(date).tz(tz).format('MM-DD Z')}</span>
+    }
+    return <span>{dayjs(date).tz(tz).format('MM-DD HH:mm Z')}</span>
+  }
+
+  if (dateOnly) {
+    return <span>{dayjs(date).tz(tz).format('YYYY-MM-DD Z')}</span>
+  }
+  return <span>{dayjs(date).tz(tz).format('YYYY-MM-DD HH:mm Z')}</span>
 }
 
 export default DateTime
