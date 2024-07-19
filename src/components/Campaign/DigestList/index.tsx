@@ -70,10 +70,10 @@ class CampaignDigestList extends React.Component<
     const { start, end } = record.writingPeriod || {}
     return (
       <>
-        <DateTime date={start} />
+        <DateTime date={start} dateOnly />
         {' ~ '}
         <br />
-        {end && <DateTime date={end} />}
+        {end && <DateTime date={end} dateOnly />}
       </>
     )
   }
