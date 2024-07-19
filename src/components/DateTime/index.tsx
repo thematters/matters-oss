@@ -21,15 +21,15 @@ const DateTime: React.FC<DateTimeProps> = ({ date, dateOnly }) => {
 
   if (isThisYear) {
     if (dateOnly) {
-      return <span>{dayjs(date).tz(tz).format('MM-DD Z')}</span>
+      return <span>{dayjs(date).tz(tz).format('MM-DD UTC+8')}</span>
     }
-    return <span>{dayjs(date).tz(tz).format('MM-DD HH:mm Z')}</span>
+    return <span>{dayjs(date).tz(tz).format('MM-DD HH:mm UTC+8')}</span>
   }
 
   if (dateOnly) {
-    return <span>{dayjs(date).tz(tz).format('YYYY-MM-DD Z')}</span>
+    return <span>{dayjs(date).tz(tz).format('YYYY-MM-DD UTC+8')}</span>
   }
-  return <span>{dayjs(date).tz(tz).format('YYYY-MM-DD HH:mm Z')}</span>
+  return <span>{dayjs(date).tz(tz).format('YYYY-MM-DD HH:mm UTC+8')}</span>
 }
 
 export default DateTime
