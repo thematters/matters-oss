@@ -61,7 +61,7 @@ const serializeDescription = (description: string) => {
   return description
 }
 
-function convertToUTC8(dateString: string) {
+function convertToUTC8(dateString: string, endOfDay = false) {
   if (!dateString) {
     return null
   }
@@ -73,23 +73,21 @@ function convertToUTC8(dateString: string) {
   const date = new Date(dateString)
 
   // Get the time in UTC+8 by subtracting 8 hours (8 * 60 * 60 * 1000 milliseconds)
-  const utc8Date = new Date(date.getTime() - 8 * 60 * 60 * 1000)
+  let utc8Date = new Date(date.getTime() - 8 * 60 * 60 * 1000)
+  if (endOfDay) {
+    // Set the time to 23:59:59
+    utc8Date = new Date(date.getTime() - 8 * 60 * 60 * 1000 - 1)
+  }
 
   // Convert the date to ISO 8601 format
   const isoString = utc8Date.toISOString()
 
-  console.log({ dateString, isoString })
   return isoString
 }
 
 function toDisplayDate(dateString: string) {
   const tzOffsetFromLocal = new Date().getTimezoneOffset() / 60
   const tzOffsetFromUTC8 = -8 // Asia/Hong_Kong
-
-  console.log({
-    dateString,
-    m: moment(dateString).add(tzOffsetFromLocal - tzOffsetFromUTC8, 'hours'),
-  })
 
   return moment(dateString).add(tzOffsetFromLocal - tzOffsetFromUTC8, 'hours')
 }
@@ -378,7 +376,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                     this.setState({
                       applicationPeriod: {
                         ...applicationPeriod,
-                        end: convertToUTC8(dateStr),
+                        end: convertToUTC8(dateStr, true),
                       },
                     })
                   }}
@@ -417,7 +415,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                     this.setState({
                       writingPeriod: {
                         ...writingPeriod,
-                        end: convertToUTC8(dateStr),
+                        end: convertToUTC8(dateStr, true),
                       },
                     })
                   }}
@@ -531,7 +529,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                               period: {
                                 ...stage.period,
                                 start: stage.period?.start,
-                                end: convertToUTC8(dateStr),
+                                end: convertToUTC8(dateStr, true),
                               },
                             },
                             ...stages.slice(index + 1),
