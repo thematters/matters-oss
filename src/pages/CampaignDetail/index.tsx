@@ -150,7 +150,7 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
             <CampaignUserDigestList
               campaignId={campaign.id}
               data={campaign.participants.edges.map(
-                ({ node, applicationState }) => ({ node, applicationState })
+                ({ node, application }) => ({ node, application })
               )}
             />
           </Col>

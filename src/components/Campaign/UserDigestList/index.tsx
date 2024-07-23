@@ -4,12 +4,13 @@ import _compact from 'lodash/compact'
 
 import UserLink from '../../User/Link'
 
-import { GQLCampaignApplicationState, UserDigest } from '../../../definitions'
+import { GQLCampaignApplication, UserDigest } from '../../../definitions'
 import { onPaginationChange, getCurrentPaginationFromUrl } from '../../../utils'
 import { PAGE_SIZE } from '../../../constants'
 import SetApplicationState from '../SetApplicationState'
+import DateTime from '../../DateTime'
 
-type Datum = { node: UserDigest; applicationState: GQLCampaignApplicationState }
+type Datum = { node: UserDigest; application: GQLCampaignApplication }
 
 type CampaignUserDigestListProps = {
   campaignId: string
@@ -68,15 +69,26 @@ class CampaignUserDigestList extends React.Component<
         />
 
         <Table.Column<Datum>
-          dataIndex="applicationState"
+          dataIndex="application.state"
           title="申請狀態"
           width={100}
           render={(_: any, record: Datum) => (
             <SetApplicationState
               user={record.node.id}
               campaign={this.props.campaignId}
-              applicationState={record.applicationState}
+              applicationState={record.application.state}
             />
+          )}
+        />
+
+        <Table.Column<Datum>
+          dataIndex="application.createdAt"
+          title="申請時間"
+          width={100}
+          render={(_: any, record: Datum) => (
+            <span>
+              <DateTime date={record.application.createdAt} />
+            </span>
           )}
         />
       </Table>

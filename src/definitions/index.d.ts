@@ -14,6 +14,7 @@ import {
   GQLDatetimeRange,
   GQLCampaignStage,
   GQLCampaignApplicationState,
+  GQLCampaignApplication,
 } from './schema'
 
 export * from './schema'
@@ -196,7 +197,7 @@ export type CampaignDetail = CampaignDigest & {
     edges: {
       cursor: string
       node: UserDigest
-      applicationState: GQLCampaignApplicationState
+      application: GQLCampaignApplication
     }[]
   }
   articles: Connection<ArticleDigest>
