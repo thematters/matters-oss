@@ -511,7 +511,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                     />
                   </Section.Description>
 
-                  <Section.Description term="結束">
+                  {/* <Section.Description term="結束">
                     <DatePicker
                       disabled={!isPending}
                       value={
@@ -537,7 +537,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                         })
                       }}
                     />
-                  </Section.Description>
+                  </Section.Description> */}
 
                   <Section.Description term="">
                     <Button

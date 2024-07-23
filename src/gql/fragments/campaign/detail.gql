@@ -23,7 +23,10 @@ fragment CampaignDetail on WritingChallenge {
   }
   participants(input: { first: null, oss: true }) {
     edges {
-      applicationState
+      application {
+        state
+        createdAt
+      }
       node {
         ...UserDigest
       }
