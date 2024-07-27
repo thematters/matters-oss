@@ -1,0 +1,13 @@
+#import "../fragments/connection.gql"
+#import "../fragments/campaign/digest.gql"
+
+query OSSCampaignList($first: Int, $after: String) {
+  campaigns(input: { first: $first, after: $after, oss: true }) {
+    ...ConnectionInfo
+    edges {
+      node {
+        ...CampaignDigest
+      }
+    }
+  }
+}
