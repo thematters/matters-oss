@@ -2,8 +2,16 @@ import { graphql, ChildDataProps, compose } from 'react-apollo'
 import { RouteComponentProps } from 'react-router-dom'
 
 import { PAGE_SIZE } from '../../constants'
-import { ArticleDigest, GQLConnectionArgs, Connection } from '../../definitions'
-import { getSearchKey, getCurrentPaginationFromUrl } from '../../utils'
+import {
+  ArticleDigest,
+  GQLOSSArticlesInput,
+  Connection,
+} from '../../definitions'
+import {
+  getSearchKey,
+  getFilterSpamKey,
+  getCurrentPaginationFromUrl,
+} from '../../utils'
 import searchArticles, {
   SearchArticlesChildProps,
 } from '../../hocs/withSearchArticles'
@@ -16,7 +24,7 @@ type AllArticlesResponse = {
 }
 type AllArticlesInputProps = RouteComponentProps
 type AllArticlesVariables = {
-  input: GQLConnectionArgs
+  input: GQLOSSArticlesInput
 }
 type AllArticlesChildProps = ChildDataProps<
   AllArticlesInputProps,
@@ -36,12 +44,16 @@ const allArticles = graphql<
   // name: 'allArticles',
   options: (props) => {
     const currentPagination = getCurrentPaginationFromUrl()
+    const filterSpam = getFilterSpamKey()
     return {
       notifyOnNetworkStatusChange: true,
       variables: {
         input: {
           first: PAGE_SIZE,
           after: currentPagination && currentPagination.after,
+          filter: {
+            isSpam: filterSpam,
+          },
         },
       },
     }
