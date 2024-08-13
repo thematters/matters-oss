@@ -10,4 +10,5 @@ export const USER_BADGES: {
   nomad2: { text: '流星號', color: '#066320' },
   nomad3: { text: '光輪號', color: '#5b0707' },
   nomad4: { text: '火閃電', color: '#bf9604' },
+  grand_slam: { text: '大滿貫', color: '#ffA500' },
 }
