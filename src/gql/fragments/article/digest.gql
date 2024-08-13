@@ -15,4 +15,10 @@ fragment ArticleDigest on Article {
   tags {
     ...TagId
   }
+  oss {
+    spamStatus {
+      score
+      isSpam
+    }
+  }
 }

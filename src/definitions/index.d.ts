@@ -125,6 +125,10 @@ export type ArticleDigest = {
     inRecommendHottest: boolean
     inRecommendNewest: boolean
     inSearch: boolean
+    spamStatus: {
+      score: number | null
+      isSpam: boolean | null
+    }
   }
 }
 
