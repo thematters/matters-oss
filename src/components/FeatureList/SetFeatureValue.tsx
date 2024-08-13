@@ -2,17 +2,20 @@ import * as React from 'react'
 import { InputNumber, Button } from 'antd'
 
 import ErrorMessage from '../ErrorMessage'
-import withSetBoost, { ChildProps } from './withSetBoost'
+import withSetFeature, { ChildProps } from './withSetFeature'
 
-type SetBoostState = {
-  boost: number
+type SetFeatureValueState = {
+  value: number | null
   loading: boolean
   error: any
 }
 
-class SetBoost extends React.Component<ChildProps, SetBoostState> {
-  state: Readonly<SetBoostState> = {
-    boost: this.props.boost,
+class SetFeatureValue extends React.Component<
+  ChildProps,
+  SetFeatureValueState
+> {
+  state: Readonly<SetFeatureValueState> = {
+    value: this.props.value,
     loading: false,
     error: null,
   }
@@ -20,15 +23,15 @@ class SetBoost extends React.Component<ChildProps, SetBoostState> {
   private _onSubmit = async () => {
     this.setState({ loading: true, error: null })
 
-    const { mutate, id, type } = this.props
+    const { mutate, name, enabled } = this.props
 
     try {
       await mutate({
         variables: {
           input: {
-            id,
-            boost: this.state.boost,
-            type,
+            value: this.state.value,
+            flag: enabled ? 'on' : 'off',
+            name,
           },
         },
       })
@@ -42,12 +45,12 @@ class SetBoost extends React.Component<ChildProps, SetBoostState> {
     if (!value || Number.isNaN(value)) {
       return
     }
-    this.setState({ boost: value })
+    this.setState({ value })
   }
 
   public render() {
-    const { boost, loading, error } = this.state
-    const boostChanged = this.props.boost !== boost
+    const { value, loading, error } = this.state
+    const valueChanged = this.props.value !== value
 
     if (error) {
       return <ErrorMessage error={error} />
@@ -57,8 +60,9 @@ class SetBoost extends React.Component<ChildProps, SetBoostState> {
       <span>
         <InputNumber
           onChange={this._onChange}
-          value={boost}
+          value={value || 1}
           min={0}
+          max={1}
           step={0.01}
           type="number"
           size="small"
@@ -69,12 +73,12 @@ class SetBoost extends React.Component<ChildProps, SetBoostState> {
           type="primary"
           size="small"
           loading={loading}
-          disabled={!boostChanged}
+          disabled={!valueChanged}
           style={{
             margin: '4px',
             verticalAlign: 'middle',
             fontSize: 12,
-            opacity: boostChanged ? 1 : 0,
+            opacity: valueChanged ? 1 : 0,
           }}
         >
           確認
@@ -84,4 +88,4 @@ class SetBoost extends React.Component<ChildProps, SetBoostState> {
   }
 }
 
-export default withSetBoost(SetBoost)
+export default withSetFeature(SetFeatureValue)
