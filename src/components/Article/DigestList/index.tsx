@@ -38,7 +38,7 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
 
   private _renderScore(score: number | null): React.ReactNode {
     if (score === null) {
-      return 'N/A'
+      return '計算中'
     }
     return score.toFixed(3)
   }

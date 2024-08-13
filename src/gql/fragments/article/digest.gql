@@ -16,6 +16,12 @@ fragment ArticleDigest on Article {
     ...TagId
   }
   oss {
+    boost
+    score
+    inRecommendIcymi
+    inRecommendHottest
+    inRecommendNewest
+    inSearch
     spamStatus {
       score
       isSpam

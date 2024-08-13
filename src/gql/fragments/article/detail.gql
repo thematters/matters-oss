@@ -47,12 +47,4 @@ fragment ArticleDetail on Article {
       }
     }
   }
-  oss {
-    boost
-    score
-    inRecommendIcymi
-    inRecommendHottest
-    inRecommendNewest
-    inSearch
-  }
 }
