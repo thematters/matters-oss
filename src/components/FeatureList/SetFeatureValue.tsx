@@ -63,7 +63,7 @@ class SetFeatureValue extends React.Component<
           value={value || 1}
           min={0}
           max={1}
-          step={0.01}
+          step={0.001}
           type="number"
           size="small"
           style={{ margin: '4px', verticalAlign: 'middle' }}
