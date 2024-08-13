@@ -1,5 +1,4 @@
 import * as React from 'react'
-import _get from 'lodash/get'
 
 import ErrorMessage from '../../components/ErrorMessage'
 import BadgedUserDigestList from '../../components/BadgedUser/DigestList'
@@ -8,7 +7,7 @@ import withBadgedUserList, { BadgedUsersChildProps } from './withBadgedUserList'
 import { UserDigest } from '../../definitions'
 
 class BadgedUserList extends React.Component<BadgedUsersChildProps> {
-  private _renderContent() {
+  public render() {
     const {
       data: { oss, loading, error, fetchMore, variables },
     } = this.props
@@ -31,10 +30,6 @@ class BadgedUserList extends React.Component<BadgedUsersChildProps> {
         pagination={{ totalCount, fetchMore, variables }}
       />
     )
-  }
-
-  public render() {
-    return <>{this._renderContent()}</>
   }
 }
 
