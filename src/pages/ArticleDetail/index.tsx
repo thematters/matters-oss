@@ -16,6 +16,7 @@ import withArticleDetail, { ArticleDetailChildProps } from './withArticleDetail'
 import { SITE_DOMIAN } from '../../constants'
 import CommentDigestList from '../../components/Comment/DigestList'
 import ToggleRecommend from '../../components/Article/ToggleRecommend'
+import MarkSpam from '../../components/Article/MarkSpam'
 import SetBoost from '../../components/SetBoost'
 import ToggleSensitive from '../../components/Article/ToggleSensitive'
 
@@ -136,6 +137,17 @@ class ArticleDetail extends React.Component<ArticleDetailChildProps> {
 
           <Description term="狀態">
             <ArticleSetState state={article.state} id={article.id} />
+          </Description>
+
+          <Description term="垃圾文概率">
+            {article.oss.spamStatus.score?.toFixed(3) ?? '計算中'}
+          </Description>
+
+          <Description term="標記垃圾文">
+            <MarkSpam
+              articleId={article.id}
+              isSpam={article.oss.spamStatus.isSpam}
+            />
           </Description>
         </DescriptionList>
         <Divider size="large" />

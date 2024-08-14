@@ -7,6 +7,7 @@ export const nameMap = {
   tag_adoption: '標籤認領',
   circle_management: '圍爐管理',
   circle_interact: '圍爐交互',
+  spam_detection: '垃圾文過濾',
 }
 
 export const explanationMap = {
@@ -19,4 +20,6 @@ export const explanationMap = {
   tag_adoption: '用戶可以認領無人主理的標籤',
   circle_management: '用戶可以使用圍爐搭建、管理功能',
   circle_interact: '用戶可以於圍爐追蹤、訂閱、發布眾聊等',
+  spam_detection:
+    '垃圾文將不會出現在各文章列表中。文章垃圾文概率大於右邊值將自動判定為垃圾文， 可通過標記幹預文章是否為垃圾文。',
 }

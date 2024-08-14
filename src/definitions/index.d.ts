@@ -124,6 +124,10 @@ export type ArticleDigest = {
     inRecommendHottest: boolean
     inRecommendNewest: boolean
     inSearch: boolean
+    spamStatus: {
+      score: number | null
+      isSpam: boolean | null
+    }
   }
 }
 
@@ -265,10 +269,12 @@ export type FeatureName =
   | 'add_credit'
   | 'payment'
   | 'tag_adoption'
+  | 'spam_detection'
 
 export interface FeatureFlagItem {
   name: FeatureName
   enabled: boolean
+  value: number | null
 }
 
 /**

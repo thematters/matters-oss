@@ -15,4 +15,16 @@ fragment ArticleDigest on Article {
   tags {
     ...TagId
   }
+  oss {
+    boost
+    score
+    inRecommendIcymi
+    inRecommendHottest
+    inRecommendNewest
+    inSearch
+    spamStatus {
+      score
+      isSpam
+    }
+  }
 }
