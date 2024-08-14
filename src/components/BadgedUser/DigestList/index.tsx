@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Table } from 'antd'
-import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 import { Tag } from 'antd'
 

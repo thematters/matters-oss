@@ -12,8 +12,6 @@ import {
   GQLUserRestrictionType,
   GQLCampaignState,
   GQLDatetimeRange,
-  GQLCampaignStage,
-  GQLCampaignApplicationState,
   GQLCampaignApplication,
 } from './schema'
 
@@ -30,6 +28,7 @@ export type USER_BADGE_TYPES =
   | 'nomad2'
   | 'nomad3'
   | 'nomad4'
+  | 'grand_slam'
 
 export type UserDigest = {
   id: string

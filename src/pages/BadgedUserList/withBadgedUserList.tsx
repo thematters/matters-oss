@@ -1,4 +1,4 @@
-import { graphql, ChildDataProps, compose } from 'react-apollo'
+import { graphql, ChildDataProps } from 'react-apollo'
 import { RouteComponentProps } from 'react-router-dom'
 
 import { PAGE_SIZE } from '../../constants'
