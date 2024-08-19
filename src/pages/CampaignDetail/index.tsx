@@ -74,12 +74,6 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
             <DateTime date={campaign.writingPeriod?.end} dateOnly />
           </Description>
 
-          <Description term="活動公告">
-            <a href={campaign.link} target="_blank" rel="noreferrer">
-              {campaign.link}
-            </a>
-          </Description>
-
           <Description term="站內連結">
             <a
               href={`${SITE_DOMIAN}/e/${campaign.shortHash}`}
@@ -98,16 +92,28 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
             <Cover cover={campaign.cover} />
           </Description>
         </DescriptionList>
+
+        <DescriptionList size="large" title="活動公告">
+          <Description term="规则公告連結">
+            <a href={campaign.link} target="_blank" rel="noreferrer">
+              {campaign.link}
+            </a>
+          </Description>
+
+          <Col span={24} style={{ marginBottom: 16 }}>
+            <ArticleDigestList data={campaign.announcements} />
+          </Col>
+        </DescriptionList>
         <Divider size="large" />
 
         <DescriptionList size="large" title="投稿選項" col={1}>
           <Table bordered dataSource={campaign.stages}>
             <ColumnGroup title="繁">
-              <Column title="名稱" dataIndex="name" key="name" width="5" />
+              <Column title="名稱" dataIndex="name" key="name" />
               <Column title="簡介" dataIndex="description" key="description" />
             </ColumnGroup>
             <ColumnGroup title="英">
-              <Column title="名稱" dataIndex="nameEn" key="nameEn" width="5" />
+              <Column title="名稱" dataIndex="nameEn" key="nameEn" />
               <Column
                 title="簡介"
                 dataIndex="descriptionEn"
@@ -115,12 +121,7 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
               />
             </ColumnGroup>
             <ColumnGroup title="簡">
-              <Column
-                title="名稱"
-                dataIndex="nameZhHans"
-                key="nameZhHans"
-                width="5"
-              />
+              <Column title="名稱" dataIndex="nameZhHans" key="nameZhHans" />
               <Column
                 title="簡介"
                 dataIndex="descriptionZhHans"

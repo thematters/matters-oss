@@ -21,6 +21,9 @@ fragment CampaignDetail on WritingChallenge {
       end
     }
   }
+  announcements {
+    ...ArticleDigest
+  }
   participants(input: { first: null, oss: true }) {
     edges {
       application {

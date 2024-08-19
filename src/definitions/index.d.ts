@@ -203,6 +203,7 @@ export type CampaignDetail = CampaignDigest & {
       application: GQLCampaignApplication
     }[]
   }
+  announcements: Array<ArticleDigest>
   articles: Connection<ArticleDigest>
 }
 
