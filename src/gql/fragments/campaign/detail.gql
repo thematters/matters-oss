@@ -6,9 +6,6 @@
 fragment CampaignDetail on WritingChallenge {
   id
   ...CampaignDigest
-  description(input: { language: zh_hant })
-  descriptionEn: description(input: { language: en })
-  descriptionZhHans: description(input: { language: zh_hans })
   cover
   link
   stages {
@@ -16,6 +13,9 @@ fragment CampaignDetail on WritingChallenge {
     name(input: { language: zh_hant })
     nameEn: name(input: { language: en })
     nameZhHans: name(input: { language: zh_hans })
+    description(input: { language: zh_hant })
+    descriptionEn: description(input: { language: en })
+    descriptionZhHans: description(input: { language: zh_hans })
     period {
       start
       end

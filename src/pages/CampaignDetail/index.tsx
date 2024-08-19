@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Col, Skeleton, Empty, Button } from 'antd'
+import { Col, Skeleton, Empty, Button, Table } from 'antd'
 
 import ErrorMessage from '../../components/ErrorMessage'
 import Divider from '../../components/Divider'
@@ -14,10 +14,10 @@ import withCampaignDetail, {
 } from './withCampaignDetail'
 import { PATH, SITE_DOMIAN } from '../../constants'
 import ArticleDigestList from '../../components/Article/DigestList'
-import LevelTag, { LevelEnum } from '../../components/LevelTag'
 import { Link } from 'react-router-dom'
 
 const { Description } = DescriptionList
+const { Column, ColumnGroup } = Table
 
 const sharedStyles = {
   display: 'flex',
@@ -31,7 +31,11 @@ const sharedStyles = {
 }
 
 const Cover = ({ cover }: { cover?: string }) => {
-  return cover ? <img src={cover} style={sharedStyles} /> : <div>無</div>
+  return cover ? (
+    <img src={cover} style={sharedStyles} alt="cover" />
+  ) : (
+    <div>無</div>
+  )
 }
 
 class CampaignDetail extends React.Component<CampaignDetailChildProps> {
@@ -71,13 +75,17 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
           </Description>
 
           <Description term="活動公告">
-            <a href={campaign.link} target="_blank">
+            <a href={campaign.link} target="_blank" rel="noreferrer">
               {campaign.link}
             </a>
           </Description>
 
           <Description term="站內連結">
-            <a href={`${SITE_DOMIAN}/e/${campaign.shortHash}`} target="_blank">
+            <a
+              href={`${SITE_DOMIAN}/e/${campaign.shortHash}`}
+              target="_blank"
+              rel="noreferrer"
+            >
               {`${SITE_DOMIAN}/e/${campaign.shortHash}`}
             </a>
           </Description>
@@ -93,40 +101,45 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
         <Divider size="large" />
 
         <DescriptionList size="large" title="投稿選項" col={1}>
-          {campaign.stages.map((s, index) => (
-            <Description term="" key={index}>
-              <LevelTag level={LevelEnum.NULL}>{s.name}（繁）</LevelTag>
-              <LevelTag level={LevelEnum.NULL}>{s.nameEn} (英)</LevelTag>
-              <LevelTag level={LevelEnum.NULL}>{s.nameZhHans}（簡）</LevelTag>
-              {s.period ? (
+          <Table bordered dataSource={campaign.stages}>
+            <ColumnGroup title="繁">
+              <Column title="名稱" dataIndex="name" key="name" width="5" />
+              <Column title="簡介" dataIndex="description" key="description" />
+            </ColumnGroup>
+            <ColumnGroup title="英">
+              <Column title="名稱" dataIndex="nameEn" key="nameEn" width="5" />
+              <Column
+                title="簡介"
+                dataIndex="descriptionEn"
+                key="descriptionEn"
+              />
+            </ColumnGroup>
+            <ColumnGroup title="簡">
+              <Column
+                title="名稱"
+                dataIndex="nameZhHans"
+                key="nameZhHans"
+                width="5"
+              />
+              <Column
+                title="簡介"
+                dataIndex="descriptionZhHans"
+                key="descriptionZhHans"
+              />
+            </ColumnGroup>
+            <Column
+              title="日期"
+              dataIndex="period"
+              key="period"
+              width="10"
+              render={(period) => (
                 <>
-                  <DateTime date={s.period?.start} dateOnly /> ~{' '}
-                  {s.period?.end && <DateTime date={s.period?.end} dateOnly />}
+                  <DateTime date={period?.start} dateOnly /> ~{' '}
+                  <DateTime date={period?.end} dateOnly />
                 </>
-              ) : null}
-            </Description>
-          ))}
-        </DescriptionList>
-        <Divider size="large" />
-
-        <DescriptionList size="large" title="簡介" col={1}>
-          <Description term="繁體">
-            <section
-              dangerouslySetInnerHTML={{ __html: campaign.description }}
+              )}
             />
-          </Description>
-
-          <Description term="英文">
-            <section
-              dangerouslySetInnerHTML={{ __html: campaign.descriptionEn }}
-            />
-          </Description>
-
-          <Description term="簡體">
-            <section
-              dangerouslySetInnerHTML={{ __html: campaign.descriptionZhHans }}
-            />
-          </Description>
+          </Table>
         </DescriptionList>
         <Divider size="large" />
 

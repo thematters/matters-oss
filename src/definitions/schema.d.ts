@@ -2197,14 +2197,13 @@ export type GQLArticleLicenseType =
 
 export interface GQLArticleCampaign {
   campaign: GQLCampaign
-  stage: GQLCampaignStage
+  stage?: GQLCampaignStage
 }
 
 export interface GQLCampaign {
   id: string
   shortHash: string
   name: string
-  description: string
   state: GQLCampaignState
 }
 
@@ -2221,6 +2220,7 @@ export type GQLCampaignState = 'pending' | 'active' | 'finished' | 'archived'
 export interface GQLCampaignStage {
   id: string
   name: string
+  description: string
   period?: GQLDatetimeRange
 }
 
@@ -3718,9 +3718,9 @@ export interface GQLMergeTagsInput {
 export interface GQLPutWritingChallengeInput {
   id?: string
   name?: Array<GQLTranslationInput>
-  description?: Array<GQLTranslationInput>
   cover?: string
   link?: string
+  announcements?: Array<string>
   applicationPeriod?: GQLDatetimeRangeInput
   writingPeriod?: GQLDatetimeRangeInput
   stages?: Array<GQLCampaignStageInput>
@@ -3739,6 +3739,7 @@ export interface GQLDatetimeRangeInput {
 
 export interface GQLCampaignStageInput {
   name: Array<GQLTranslationInput>
+  description?: Array<GQLTranslationInput>
   period?: GQLDatetimeRangeInput
 }
 
@@ -3746,9 +3747,10 @@ export interface GQLWritingChallenge extends GQLNode, GQLCampaign {
   id: string
   shortHash: string
   name: string
-  description: string
+  description?: string
   cover?: string
   link: string
+  announcements: Array<GQLArticle>
   applicationPeriod?: GQLDatetimeRange
   writingPeriod?: GQLDatetimeRange
   stages: Array<GQLCampaignStage>
@@ -4506,6 +4508,7 @@ export interface GQLPayToInput {
    */
   chain?: GQLChain
   txHash?: string
+  id?: string
 }
 
 export interface GQLPayToResult {
@@ -10629,6 +10632,7 @@ export interface GQLCampaignTypeResolver<TParent = any> {
 export interface GQLCampaignStageTypeResolver<TParent = any> {
   id?: CampaignStageToIdResolver<TParent>
   name?: CampaignStageToNameResolver<TParent>
+  description?: CampaignStageToDescriptionResolver<TParent>
   period?: CampaignStageToPeriodResolver<TParent>
 }
 
@@ -10648,6 +10652,21 @@ export interface CampaignStageToNameResolver<TParent = any, TResult = any> {
   (
     parent: TParent,
     args: CampaignStageToNameArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface CampaignStageToDescriptionArgs {
+  input?: GQLTranslationArgs
+}
+export interface CampaignStageToDescriptionResolver<
+  TParent = any,
+  TResult = any
+> {
+  (
+    parent: TParent,
+    args: CampaignStageToDescriptionArgs,
     context: Context,
     info: GraphQLResolveInfo
   ): TResult
@@ -15009,6 +15028,7 @@ export interface GQLWritingChallengeTypeResolver<TParent = any> {
   description?: WritingChallengeToDescriptionResolver<TParent>
   cover?: WritingChallengeToCoverResolver<TParent>
   link?: WritingChallengeToLinkResolver<TParent>
+  announcements?: WritingChallengeToAnnouncementsResolver<TParent>
   applicationPeriod?: WritingChallengeToApplicationPeriodResolver<TParent>
   writingPeriod?: WritingChallengeToWritingPeriodResolver<TParent>
   stages?: WritingChallengeToStagesResolver<TParent>
@@ -15077,6 +15097,18 @@ export interface WritingChallengeToCoverResolver<TParent = any, TResult = any> {
 }
 
 export interface WritingChallengeToLinkResolver<TParent = any, TResult = any> {
+  (
+    parent: TParent,
+    args: {},
+    context: Context,
+    info: GraphQLResolveInfo
+  ): TResult
+}
+
+export interface WritingChallengeToAnnouncementsResolver<
+  TParent = any,
+  TResult = any
+> {
   (
     parent: TParent,
     args: {},

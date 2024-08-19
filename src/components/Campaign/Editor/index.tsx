@@ -30,37 +30,6 @@ type DetailState = {
   error: any
 } & CampaignDetail
 
-const normalizeDescription = (description: string) => {
-  // remove leading and trailing <p></p>
-  description = description.replace(/^(<p>(<br class=\"smart\">)?<\/p>)+/, '')
-  description = description.replace(/(<p>(<br class=\"smart\">)?<\/p>)+$/, '')
-
-  // replace </p><p> or <br class=\"smart\"> with \n
-  description = description.replace(/<\/p>/g, '\n')
-  description = description.replace(/<p><br class=\"smart\"><\/p>/g, '\n')
-
-  // remove HTML tags
-  description = description.replace(/<[^>]*>/g, '')
-
-  // remove trailing \n
-  description = description.replace(/\n+$/, '')
-
-  return description
-}
-
-const serializeDescription = (description: string) => {
-  description = description
-    .trim()
-    .split('\n')
-    .map((line) => `<p>${line.trim()}</p>`)
-    .join('')
-
-  // replace <p></p> with <br>
-  description = description.replace(/<p><\/p>/g, '<p><br class="smart"></p>')
-
-  return description
-}
-
 function convertToUTC8(dateString: string, endOfDay = false) {
   if (!dateString) {
     return null
@@ -119,9 +88,6 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
         name,
         nameEn,
         nameZhHans,
-        description,
-        descriptionEn,
-        descriptionZhHans,
         writingPeriod,
         applicationPeriod,
         state,
@@ -167,22 +133,6 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                   },
                 }
               : {}),
-            description: [
-              {
-                language: 'zh_hant',
-                text: serializeDescription(normalizeDescription(description)),
-              },
-              {
-                language: 'en',
-                text: serializeDescription(normalizeDescription(descriptionEn)),
-              },
-              {
-                language: 'zh_hans',
-                text: serializeDescription(
-                  normalizeDescription(descriptionZhHans)
-                ),
-              },
-            ].filter(({ text }) => !!text),
             link,
             ...(isPending
               ? {
@@ -191,6 +141,11 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                       { language: 'zh_hant', text: stage.name },
                       { language: 'en', text: stage.nameEn },
                       { language: 'zh_hans', text: stage.nameZhHans },
+                    ].filter(({ text }) => !!text),
+                    description: [
+                      { language: 'zh_hant', text: stage.description },
+                      { language: 'en', text: stage.descriptionEn },
+                      { language: 'zh_hans', text: stage.descriptionZhHans },
                     ].filter(({ text }) => !!text),
                     ...(stage.period?.start
                       ? {
@@ -235,9 +190,6 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
       nameEn,
       nameZhHans,
       cover,
-      description,
-      descriptionEn,
-      descriptionZhHans,
       link,
       applicationPeriod,
       writingPeriod,
@@ -274,46 +226,6 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                   defaultValue={nameZhHans}
                   onChange={(e) => {
                     this.setState({ nameZhHans: e.target.value })
-                  }}
-                />
-              </Section.Description>
-            </Section>
-            <Divider size="large" />
-
-            <Section title="簡介" col={1}>
-              <Section.Description term="繁體">
-                <Input.TextArea
-                  defaultValue={normalizeDescription(description)}
-                  autoSize={{ minRows: 5 }}
-                  style={{ verticalAlign: 'middle' }}
-                  onChange={(e) => {
-                    this.setState({
-                      description: e.target.value,
-                    })
-                  }}
-                />
-              </Section.Description>
-              <Section.Description term="英文">
-                <Input.TextArea
-                  defaultValue={normalizeDescription(descriptionEn)}
-                  autoSize={{ minRows: 5 }}
-                  style={{ verticalAlign: 'middle' }}
-                  onChange={(e) => {
-                    this.setState({
-                      descriptionEn: e.target.value,
-                    })
-                  }}
-                />
-              </Section.Description>
-              <Section.Description term="簡體">
-                <Input.TextArea
-                  defaultValue={normalizeDescription(descriptionZhHans)}
-                  autoSize={{ minRows: 5 }}
-                  style={{ verticalAlign: 'middle' }}
-                  onChange={(e) => {
-                    this.setState({
-                      descriptionZhHans: e.target.value,
-                    })
                   }}
                 />
               </Section.Description>
@@ -445,6 +357,24 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                       }}
                     />
                   </Section.Description>
+                  <Section.Description term="簡介">
+                    <Input
+                      disabled={!isPending}
+                      defaultValue={stage.description}
+                      onChange={(e) => {
+                        this.setState({
+                          stages: [
+                            ...stages.slice(0, index),
+                            {
+                              ...stage,
+                              description: e.target.value,
+                            },
+                            ...stages.slice(index + 1),
+                          ],
+                        })
+                      }}
+                    />
+                  </Section.Description>
 
                   <Section.Description term="名稱（英文）">
                     <Input
@@ -464,6 +394,24 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                       }}
                     />
                   </Section.Description>
+                  <Section.Description term="簡介（英文）">
+                    <Input
+                      disabled={!isPending}
+                      defaultValue={stage.descriptionEn}
+                      onChange={(e) => {
+                        this.setState({
+                          stages: [
+                            ...stages.slice(0, index),
+                            {
+                              ...stage,
+                              descriptionEn: e.target.value,
+                            },
+                            ...stages.slice(index + 1),
+                          ],
+                        })
+                      }}
+                    />
+                  </Section.Description>
 
                   <Section.Description term="名稱（簡體）">
                     <Input
@@ -476,6 +424,24 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                             {
                               ...stage,
                               nameZhHans: e.target.value,
+                            },
+                            ...stages.slice(index + 1),
+                          ],
+                        })
+                      }}
+                    />
+                  </Section.Description>
+                  <Section.Description term="簡介（簡體）">
+                    <Input
+                      disabled={!isPending}
+                      defaultValue={stage.descriptionZhHans}
+                      onChange={(e) => {
+                        this.setState({
+                          stages: [
+                            ...stages.slice(0, index),
+                            {
+                              ...stage,
+                              descriptionZhHans: e.target.value,
                             },
                             ...stages.slice(index + 1),
                           ],
@@ -567,6 +533,9 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                           name: '',
                           nameEn: '',
                           nameZhHans: '',
+                          description: '',
+                          descriptionEn: '',
+                          descriptionZhHans: '',
                           period: {
                             start: '',
                             end: '',
