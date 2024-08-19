@@ -4,7 +4,7 @@ import { Layout as AntLayout, Menu } from 'antd'
 
 import Divider from '../../../components/Divider'
 
-import { PATH, PAGE_TITLE, STORE_JWT_TOKEN } from '../../../constants'
+import { PATH, PAGE_TITLE } from '../../../constants'
 import LOGO_URL from '../../../assets/logo.svg'
 import { ViewerContext } from '../ViewerProvider'
 
@@ -27,7 +27,7 @@ export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
     >
       <Link to={PATH.HOMEPAGE}>
         <div className="logo" style={{ padding: '24px 24px 0' }}>
-          <img src={LOGO_URL} />
+          <img src={LOGO_URL} alt='logo'/>
           <strong>&nbsp; Matters OSS</strong>
         </div>
       </Link>
@@ -107,7 +107,7 @@ export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
           </Menu.Item>
         </SubMenu>
 
-        <SubMenu key="comment" title={<strong>自由寫</strong>}>
+        <SubMenu key="freewrite" title={<strong>自由寫</strong>}>
           <Menu.Item key={PATH.CAMPAIGN_LIST}>
             <Link to={PATH.CAMPAIGN_LIST}>
               {PAGE_TITLE[PATH.CAMPAIGN_LIST]}
@@ -115,7 +115,7 @@ export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
           </Menu.Item>
         </SubMenu>
 
-        <SubMenu key="comment" title={<strong>報告</strong>}>
+        <SubMenu key="report" title={<strong>報告</strong>}>
           <Menu.Item key={PATH.REPORT_LIST}>
             <Link to={PATH.REPORT_LIST}>{PAGE_TITLE[PATH.REPORT_LIST]}</Link>
           </Menu.Item>
