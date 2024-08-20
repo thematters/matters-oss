@@ -1,5 +1,7 @@
+#import "../fragments/article/digest.gql"
+
 query OSSQueryArticle($input: ArticleInput!) {
   article(input: $input) {
-    id
+     ...ArticleDigest
   }
 }

@@ -184,13 +184,13 @@ type CampaignStage = {
   name: string
   nameEn: string
   nameZhHans: string
+  description: string
+  descriptionEn: string
+  descriptionZhHans: string
   period?: GQLDatetimeRange
 }
 
 export type CampaignDetail = CampaignDigest & {
-  description: string
-  descriptionEn: string
-  descriptionZhHans: string
   cover: string
   link: string
   stages: Array<CampaignStage>
@@ -203,6 +203,7 @@ export type CampaignDetail = CampaignDigest & {
       application: GQLCampaignApplication
     }[]
   }
+  announcements: Array<ArticleDigest>
   articles: Connection<ArticleDigest>
 }
 
