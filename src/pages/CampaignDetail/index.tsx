@@ -92,6 +92,7 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
             <Cover cover={campaign.cover} />
           </Description>
         </DescriptionList>
+        <Divider size="large" />
 
         <DescriptionList size="large" title="活動公告">
           <Description term="规则公告連結">
@@ -101,7 +102,7 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
           </Description>
 
           <Col span={24} style={{ marginBottom: 16 }}>
-            <ArticleDigestList data={campaign.announcements} />
+            <ArticleDigestList data={[...campaign.announcements].reverse()} />
           </Col>
         </DescriptionList>
         <Divider size="large" />

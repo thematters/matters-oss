@@ -27,7 +27,7 @@ export const Sider: React.FC<RouteComponentProps> = ({ location }) => {
     >
       <Link to={PATH.HOMEPAGE}>
         <div className="logo" style={{ padding: '24px 24px 0' }}>
-          <img src={LOGO_URL} alt='logo'/>
+          <img src={LOGO_URL} alt="logo" />
           <strong>&nbsp; Matters OSS</strong>
         </div>
       </Link>

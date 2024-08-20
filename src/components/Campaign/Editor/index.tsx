@@ -1,3 +1,4 @@
+import type ApolloClient from 'apollo-client'
 import * as React from 'react'
 import { Mutation } from 'react-apollo'
 import { Button, DatePicker, Input, message } from 'antd'
@@ -7,8 +8,12 @@ import moment from 'moment'
 import Uploader from './Uploader'
 import Section from '../../../components/DescriptionList'
 import Divider from '../../../components/Divider'
-import { CampaignDetail } from '../../../definitions'
-import { PATH } from '../../../constants'
+import ArticleLink from '../../Article/Link'
+import { CampaignDetail, ArticleDigest } from '../../../definitions'
+import { PATH, PATH_REGEXP } from '../../../constants'
+import QUERY_ARTICLE from '../../../gql/queries/articleId.gql'
+
+const { Search } = Input
 
 const PUT_CAMPAIGN = gql`
   mutation PutWritingChallenge($input: PutWritingChallengeInput!) {
@@ -25,6 +30,7 @@ type DetailProps = {
 
 type DetailState = {
   coverId?: string | null
+  announcementInput: string
   loading: boolean
   warning: string | null
   error: any
@@ -65,9 +71,35 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
   state = {
     ...this.props.campaign,
     coverId: null,
+    announcementInput: '',
     loading: false,
     warning: null,
     error: null,
+  }
+
+  private getArticle = async (
+    input: string,
+    client: ApolloClient<any>
+  ): Promise<ArticleDigest | null> => {
+    const path = input.split('matters.town')[1]
+    if (PATH_REGEXP.articleDetail.test(path)) {
+      const mediaHash = path.split('#')[0].split('?')[0].split('-').pop()
+      const { data } = await client.query({
+        query: QUERY_ARTICLE,
+        variables: { input: { mediaHash } },
+      })
+      return data.article ?? null
+    }
+
+    if (PATH_REGEXP.articleDetailShortHash.test(path)) {
+      const shortHash = path.split('/a/')[1]
+      const { data } = await client.query({
+        query: QUERY_ARTICLE,
+        variables: { input: { shortHash } },
+      })
+      return data.article ?? null
+    }
+    return null
   }
 
   private action = async (putCampaign: any): Promise<any> => {
@@ -88,6 +120,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
         name,
         nameEn,
         nameZhHans,
+        announcements,
         writingPeriod,
         applicationPeriod,
         state,
@@ -134,6 +167,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                 }
               : {}),
             link,
+            announcements: announcements.map(({ id }) => id),
             ...(isPending
               ? {
                   stages: stages.map((stage) => ({
@@ -189,6 +223,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
       name,
       nameEn,
       nameZhHans,
+      announcements,
       cover,
       link,
       applicationPeriod,
@@ -196,13 +231,14 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
       stages,
       state,
       loading,
+      announcementInput,
     } = this.state
 
     const isPending = state === 'pending'
 
     return (
       <Mutation mutation={PUT_CAMPAIGN}>
-        {(putCampaign: any) => (
+        {(putCampaign: any, { client }: any) => (
           <>
             <Section title="標題" col={1}>
               <Section.Description term="繁體">
@@ -245,13 +281,65 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             </Section>
             <Divider size="large" />
 
-            <Section title="活動公告連結" col={2}>
-              <Section.Description term="">
+            <Section title="活動公告" col={1}>
+              <Section.Description term="规则公告連結">
                 <Input
                   defaultValue={link}
                   onChange={(e) => {
                     this.setState({ link: e.target.value })
                   }}
+                />
+              </Section.Description>
+
+              <Section.Description term="公告文章">
+                <ol>
+                  {[...announcements].reverse().map((announcement) => (
+                    <li key={announcement.id}>
+                      <ArticleLink
+                        id={announcement.id}
+                        title={announcement.title}
+                      />
+                    </li>
+                  ))}
+                </ol>
+              </Section.Description>
+              <Section.Description term="">
+                <Search
+                  disabled={loading}
+                  onChange={(event) =>
+                    this.setState({ announcementInput: event.target.value })
+                  }
+                  onSearch={async () => {
+                    const article = await this.getArticle(
+                      announcementInput,
+                      client
+                    )
+                    const announcementIds = announcements.map(
+                      (announcement) => announcement.id
+                    )
+                    if (article && !announcementIds.includes(article.id)) {
+                      this.setState({
+                        announcements: announcements.concat(article),
+                        announcementInput: '',
+                      })
+                    } else {
+                      if (!article) {
+                        message.error('找不到文章')
+                      } else if (
+                        announcementIds.includes(article?.id as string)
+                      ) {
+                        message.error('文章已存在')
+                      } else {
+                        message.error('添加失敗')
+                      }
+                    }
+                  }}
+                  value={announcementInput}
+                  maxLength={2048}
+                  placeholder="輸入文章連結"
+                  size="small"
+                  enterButton="添加"
+                  key="search"
                 />
               </Section.Description>
             </Section>
@@ -338,7 +426,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
 
             <Section title="投稿選項（上线活動後，投稿選項無法修改）" col={1}>
               {stages.map((stage, index) => (
-                <section>
+                <section key={index}>
                   <Section.Description term="名稱">
                     <Input
                       disabled={!isPending}
