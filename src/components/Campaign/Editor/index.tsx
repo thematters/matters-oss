@@ -282,7 +282,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             <Divider size="large" />
 
             <Section title="活動公告" col={1}>
-              <Section.Description term="规则公告連結">
+              <Section.Description term="規則連結">
                 <Input
                   defaultValue={link}
                   onChange={(e) => {
