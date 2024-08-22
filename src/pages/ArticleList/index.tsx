@@ -1,16 +1,48 @@
 import * as React from 'react'
-import _get from 'lodash/get'
+import { Switch } from 'antd'
 
 import SearchBar from '../../components/SearchBar'
 import ErrorMessage from '../../components/ErrorMessage'
 import ArticleDigestList from '../../components/Article/DigestList'
+import Divider from '../../components/Divider'
 import withArticleList, { ArticleListChildProps } from './withArticleList'
+import {
+  getSearchKey,
+  getFilterSpamKey,
+  getCurrentPaginationFromUrl,
+  setQS,
+} from '../../utils'
 
 import { ArticleDigest } from '../../definitions'
 
 class ArticleList extends React.Component<ArticleListChildProps> {
   private _renderHeader() {
-    return <SearchBar placeholder="請輸入文章標題" />
+    const checked = getFilterSpamKey()
+    const currentPagination = getCurrentPaginationFromUrl()
+    return (
+      <>
+        <h4>只显示垃圾文章</h4>
+        <Switch
+          defaultChecked={checked}
+          onChange={(checked) => {
+            setQS({ filterspam: checked ? '1' : '0' })
+            this.props.data.refetch({
+              input: {
+                first: 10,
+                after: currentPagination && currentPagination.after,
+                filter: {
+                  isSpam: checked,
+                },
+              },
+            })
+          }}
+          disabled={!!getSearchKey()}
+        />
+        <Divider />
+        <h4>搜尋</h4>
+        <SearchBar placeholder="請輸入文章標題" />
+      </>
+    )
   }
 
   private _renderContent() {

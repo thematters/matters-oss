@@ -124,6 +124,10 @@ export type ArticleDigest = {
     inRecommendHottest: boolean
     inRecommendNewest: boolean
     inSearch: boolean
+    spamStatus: {
+      score: number | null
+      isSpam: boolean | null
+    }
   }
 }
 
@@ -180,13 +184,13 @@ type CampaignStage = {
   name: string
   nameEn: string
   nameZhHans: string
+  description: string
+  descriptionEn: string
+  descriptionZhHans: string
   period?: GQLDatetimeRange
 }
 
 export type CampaignDetail = CampaignDigest & {
-  description: string
-  descriptionEn: string
-  descriptionZhHans: string
   cover: string
   link: string
   stages: Array<CampaignStage>
@@ -199,6 +203,7 @@ export type CampaignDetail = CampaignDigest & {
       application: GQLCampaignApplication
     }[]
   }
+  announcements: Array<ArticleDigest>
   articles: Connection<ArticleDigest>
 }
 
@@ -265,10 +270,12 @@ export type FeatureName =
   | 'add_credit'
   | 'payment'
   | 'tag_adoption'
+  | 'spam_detection'
 
 export interface FeatureFlagItem {
   name: FeatureName
   enabled: boolean
+  value: number | null
 }
 
 /**

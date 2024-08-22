@@ -42,7 +42,7 @@ class SetFeature extends React.Component<ChildProps, SetFeatureState> {
   private _onConfirmChange = async () => {
     this.setState({ loading: true, error: null })
 
-    const { mutate, name } = this.props
+    const { mutate, name, value } = this.props
     const { flag } = this.state
 
     if (flag) {
@@ -52,6 +52,7 @@ class SetFeature extends React.Component<ChildProps, SetFeatureState> {
             input: {
               name,
               flag,
+              value,
             },
           },
           update: (cache, { data }) => {

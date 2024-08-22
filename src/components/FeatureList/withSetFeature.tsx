@@ -7,6 +7,7 @@ const SET_FEATURE = gql`
     setFeature(input: $input) {
       enabled
       name
+      value
     }
   }
 `
@@ -23,10 +24,11 @@ export type FeatureFlag = 'on' | 'off' | 'admin' | 'seeding'
 type InputProps = {
   name: FeatureName
   enabled: boolean
+  value: number | null
 }
 
 type Variables = {
-  input: { name: FeatureName; flag: FeatureFlag }
+  input: { name: FeatureName; flag: FeatureFlag; value: number | null }
 }
 
 export type ChildProps = ChildMutateProps<InputProps, Response, Variables>

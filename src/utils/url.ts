@@ -15,6 +15,11 @@ export const getSortKey = () => {
   return (query.sort as string) || undefined
 }
 
+export const getFilterSpamKey = () => {
+  const query = getParsedQS()
+  return query.filterspam === '1' ? true : false
+}
+
 export const setQS = (qs: { [key: string]: any }) => {
   const currentQs = getParsedQS()
   const query = queryString.stringify({ ...currentQs, ...qs })

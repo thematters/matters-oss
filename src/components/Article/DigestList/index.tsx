@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Table } from 'antd'
-import _get from 'lodash/get'
 import _compact from 'lodash/compact'
 
 import DateTime from '../../DateTime'
@@ -8,6 +7,7 @@ import UserLink from '../../User/Link'
 import ArticleLink from '../Link'
 import SetBoost from '../../SetBoost'
 import ToggleRecommend from '../ToggleRecommend'
+import MarkSpam from '../MarkSpam'
 import ArticleStateTag from '../StateTag'
 
 import { ArticleDigest } from '../../../definitions'
@@ -34,6 +34,13 @@ type ArticleDigestListProps = {
 class ArticleDigestList extends React.Component<ArticleDigestListProps> {
   private _renderTitleCell(_: any, record: ArticleDigest): React.ReactNode {
     return <ArticleLink id={record.id} title={record.title} />
+  }
+
+  private _renderScore(score: number | null): React.ReactNode {
+    if (score === null) {
+      return '計算中'
+    }
+    return score.toFixed(3)
   }
 
   public render() {
@@ -119,6 +126,20 @@ class ArticleDigestList extends React.Component<ArticleDigestListProps> {
               userName={author.userName}
               displayName={author.displayName}
             />
+          )}
+        />
+        <Table.Column<ArticleDigest>
+          dataIndex="oss.spamStatus.score"
+          title="垃圾文概率"
+          width={120}
+          render={this._renderScore}
+        />
+        <Table.Column<ArticleDigest>
+          dataIndex="oss.spamStatus.isSpam"
+          title="標記垃圾文"
+          width={120}
+          render={(isSpam, record) => (
+            <MarkSpam isSpam={isSpam} articleId={record.id} />
           )}
         />
         <Table.Column<ArticleDigest>

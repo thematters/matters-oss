@@ -3,6 +3,7 @@ query FeatureFlag {
     features {
       name
       enabled
+      value
     }
   }
 }

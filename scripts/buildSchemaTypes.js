@@ -10,6 +10,7 @@ const schema = fs.readFileSync(source, { encoding: 'utf8' })
 generateTypeScriptTypes(schema, output, {
   contextType: 'Context',
   importStatements: ["import { Context } from './index'"],
+  noStringEnum: true,
 })
   .then(() => {
     console.log('DONE')

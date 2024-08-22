@@ -1,7 +1,7 @@
 #import "../fragments/connection.gql"
 #import "../fragments/article/digest.gql"
 
-query OSSArticleList($input: ConnectionArgs!) {
+query OSSArticleList($input: OSSArticlesInput!) {
   oss {
     articles(input: $input) {
       ...ConnectionInfo

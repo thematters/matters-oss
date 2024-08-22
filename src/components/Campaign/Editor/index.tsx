@@ -1,3 +1,4 @@
+import type ApolloClient from 'apollo-client'
 import * as React from 'react'
 import { Mutation } from 'react-apollo'
 import { Button, DatePicker, Input, message } from 'antd'
@@ -7,8 +8,12 @@ import moment from 'moment'
 import Uploader from './Uploader'
 import Section from '../../../components/DescriptionList'
 import Divider from '../../../components/Divider'
-import { CampaignDetail } from '../../../definitions'
-import { PATH } from '../../../constants'
+import ArticleLink from '../../Article/Link'
+import { CampaignDetail, ArticleDigest } from '../../../definitions'
+import { PATH, PATH_REGEXP } from '../../../constants'
+import QUERY_ARTICLE from '../../../gql/queries/articleId.gql'
+
+const { Search } = Input
 
 const PUT_CAMPAIGN = gql`
   mutation PutWritingChallenge($input: PutWritingChallengeInput!) {
@@ -25,41 +30,11 @@ type DetailProps = {
 
 type DetailState = {
   coverId?: string | null
+  announcementInput: string
   loading: boolean
   warning: string | null
   error: any
 } & CampaignDetail
-
-const normalizeDescription = (description: string) => {
-  // remove leading and trailing <p></p>
-  description = description.replace(/^(<p>(<br class=\"smart\">)?<\/p>)+/, '')
-  description = description.replace(/(<p>(<br class=\"smart\">)?<\/p>)+$/, '')
-
-  // replace </p><p> or <br class=\"smart\"> with \n
-  description = description.replace(/<\/p>/g, '\n')
-  description = description.replace(/<p><br class=\"smart\"><\/p>/g, '\n')
-
-  // remove HTML tags
-  description = description.replace(/<[^>]*>/g, '')
-
-  // remove trailing \n
-  description = description.replace(/\n+$/, '')
-
-  return description
-}
-
-const serializeDescription = (description: string) => {
-  description = description
-    .trim()
-    .split('\n')
-    .map((line) => `<p>${line.trim()}</p>`)
-    .join('')
-
-  // replace <p></p> with <br>
-  description = description.replace(/<p><\/p>/g, '<p><br class="smart"></p>')
-
-  return description
-}
 
 function convertToUTC8(dateString: string, endOfDay = false) {
   if (!dateString) {
@@ -96,9 +71,35 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
   state = {
     ...this.props.campaign,
     coverId: null,
+    announcementInput: '',
     loading: false,
     warning: null,
     error: null,
+  }
+
+  private getArticle = async (
+    input: string,
+    client: ApolloClient<any>
+  ): Promise<ArticleDigest | null> => {
+    const path = input.split('matters.town')[1]
+    if (PATH_REGEXP.articleDetail.test(path)) {
+      const mediaHash = path.split('#')[0].split('?')[0].split('-').pop()
+      const { data } = await client.query({
+        query: QUERY_ARTICLE,
+        variables: { input: { mediaHash } },
+      })
+      return data.article ?? null
+    }
+
+    if (PATH_REGEXP.articleDetailShortHash.test(path)) {
+      const shortHash = path.split('/a/')[1]
+      const { data } = await client.query({
+        query: QUERY_ARTICLE,
+        variables: { input: { shortHash } },
+      })
+      return data.article ?? null
+    }
+    return null
   }
 
   private action = async (putCampaign: any): Promise<any> => {
@@ -119,9 +120,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
         name,
         nameEn,
         nameZhHans,
-        description,
-        descriptionEn,
-        descriptionZhHans,
+        announcements,
         writingPeriod,
         applicationPeriod,
         state,
@@ -167,23 +166,8 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                   },
                 }
               : {}),
-            description: [
-              {
-                language: 'zh_hant',
-                text: serializeDescription(normalizeDescription(description)),
-              },
-              {
-                language: 'en',
-                text: serializeDescription(normalizeDescription(descriptionEn)),
-              },
-              {
-                language: 'zh_hans',
-                text: serializeDescription(
-                  normalizeDescription(descriptionZhHans)
-                ),
-              },
-            ].filter(({ text }) => !!text),
             link,
+            announcements: announcements.map(({ id }) => id),
             ...(isPending
               ? {
                   stages: stages.map((stage) => ({
@@ -191,6 +175,11 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                       { language: 'zh_hant', text: stage.name },
                       { language: 'en', text: stage.nameEn },
                       { language: 'zh_hans', text: stage.nameZhHans },
+                    ].filter(({ text }) => !!text),
+                    description: [
+                      { language: 'zh_hant', text: stage.description },
+                      { language: 'en', text: stage.descriptionEn },
+                      { language: 'zh_hans', text: stage.descriptionZhHans },
                     ].filter(({ text }) => !!text),
                     ...(stage.period?.start
                       ? {
@@ -234,23 +223,22 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
       name,
       nameEn,
       nameZhHans,
+      announcements,
       cover,
-      description,
-      descriptionEn,
-      descriptionZhHans,
       link,
       applicationPeriod,
       writingPeriod,
       stages,
       state,
       loading,
+      announcementInput,
     } = this.state
 
     const isPending = state === 'pending'
 
     return (
       <Mutation mutation={PUT_CAMPAIGN}>
-        {(putCampaign: any) => (
+        {(putCampaign: any, { client }: any) => (
           <>
             <Section title="標題" col={1}>
               <Section.Description term="繁體">
@@ -280,46 +268,6 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             </Section>
             <Divider size="large" />
 
-            <Section title="簡介" col={1}>
-              <Section.Description term="繁體">
-                <Input.TextArea
-                  defaultValue={normalizeDescription(description)}
-                  autoSize={{ minRows: 5 }}
-                  style={{ verticalAlign: 'middle' }}
-                  onChange={(e) => {
-                    this.setState({
-                      description: e.target.value,
-                    })
-                  }}
-                />
-              </Section.Description>
-              <Section.Description term="英文">
-                <Input.TextArea
-                  defaultValue={normalizeDescription(descriptionEn)}
-                  autoSize={{ minRows: 5 }}
-                  style={{ verticalAlign: 'middle' }}
-                  onChange={(e) => {
-                    this.setState({
-                      descriptionEn: e.target.value,
-                    })
-                  }}
-                />
-              </Section.Description>
-              <Section.Description term="簡體">
-                <Input.TextArea
-                  defaultValue={normalizeDescription(descriptionZhHans)}
-                  autoSize={{ minRows: 5 }}
-                  style={{ verticalAlign: 'middle' }}
-                  onChange={(e) => {
-                    this.setState({
-                      descriptionZhHans: e.target.value,
-                    })
-                  }}
-                />
-              </Section.Description>
-            </Section>
-            <Divider size="large" />
-
             <Section title="封面圖片">
               <Section.Description term="" style={{ width: '50%' }}>
                 <Uploader
@@ -333,13 +281,65 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
             </Section>
             <Divider size="large" />
 
-            <Section title="活動公告連結" col={2}>
-              <Section.Description term="">
+            <Section title="活動公告" col={1}>
+              <Section.Description term="規則連結">
                 <Input
                   defaultValue={link}
                   onChange={(e) => {
                     this.setState({ link: e.target.value })
                   }}
+                />
+              </Section.Description>
+
+              <Section.Description term="公告文章">
+                <ol>
+                  {[...announcements].reverse().map((announcement) => (
+                    <li key={announcement.id}>
+                      <ArticleLink
+                        id={announcement.id}
+                        title={announcement.title}
+                      />
+                    </li>
+                  ))}
+                </ol>
+              </Section.Description>
+              <Section.Description term="">
+                <Search
+                  disabled={loading}
+                  onChange={(event) =>
+                    this.setState({ announcementInput: event.target.value })
+                  }
+                  onSearch={async () => {
+                    const article = await this.getArticle(
+                      announcementInput,
+                      client
+                    )
+                    const announcementIds = announcements.map(
+                      (announcement) => announcement.id
+                    )
+                    if (article && !announcementIds.includes(article.id)) {
+                      this.setState({
+                        announcements: announcements.concat(article),
+                        announcementInput: '',
+                      })
+                    } else {
+                      if (!article) {
+                        message.error('找不到文章')
+                      } else if (
+                        announcementIds.includes(article?.id as string)
+                      ) {
+                        message.error('文章已存在')
+                      } else {
+                        message.error('添加失敗')
+                      }
+                    }
+                  }}
+                  value={announcementInput}
+                  maxLength={2048}
+                  placeholder="輸入文章連結"
+                  size="small"
+                  enterButton="添加"
+                  key="search"
                 />
               </Section.Description>
             </Section>
@@ -426,7 +426,7 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
 
             <Section title="投稿選項（上线活動後，投稿選項無法修改）" col={1}>
               {stages.map((stage, index) => (
-                <section>
+                <section key={index}>
                   <Section.Description term="名稱">
                     <Input
                       disabled={!isPending}
@@ -438,6 +438,24 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                             {
                               ...stage,
                               name: e.target.value,
+                            },
+                            ...stages.slice(index + 1),
+                          ],
+                        })
+                      }}
+                    />
+                  </Section.Description>
+                  <Section.Description term="簡介">
+                    <Input
+                      disabled={!isPending}
+                      defaultValue={stage.description}
+                      onChange={(e) => {
+                        this.setState({
+                          stages: [
+                            ...stages.slice(0, index),
+                            {
+                              ...stage,
+                              description: e.target.value,
                             },
                             ...stages.slice(index + 1),
                           ],
@@ -464,6 +482,24 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                       }}
                     />
                   </Section.Description>
+                  <Section.Description term="簡介（英文）">
+                    <Input
+                      disabled={!isPending}
+                      defaultValue={stage.descriptionEn}
+                      onChange={(e) => {
+                        this.setState({
+                          stages: [
+                            ...stages.slice(0, index),
+                            {
+                              ...stage,
+                              descriptionEn: e.target.value,
+                            },
+                            ...stages.slice(index + 1),
+                          ],
+                        })
+                      }}
+                    />
+                  </Section.Description>
 
                   <Section.Description term="名稱（簡體）">
                     <Input
@@ -476,6 +512,24 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                             {
                               ...stage,
                               nameZhHans: e.target.value,
+                            },
+                            ...stages.slice(index + 1),
+                          ],
+                        })
+                      }}
+                    />
+                  </Section.Description>
+                  <Section.Description term="簡介（簡體）">
+                    <Input
+                      disabled={!isPending}
+                      defaultValue={stage.descriptionZhHans}
+                      onChange={(e) => {
+                        this.setState({
+                          stages: [
+                            ...stages.slice(0, index),
+                            {
+                              ...stage,
+                              descriptionZhHans: e.target.value,
                             },
                             ...stages.slice(index + 1),
                           ],
@@ -567,6 +621,9 @@ class CampaignEditor extends React.Component<DetailProps, DetailState> {
                           name: '',
                           nameEn: '',
                           nameZhHans: '',
+                          description: '',
+                          descriptionEn: '',
+                          descriptionZhHans: '',
                           period: {
                             start: '',
                             end: '',
