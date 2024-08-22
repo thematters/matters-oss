@@ -59,7 +59,7 @@ class CampaignDetail extends React.Component<CampaignDetailChildProps> {
     return (
       <>
         <DescriptionList size="large" title="基本資訊" col={3}>
-          <Description term="標題（繁體）">{campaign.nameEn}</Description>
+          <Description term="標題（繁體）">{campaign.name}</Description>
           <Description term="標題（英文）">{campaign.nameEn}</Description>
           <Description term="標題（簡體）">{campaign.nameZhHans}</Description>
         </DescriptionList>
