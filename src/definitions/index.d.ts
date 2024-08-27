@@ -2,6 +2,7 @@ import {
   GQLArticleState,
   GQLUserState,
   GQLCommentState,
+  GQLMomentState,
   GQLPageInfo,
   GQLUUID,
   GQLUserInfo,
@@ -129,6 +130,7 @@ export type ArticleDigest = {
       isSpam: boolean | null
     }
   }
+  __typename: 'Article'
 }
 
 export type ArticleDetail = ArticleDigest & {
@@ -162,6 +164,19 @@ export type CommentDigest = {
   pinned: boolean
   upvotes: number
   downvotes: number
+  __typename: 'Comment'
+}
+
+/**
+ * Moment
+ */
+export type MomentDigest = {
+  id: string
+  author: UserDigest
+  content: string
+  momentState: GQLMomentState
+  createdAt: Date
+  __typename: 'Moment'
 }
 
 export type CommentDetail = CommentDigest
@@ -210,13 +225,28 @@ export type CampaignDetail = CampaignDigest & {
 /**
  * Report
  */
-export type ReportDigest = {
-  id: string
-  reporter: UserDigest
-  target: ArticleDigest | CommentDigest
-  reason: string
-  createdAt: Date
-}
+export type ReportDigest =
+  | {
+      id: string
+      reporter: UserDigest
+      target: ArticleDigest
+      reason: string
+      createdAt: Date
+    }
+  | {
+      id: string
+      reporter: UserDigest
+      target: CommentDigest
+      reason: string
+      createdAt: Date
+    }
+  | {
+      id: string
+      reporter: UserDigest
+      target: MomentDigest
+      reason: string
+      createdAt: Date
+    }
 
 /**
  * Pagination
