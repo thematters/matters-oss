@@ -27,4 +27,5 @@ fragment ArticleDigest on Article {
       isSpam
     }
   }
+  __typename
 }

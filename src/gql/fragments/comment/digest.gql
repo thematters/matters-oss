@@ -18,4 +18,5 @@ fragment CommentDigest on Comment {
   pinned
   upvotes
   downvotes
+  __typename
 }

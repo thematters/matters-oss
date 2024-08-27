@@ -1,6 +1,7 @@
 #import "../fragments/connection.gql"
 #import "../fragments/comment/digest.gql"
 #import "../fragments/article/digest.gql"
+#import "../fragments/moment/digest.gql"
 
 query OSSReportList($input: ConnectionArgs!) {
   oss {
@@ -17,11 +18,15 @@ query OSSReportList($input: ConnectionArgs!) {
           reason
           createdAt
           target {
+            __typename
             ... on Comment {
               ...CommentDigest
             }
             ... on Article {
               ...ArticleDigest
+            }
+            ... on Moment {
+              ...MomentDigest
             }
           }
         }
