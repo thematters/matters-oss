@@ -54,25 +54,33 @@ class ReportDigestList extends React.Component<
   }
 
   private _renderCommentCell(_: any, record: ReportDigest): React.ReactNode {
-    return 'content' in record.target ? (
+    console.log(record)
+    return record.target.__typename === 'Comment' ? (
       <CommentLink id={record.target.id} content={record.target.content} />
     ) : null
   }
 
   private _renderArticleCell(_: any, record: ReportDigest): React.ReactNode {
-    return 'title' in record.target ? (
+    console.log(record)
+    return record.target.__typename === 'Article' ? (
       <ArticleLink id={record.target.id} title={record.target.title} />
     ) : null
   }
 
+  private _renderMomentCell(_: any, record: ReportDigest): React.ReactNode {
+    return record.target.__typename === 'Moment' ? record.target.content : null
+  }
+
   private _renderStateCell(_: any, record: ReportDigest): React.ReactNode {
-    return 'title' in record.target ? (
+    return record.target.__typename === 'Article' ? (
       <ArticleSetState state={record.target.state} id={record.target.id} />
-    ) : (
+    ) : record.target.__typename === 'Comment' ? (
       <CommentSetState
         commentState={record.target.commentState}
         ids={[record.target.id]}
       />
+    ) : (
+      record.target.momentState
     )
   }
 
@@ -141,6 +149,14 @@ class ReportDigestList extends React.Component<
             key="id"
             width={200}
             render={this._renderArticleCell}
+          />
+
+          <Table.Column<ReportDigest>
+            dataIndex="target.content"
+            title="动态"
+            key="id"
+            width={200}
+            render={this._renderMomentCell}
           />
 
           <Table.Column<ReportDigest>

@@ -1,0 +1,12 @@
+#import "../user/id.gql"
+
+fragment MomentDigest on Moment {
+  id
+  content
+  momentState: state
+  createdAt
+  author {
+    ...UserId
+  }
+  __typename
+}
